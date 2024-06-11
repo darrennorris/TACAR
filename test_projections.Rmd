@@ -1,0 +1,50 @@
+---
+title: "Test projections"
+author: "Darren Norris"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages
+```{r load-packages, warning=FALSE, message=FALSE}
+library(plyr)
+library(tidyverse)
+library(popdemo)
+library(popbio)
+```
+
+Load fuunctions
+```{r load-functions}
+source('R/pop01_param_poun.R')
+source('R/pop03_doproj.R')
+```
+
+Population projection parameters. Each row holds a unique set of parameters 
+that reflect diverse recovery (conservation action) and extinction (threat) scenarios. 
+```{r}
+# Deterministic model
+dt <- pop01_param_poun()
+dt$adultF_n <- 100
+# project
+dout <- plyr::ddply(dt, 
+                    c("species", "type", "increase","akey"), .fun =  pop03_doproj)
+
+```
+
+Number of adult females along 80 km2 of river.
+```{r number-females}
+# Here use density values from "tracaja_dist_5km_4z_beforeafter.R" to establish "impact"
+# Adult population before - after
+an_b4 <- ceiling((80 * 1.0035150)) # before = 81 in 80 km2 of river
+an_b4_lci <- ceiling((80 * 0.38838535))
+an_b4_uci <- ceiling((80*2.5928949))
+an_aft <- ceiling((80 *  0.1542282)) # after  = 13 in 80 km2 of river
+an_aft_lci <- ceiling((80 * 0.04021797))
+an_aft_uci <- ceiling((80 * 0.5914359))
+```
+
+
