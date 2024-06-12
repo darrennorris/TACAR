@@ -17,23 +17,95 @@ library(popdemo)
 library(popbio)
 ```
 
-Load fuunctions
+Load functions.
 ```{r load-functions}
 source('R/pop01_param_poun.R')
 source('R/pop03_doproj.R')
+source('R/pop03_doproj_stoch.R')
 ```
 
 Population projection parameters. Each row holds a unique set of parameters 
 that reflect diverse recovery (conservation action) and extinction (threat) scenarios. 
-```{r}
+```{r projection-models}
 # Deterministic model
+nf <- 100
 dt <- pop01_param_poun()
-dt$adultF_n <- 100
+dt$adultF_n <- nf
 # project
 dout <- plyr::ddply(dt, 
                     c("species", "type", "increase","akey"), .fun =  pop03_doproj)
-
+dout$arun <- 1
+# Stochastic
+#data frame with runs for processing
+#nruns <- 100 # 100 gives same pattern as 50
+nruns <- 50
+dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
+dt_stoch$arun <- rep(1:nruns, each = 50)
+# This takes a minute or so. 1 million rows.
+dout_stoch <- plyr::ddply(dt_stoch, 
+                    c("arun", "species", "type", "increase","akey"), 
+                    .fun =  pop03_doproj_stoch)
+unique(dout_stoch$model)
+# Make data for plotting
+dout_all <- dplyr::bind_rows(dout |> dplyr::select(arun, model, type, increase, 
+                                                   akey, ayear, 
+                                            fem), 
+                             dout_stoch |> dplyr::select(arun, model, type, increase, 
+                                                         akey, ayear, 
+                                            fem))
+# Limit to maximum (10 x original).
+dout_all[which(dout_all$fem > (nf * 10)), 'fem' ] <- (nf * 10)
+# Factors in right order
+dout_all$modelf <- 1
+dout_all[which(dout_all$model=="Stochastic uniform") , 'modelf'] <- 2
+dout_all[which(dout_all$model=="Stochastic equal") , 'modelf'] <- 3
+dout_all[which(dout_all$model=="Stochastic bad x2") , 'modelf'] <- 4
+dout_all[which(dout_all$model=="Stochastic bad x4") , 'modelf'] <- 5
+dout_all$modelf <- as.factor(dout_all$modelf)
+levels(dout_all$modelf) <- c("Deterministic", "Stochastic uniform", 
+                          "Stochastic equal", "Stochastic bad x2", 
+                          "Stochastic worst x4")
+unique(dout_all$modelf)
+table(dout_all$modelf)
+dout_all$typef <- 1
+dout_all[which(dout_all$type=="early-protection, female-hunt 2.5%") , 'typef'] <- 2
+dout_all[which(dout_all$type=="early-protection, female-hunt 10%") , 'typef'] <- 3
+dout_all[which(dout_all$type=="early-protection, female-hunt 25%") , 'typef'] <- 4
+dout_all[which(dout_all$type=="early-protection, female-hunt 50%") , 'typef'] <- 5
+dout_all$typef <- as.factor(dout_all$typef)
+levels(dout_all$typef) <- c("base", "female-hunt 2.5%", 
+                          "female-hunt 10%", "female-hunt 25%", 
+                          "female-hunt 50%")
+saveRDS(dout_all, "inst/other/dout_all.rds")
+dout_all <- readRDS("inst/other/dout_all.rds")
 ```
+
+Plot
+```{r plot-projections}
+
+fig_proj <- dout_all |> 
+  ggplot(aes(x = ayear, y = fem, colour = modelf)) + 
+  geom_point(size=0.1, alpha=0.2) + 
+  stat_smooth(se = FALSE) + 
+  scale_colour_viridis_d("model") + 
+  scale_y_continuous(limits = c(0, 1000)) +
+  labs(y="Reproductive females",
+       x="Time (years)",
+       ) +
+  theme_bw() +
+  theme(plot.title.position = "plot") + 
+  facet_grid(increase ~ typef)
+
+# save
+png(file = "inst/other/fig_unifilis_projections.png", bg = "transparent", 
+    type = c("cairo"), 
+    width = 10, height = 8, units = "in", res=600)
+fig_proj
+invisible(dev.off())
+
+           
+```
+
 
 Number of adult females along 80 km2 of river.
 ```{r number-females}
