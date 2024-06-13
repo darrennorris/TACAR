@@ -21,6 +21,7 @@
 pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
   
   sp <- species
+  sp_short <- "poun"
   # parameters
   # female fecundity
   cfreq = 1.10 #clutch frequency
@@ -68,8 +69,8 @@ pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
     rbind(
       data.frame(
         species = sp,
-        type = "early-protection",   #set PPM element values,
-        increase = as.character(ehsur_text),
+        type = "base",   #set PPM element values,
+        first_year = as.character(ehsur_text),
         a1 = 0,   #leave = 0
         a2 = 0,  #leave = 0,
         a3 = 0,
@@ -89,8 +90,8 @@ pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
       ),
       data.frame(
         species = sp,
-        type = "early-protection, female-hunt 2.5%",   #set PPM element values
-        increase = as.character(ehsur_text),
+        type = "female-hunt 2.5%",   #set PPM element values
+        first_year = as.character(ehsur_text),
         a1 = 0,   #leave = 0
         a2 = 0,  #leave = 0,
         a3 = 0,
@@ -110,8 +111,8 @@ pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
       ),
       data.frame(
         species = sp,
-        type = "early-protection, female-hunt 10%",   #set PPM element values
-        increase = as.character(ehsur_text),
+        type = "female-hunt 10%",   #set PPM element values
+        first_year = as.character(ehsur_text),
         a1 = 0,   #leave = 0
         a2 = 0,  #leave = 0,
         a3 = 0,
@@ -131,8 +132,8 @@ pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
       ),
       data.frame(
         species = sp,
-        type = "early-protection, female-hunt 25%",   #set PPM element values
-        increase = as.character(ehsur_text),
+        type = "female-hunt 25%",   #set PPM element values
+        first_year = as.character(ehsur_text),
         a1 = 0,   #leave = 0
         a2 = 0,  #leave = 0,
         a3 = 0,
@@ -152,8 +153,8 @@ pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
       ),
       data.frame(
         species = sp,
-        type = "early-protection, female-hunt 50%",   #set PPM element values
-        increase = as.character(ehsur_text),
+        type = "female-hunt 50%",   #set PPM element values
+        first_year = as.character(ehsur_text),
         a1 = 0,   #leave = 0
         a2 = 0,  #leave = 0,
         a3 = 0,
@@ -173,10 +174,10 @@ pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
       )
     )
   
-  dfpop$akey <- paste(dfpop$species, dfpop$type, dfpop$increase, sep = "_")
+  dfpop$akey <- paste(sp_short, dfpop$type, dfpop$first_year, sep = "_")
   levels(dfpop$type) <- c("0", "2.5", "10", "25", "50") 
   dfpop$type <- as.character(dfpop$type)
-  dfpop$increase <- as.numeric(as.character(dfpop$increase))
+  dfpop$first_year <- as.numeric(as.character(dfpop$first_year))
   
   if(make_rds!=FALSE){
     saveRDS(dfpop, "inst/other/dfpop_poun.RDS") 

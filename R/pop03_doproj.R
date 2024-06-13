@@ -43,6 +43,7 @@ pop03_doproj <- function(x) {
   flag_ergo <- popdemo::isErgodic(pop_mat)
   flag_irre <- popdemo::isIrreducible(pop_mat)
   gen_time <- popbio::generation.time(pop_mat)
+  # rep_val_f <- popdemo::eigs(pop_mat, "rv")[4] # reproductive value
   # make dataframe 
   dfout <- data.frame(model = "Deterministic",
                       lambda = plambda, 

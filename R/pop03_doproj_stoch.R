@@ -68,31 +68,82 @@ pop03_doproj_stoch <- function(x) {
    m4 <- matrix(rep(c(p4/2, p4/2, (1-p4)/3, (1-p4)/3, (1-p4)/3), 5), 5, 5)
    spr_04 <- popdemo::project(matlist, vector= pop_n, Aseq = m4, time = ttime)
    
-   dfpop <- rbind(data.frame(model = "Stochastic uniform", ayear = 0:ttime, 
+   # lambda for stochastic projections
+   # list of matrices used for projection years 
+   spr_01_lmat <- popdemo::mat(spr_01)[popdemo::Aseq(spr_01)]
+   spr_02_lmat <- popdemo::mat(spr_02)[popdemo::Aseq(spr_02)]
+   spr_03_lmat <- popdemo::mat(spr_03)[popdemo::Aseq(spr_03)]
+   spr_04_lmat <- popdemo::mat(spr_04)[popdemo::Aseq(spr_04)]
+   # lambda values
+   spr_01_lambda_vals <- unlist(lapply(spr_01_lmat, popdemo::eigs, what = "lambda"))
+   spr_02_lambda_vals <- unlist(lapply(spr_02_lmat, popdemo::eigs, what = "lambda"))
+   spr_03_lambda_vals <- unlist(lapply(spr_03_lmat, popdemo::eigs, what = "lambda"))
+   spr_04_lambda_vals <- unlist(lapply(spr_04_lmat, popdemo::eigs, what = "lambda"))
+   # summaries, as.numeric to remove names which generates warning
+   spr_01_boot <- Hmisc::smean.cl.boot(spr_01_lambda_vals)
+   spr_01_boot_mean <- as.numeric(spr_01_boot["Mean"])
+   spr_01_boot_lcl <- as.numeric(spr_01_boot["Lower"])
+   spr_01_boot_ucl <- as.numeric(spr_01_boot["Upper"])
+   spr_02_boot <- Hmisc::smean.cl.boot(spr_02_lambda_vals)
+   spr_02_boot_mean <- as.numeric(spr_02_boot["Mean"])
+   spr_02_boot_lcl <- as.numeric(spr_02_boot["Lower"])
+   spr_02_boot_ucl <- as.numeric(spr_02_boot["Upper"])
+   spr_03_boot <- Hmisc::smean.cl.boot(spr_03_lambda_vals)
+   spr_03_boot_mean <- as.numeric(spr_03_boot["Mean"])
+   spr_03_boot_lcl <- as.numeric(spr_03_boot["Lower"])
+   spr_03_boot_ucl <- as.numeric(spr_03_boot["Upper"])
+   spr_04_boot <- Hmisc::smean.cl.boot(spr_04_lambda_vals)
+   spr_04_boot_mean <- as.numeric(spr_04_boot["Mean"])
+   spr_04_boot_lcl <- as.numeric(spr_04_boot["Lower"])
+   spr_04_boot_ucl <- as.numeric(spr_04_boot["Upper"])
+   # data.frame to return
+   dfpop <- rbind(data.frame(model = "Stochastic uniform",  
+                             lambda = spr_01_boot_mean,
+                             lambda_lcl = spr_01_boot_lcl, 
+                             lambda_ucl = spr_01_boot_ucl, 
+                             ayear = 0:ttime,
                        egghatch = popdemo::vec(spr_01)[,1], 
                        j_early = popdemo::vec(spr_01)[,2], 
                        j_late = popdemo::vec(spr_01)[,3], 
                        fem = popdemo::vec(spr_01)[,4], 
+                       fem_t0 = as.numeric(popdemo::vec(spr_01)[1, 4]),
                 pop = spr_01), 
-                data.frame(model = "Stochastic equal", ayear = 0:ttime, 
+                data.frame(model = "Stochastic equal", 
+                           lambda = spr_02_boot_mean,
+                           lambda_lcl = spr_02_boot_lcl, 
+                           lambda_ucl = spr_02_boot_ucl,
+                           ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_02)[,1], 
                            j_early = popdemo::vec(spr_02)[,2], 
                            j_late = popdemo::vec(spr_02)[,3], 
                            fem = popdemo::vec(spr_02)[,4], 
+                           fem_t0 = as.numeric(popdemo::vec(spr_02)[1, 4]),
                            pop = spr_02),
-                data.frame(model = "Stochastic bad x2", ayear = 0:ttime, 
+                data.frame(model = "Stochastic bad x2", 
+                           lambda = spr_03_boot_mean,
+                           lambda_lcl = spr_03_boot_lcl, 
+                           lambda_ucl = spr_03_boot_ucl,
+                           ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_03)[,1], 
                            j_early = popdemo::vec(spr_03)[,2], 
                            j_late = popdemo::vec(spr_03)[,3], 
                            fem = popdemo::vec(spr_03)[,4], 
+                           fem_t0 = as.numeric(popdemo::vec(spr_03)[1, 4]),
                            pop = spr_03),
-                data.frame(model = "Stochastic bad x4", ayear = 0:ttime, 
+                data.frame(model = "Stochastic bad x4", 
+                           lambda = spr_04_boot_mean,
+                           lambda_lcl = spr_04_boot_lcl, 
+                           lambda_ucl = spr_04_boot_ucl, 
+                           ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_04)[,1], 
                            j_early = popdemo::vec(spr_04)[,2], 
                            j_late = popdemo::vec(spr_04)[,3], 
                            fem = popdemo::vec(spr_04)[,4], 
+                           fem_t0 = as.numeric(popdemo::vec(spr_04)[1, 4]),
                            pop = spr_04) 
    )
-                
+   dfpop$fem_diff <- round(((dfpop$fem - dfpop$fem_t0) / dfpop$fem_t0), 3)
+   dfpop$change50_flag <- as.integer(ifelse(abs(dfpop$fem_diff) > 0.499, 1, 0))
+   dfpop$double_flag <- as.integer(ifelse(dfpop$fem_diff > 0.999, 1, 0))              
    return(dfpop)
 }
