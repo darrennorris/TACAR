@@ -77,19 +77,20 @@ dout_stoch <- plyr::ddply(dt_stoch,
                     c("arun", "species", "type", "first_year","akey"), 
                     .fun =  pop03_doproj_stoch)
 table(dout_stoch$model)
-
-
 ```
 
 #### Combine results.
 ```{r projection-join, eval=FALSE}
 # Combine data for plotting
 dout_all <- dplyr::bind_rows(dout |> dplyr::select(arun, model, type, first_year, 
-                                                   akey, ayear, 
-                                            fem), 
+                                                   akey, ayear, lambda,
+                                            fem, fem_t0, fem_diff, change50_flag, 
+                                            double_flag), 
                              dout_stoch |> dplyr::select(arun, model, type, first_year, 
                                                          akey, ayear, 
-                                            fem))
+                                                         lambda,
+                                            fem, fem_t0, fem_diff, change50_flag, 
+                                            double_flag))
 # Limit adult female number to maximum (10 x original).
 dout_all[which(dout_all$fem > (nf * 10)), 'fem' ] <- (nf * 10)
 # Factors in right order
@@ -118,13 +119,49 @@ table(dout_all$typef)
 dout_all$first_yearf <- as.factor(dout_all$first_year)
 fylev <- paste("first-year\nsurvival\n", seq(0, 0.9, by = 0.1), sep = "")
 levels(dout_all$first_yearf) <- fylev
+# Export for future use
 saveRDS(dout_all, "inst/other/dout_all.rds")
+
+```
+
+Model summaries.
+```{r model-summaries}
+# load data
+dout_all <- readRDS("inst/other/dout_all.rds")
+
+# Make unique model ID. boot mean is same as mean (at least to 6 decimal places)
+# 250 projection models
+model_ref <- dout_all |>
+  group_by(akey, modelf, typef, first_year, first_yearf, arun) |> 
+  summarise(lambda = min(lambda), 
+            yc = length(unique(ayear))) |> 
+  ungroup() |> 
+  group_by(akey, modelf, typef, first_year, first_yearf) |>
+  summarise(count_runs = length(unique(arun)), 
+            count_years = min(yc),
+            lambda_mean = mean(lambda), 
+            lambda_min = min(lambda), 
+            lambda_max = max(lambda), 
+            lambda_boot_lcl = Hmisc::smean.cl.boot(lambda)["Lower"],
+            lambda_boot_ucl = Hmisc::smean.cl.boot(lambda)["Upper"]
+            ) |> 
+  ungroup() |> 
+  arrange(typef, first_year, modelf) |>
+  mutate(modelid = paste(akey, as.numeric(modelf), sep = "_"), 
+         modelkey = row_number()) |> 
+  relocate(modelkey, modelid)
+ 
+# summaries of  10050 runs.
+#model_all_sum <- dout_all |> 
+#  group_by(akey, modelf, typef, first_year, arun) |> 
+#  summarise(count_years = length(ayear), 
+#            count_years_unique = length(unique(ayear))) |> 
+#  ungroup()
 ```
 
 
 Plot
 ```{r plot-projections, eval=FALSE}
-dout_all <- readRDS("inst/other/dout_all.rds")
 fig_proj <- dout_all |> 
   ggplot(aes(x = ayear, y = fem, colour = modelf)) + 
   geom_point(size=0.1, alpha=0.2) + 
@@ -144,7 +181,6 @@ png(file = "inst/other/fig_unifilis_projections.png", bg = "transparent",
     width = 10, height = 8, units = "in", res=600)
 fig_proj
 invisible(dev.off())
-
            
 ```
 
