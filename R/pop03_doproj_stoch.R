@@ -28,10 +28,8 @@ pop03_doproj_stoch <- function(x) {
   good_year_thresh <- 0.2
  din <-  x[1 , stage_names] 
  # make vector of stochastic values
- vb1 <- c(0.0001, 0.1, year_val, (year_val + (0.1 * year_val)), 
-                                  (year_val + (0.2 * year_val)))
- vb1[vb1 > 1] <- 1
- row_n <- 5
+ vb1 <- c(0.0001, 0.1, rep(year_val, 8))
+ row_n <- length(vb1)
  dfstoch <- din[rep(seq_len(nrow(din)), row_n), ]
  dfstoch$b1 <- vb1
  
@@ -54,18 +52,22 @@ pop03_doproj_stoch <- function(x) {
    # Bad years at 2/5 = 0.4 chance of being chosen
    #set.seed(c(1,2,3,4))
    ttime <- 100
-   spr_01 <- popdemo::project(matlist, vector = pop_n, time = ttime)
+   # Uniform - random
+   spr_01 <- popdemo::project(matlist, vector = pop_n, Aseq = "unif", time = ttime)
    # Bad and good years have equal probability
    p2 <- 0.5
-   m2 <- matrix(rep(c(p2/2, p2/2, (1-p2)/3, (1-p2)/3, (1-p2)/3), 5), 5, 5)
+   m2 <- m2 <- matrix(rep(c(p2/2, p2/2, (1-p2)/8, (1-p2)/8, (1-p2)/8, 
+                            (1-p2)/8, (1-p2)/8, (1-p2)/8, (1-p2)/8, (1-p2)/8), 10), 10, 10)
    spr_02 <- popdemo::project(matlist, vector = pop_n, Aseq = m2, time = ttime)
    # Bad years occur twice as often as good years.
    p3 <- 0.667
-   m3 <- matrix(rep(c(p3/2, p3/2, (1-p3)/3, (1-p3)/3, (1-p3)/3), 5), 5, 5)
+   m3 <- matrix(rep(c(p3/2, p3/2, (1-p3)/8, (1-p3)/8, (1-p3)/8, 
+                      (1-p3)/8, (1-p3)/8, (1-p3)/8, (1-p3)/8, (1-p3)/8), 10), 10, 10)
    spr_03 <- popdemo::project(matlist, vector= pop_n, Aseq = m3, time = ttime)
    # Bad years now occur four times as often as good years.
    p4 <- 0.8
-   m4 <- matrix(rep(c(p4/2, p4/2, (1-p4)/3, (1-p4)/3, (1-p4)/3), 5), 5, 5)
+   m4 <- matrix(rep(c(p4/2, p4/2, (1-p4)/8, (1-p4)/8, (1-p4)/8, 
+                      (1-p4)/8, (1-p4)/8, (1-p4)/8, (1-p4)/8, (1-p4)/8), 10), 10, 10)
    spr_04 <- popdemo::project(matlist, vector= pop_n, Aseq = m4, time = ttime)
    
    # lambda for stochastic projections

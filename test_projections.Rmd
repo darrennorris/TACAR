@@ -171,6 +171,10 @@ mean_values <- model_ref |>
 fig_model_lambda <- model_ref |> 
   ggplot(aes(x = first_year, y = lambda_mean, colour = modelf)) + 
   geom_hline(data = mean_values, aes(yintercept = mean_l), 
+             colour = "blue", linewidth = 0.8,
+             linetype = "dashed") + 
+  geom_hline(yintercept = 1, 
+             colour = "magenta", linewidth = 0.8,
              linetype = "dashed") + 
   geom_point() + 
   stat_smooth(se = FALSE) + 
