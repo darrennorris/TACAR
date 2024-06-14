@@ -39,6 +39,7 @@ slice_head(dt, n = 5)  |>
 ```
 
 ### Projection models.
+
 #### Deterministic models
 
 ```{r projection-determ, eval=FALSE}
@@ -125,12 +126,12 @@ saveRDS(dout_all, "inst/other/dout_all.rds")
 ```
 
 Model summaries.
-```{r model-summaries}
+```{r model-summaries, warning=FALSE, message=FALSE}
 # load data
 dout_all <- readRDS("inst/other/dout_all.rds")
 
 # Make unique model ID. boot mean is same as mean (at least to 6 decimal places)
-# 250 projection models
+# 250 projection models.
 model_ref <- dout_all |>
   group_by(akey, modelf, typef, first_year, first_yearf, arun) |> 
   summarise(lambda = min(lambda), 
@@ -160,7 +161,42 @@ model_ref <- dout_all |>
 ```
 
 
-Plot
+Plots
+```{r plot-lambda, eval=FALSE}
+mean_values <- model_ref |> 
+  group_by(typef) |> 
+  summarise(mean_l = mean(lambda_mean))
+
+
+fig_model_lambda <- model_ref |> 
+  ggplot(aes(x = first_year, y = lambda_mean, colour = modelf)) + 
+  geom_hline(data = mean_values, aes(yintercept = mean_l), 
+             linetype = "dashed") + 
+  geom_point() + 
+  stat_smooth(se = FALSE) + 
+  scale_x_continuous("first year survival and graduation", 
+                     breaks = c(0, 0.2, 0.4, 0.6, 0.8)) + 
+  scale_color_viridis_d() +
+  facet_wrap(~ typef, ncol = 5) + 
+  theme(legend.position="top") + 
+  guides(colour=guide_legend(nrow=2,byrow=TRUE)) + 
+  labs(y = "lambda", colour = "model")
+# save
+png(file = "inst/other/fig_unifilis_lambda.png", bg = "transparent", 
+    type = c("cairo"), 
+    width = 8, height = 4, units = "in", res=600)
+fig_model_lambda
+invisible(dev.off())
+             
+```
+
+Check plot.
+```{r fig-lambda, echo = FALSE, fig.align = 'center', out.width = "70%", out.height = "70%", fig.cap="Model lambda for *Podocnemis unifilis*"}
+knitr::include_graphics(path = "inst/other/fig_unifilis_lambda.png")
+```
+
+
+Projections over time.
 ```{r plot-projections, eval=FALSE}
 fig_proj <- dout_all |> 
   ggplot(aes(x = ayear, y = fem, colour = modelf)) + 
