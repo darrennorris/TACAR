@@ -64,7 +64,8 @@ pop03_doproj <- function(x) {
   fem0 <- dfout[(dfout$ayear == 0), 'fem']
   dft <- data.frame(dfout, fem_t0 = fem0)
   dft$fem_diff <- round(((dft$fem - dft$fem_t0) / dft$fem_t0), 3)
-  dft$change50_flag <- as.integer(ifelse(abs(dft$fem_diff) > 0.499, 1, 0))
-  dft$double_flag <- as.integer(ifelse(dft$fem_diff > 0.999, 1, 0))
+  dft$change50_flag <- as.integer(ifelse(abs(dft$fem_diff) >= 0.5, 1, 0))
+  dft$change30_flag <- as.integer(ifelse(abs(dft$fem_diff) >= 0.3, 1, 0))
+  dft$double_flag <- as.integer(ifelse(dft$fem_diff >= 1.0, 1, 0))
  return(dft)
 }

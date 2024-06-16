@@ -82,7 +82,17 @@ d1_ss <- popdemo::eigs(pop_mat, "ss")
 #[1] 0.68656709 0.20232046 0.04642655 0.06468589
 fem1 <- 1 / d1_ss[4]
 pop_n <-  100 * (fem1 * d1_ss)
+ttime <- 100
 d1 <- popdemo::project(pop_mat, vector = pop_n, time = ttime)
+
+# How many eggs are needed to make an adult?
+# Initial population vector (all eggs)
+N0 <- c(1000, 0, 0, 0)
+deggs <- popdemo::project(pop_mat, vector = N0, time = ttime)
+len <- length(deggs)
+Time.intervals <- 0:(len - 1)
+ad.fe <- as.integer(trunc(deggs * (popbio::stable.stage(pop_mat)[4])))
+data.frame(years = Time.intervals, females = ad.fe)
 
 
 # Stochastic

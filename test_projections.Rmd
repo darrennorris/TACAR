@@ -32,8 +32,12 @@ that reflect diverse recovery (conservation action) and extinction (threat) scen
 
 ```{r projection-params}
 dt <- pop01_param_poun()
- mydigits <- c(NA, NA, 1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 0, 0 ,0, 2, 2, NA)
-slice_head(dt, n = 5)  |> 
+```
+
+The first few rows should look like this....
+```{r show-parameters, echo=FALSE, warning=FALSE, message=FALSE}
+mydigits <- c(NA, NA, 1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 0, 0 ,0, 2, 2, NA)
+slice_head(dt, n = 3)  |> 
   kableExtra::kbl(digits = mydigits) |>
   kableExtra::kable_styling(full_width = F,  latex_options = "hold_position")
 ```
@@ -43,7 +47,7 @@ slice_head(dt, n = 5)  |>
 #### Deterministic models
 
 ```{r projection-determ, eval=FALSE}
-nf <- 100
+nf <- 10
 dt$adultF_n <- nf
 # project
 dout <- plyr::ddply(dt, 
@@ -64,6 +68,30 @@ lambda_min <- min(model_sum$lambda) # 0.4659
 lambda_max <- max(model_sum$lambda) # 1.1539
 ```
 
+#### Eggs to adult
+Using survival values from base model.
+```{r eggs-adult}
+t0 <- 1000 # number of eggs
+n_t1 <- t0 * 0.2       # 200
+n_t2 <- n_t1 * 0.333333 # 66.6
+n_t3 <- n_t2 * 0.333333 # 22.2
+n_t4 <- n_t3 * 0.285714 #  6.3
+n_t5 <- n_t4 * 0.285714 #  1.8
+n_t6 <- n_t5 * 0.93     #  1.6
+n_t7 <- n_t6 * 0.93     #  1.5
+n_t8 <- n_t7 * 0.93     #  1.4
+n_t9 <- n_t8 * 0.93     #  1.3
+ceiling(t0 / n_t5) # 552 eggs to produce one adult (maturity 5 years)
+ceiling(t0 / n_t6) # 593 eggs to produce one adult (maturity 6 years)
+ceiling(t0 / n_t7) # 638 eggs to produce one adult (maturity 7 years)
+ceiling(t0 / n_t8) # 686 eggs to produce one adult (maturity 8 years)
+ceiling(t0 / n_t9) # 737 eggs to produce one adult (maturity 9 years)
+ceiling(552 / 20) # 28 years for a female to lay sufficient eggs (maturity 5 years)
+ceiling(737 / 20) # 37 years for a female to lay sufficient eggs (maturity 9 years)
+```
+
+
+
 #### Stochastic models
 
 ```{r projection-stoch, eval=FALSE}
@@ -72,12 +100,13 @@ lambda_max <- max(model_sum$lambda) # 1.1539
 #nruns <- 100 # 100 gives same pattern as 50
 nruns <- 50
 dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
-dt_stoch$arun <- rep(1:nruns, each = 50)
-# Approx 7 minutes. 1 million rows.
-dout_stoch <- plyr::ddply(dt_stoch, 
+dt_stoch$arun <- rep(1:nruns, each = nrow(dt))
+# Approx 7 minutes. 1,015,050 million rows.
+dout_stoch <- plyr::ddply(dt_stoch[1:100, ], 
                     c("arun", "species", "type", "first_year","akey"), 
                     .fun =  pop03_doproj_stoch)
 table(dout_stoch$model)
+table(dout_stoch$type)
 ```
 
 #### Combine results.
@@ -151,7 +180,21 @@ model_ref <- dout_all |>
   mutate(modelid = paste(akey, as.numeric(modelf), sep = "_"), 
          modelkey = row_number()) |> 
   relocate(modelkey, modelid)
- 
+
+# Now add usefull info, 25 and 75 quartiles.
+# RedList guidelines p38
+# For example, upper and lower quartiles of the projected magnitude of 
+# the future reduction (i.e., reductions with 25% and 75% probability) 
+# may be considered to represent a plausible range of projected reduction
+# Species Status: Viability
+# A species is considered viable in a spatial unit if application of 
+# the Regional Red List Guidelines to the population in the spatial unit 
+# would result in a categorization of ‘Least Concern’ OR 
+# ‘Near Threatened and Not Declining’.
+
+# Export for future use
+saveRDS(model_ref, "inst/other/model_ref.rds") 
+write.csv2(model_ref, "inst/other/model_ref.csv", row.names = FALSE) 
 # summaries of  10050 runs.
 #model_all_sum <- dout_all |> 
 #  group_by(akey, modelf, typef, first_year, arun) |> 
@@ -207,7 +250,7 @@ fig_proj <- dout_all |>
   geom_point(size=0.1, alpha=0.2) + 
   stat_smooth(se = FALSE) + 
   scale_colour_viridis_d("model") + 
-  scale_y_continuous(limits = c(0, 1000)) +
+  scale_y_continuous(limits = c(0, (nf * 10))) +
   labs(y="Reproductive females",
        x="Time (years)",
        ) +

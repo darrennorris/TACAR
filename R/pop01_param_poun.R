@@ -108,6 +108,27 @@ pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
         d2 = 0, #leave = zero
         d3 = 0.114286, #juv_late "graduation" probability,
         d4 = (asur * 0.975) #default = 0.93
+      ), 
+      data.frame(
+        species = sp,
+        type = "female-hunt 5%",   #set PPM element values
+        first_year = as.character(ehsur_text),
+        a1 = 0,   #leave = 0
+        a2 = 0,  #leave = 0,
+        a3 = 0,
+        a4 = (ffec * (asur * 0.95)),  #fecundity per female,
+        b1 = ehsur1, 
+        b2 = 0.333333,  #juv_early survival adjusted for years as juv_early,
+        b3 = 0,  # leave = zero,
+        b4 = 0,
+        c1 = 0,
+        c2 = 0.166667,
+        c3 = 0.285714, #juv_early ~graduation~ probability
+        c4 = 0,
+        d1 = 0,  #leave = zero,
+        d2 = 0, #leave = zero
+        d3 = 0.114286, #juv_late "graduation" probability,
+        d4 = (asur * 0.95) #default = 0.93
       ),
       data.frame(
         species = sp,
@@ -175,7 +196,7 @@ pop01_param_poun <- function(species = "Podocnemis unifilis", make_rds = FALSE){
     )
   
   dfpop$akey <- paste(sp_short, dfpop$type, dfpop$first_year, sep = "_")
-  levels(dfpop$type) <- c("0", "2.5", "10", "25", "50") 
+  levels(dfpop$type) <- c("0", "2.5", "0.5","10", "25", "50") 
   dfpop$type <- as.character(dfpop$type)
   dfpop$first_year <- as.numeric(as.character(dfpop$first_year))
   

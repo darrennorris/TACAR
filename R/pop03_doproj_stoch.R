@@ -81,28 +81,66 @@ pop03_doproj_stoch <- function(x) {
    spr_02_lambda_vals <- unlist(lapply(spr_02_lmat, popdemo::eigs, what = "lambda"))
    spr_03_lambda_vals <- unlist(lapply(spr_03_lmat, popdemo::eigs, what = "lambda"))
    spr_04_lambda_vals <- unlist(lapply(spr_04_lmat, popdemo::eigs, what = "lambda"))
+   # generation times
+   spr_01_gen_vals <- unlist(lapply(spr_01_lmat, popbio::generation.time)) 
+   spr_02_gen_vals <- unlist(lapply(spr_02_lmat, popbio::generation.time)) 
+   spr_03_gen_vals <- unlist(lapply(spr_03_lmat, popbio::generation.time)) 
+   spr_04_gen_vals <- unlist(lapply(spr_04_lmat, popbio::generation.time))
+
    # summaries, as.numeric to remove names which generates warning
    spr_01_boot <- Hmisc::smean.cl.boot(spr_01_lambda_vals)
    spr_01_boot_mean <- as.numeric(spr_01_boot["Mean"])
    spr_01_boot_lcl <- as.numeric(spr_01_boot["Lower"])
    spr_01_boot_ucl <- as.numeric(spr_01_boot["Upper"])
+   spr_01_quant <- quantile(spr_01_lambda_vals, probs = seq(0, 1, 0.25), 
+                            na.rm = TRUE)
+   spr_01_q25 <- as.numeric(spr_01_quant["25%"])
+   spr_01_q75 <- as.numeric(spr_01_quant["75%"])
+   spr_01_sd <- sd(spr_01_lambda_vals, na.rm = TRUE)
    spr_02_boot <- Hmisc::smean.cl.boot(spr_02_lambda_vals)
    spr_02_boot_mean <- as.numeric(spr_02_boot["Mean"])
    spr_02_boot_lcl <- as.numeric(spr_02_boot["Lower"])
    spr_02_boot_ucl <- as.numeric(spr_02_boot["Upper"])
+   spr_02_sd <- sd(spr_02_lambda_vals, na.rm = TRUE)
    spr_03_boot <- Hmisc::smean.cl.boot(spr_03_lambda_vals)
    spr_03_boot_mean <- as.numeric(spr_03_boot["Mean"])
    spr_03_boot_lcl <- as.numeric(spr_03_boot["Lower"])
    spr_03_boot_ucl <- as.numeric(spr_03_boot["Upper"])
+   spr_03_sd <- sd(spr_03_lambda_vals, na.rm = TRUE)
    spr_04_boot <- Hmisc::smean.cl.boot(spr_04_lambda_vals)
    spr_04_boot_mean <- as.numeric(spr_04_boot["Mean"])
    spr_04_boot_lcl <- as.numeric(spr_04_boot["Lower"])
    spr_04_boot_ucl <- as.numeric(spr_04_boot["Upper"])
+   spr_04_sd <- sd(spr_04_lambda_vals, na.rm = TRUE)
+   # generation times
+   spr_01_gen_boot <- Hmisc::smean.cl.boot(spr_01_gen_vals)
+   spr_01_gen_boot_mean <- as.numeric(spr_01_gen_boot["Mean"])
+   spr_01_gen_boot_lcl <- as.numeric(spr_01_gen_boot["Lower"])
+   spr_01_gen_boot_ucl <- as.numeric(spr_01_gen_boot["Upper"])
+   spr_01_gen_sd <- sd(spr_01_gen_vals, na.rm = TRUE)
+   spr_02_gen_boot <- Hmisc::smean.cl.boot(spr_02_gen_vals)
+   spr_02_gen_boot_mean <- as.numeric(spr_02_gen_boot["Mean"])
+   spr_02_gen_boot_lcl <- as.numeric(spr_02_gen_boot["Lower"])
+   spr_02_gen_boot_ucl <- as.numeric(spr_02_gen_boot["Upper"]) 
+   spr_02_gen_sd <- sd(spr_02_gen_vals, na.rm = TRUE)
+   spr_03_gen_boot <- Hmisc::smean.cl.boot(spr_03_gen_vals)
+   spr_03_gen_boot_mean <- as.numeric(spr_03_gen_boot["Mean"])
+   spr_03_gen_boot_lcl <- as.numeric(spr_03_gen_boot["Lower"])
+   spr_03_gen_boot_ucl <- as.numeric(spr_03_gen_boot["Upper"])
+   spr_03_gen_sd <- sd(spr_03_gen_vals, na.rm = TRUE)
+   spr_04_gen_boot <- Hmisc::smean.cl.boot(spr_04_gen_vals)
+   spr_04_gen_boot_mean <- as.numeric(spr_04_gen_boot["Mean"])
+   spr_04_gen_boot_lcl <- as.numeric(spr_04_gen_boot["Lower"])
+   spr_04_gen_boot_ucl <- as.numeric(spr_04_gen_boot["Upper"]) 
+   spr_04_gen_sd <- sd(spr_04_gen_vals, na.rm = TRUE)
    # data.frame to return
    dfpop <- rbind(data.frame(model = "Stochastic uniform",  
                              lambda = spr_01_boot_mean,
                              lambda_lcl = spr_01_boot_lcl, 
                              lambda_ucl = spr_01_boot_ucl, 
+                             lambda_sd = spr_01_sd,
+                             gen_time = spr_01_gen_boot_mean, 
+                             gen_sd = spr_01_gen_sd,
                              ayear = 0:ttime,
                        egghatch = popdemo::vec(spr_01)[,1], 
                        j_early = popdemo::vec(spr_01)[,2], 
@@ -113,7 +151,10 @@ pop03_doproj_stoch <- function(x) {
                 data.frame(model = "Stochastic equal", 
                            lambda = spr_02_boot_mean,
                            lambda_lcl = spr_02_boot_lcl, 
-                           lambda_ucl = spr_02_boot_ucl,
+                           lambda_ucl = spr_02_boot_ucl, 
+                           lambda_sd = spr_02_sd,
+                           gen_time = spr_02_gen_boot_mean, 
+                           gen_sd = spr_02_gen_sd,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_02)[,1], 
                            j_early = popdemo::vec(spr_02)[,2], 
@@ -124,7 +165,10 @@ pop03_doproj_stoch <- function(x) {
                 data.frame(model = "Stochastic bad x2", 
                            lambda = spr_03_boot_mean,
                            lambda_lcl = spr_03_boot_lcl, 
-                           lambda_ucl = spr_03_boot_ucl,
+                           lambda_ucl = spr_03_boot_ucl, 
+                           lambda_sd = spr_03_sd,
+                           gen_time = spr_03_gen_boot_mean, 
+                           gen_sd = spr_03_gen_sd,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_03)[,1], 
                            j_early = popdemo::vec(spr_03)[,2], 
@@ -136,6 +180,9 @@ pop03_doproj_stoch <- function(x) {
                            lambda = spr_04_boot_mean,
                            lambda_lcl = spr_04_boot_lcl, 
                            lambda_ucl = spr_04_boot_ucl, 
+                           lambda_sd = spr_04_sd,
+                           gen_time = spr_04_gen_boot_mean, 
+                           gen_sd = spr_04_gen_sd,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_04)[,1], 
                            j_early = popdemo::vec(spr_04)[,2], 
@@ -145,7 +192,8 @@ pop03_doproj_stoch <- function(x) {
                            pop = spr_04) 
    )
    dfpop$fem_diff <- round(((dfpop$fem - dfpop$fem_t0) / dfpop$fem_t0), 3)
-   dfpop$change50_flag <- as.integer(ifelse(abs(dfpop$fem_diff) > 0.499, 1, 0))
-   dfpop$double_flag <- as.integer(ifelse(dfpop$fem_diff > 0.999, 1, 0))              
+   dfpop$change50_flag <- as.integer(ifelse(abs(dfpop$fem_diff) >= 0.5, 1, 0))
+   dfpop$change30_flag <- as.integer(ifelse(abs(dfpop$fem_diff) >= 0.3, 1, 0))
+   dfpop$double_flag <- as.integer(ifelse(dfpop$fem_diff >= 1.0, 1, 0))         
    return(dfpop)
 }

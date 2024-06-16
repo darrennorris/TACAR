@@ -1,0 +1,751 @@
+"modelkey";"modelid";"akey";"modelf";"typef";"first_year";"first_yearf";"count_runs";"count_years";"lambda_mean";"lambda_min";"lambda_max";"lambda_boot_lcl";"lambda_boot_ucl"
+1;"poun_base_0_1";"poun_base_0";"Deterministic";"base";0;"first-year
+survival
+0";1;101;0,930057214617213;0,930057214617213;0,930057214617213;NA;NA
+2;"poun_base_0_2";"poun_base_0";"Stochastic uniform";"base";0;"first-year
+survival
+0";50;101;0,93481331793227;0,931937097350437;0,938046716233415;0,934408908159285;0,935198928877923
+3;"poun_base_0_3";"poun_base_0";"Stochastic equal";"base";0;"first-year
+survival
+0";50;101;0,941853478768194;0,936166833500191;0,946976159216229;0,941223718052564;0,942436477400835
+4;"poun_base_0_4";"poun_base_0";"Stochastic bad x2";"base";0;"first-year
+survival
+0";50;101;0,945942223712956;0,941336511016557;0,951205895365983;0,945387423321313;0,946477990291925
+5;"poun_base_0_5";"poun_base_0";"Stochastic worst x4";"base";0;"first-year
+survival
+0";50;101;0,948968834913446;0,943216393749781;0,954025719465819;0,948395470679813;0,94961762944175
+6;"poun_base_0.1_1";"poun_base_0.1";"Deterministic";"base";0,1;"first-year
+survival
+0.1";1;101;0,977054282947812;0,977054282947812;0,977054282947812;NA;NA
+7;"poun_base_0.1_2";"poun_base_0.1";"Stochastic uniform";"base";0,1;"first-year
+survival
+0.1";50;101;0,972232383737093;0,968124839964998;0,975644370897894;0,971771812467453;0,972646192923743
+8;"poun_base_0.1_3";"poun_base_0.1";"Stochastic equal";"base";0,1;"first-year
+survival
+0.1";50;101;0,964835045181856;0,95966536766549;0,96906478133161;0,964280479775555;0,96543684264183
+9;"poun_base_0.1_4";"poun_base_0.1";"Stochastic bad x2";"base";0,1;"first-year
+survival
+0.1";50;101;0,961564049226047;0,957315514248961;0,964835045181856;0,961018883233412;0,962128249031355
+10;"poun_base_0.1_5";"poun_base_0.1";"Stochastic worst x4";"base";0,1;"first-year
+survival
+0.1";50;101;0,958443443888895;0,953555748782513;0,962485191765326;0,957832012029914;0,959007643694204
+11;"poun_base_0.2_1";"poun_base_0.2";"Deterministic";"base";0,2;"first-year
+survival
+0.2";1;101;1,01202568197873;1,01202568197873;1,01202568197873;NA;NA
+12;"poun_base_0.2_2";"poun_base_0.2";"Stochastic uniform";"base";0,2;"first-year
+survival
+0.2";50;101;1,00074546345692;0,993774217950568;1,0058289746688;1,00005094355606;1,00141776869019
+13;"poun_base_0.2_3";"poun_base_0.2";"Stochastic equal";"base";0,2;"first-year
+survival
+0.2";50;101;0,982689726964156;0,976943722061001;0,990397334740473;0,981838941984919;0,983434547330962
+14;"poun_base_0.2_4";"poun_base_0.2";"Stochastic bad x2";"base";0,2;"first-year
+survival
+0.2";50;101;0,97342963739829;0,965817850620698;0,981621316716699;0,972639341203146;0,974205016915599
+15;"poun_base_0.2_5";"poun_base_0.2";"Stochastic worst x4";"base";0,2;"first-year
+survival
+0.2";50;101;0,96599400366427;0,958560945251158;0,973676039455222;0,965096916703092;0,967000836348468
+16;"poun_base_0.3_1";"poun_base_0.3";"Deterministic";"base";0,3;"first-year
+survival
+0.3";1;101;1,04051420532558;1,04051420532558;1,04051420532558;NA;NA
+17;"poun_base_0.3_2";"poun_base_0.3";"Stochastic uniform";"base";0,3;"first-year
+survival
+0.3";50;101;1,0220399799875;1,01571978174832;1,02927996277616;1,02113200216903;1,02295190451096
+18;"poun_base_0.3_3";"poun_base_0.3";"Stochastic equal";"base";0,3;"first-year
+survival
+0.3";50;101;0,99706461019133;0,985354678759431;1,00606007978929;0,995772917215515;0,998392387878072
+19;"poun_base_0.3_4";"poun_base_0.3";"Stochastic bad x2";"base";0,3;"first-year
+survival
+0.3";50;101;0,982186721844823;0,971300612110178;0,990548271213906;0,98110910019654;0,983487800888822
+20;"poun_base_0.3_5";"poun_base_0.3";"Stochastic worst x4";"base";0,3;"first-year
+survival
+0.3";50;101;0,971859772556553;0,963826135027209;0,98105319779535;0,970567556228126;0,973212219653284
+21;"poun_base_0.4_1";"poun_base_0.4";"Deterministic";"base";0,4;"first-year
+survival
+0.4";1;101;1,06484801116801;1,06484801116801;1,06484801116801;NA;NA
+22;"poun_base_0.4_2";"poun_base_0.4";"Stochastic uniform";"base";0,4;"first-year
+survival
+0.4";50;101;1,04210731322654;1,03111436993787;1,05114697716726;1,04079627998863;1,04343365594684
+23;"poun_base_0.4_3";"poun_base_0.4";"Stochastic equal";"base";0,4;"first-year
+survival
+0.4";50;101;1,00926675942706;0,994028929840186;1,02308892622923;1,00763781358507;1,01081785825633
+24;"poun_base_0.4_4";"poun_base_0.4";"Stochastic bad x2";"base";0,4;"first-year
+survival
+0.4";50;101;0,991114178063276;0,979733916987315;1,00283436465418;0,98956692084326;0,992573478374415
+25;"poun_base_0.4_5";"poun_base_0.4";"Stochastic worst x4";"base";0,4;"first-year
+survival
+0.4";50;101;0,975938747764826;0,96590887481775;0,986535460899265;0,974655593215302;0,977236018392069
+26;"poun_base_0.5_1";"poun_base_0.5";"Deterministic";"base";0,5;"first-year
+survival
+0.5";1;101;1,08624995407359;1,08624995407359;1,08624995407359;NA;NA
+27;"poun_base_0.5_2";"poun_base_0.5";"Stochastic uniform";"base";0,5;"first-year
+survival
+0.5";50;101;1,05953639994158;1,04830765057013;1,06970466341071;1,05815450615788;1,06088586750936
+28;"poun_base_0.5_3";"poun_base_0.5";"Stochastic equal";"base";0,5;"first-year
+survival
+0.5";50;101;1,01984397162514;1,00288759008187;1,03426422866842;1,01785774477428;1,02177415649466
+29;"poun_base_0.5_4";"poun_base_0.5";"Stochastic bad x2";"base";0,5;"first-year
+survival
+0.5";50;101;0,998037886702976;0,987738286819534;1,00930123965414;0,996335757157707;0,999708451048994
+30;"poun_base_0.5_5";"poun_base_0.5";"Stochastic worst x4";"base";0,5;"first-year
+survival
+0.5";50;101;0,980411663468491;0,971662966839958;0,993059979680545;0,97928701539508;0,981761349179937
+31;"poun_base_0.6_1";"poun_base_0.6";"Deterministic";"base";0,6;"first-year
+survival
+0.6";1;101;1,105452331734;1,105452331734;1,105452331734;NA;NA
+32;"poun_base_0.6_2";"poun_base_0.6";"Stochastic uniform";"base";0,6;"first-year
+survival
+0.6";50;101;1,07499849494567;1,06245131782428;1,0851267514874;1,07345785074068;1,07644547608618
+33;"poun_base_0.6_3";"poun_base_0.6";"Stochastic equal";"base";0,6;"first-year
+survival
+0.6";50;101;1,02934056318605;1,01093241118283;1,04785756177449;1,02722889945557;1,03153209920594
+34;"poun_base_0.6_4";"poun_base_0.6";"Stochastic bad x2";"base";0,6;"first-year
+survival
+0.6";50;101;1,00542113565152;0,994332840837761;1,02064210840528;1,00377676227868;1,00720399001971
+35;"poun_base_0.6_5";"poun_base_0.6";"Stochastic worst x4";"base";0,6;"first-year
+survival
+0.6";50;101;0,984744219728836;0,970591534245967;0,995398713766429;0,983037625204697;0,986465542292997
+36;"poun_base_0.7_1";"poun_base_0.7";"Deterministic";"base";0,7;"first-year
+survival
+0.7";1;101;1,12293274265566;1,12293274265566;1,12293274265566;NA;NA
+37;"poun_base_0.7_2";"poun_base_0.7";"Stochastic uniform";"base";0,7;"first-year
+survival
+0.7";50;101;1,09031799059959;1,07258961517702;1,10458513121843;1,08855311641234;1,09211401043954
+38;"poun_base_0.7_3";"poun_base_0.7";"Stochastic equal";"base";0,7;"first-year
+survival
+0.7";50;101;1,03817942727437;1,02266758583453;1,06920207529956;1,03578670860396;1,04067172545085
+39;"poun_base_0.7_4";"poun_base_0.7";"Stochastic bad x2";"base";0,7;"first-year
+survival
+0.7";50;101;1,0100442747235;0,990867559981766;1,03048035205039;1,0076487035163;1,01234449274012
+40;"poun_base_0.7_5";"poun_base_0.7";"Stochastic worst x4";"base";0,7;"first-year
+survival
+0.7";50;101;0,987353019894984;0,974448703824918;1,00333116048352;0,985502771894165;0,989401626526518
+41;"poun_base_0.8_1";"poun_base_0.8";"Deterministic";"base";0,8;"first-year
+survival
+0.8";1;101;1,13902205922838;1,13902205922838;1,13902205922838;NA;NA
+42;"poun_base_0.8_2";"poun_base_0.8";"Stochastic uniform";"base";0,8;"first-year
+survival
+0.8";50;101;1,10155584694801;1,08453187317412;1,11702630694529;1,09957681372194;1,10348086635022
+43;"poun_base_0.8_3";"poun_base_0.8";"Stochastic equal";"base";0,8;"first-year
+survival
+0.8";50;101;1,04545607098245;1,02701209730713;1,07199398249745;1,04271647941732;1,0482088786347
+44;"poun_base_0.8_4";"poun_base_0.8";"Stochastic bad x2";"base";0,8;"first-year
+survival
+0.8";50;101;1,01559649939324;0,979730797957821;1,02983192140697;1,01322866869241;1,01792829170568
+45;"poun_base_0.8_5";"poun_base_0.8";"Stochastic worst x4";"base";0,8;"first-year
+survival
+0.8";50;101;0,9902490313983;0,976281676719322;1,01363514377891;0,988051612698661;0,99268776256371
+46;"poun_base_0.9_1";"poun_base_0.9";"Deterministic";"base";0,9;"first-year
+survival
+0.9";1;101;1,1539600855664;1,1539600855664;1,1539600855664;NA;NA
+47;"poun_base_0.9_2";"poun_base_0.9";"Stochastic uniform";"base";0,9;"first-year
+survival
+0.9";50;101;1,11385323646276;1,09596698853369;1,13521873923089;1,11137956153268;1,11612936803252
+48;"poun_base_0.9_3";"poun_base_0.9";"Stochastic equal";"base";0,9;"first-year
+survival
+0.9";50;101;1,05355671268202;1,02805116344124;1,07744729161225;1,05095716606539;1,05610353266435
+49;"poun_base_0.9_4";"poun_base_0.9";"Stochastic bad x2";"base";0,9;"first-year
+survival
+0.9";50;101;1,0212437344901;1,00013205285369;1,04209280294369;1,01886881000248;1,02347170141532
+50;"poun_base_0.9_5";"poun_base_0.9";"Stochastic worst x4";"base";0,9;"first-year
+survival
+0.9";50;101;0,998256731637472;0,978322561149115;1,02039413594615;0,995847156210088;1,00059112095417
+51;"poun_female-hunt 2.5%_0_1";"poun_female-hunt 2.5%_0";"Deterministic";"female-hunt 2.5%";0;"first-year
+survival
+0";1;101;0,906811761488231;0,906811761488231;0,906811761488231;NA;NA
+52;"poun_female-hunt 2.5%_0_2";"poun_female-hunt 2.5%_0";"Stochastic uniform";"female-hunt 2.5%";0;"first-year
+survival
+0";50;101;0,911802390872053;0,908305961902549;0,914780830364593;0,911393976092139;0,912230977357559
+53;"poun_female-hunt 2.5%_0_3";"poun_female-hunt 2.5%_0";"Stochastic equal";"female-hunt 2.5%";0;"first-year
+survival
+0";50;101;0,919502503673838;0,915278897169366;0,923247966045728;0,918984514196874;0,920030703520299
+54;"poun_female-hunt 2.5%_0_4";"poun_female-hunt 2.5%_0";"Stochastic bad x2";"female-hunt 2.5%";0;"first-year
+survival
+0";50;101;0,923447192767637;0,918267297998002;0,926734433679137;0,922868688173894;0,924055332336265
+55;"poun_female-hunt 2.5%_0_5";"poun_female-hunt 2.5%_0";"Stochastic worst x4";"female-hunt 2.5%";0;"first-year
+survival
+0";50;101;0,926037140152455;0,920757632021865;0,932213168531636;0,925379442936753;0,926694588334755
+56;"poun_female-hunt 2.5%_0.1_1";"poun_female-hunt 2.5%_0.1";"Deterministic";"female-hunt 2.5%";0,1;"first-year
+survival
+0.1";1;101;0,956618441965496;0,956618441965496;0,956618441965496;NA;NA
+57;"poun_female-hunt 2.5%_0.1_2";"poun_female-hunt 2.5%_0.1";"Stochastic uniform";"female-hunt 2.5%";0,1;"first-year
+survival
+0.1";50;101;0,951229359137856;0,947155172674815;0,955124241551178;0,950771137677465;0,95170775230384
+58;"poun_female-hunt 2.5%_0.1_3";"poun_female-hunt 2.5%_0.1";"Stochastic equal";"female-hunt 2.5%";0,1;"first-year
+survival
+0.1";50;101;0,944425766584661;0,939186103798453;0,950143573503451;0,943818125082839;0,944973640069911
+59;"poun_female-hunt 2.5%_0.1_4";"poun_female-hunt 2.5%_0.1";"Stochastic bad x2";"female-hunt 2.5%";0,1;"first-year
+survival
+0.1";50;101;0,940381464129907;0,933209302141181;0,943668705041407;0,93984330294735;0,940939547984655
+60;"poun_female-hunt 2.5%_0.1_5";"poun_female-hunt 2.5%_0.1";"Stochastic worst x4";"female-hunt 2.5%";0,1;"first-year
+survival
+0.1";50;101;0,937313372612508;0,930718968117318;0,942672571431862;0,93653613936366;0,938030837844783
+61;"poun_female-hunt 2.5%_0.2_1";"poun_female-hunt 2.5%_0.2";"Deterministic";"female-hunt 2.5%";0,2;"first-year
+survival
+0.2";1;101;0,992898345408849;0,992898345408849;0,992898345408849;NA;NA
+62;"poun_female-hunt 2.5%_0.2_2";"poun_female-hunt 2.5%_0.2";"Stochastic uniform";"female-hunt 2.5%";0,2;"first-year
+survival
+0.2";50;101;0,980579425727093;0,974002301222897;0,985058289362238;0,979904933440538;0,981278093030983
+63;"poun_female-hunt 2.5%_0.2_3";"poun_female-hunt 2.5%_0.2";"Stochastic equal";"female-hunt 2.5%";0,2;"first-year
+survival
+0.2";50;101;0,962414327896219;0,955284529083868;0,9694211815456;0,961577843090992;0,96325738374118
+64;"poun_female-hunt 2.5%_0.2_4";"poun_female-hunt 2.5%_0.2";"Stochastic bad x2";"female-hunt 2.5%";0,2;"first-year
+survival
+0.2";50;101;0,952222129936813;0,944997143289977;0,959269063522049;0,951240794090104;0,95320983079413
+65;"poun_female-hunt 2.5%_0.2_5";"poun_female-hunt 2.5%_0.2";"Stochastic worst x4";"female-hunt 2.5%";0,2;"first-year
+survival
+0.2";50;101;0,944246290118466;0,93629622140416;0,952468145361567;0,943124437669953;0,945327744038028
+66;"poun_female-hunt 2.5%_0.3_1";"poun_female-hunt 2.5%_0.3";"Deterministic";"female-hunt 2.5%";0,3;"first-year
+survival
+0.3";1;101;1,02216370960387;1,02216370960387;1,02216370960387;NA;NA
+67;"poun_female-hunt 2.5%_0.3_2";"poun_female-hunt 2.5%_0.3";"Stochastic uniform";"female-hunt 2.5%";0,3;"first-year
+survival
+0.3";50;101;1,00407606076367;0,995684579917155;1,01427236829733;1,00303248973208;1,00502624813082
+68;"poun_female-hunt 2.5%_0.3_3";"poun_female-hunt 2.5%_0.3";"Stochastic equal";"female-hunt 2.5%";0,3;"first-year
+survival
+0.3";50;101;0,976195375946363;0,96637443527341;0,984856656161853;0,975098811653084;0,977383584126883
+69;"poun_female-hunt 2.5%_0.3_4";"poun_female-hunt 2.5%_0.3";"Stochastic bad x2";"female-hunt 2.5%";0,3;"first-year
+survival
+0.3";50;101;0,961926529923821;0,951221296146766;0,975837704564091;0,960536412953158;0,96316459853393
+70;"poun_female-hunt 2.5%_0.3_5";"poun_female-hunt 2.5%_0.3";"Stochastic worst x4";"female-hunt 2.5%";0,3;"first-year
+survival
+0.3";50;101;0,951391977917433;0,942019049487453;0,960029112761062;0,950406156165483;0,952413108352026
+71;"poun_female-hunt 2.5%_0.4_1";"poun_female-hunt 2.5%_0.4";"Deterministic";"female-hunt 2.5%";0,4;"first-year
+survival
+0.4";1;101;1,04701688216965;1,04701688216965;1,04701688216965;NA;NA
+72;"poun_female-hunt 2.5%_0.4_2";"poun_female-hunt 2.5%_0.4";"Stochastic uniform";"female-hunt 2.5%";0,4;"first-year
+survival
+0.4";50;101;1,0240295912486;1,01183613202454;1,03548670412537;1,02256403904661;1,02560068109018
+73;"poun_female-hunt 2.5%_0.4_3";"poun_female-hunt 2.5%_0.4";"Stochastic equal";"female-hunt 2.5%";0,4;"first-year
+survival
+0.4";50;101;0,989912464819665;0,976747531086927;1,00311005639389;0,988287807687773;0,991513401348765
+74;"poun_female-hunt 2.5%_0.4_4";"poun_female-hunt 2.5%_0.4";"Stochastic bad x2";"female-hunt 2.5%";0,4;"first-year
+survival
+0.4";50;101;0,970954566760411;0,960107215020165;0,984532301548282;0,969495971389563;0,972449146647625
+75;"poun_female-hunt 2.5%_0.4_5";"poun_female-hunt 2.5%_0.4";"Stochastic worst x4";"female-hunt 2.5%";0,4;"first-year
+survival
+0.4";50;101;0,954460381028666;0,944776800952713;0,965087883067892;0,953127920950708;0,955874347365316
+76;"poun_female-hunt 2.5%_0.5_1";"poun_female-hunt 2.5%_0.5";"Deterministic";"female-hunt 2.5%";0,5;"first-year
+survival
+0.5";1;101;1,06879150955633;1,06879150955633;1,06879150955633;NA;NA
+77;"poun_female-hunt 2.5%_0.5_2";"poun_female-hunt 2.5%_0.5";"Stochastic uniform";"female-hunt 2.5%";0,5;"first-year
+survival
+0.5";50;101;1,04154834193303;1,02517825318363;1,05022447633134;1,04011783130811;1,04296654620617
+78;"poun_female-hunt 2.5%_0.5_3";"poun_female-hunt 2.5%_0.5";"Stochastic equal";"female-hunt 2.5%";0,5;"first-year
+survival
+0.5";50;101;1,00070208434118;0,982808003092517;1,0168280716475;0,998658354910107;1,00264622836343
+79;"poun_female-hunt 2.5%_0.5_4";"poun_female-hunt 2.5%_0.5";"Stochastic bad x2";"female-hunt 2.5%";0,5;"first-year
+survival
+0.5";50;101;0,978460971240288;0,956016385397758;0,992526787976603;0,976623671053225;0,980275192229425
+80;"poun_female-hunt 2.5%_0.5_5";"poun_female-hunt 2.5%_0.5";"Stochastic worst x4";"female-hunt 2.5%";0,5;"first-year
+survival
+0.5";50;101;0,96008762227927;0,943183602618673;0,971590696333433;0,958315438238339;0,961849529380123
+81;"poun_female-hunt 2.5%_0.6_1";"poun_female-hunt 2.5%_0.6";"Deterministic";"female-hunt 2.5%";0,6;"first-year
+survival
+0.6";1;101;1,08827415884246;1,08827415884246;1,08827415884246;NA;NA
+82;"poun_female-hunt 2.5%_0.6_2";"poun_female-hunt 2.5%_0.6";"Stochastic uniform";"female-hunt 2.5%";0,6;"first-year
+survival
+0.6";50;101;1,05857990301861;1,04856493760195;1,06998513879336;1,05729933051879;1,05993502208601
+83;"poun_female-hunt 2.5%_0.6_3";"poun_female-hunt 2.5%_0.6";"Stochastic equal";"female-hunt 2.5%";0,6;"first-year
+survival
+0.6";50;101;1,01016759243492;0,99316494771801;1,02333784521791;1,00798284745093;1,01214925554131
+84;"poun_female-hunt 2.5%_0.6_4";"poun_female-hunt 2.5%_0.6";"Stochastic bad x2";"female-hunt 2.5%";0,6;"first-year
+survival
+0.6";50;101;0,984548886049985;0,967795075020289;1,00277099732237;0,982278812219136;0,986516389202591
+85;"poun_female-hunt 2.5%_0.6_5";"poun_female-hunt 2.5%_0.6";"Stochastic worst x4";"female-hunt 2.5%";0,6;"first-year
+survival
+0.6";50;101;0,963014096207614;0,949328411725642;0,976868194888001;0,961329735886502;0,964656736031731
+86;"poun_female-hunt 2.5%_0.7_1";"poun_female-hunt 2.5%_0.7";"Deterministic";"female-hunt 2.5%";0,7;"first-year
+survival
+0.7";1;101;1,10597246694176;1,10597246694176;1,10597246694176;NA;NA
+87;"poun_female-hunt 2.5%_0.7_2";"poun_female-hunt 2.5%_0.7";"Stochastic uniform";"female-hunt 2.5%";0,7;"first-year
+survival
+0.7";50;101;1,07129017817291;1,04622689596392;1,08456417647575;1,06920850156678;1,07305258504495
+88;"poun_female-hunt 2.5%_0.7_3";"poun_female-hunt 2.5%_0.7";"Stochastic equal";"female-hunt 2.5%";0,7;"first-year
+survival
+0.7";50;101;1,01999886361278;0,994447093039669;1,03627018102035;1,01760892179268;1,02235915380251
+89;"poun_female-hunt 2.5%_0.7_4";"poun_female-hunt 2.5%_0.7";"Stochastic bad x2";"female-hunt 2.5%";0,7;"first-year
+survival
+0.7";50;101;0,990614143982661;0,976523949877963;1,00590064905577;0,988582407231538;0,992565920546517
+90;"poun_female-hunt 2.5%_0.7_5";"poun_female-hunt 2.5%_0.7";"Stochastic worst x4";"female-hunt 2.5%";0,7;"first-year
+survival
+0.7";50;101;0,966815555359064;0,946153097584272;0,985984578510422;0,964674332372941;0,969006652843896
+91;"poun_female-hunt 2.5%_0.8_1";"poun_female-hunt 2.5%_0.8";"Deterministic";"female-hunt 2.5%";0,8;"first-year
+survival
+0.8";1;101;1,12223541127499;1,12223541127499;1,12223541127499;NA;NA
+92;"poun_female-hunt 2.5%_0.8_2";"poun_female-hunt 2.5%_0.8";"Stochastic uniform";"female-hunt 2.5%";0,8;"first-year
+survival
+0.8";50;101;1,08478758165082;1,06888972460151;1,10053107701753;1,08313674433405;1,08650052923376
+93;"poun_female-hunt 2.5%_0.8_3";"poun_female-hunt 2.5%_0.8";"Stochastic equal";"female-hunt 2.5%";0,8;"first-year
+survival
+0.8";50;101;1,03001062391139;1,00924329771321;1,06242701510791;1,02703761557506;1,03328214771568
+94;"poun_female-hunt 2.5%_0.8_4";"poun_female-hunt 2.5%_0.8";"Stochastic bad x2";"female-hunt 2.5%";0,8;"first-year
+survival
+0.8";50;101;0,995798682370225;0,973293472301454;1,01670214081636;0,99320796920353;0,998562745827925
+95;"poun_female-hunt 2.5%_0.8_5";"poun_female-hunt 2.5%_0.8";"Stochastic worst x4";"female-hunt 2.5%";0,8;"first-year
+survival
+0.8";50;101;0,972223970666735;0,953581405263093;0,988049189228973;0,970178297945643;0,974146268276964
+96;"poun_female-hunt 2.5%_0.9_1";"poun_female-hunt 2.5%_0.9";"Deterministic";"female-hunt 2.5%";0,9;"first-year
+survival
+0.9";1;101;1,13731441844186;1,13731441844186;1,13731441844186;NA;NA
+97;"poun_female-hunt 2.5%_0.9_2";"poun_female-hunt 2.5%_0.9";"Stochastic uniform";"female-hunt 2.5%";0,9;"first-year
+survival
+0.9";50;101;1,09671162228026;1,07744158319213;1,11314056724083;1,0944823010167;1,09897972902863
+98;"poun_female-hunt 2.5%_0.9_3";"poun_female-hunt 2.5%_0.9";"Stochastic equal";"female-hunt 2.5%";0,9;"first-year
+survival
+0.9";50;101;1,03546828146282;1,01544902882718;1,05588551791108;1,03281031960774;1,03802675450764
+99;"poun_female-hunt 2.5%_0.9_4";"poun_female-hunt 2.5%_0.9";"Stochastic bad x2";"female-hunt 2.5%";0,9;"first-year
+survival
+0.9";50;101;1,00354791424579;0,975765510340291;1,02747222847963;1,00049528303974;1,00644634511597
+100;"poun_female-hunt 2.5%_0.9_5";"poun_female-hunt 2.5%_0.9";"Stochastic worst x4";"female-hunt 2.5%";0,9;"first-year
+survival
+0.9";50;101;0,973997439690727;0,956885086537436;0,994205722896581;0,971739395771755;0,976064800338539
+101;"poun_female-hunt 10%_0_1";"poun_female-hunt 10%_0";"Deterministic";"female-hunt 10%";0;"first-year
+survival
+0";1;101;0,837079201317298;0,837079201317298;0,837079201317298;NA;NA
+102;"poun_female-hunt 10%_0_2";"poun_female-hunt 10%_0";"Stochastic uniform";"female-hunt 10%";0;"first-year
+survival
+0";50;101;0,842966592728046;0,840058650411806;0,845421658781921;0,842573305447571;0,843347962212143
+103;"poun_female-hunt 10%_0_3";"poun_female-hunt 10%_0";"Stochastic equal";"female-hunt 10%";0;"first-year
+survival
+0";50;101;0,851821515436925;0,846613438419725;0,856743565341053;0,85112998530209;0,852489209979004
+104;"poun_female-hunt 10%_0_4";"poun_female-hunt 10%_0";"Stochastic bad x2";"female-hunt 10%";0;"first-year
+survival
+0";50;101;0,856135757725773;0,850188777333134;0,864490132986774;0,855373018757579;0,856863041249743
+105;"poun_female-hunt 10%_0_5";"poun_female-hunt 10%_0";"Stochastic worst x4";"female-hunt 10%";0;"first-year
+survival
+0";50;101;0,860962465258876;0,853764116246544;0,868065471900184;0,860080548326902;0,861832464394473
+106;"poun_female-hunt 10%_0.1_1";"poun_female-hunt 10%_0.1";"Deterministic";"female-hunt 10%";0,1;"first-year
+survival
+0.1";1;101;0,896668183207464;0,896668183207464;0,896668183207464;NA;NA
+107;"poun_female-hunt 10%_0.1_2";"poun_female-hunt 10%_0.1";"Stochastic uniform";"female-hunt 10%";0,1;"first-year
+survival
+0.1";50;101;0,890673531629313;0,887133946105037;0,894284623931857;0,89020873757057;0,891174079077191
+108;"poun_female-hunt 10%_0.1_3";"poun_female-hunt 10%_0.1";"Stochastic equal";"female-hunt 10%";0,1;"first-year
+survival
+0.1";50;101;0,881592170789252;0,874024370089201;0,886538056286136;0,880924476247172;0,882235731793666
+109;"poun_female-hunt 10%_0.1_4";"poun_female-hunt 10%_0.1";"Stochastic bad x2";"female-hunt 10%";0,1;"first-year
+survival
+0.1";50;101;0,876872723423551;0,871044920994693;0,883558607191627;0,876157655640869;0,87754071591054
+110;"poun_female-hunt 10%_0.1_5";"poun_female-hunt 10%_0.1";"Stochastic worst x4";"female-hunt 10%";0,1;"first-year
+survival
+0.1";50;101;0,873261631121007;0,866873692262381;0,881175047916021;0,872403251836879;0,874120010405134
+111;"poun_female-hunt 10%_0.2_1";"poun_female-hunt 10%_0.2";"Deterministic";"female-hunt 10%";0,2;"first-year
+survival
+0.2";1;101;0,936979222247523;0,936979222247523;0,936979222247523;NA;NA
+112;"poun_female-hunt 10%_0.2_2";"poun_female-hunt 10%_0.2";"Stochastic uniform";"female-hunt 10%";0,2;"first-year
+survival
+0.2";50;101;0,922372383325853;0,91533412189968;0,928163448258905;0,92148235455846;0,923325853636718
+113;"poun_female-hunt 10%_0.2_3";"poun_female-hunt 10%_0.2";"Stochastic equal";"female-hunt 10%";0,2;"first-year
+survival
+0.2";50;101;0,901551038045877;0,891533344771529;0,910111238357871;0,900434004180613;0,902636981768553
+114;"poun_female-hunt 10%_0.2_4";"poun_female-hunt 10%_0.2";"Stochastic bad x2";"female-hunt 10%";0,2;"first-year
+survival
+0.2";50;101;0,891122143429432;0,884522791773015;0,901716126293052;0,890071879862768;0,892330488274378
+115;"poun_female-hunt 10%_0.2_5";"poun_female-hunt 10%_0.2";"Stochastic worst x4";"female-hunt 10%";0,2;"first-year
+survival
+0.2";50;101;0,880293999759934;0,87332345850879;0,889289910324228;0,879117286128123;0,881435328584811
+116;"poun_female-hunt 10%_0.3_1";"poun_female-hunt 10%_0.3";"Deterministic";"female-hunt 10%";0,3;"first-year
+survival
+0.3";1;101;0,968514482562383;0,968514482562383;0,968514482562383;NA;NA
+117;"poun_female-hunt 10%_0.3_2";"poun_female-hunt 10%_0.3";"Stochastic uniform";"female-hunt 10%";0,3;"first-year
+survival
+0.3";50;101;0,948561358159261;0,941001694566891;0,958227830357736;0,947486435807066;0,949613266680978
+118;"poun_female-hunt 10%_0.3_3";"poun_female-hunt 10%_0.3";"Stochastic equal";"female-hunt 10%";0,3;"first-year
+survival
+0.3";50;101;0,918324637241272;0,907301838087423;0,927017130274186;0,917046530266011;0,919510208942184
+119;"poun_female-hunt 10%_0.3_4";"poun_female-hunt 10%_0.3";"Stochastic bad x2";"female-hunt 10%";0,3;"first-year
+survival
+0.3";50;101;0,90206946518375;0,889724958826972;0,912664846457538;0,900599988670596;0,903716258766288
+120;"poun_female-hunt 10%_0.3_5";"poun_female-hunt 10%_0.3";"Stochastic worst x4";"female-hunt 10%";0,3;"first-year
+survival
+0.3";50;101;0,886960363889154;0,876687027822775;0,898908452459792;0,88544586000177;0,888547032595172
+121;"poun_female-hunt 10%_0.4_1";"poun_female-hunt 10%_0.4";"Deterministic";"female-hunt 10%";0,4;"first-year
+survival
+0.4";1;101;0,994835943527529;0,994835943527529;0,994835943527529;NA;NA
+122;"poun_female-hunt 10%_0.4_2";"poun_female-hunt 10%_0.4";"Stochastic uniform";"female-hunt 10%";0,4;"first-year
+survival
+0.4";50;101;0,969201400781076;0,957428945751185;0,982249820435617;0,967581599420889;0,970840110973985
+123;"poun_female-hunt 10%_0.4_3";"poun_female-hunt 10%_0.4";"Stochastic equal";"female-hunt 10%";0,4;"first-year
+survival
+0.4";50;101;0,932468210792695;0,915499347743137;0,951328778097379;0,930232497895804;0,934851472348792
+124;"poun_female-hunt 10%_0.4_4";"poun_female-hunt 10%_0.4";"Stochastic bad x2";"female-hunt 10%";0,4;"first-year
+survival
+0.4";50;101;0,911367281489115;0,895972648859008;0,928329989154558;0,909453776907747;0,913098384952823
+125;"poun_female-hunt 10%_0.4_5";"poun_female-hunt 10%_0.4";"Stochastic worst x4";"female-hunt 10%";0,4;"first-year
+survival
+0.4";50;101;0,892329468063164;0,883352109482189;0,903894902254426;0,890932277593081;0,893676781101176
+126;"poun_female-hunt 10%_0.5_1";"poun_female-hunt 10%_0.5";"Deterministic";"female-hunt 10%";0,5;"first-year
+survival
+0.5";1;101;1,01763848392833;1,01763848392833;1,01763848392833;NA;NA
+127;"poun_female-hunt 10%_0.5_2";"poun_female-hunt 10%_0.5";"Stochastic uniform";"female-hunt 10%";0,5;"first-year
+survival
+0.5";50;101;0,986791425666109;0,968797860776325;0,997741116102306;0,984982911330786;0,988625068286101
+128;"poun_female-hunt 10%_0.5_3";"poun_female-hunt 10%_0.5";"Stochastic equal";"female-hunt 10%";0,5;"first-year
+survival
+0.5";50;101;0,944204694478002;0,929003125124276;0,95552697443584;0,942570216563103;0,945809539834419
+129;"poun_female-hunt 10%_0.5_4";"poun_female-hunt 10%_0.5";"Stochastic bad x2";"female-hunt 10%";0,5;"first-year
+survival
+0.5";50;101;0,917427075141189;0,904320715377633;0,927775498747662;0,915749743973557;0,919257876907129
+130;"poun_female-hunt 10%_0.5_5";"poun_female-hunt 10%_0.5";"Stochastic worst x4";"female-hunt 10%";0,5;"first-year
+survival
+0.5";50;101;0,899106352738376;0,88803453320383;0,913348679508185;0,897643750233611;0,900727266116226
+131;"poun_female-hunt 10%_0.6_1";"poun_female-hunt 10%_0.6";"Deterministic";"female-hunt 10%";0,6;"first-year
+survival
+0.6";1;101;1,03787836587798;1,03787836587798;1,03787836587798;NA;NA
+132;"poun_female-hunt 10%_0.6_2";"poun_female-hunt 10%_0.6";"Stochastic uniform";"female-hunt 10%";0,6;"first-year
+survival
+0.6";50;101;1,00503665565623;0,988364633250003;1,01735780504411;1,00306205076222;1,00705647136531
+133;"poun_female-hunt 10%_0.6_3";"poun_female-hunt 10%_0.6";"Stochastic equal";"female-hunt 10%";0,6;"first-year
+survival
+0.6";50;101;0,953894089529331;0,933332646810817;0,973712801911854;0,951349499189576;0,956327013257905
+134;"poun_female-hunt 10%_0.6_4";"poun_female-hunt 10%_0.6";"Stochastic bad x2";"female-hunt 10%";0,6;"first-year
+survival
+0.6";50;101;0,925323842462557;0,904715042646714;0,944564384676654;0,923266648792532;0,927725309172453
+135;"poun_female-hunt 10%_0.6_5";"poun_female-hunt 10%_0.6";"Stochastic worst x4";"female-hunt 10%";0,6;"first-year
+survival
+0.6";50;101;0,902493440468759;0,887834897474056;0,917293805591453;0,900657700472068;0,904473296674714
+136;"poun_female-hunt 10%_0.7_1";"poun_female-hunt 10%_0.7";"Deterministic";"female-hunt 10%";0,7;"first-year
+survival
+0.7";1;101;1,05615453382135;1,05615453382135;1,05615453382135;NA;NA
+137;"poun_female-hunt 10%_0.7_2";"poun_female-hunt 10%_0.7";"Stochastic uniform";"female-hunt 10%";0,7;"first-year
+survival
+0.7";50;101;1,0176453450704;0,999773365221993;1,02965521600309;1,01549375541118;1,01955026408832
+138;"poun_female-hunt 10%_0.7_3";"poun_female-hunt 10%_0.7";"Stochastic equal";"female-hunt 10%";0,7;"first-year
+survival
+0.7";50;101;0,960272565582484;0,937994244318117;0,985016509798408;0,957745936241697;0,962949526369946
+139;"poun_female-hunt 10%_0.7_4";"poun_female-hunt 10%_0.7";"Stochastic bad x2";"female-hunt 10%";0,7;"first-year
+survival
+0.7";50;101;0,930428239959693;0,908918561273689;0,952943905692268;0,927456194786817;0,933321922856982
+140;"poun_female-hunt 10%_0.7_5";"poun_female-hunt 10%_0.7";"Stochastic worst x4";"female-hunt 10%";0,7;"first-year
+survival
+0.7";50;101;0,903150770983425;0,874655203842509;0,924849724367874;0,900548335053128;0,905731637798117
+141;"poun_female-hunt 10%_0.8_1";"poun_female-hunt 10%_0.8";"Deterministic";"female-hunt 10%";0,8;"first-year
+survival
+0.8";1;101;1,07286986829678;1,07286986829678;1,07286986829678;NA;NA
+142;"poun_female-hunt 10%_0.8_2";"poun_female-hunt 10%_0.8";"Stochastic uniform";"female-hunt 10%";0,8;"first-year
+survival
+0.8";50;101;1,03198830917518;1,01459504918824;1,04991234402354;1,02953773201184;1,03420447503236
+143;"poun_female-hunt 10%_0.8_3";"poun_female-hunt 10%_0.8";"Stochastic equal";"female-hunt 10%";0,8;"first-year
+survival
+0.8";50;101;0,969982118759679;0,943960459517648;0,989305270851027;0,967015645561755;0,973162287402547
+144;"poun_female-hunt 10%_0.8_4";"poun_female-hunt 10%_0.8";"Stochastic bad x2";"female-hunt 10%";0,8;"first-year
+survival
+0.8";50;101;0,934420311371425;0,916261469299013;0,962849365481819;0,931781329608012;0,937389247219508
+145;"poun_female-hunt 10%_0.8_5";"poun_female-hunt 10%_0.8";"Stochastic worst x4";"female-hunt 10%";0,8;"first-year
+survival
+0.8";50;101;0,909035308260888;0,89332959763159;0,927480765434897;0,907181588769053;0,91099913723278
+146;"poun_female-hunt 10%_0.9_1";"poun_female-hunt 10%_0.9";"Deterministic";"female-hunt 10%";0,9;"first-year
+survival
+0.9";1;101;1,08830984599065;1,08830984599065;1,08830984599065;NA;NA
+147;"poun_female-hunt 10%_0.9_2";"poun_female-hunt 10%_0.9";"Stochastic uniform";"female-hunt 10%";0,9;"first-year
+survival
+0.9";50;101;1,04175543263536;1,01996258324434;1,0654415936278;1,03930386688911;1,04437785477173
+148;"poun_female-hunt 10%_0.9_3";"poun_female-hunt 10%_0.9";"Stochastic equal";"female-hunt 10%";0,9;"first-year
+survival
+0.9";50;101;0,98124973258384;0,957960460200424;1,00905997329625;0,978234940924741;0,98412850566985
+149;"poun_female-hunt 10%_0.9_4";"poun_female-hunt 10%_0.9";"Stochastic bad x2";"female-hunt 10%";0,9;"first-year
+survival
+0.9";50;101;0,944291964571896;0,918697842348236;0,969797355444063;0,941168166814084;0,947313676810717
+150;"poun_female-hunt 10%_0.9_5";"poun_female-hunt 10%_0.9";"Stochastic worst x4";"female-hunt 10%";0,9;"first-year
+survival
+0.9";50;101;0,911094270297831;0,888550164987434;0,926830651507339;0,908694037635996;0,91337205802154
+151;"poun_female-hunt 25%_0_1";"poun_female-hunt 25%_0";"Deterministic";"female-hunt 25%";0;"first-year
+survival
+0";1;101;0,697646565555005;0,697646565555005;0,697646565555005;NA;NA
+152;"poun_female-hunt 25%_0_2";"poun_female-hunt 25%_0";"Stochastic uniform";"female-hunt 25%";0;"first-year
+survival
+0";50;101;0,706309197919475;0,699382564024839;0,712402552548592;0,705580078562145;0,707038317276806
+153;"poun_female-hunt 25%_0_3";"poun_female-hunt 25%_0";"Stochastic equal";"female-hunt 25%";0;"first-year
+survival
+0";50;101;0,720093025769955;0,712402552548592;0,728026538777095;0,719050992688437;0,721221424775347
+154;"poun_female-hunt 25%_0_4";"poun_female-hunt 25%_0";"Stochastic bad x2";"female-hunt 25%";0;"first-year
+survival
+0";50;101;0,725630860888724;0,718478547193009;0,732366534951679;0,724710347700095;0,726551374077353
+155;"poun_female-hunt 25%_0_5";"poun_female-hunt 25%_0";"Stochastic worst x4";"female-hunt 25%";0;"first-year
+survival
+0";50;101;0,732887334492629;0,724554541837427;0,741046527300847;0,731827941426413;0,734033093482719
+156;"poun_female-hunt 25%_0.1_1";"poun_female-hunt 25%_0.1";"Deterministic";"female-hunt 25%";0,1;"first-year
+survival
+0.1";1;101;0,784446489046689;0,784446489046689;0,784446489046689;NA;NA
+157;"poun_female-hunt 25%_0.1_2";"poun_female-hunt 25%_0.1";"Stochastic uniform";"female-hunt 25%";0,1;"first-year
+survival
+0.1";50;101;0,775835936636314;0,771426500522937;0,781842491341939;0,775141537248381;0,776530336024248
+158;"poun_female-hunt 25%_0.1_3";"poun_female-hunt 25%_0.1";"Stochastic equal";"female-hunt 25%";0,1;"first-year
+survival
+0.1";50;101;0,763406187592305;0,749726519650016;0,769690502053103;0,762243068617516;0,764430860689124
+159;"poun_female-hunt 25%_0.1_4";"poun_female-hunt 25%_0.1";"Stochastic bad x2";"female-hunt 25%";0,1;"first-year
+survival
+0.1";50;101;0,756635793559954;0,749726519650016;0,762746508173768;0,755680994401545;0,757538512764267
+160;"poun_female-hunt 25%_0.1_5";"poun_female-hunt 25%_0.1";"Stochastic worst x4";"female-hunt 25%";0,1;"first-year
+survival
+0.1";50;101;0,749171000139669;0,74017852806593;0,757538512764267;0,748094681088372;0,750247319190966
+161;"poun_female-hunt 25%_0.2_1";"poun_female-hunt 25%_0.2";"Deterministic";"female-hunt 25%";0,2;"first-year
+survival
+0.2";1;101;0,832540274434403;0,832540274434403;0,832540274434403;NA;NA
+162;"poun_female-hunt 25%_0.2_2";"poun_female-hunt 25%_0.2";"Stochastic uniform";"female-hunt 25%";0,2;"first-year
+survival
+0.2";50;101;0,813724942745243;0,8030629669163;0,824258898955964;0,812356837522755;0,815056429554254
+163;"poun_female-hunt 25%_0.2_3";"poun_female-hunt 25%_0.2";"Stochastic equal";"female-hunt 25%";0,2;"first-year
+survival
+0.2";50;101;0,787362525303757;0,774934596486991;0,798171267394381;0,785733622362678;0,7887619955812
+164;"poun_female-hunt 25%_0.2_4";"poun_female-hunt 25%_0.2";"Stochastic bad x2";"female-hunt 25%";0,2;"first-year
+survival
+0.2";50;101;0,772503016330092;0,761937718942619;0,779286148151266;0,771323124551746;0,773657244306036
+165;"poun_female-hunt 25%_0.2_5";"poun_female-hunt 25%_0.2";"Stochastic worst x4";"female-hunt 25%";0,2;"first-year
+survival
+0.2";50;101;0,759515121515628;0,748166718636167;0,772846203105188;0,758005680347812;0,760974809395302
+166;"poun_female-hunt 25%_0.3_1";"poun_female-hunt 25%_0.3";"Deterministic";"female-hunt 25%";0,3;"first-year
+survival
+0.3";1;101;0,86791886575348;0,86791886575348;0,86791886575348;NA;NA
+167;"poun_female-hunt 25%_0.3_2";"poun_female-hunt 25%_0.3";"Stochastic uniform";"female-hunt 25%";0,3;"first-year
+survival
+0.3";50;101;0,843269581105559;0,831460060816128;0,855231631908217;0,841804306192217;0,844710140737272
+168;"poun_female-hunt 25%_0.3_3";"poun_female-hunt 25%_0.3";"Stochastic equal";"female-hunt 25%";0,3;"first-year
+survival
+0.3";50;101;0,805985142566469;0,790860912511286;0,821476651079162;0,80411880093932;0,807842492989083
+169;"poun_female-hunt 25%_0.3_4";"poun_female-hunt 25%_0.3";"Stochastic bad x2";"female-hunt 25%";0,3;"first-year
+survival
+0.3";50;101;0,783626271845682;0,765486444820759;0,795935806049391;0,782051245327016;0,785184193355338
+170;"poun_female-hunt 25%_0.3_5";"poun_female-hunt 25%_0.3";"Stochastic worst x4";"female-hunt 25%";0,3;"first-year
+survival
+0.3";50;101;0,768412848149017;0,757874104513601;0,779307881643731;0,766945851158098;0,769841150170668
+171;"poun_female-hunt 25%_0.4_1";"poun_female-hunt 25%_0.4";"Deterministic";"female-hunt 25%";0,4;"first-year
+survival
+0.4";1;101;0,896523909179569;0,896523909179569;0,896523909179569;NA;NA
+172;"poun_female-hunt 25%_0.4_2";"poun_female-hunt 25%_0.4";"Stochastic uniform";"female-hunt 25%";0,4;"first-year
+survival
+0.4";50;101;0,865693888073628;0,846408697676285;0,878734622589039;0,863885113719855;0,867451384071049
+173;"poun_female-hunt 25%_0.4_3";"poun_female-hunt 25%_0.4";"Stochastic equal";"female-hunt 25%";0,4;"first-year
+survival
+0.4";50;101;0,820963426547323;0,801391807246821;0,840299276736817;0,818326738026127;0,823384250578265
+174;"poun_female-hunt 25%_0.4_4";"poun_female-hunt 25%_0.4";"Stochastic bad x2";"female-hunt 25%";0,4;"first-year
+survival
+0.4";50;101;0,79382136869022;0,773768327810744;0,812566122965059;0,79140533753709;0,796147062696983
+175;"poun_female-hunt 25%_0.4_5";"poun_female-hunt 25%_0.4";"Stochastic worst x4";"female-hunt 25%";0,4;"first-year
+survival
+0.4";50;101;0,771777443997926;0,758254015917922;0,791161738804131;0,769682100529197;0,77381108182852
+176;"poun_female-hunt 25%_0.5_1";"poun_female-hunt 25%_0.5";"Deterministic";"female-hunt 25%";0,5;"first-year
+survival
+0.5";1;101;0,92081791952842;0,92081791952842;0,92081791952842;NA;NA
+177;"poun_female-hunt 25%_0.5_2";"poun_female-hunt 25%_0.5";"Stochastic uniform";"female-hunt 25%";0,5;"first-year
+survival
+0.5";50;101;0,883484915924465;0,866514217695132;0,894658494476759;0,881682124388252;0,885241085331469
+178;"poun_female-hunt 25%_0.5_3";"poun_female-hunt 25%_0.5";"Stochastic equal";"female-hunt 25%";0,5;"first-year
+survival
+0.5";50;101;0,830228029212324;0,805887659407657;0,84841364756749;0,827579832368683;0,832794403197675
+179;"poun_female-hunt 25%_0.5_4";"poun_female-hunt 25%_0.5";"Stochastic bad x2";"female-hunt 25%";0,5;"first-year
+survival
+0.5";50;101;0,8014149154619;0,774520238946495;0,827338787020446;0,79866931650334;0,804033796469906
+180;"poun_female-hunt 25%_0.5_5";"poun_female-hunt 25%_0.5";"Stochastic worst x4";"female-hunt 25%";0,5;"first-year
+survival
+0.5";50;101;0,778277720127687;0,759642812498389;0,794854514064235;0,776080556366379;0,78048493757241
+181;"poun_female-hunt 25%_0.6_1";"poun_female-hunt 25%_0.6";"Deterministic";"female-hunt 25%";0,6;"first-year
+survival
+0.6";1;101;0,942087880601186;0,942087880601186;0,942087880601186;NA;NA
+182;"poun_female-hunt 25%_0.6_2";"poun_female-hunt 25%_0.6";"Stochastic uniform";"female-hunt 25%";0,6;"first-year
+survival
+0.6";50;101;0,900549663134065;0,871997822009237;0,920566915909896;0,89789546322623;0,903213931862399
+183;"poun_female-hunt 25%_0.6_3";"poun_female-hunt 25%_0.6";"Stochastic equal";"female-hunt 25%";0,6;"first-year
+survival
+0.6";50;101;0,8460064608116;0,822011898747322;0,872316991117815;0,842876085290392;0,849103332985709
+184;"poun_female-hunt 25%_0.6_4";"poun_female-hunt 25%_0.6";"Stochastic bad x2";"female-hunt 25%";0,6;"first-year
+survival
+0.6";50;101;0,810247257717001;0,788977282984351;0,832976719692664;0,807498652603441;0,813066843532014
+185;"poun_female-hunt 25%_0.6_5";"poun_female-hunt 25%_0.6";"Stochastic worst x4";"female-hunt 25%";0,6;"first-year
+survival
+0.6";50;101;0,782358287701796;0,764533151479733;0,796470106990025;0,780067680635821;0,784543158139154
+186;"poun_female-hunt 25%_0.7_1";"poun_female-hunt 25%_0.7";"Deterministic";"female-hunt 25%";0,7;"first-year
+survival
+0.7";1;101;0,961100689433346;0,961100689433346;0,961100689433346;NA;NA
+187;"poun_female-hunt 25%_0.7_2";"poun_female-hunt 25%_0.7";"Stochastic uniform";"female-hunt 25%";0,7;"first-year
+survival
+0.7";50;101;0,91626110944173;0,893348442323763;0,93113056243568;0,913737659970448;0,9186710310215
+188;"poun_female-hunt 25%_0.7_3";"poun_female-hunt 25%_0.7";"Stochastic equal";"female-hunt 25%";0,7;"first-year
+survival
+0.7";50;101;0,849463050619875;0,822093654740479;0,87481502305018;0,846113074495579;0,852660402392013
+189;"poun_female-hunt 25%_0.7_4";"poun_female-hunt 25%_0.7";"Stochastic bad x2";"female-hunt 25%";0,7;"first-year
+survival
+0.7";50;101;0,816009320139609;0,796555154519496;0,847540524359363;0,813318819917909;0,819028047653416
+190;"poun_female-hunt 25%_0.7_5";"poun_female-hunt 25%_0.7";"Stochastic worst x4";"female-hunt 25%";0,7;"first-year
+survival
+0.7";50;101;0,786900316853134;0,764011573351113;0,809666773645347;0,784163875927679;0,789606374991025
+191;"poun_female-hunt 25%_0.8_1";"poun_female-hunt 25%_0.8";"Deterministic";"female-hunt 25%";0,8;"first-year
+survival
+0.8";1;101;0,978354234863157;0,978354234863157;0,978354234863157;NA;NA
+192;"poun_female-hunt 25%_0.8_2";"poun_female-hunt 25%_0.8";"Stochastic uniform";"female-hunt 25%";0,8;"first-year
+survival
+0.8";50;101;0,929820108379054;0,906497002347878;0,947070233262598;0,927605059558007;0,932095646917641
+193;"poun_female-hunt 25%_0.8_3";"poun_female-hunt 25%_0.8";"Stochastic equal";"female-hunt 25%";0,8;"first-year
+survival
+0.8";50;101;0,859802313658928;0,830152377951277;0,881492074380068;0,856815667592741;0,862579082437075
+194;"poun_female-hunt 25%_0.8_4";"poun_female-hunt 25%_0.8";"Stochastic bad x2";"female-hunt 25%";0,8;"first-year
+survival
+0.8";50;101;0,821261707702306;0,791518224494722;0,845664997616594;0,818200005894044;0,824440907121638
+195;"poun_female-hunt 25%_0.8_5";"poun_female-hunt 25%_0.8";"Stochastic worst x4";"female-hunt 25%";0,8;"first-year
+survival
+0.8";50;101;0,788136499640743;0,756965304942827;0,824132066588452;0,78490028413005;0,791483773186964
+196;"poun_female-hunt 25%_0.9_1";"poun_female-hunt 25%_0.9";"Deterministic";"female-hunt 25%";0,9;"first-year
+survival
+0.9";1;101;0,994192024743783;0,994192024743783;0,994192024743783;NA;NA
+197;"poun_female-hunt 25%_0.9_2";"poun_female-hunt 25%_0.9";"Stochastic uniform";"female-hunt 25%";0,9;"first-year
+survival
+0.9";50;101;0,939421419673509;0,918971289285177;0,967648018877435;0,936823680647828;0,942530551214114
+198;"poun_female-hunt 25%_0.9_3";"poun_female-hunt 25%_0.9";"Stochastic equal";"female-hunt 25%";0,9;"first-year
+survival
+0.9";50;101;0,867089821624305;0,8376032732163;0,897996735715468;0,863622200465466;0,870733870539846
+199;"poun_female-hunt 25%_0.9_4";"poun_female-hunt 25%_0.9";"Stochastic bad x2";"female-hunt 25%";0,9;"first-year
+survival
+0.9";50;101;0,829644549696662;0,807587270410285;0,851562546940822;0,82673104334424;0,832508691699092
+200;"poun_female-hunt 25%_0.9_5";"poun_female-hunt 25%_0.9";"Stochastic worst x4";"female-hunt 25%";0,9;"first-year
+survival
+0.9";50;101;0,791209808911792;0,773159985463833;0,81713526199437;0,788338058823999;0,794380668240016
+201;"poun_female-hunt 50%_0_1";"poun_female-hunt 50%_0";"Deterministic";"female-hunt 50%";0;"first-year
+survival
+0";1;101;0,465918973184579;0,465918973184579;0,465918973184579;NA;NA
+202;"poun_female-hunt 50%_0_2";"poun_female-hunt 50%_0";"Stochastic uniform";"female-hunt 50%";0;"first-year
+survival
+0";50;101;0,48115774294331;0,47237607901455;0,491747396504462;0,480026942284836;0,482287736463555
+203;"poun_female-hunt 50%_0_3";"poun_female-hunt 50%_0";"Stochastic equal";"female-hunt 50%";0;"first-year
+survival
+0";50;101;0,506727882029994;0,486904567131984;0,522418649196823;0,504952177926752;0,508375251154865
+204;"poun_female-hunt 50%_0_4";"poun_female-hunt 50%_0";"Stochastic bad x2";"female-hunt 50%";0;"first-year
+survival
+0";50;101;0,51857667122799;0,494975949419447;0,533718584399271;0,516251305990972;0,521159513559978
+205;"poun_female-hunt 50%_0_5";"poun_female-hunt 50%_0";"Stochastic worst x4";"female-hunt 50%";0;"first-year
+survival
+0";50;101;0,530328603838537;0,515961543366852;0,549861348974198;0,527970953072369;0,532814589583075
+206;"poun_female-hunt 50%_0.1_1";"poun_female-hunt 50%_0.1";"Deterministic";"female-hunt 50%";0,1;"first-year
+survival
+0.1";1;101;0,627346618933846;0,627346618933846;0,627346618933846;NA;NA
+207;"poun_female-hunt 50%_0.1_2";"poun_female-hunt 50%_0.1";"Stochastic uniform";"female-hunt 50%";0,1;"first-year
+survival
+0.1";50;101;0,610203002955274;0,5934468133265;0,620889513103876;0,608750154143531;0,611558995179568
+208;"poun_female-hunt 50%_0.1_3";"poun_female-hunt 50%_0.1";"Stochastic equal";"female-hunt 50%";0,1;"first-year
+survival
+0.1";50;101;0,587764560196126;0,570846942921603;0,604746748528949;0,585666000801386;0,589959976178316
+209;"poun_female-hunt 50%_0.1_4";"poun_female-hunt 50%_0.1";"Stochastic bad x2";"female-hunt 50%";0,1;"first-year
+survival
+0.1";50;101;0,574172352424038;0,561161284176647;0,588603983954022;0,572106078558447;0,576013434723808
+210;"poun_female-hunt 50%_0.1_5";"poun_female-hunt 50%_0.1";"Stochastic worst x4";"female-hunt 50%";0,1;"first-year
+survival
+0.1";50;101;0,563195272513088;0,546632796059213;0,580532601666559;0,560870714414298;0,565262353516907
+211;"poun_female-hunt 50%_0.2_1";"poun_female-hunt 50%_0.2";"Deterministic";"female-hunt 50%";0,2;"first-year
+survival
+0.2";1;101;0,682048983393649;0,682048983393649;0,682048983393649;NA;NA
+212;"poun_female-hunt 50%_0.2_2";"poun_female-hunt 50%_0.2";"Stochastic uniform";"female-hunt 50%";0,2;"first-year
+survival
+0.2";50;101;0,656213182518817;0,644706269060906;0,669054388304803;0,65446066948314;0,657996086506005
+213;"poun_female-hunt 50%_0.2_3";"poun_female-hunt 50%_0.2";"Stochastic equal";"female-hunt 50%";0,2;"first-year
+survival
+0.2";50;101;0,614494056346918;0,594368959639318;0,633272361476951;0,612007271790712;0,616598017636191
+214;"poun_female-hunt 50%_0.2_4";"poun_female-hunt 50%_0.2";"Stochastic bad x2";"female-hunt 50%";0,2;"first-year
+survival
+0.2";50;101;0,593475007307355;0,573222598834105;0,611031953382541;0,591461222454372;0,595668534278966
+215;"poun_female-hunt 50%_0.2_5";"poun_female-hunt 50%_0.2";"Stochastic worst x4";"female-hunt 50%";0,2;"first-year
+survival
+0.2";50;101;0,574745196549842;0,556452427185676;0,598530792985691;0,572220979165534;0,577221981199328
+216;"poun_female-hunt 50%_0.3_1";"poun_female-hunt 50%_0.3";"Deterministic";"female-hunt 50%";0,3;"first-year
+survival
+0.3";1;101;0,719551756523078;0,719551756523078;0,719551756523078;NA;NA
+217;"poun_female-hunt 50%_0.3_2";"poun_female-hunt 50%_0.3";"Stochastic uniform";"female-hunt 50%";0,3;"first-year
+survival
+0.3";50;101;0,684995818205492;0,67228632526338;0,698801481267414;0,683029539191406;0,68691522046694
+218;"poun_female-hunt 50%_0.3_3";"poun_female-hunt 50%_0.3";"Stochastic equal";"female-hunt 50%";0,3;"first-year
+survival
+0.3";50;101;0,634913835805297;0,616260032833343;0,657303676954811;0,632321425809607;0,63744551493502
+219;"poun_female-hunt 50%_0.3_4";"poun_female-hunt 50%_0.3";"Stochastic bad x2";"female-hunt 50%";0,3;"first-year
+survival
+0.3";50;101;0,603576049023486;0,580984015658969;0,626408090365607;0,600301349509025;0,606762956785328
+220;"poun_female-hunt 50%_0.3_5";"poun_female-hunt 50%_0.3";"Stochastic worst x4";"female-hunt 50%";0,3;"first-year
+survival
+0.3";50;101;0,583480952022464;0,560463566697598;0,603121487276558;0,580538466996296;0,586368521440891
+221;"poun_female-hunt 50%_0.4_1";"poun_female-hunt 50%_0.4";"Deterministic";"female-hunt 50%";0,4;"first-year
+survival
+0.4";1;101;0,748888241383713;0,748888241383713;0,748888241383713;NA;NA
+222;"poun_female-hunt 50%_0.4_2";"poun_female-hunt 50%_0.4";"Stochastic uniform";"female-hunt 50%";0,4;"first-year
+survival
+0.4";50;101;0,709586113932461;0,676493976825404;0,730276973308756;0,70681146727682;0,712134524782885
+223;"poun_female-hunt 50%_0.4_3";"poun_female-hunt 50%_0.4";"Stochastic equal";"female-hunt 50%";0,4;"first-year
+survival
+0.4";50;101;0,648253155573881;0,619862452134544;0,677671721998869;0,644848163871976;0,651576190308227
+224;"poun_female-hunt 50%_0.4_4";"poun_female-hunt 50%_0.4";"Stochastic bad x2";"female-hunt 50%";0,4;"first-year
+survival
+0.4";50;101;0,614283348095556;0,586305000183642;0,636024052234987;0,610909752206634;0,617536890368543
+225;"poun_female-hunt 50%_0.4_5";"poun_female-hunt 50%_0.4";"Stochastic worst x4";"female-hunt 50%";0,4;"first-year
+survival
+0.4";50;101;0,589508313494435;0,568890312807666;0,617792808867507;0,586626578887188;0,592451884694584
+226;"poun_female-hunt 50%_0.5_1";"poun_female-hunt 50%_0.5";"Deterministic";"female-hunt 50%";0,5;"first-year
+survival
+0.5";1;101;0,773314222082995;0,773314222082995;0,773314222082995;NA;NA
+227;"poun_female-hunt 50%_0.5_2";"poun_female-hunt 50%_0.5";"Stochastic uniform";"female-hunt 50%";0,5;"first-year
+survival
+0.5";50;101;0,726076904908159;0,709534221944334;0,74465277492865;0,723466467831371;0,728523424072874
+228;"poun_female-hunt 50%_0.5_3";"poun_female-hunt 50%_0.5";"Stochastic equal";"female-hunt 50%";0,5;"first-year
+survival
+0.5";50;101;0,658517929371461;0,633613012275737;0,684410528556976;0,655245101525176;0,661722664485748
+229;"poun_female-hunt 50%_0.5_4";"poun_female-hunt 50%_0.5";"Stochastic bad x2";"female-hunt 50%";0,5;"first-year
+survival
+0.5";50;101;0,624087088684007;0,597343984111932;0,652829729339648;0,620678402630606;0,627440041011473
+230;"poun_female-hunt 50%_0.5_5";"poun_female-hunt 50%_0.5";"Stochastic worst x4";"female-hunt 50%";0,5;"first-year
+survival
+0.5";50;101;0,593162641519185;0,560456554244122;0,615410225996354;0,590288113665208;0,59589089171736
+231;"poun_female-hunt 50%_0.6_1";"poun_female-hunt 50%_0.6";"Deterministic";"female-hunt 50%";0,6;"first-year
+survival
+0.6";1;101;0,794414254767074;0,794414254767074;0,794414254767074;NA;NA
+232;"poun_female-hunt 50%_0.6_2";"poun_female-hunt 50%_0.6";"Stochastic uniform";"female-hunt 50%";0,6;"first-year
+survival
+0.6";50;101;0,745116247258701;0,718521940598063;0,761339127005466;0,742507834817934;0,7475976607791
+233;"poun_female-hunt 50%_0.6_3";"poun_female-hunt 50%_0.6";"Stochastic equal";"female-hunt 50%";0,6;"first-year
+survival
+0.6";50;101;0,673938748343585;0,6407897503682;0,708554282348909;0,669391311343068;0,677995596278293
+234;"poun_female-hunt 50%_0.6_4";"poun_female-hunt 50%_0.6";"Stochastic bad x2";"female-hunt 50%";0,6;"first-year
+survival
+0.6";50;101;0,629858464649955;0,603097392837473;0,660161067858112;0,626360926013116;0,633268470589568
+235;"poun_female-hunt 50%_0.6_5";"poun_female-hunt 50%_0.6";"Stochastic worst x4";"female-hunt 50%";0,6;"first-year
+survival
+0.6";50;101;0,598278348040049;0,57976432372166;0,624252186487396;0,595232104859659;0,601592124670405
+236;"poun_female-hunt 50%_0.7_1";"poun_female-hunt 50%_0.7";"Deterministic";"female-hunt 50%";0,7;"first-year
+survival
+0.7";1;101;0,813091076554318;0,813091076554318;0,813091076554318;NA;NA
+237;"poun_female-hunt 50%_0.7_2";"poun_female-hunt 50%_0.7";"Stochastic uniform";"female-hunt 50%";0,7;"first-year
+survival
+0.7";50;101;0,759174510669231;0,737111649676908;0,789916969538505;0,755844155911489;0,76221212895479
+238;"poun_female-hunt 50%_0.7_3";"poun_female-hunt 50%_0.7";"Stochastic equal";"female-hunt 50%";0,7;"first-year
+survival
+0.7";50;101;0,676631214724275;0,65135866368105;0,719023540152285;0,67292917183336;0,680426243702022
+239;"poun_female-hunt 50%_0.7_4";"poun_female-hunt 50%_0.7";"Stochastic bad x2";"female-hunt 50%";0,7;"first-year
+survival
+0.7";50;101;0,637675745473272;0,607111062344341;0,660402718443362;0,634175761450885;0,641069180210867
+240;"poun_female-hunt 50%_0.7_5";"poun_female-hunt 50%_0.7";"Stochastic worst x4";"female-hunt 50%";0,7;"first-year
+survival
+0.7";50;101;0,602447060766933;0,574892900566216;0,631656277698934;0,598822953258065;0,605905498682377
+241;"poun_female-hunt 50%_0.8_1";"poun_female-hunt 50%_0.8";"Deterministic";"female-hunt 50%";0,8;"first-year
+survival
+0.8";1;101;0,829912618602293;0,829912618602293;0,829912618602293;NA;NA
+242;"poun_female-hunt 50%_0.8_2";"poun_female-hunt 50%_0.8";"Stochastic uniform";"female-hunt 50%";0,8;"first-year
+survival
+0.8";50;101;0,772891410140288;0,740908609545274;0,799970359890492;0,769423216121032;0,776329176349486
+243;"poun_female-hunt 50%_0.8_3";"poun_female-hunt 50%_0.8";"Stochastic equal";"female-hunt 50%";0,8;"first-year
+survival
+0.8";50;101;0,689406451774911;0,663615919229896;0,722266286035922;0,685370457995289;0,69326287875369
+244;"poun_female-hunt 50%_0.8_4";"poun_female-hunt 50%_0.8";"Stochastic bad x2";"female-hunt 50%";0,8;"first-year
+survival
+0.8";50;101;0,644272892726975;0,619494040541305;0,687007299013903;0,640639088218014;0,647910391080609
+245;"poun_female-hunt 50%_0.8_5";"poun_female-hunt 50%_0.8";"Stochastic worst x4";"female-hunt 50%";0,8;"first-year
+survival
+0.8";50;101;0,603570376836436;0,572966376016111;0,632819635740438;0,600031305379594;0,6068342585271
+246;"poun_female-hunt 50%_0.9_1";"poun_female-hunt 50%_0.9";"Deterministic";"female-hunt 50%";0,9;"first-year
+survival
+0.9";1;101;0,845261617183403;0,845261617183403;0,845261617183403;NA;NA
+247;"poun_female-hunt 50%_0.9_2";"poun_female-hunt 50%_0.9";"Stochastic uniform";"female-hunt 50%";0,9;"first-year
+survival
+0.9";50;101;0,785272748078315;0,758981867878647;0,812654711563486;0,782119961419931;0,788668055743589
+248;"poun_female-hunt 50%_0.9_3";"poun_female-hunt 50%_0.9";"Stochastic equal";"female-hunt 50%";0,9;"first-year
+survival
+0.9";50;101;0,695971408444658;0,648811812883956;0,752928947338648;0,691345802531924;0,700688806800737
+249;"poun_female-hunt 50%_0.9_4";"poun_female-hunt 50%_0.9";"Stochastic bad x2";"female-hunt 50%";0,9;"first-year
+survival
+0.9";50;101;0,64724166166064;0,609102583791549;0,68505145670883;0,642571671771782;0,651820356950134
+250;"poun_female-hunt 50%_0.9_5";"poun_female-hunt 50%_0.9";"Stochastic worst x4";"female-hunt 50%";0,9;"first-year
+survival
+0.9";50;101;0,607945371859445;0,576495678171632;0,645907101141426;0,603873875824668;0,611947667927175

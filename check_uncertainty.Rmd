@@ -1,0 +1,66 @@
+---
+title: "Check model uncertainty references"
+author: "Darren Norris"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Objective
+Get titles and abstracts for MPM articles which had complete uncertainty 
+reporting, reviewed in 2023:
+Uncertainty propagation in matrix population models: Gaps, importance and guidelines
+https://doi.org/10.1111/2041-210X.14276
+
+Maybe interesting to see how journal impact and article 
+citations/altimetrics correlate with 
+reporting completeness...??
+
+## Packages
+```{r load-packages}
+library(tidyverse)
+library(readxl)
+library(rcrossref)
+
+```
+
+Load data
+```{r load-data}
+fin <- "~/Articles/2024_Norris_Greenstatus/analises/complete_mppm_uncertainty_examples.xlsx"
+mpm_refs <- read_excel(fin)
+```
+
+Get title and Abstract.
+```{r get-articles, eval=FALSE}
+t <- cr_abstract(mpm_refs$DOI[10])
+cr_works(dois=c('10.1007/12080.1874-1746','10.1007/10452.1573-5125'), 
+         select = c('title'))
+safe_abstracts <- purrr::safely(cr_abstract, otherwise = NA)
+safe_works <- purrr::safely(cr_works, otherwise = NA)
+t <- safe_works(mpm_refs$DOI[10]) 
+get_ta <- function(x) {
+  works_res <-  safe_works(doi = x$DOI) 
+    if(is.null(works_res$error)){
+    title_out <- works_res$result$data$title 
+    journal_out <- works_res$result$data$container.title 
+  }else{
+  title_out <- NA
+  journal_out <- NA
+  }
+  abstract_res <-  safe_abstracts(doi = x$DOI) 
+  if(is.null(abstract_res$error)){
+    ab_out <- abstract_res$result 
+  }else{
+  ab_out <- NA
+  } 
+  
+  dfout <- data.frame(title = title_out, journal = journal_out, abstract = ab_out)
+  return(dfout)
+}
+article_details <- plyr::adply(mpm_refs, .margins = 1, .fun = get_ta)
+write.csv(article_details, "inst/other/mpm_article_details.csv")
+```
+
