@@ -27,8 +27,8 @@ source('R/pop03_doproj_stoch.R')
 ## Projections
 ### Population projection parameters. 
 
-Each row holds a unique set of parameters 
-that reflect diverse recovery (conservation action) and extinction (threat) scenarios.
+Each row holds a unique set of parameters for a matrix population model.
+This reflects diverse recovery (conservation action) and extinction (threat) scenarios.
 
 ```{r projection-params}
 dt <- pop01_param_poun()
@@ -41,6 +41,36 @@ slice_head(dt, n = 3)  |>
   kableExtra::kbl(digits = mydigits) |>
   kableExtra::kable_styling(full_width = F,  latex_options = "hold_position")
 ```
+
+The rows can be easily converted into a stage-based matrix population model. 
+The first row becomes the following stage-based matrix, where columns reflect 
+the stage and rows what to the stage at time + 1.
+```{r mpm-example}
+stage_names <- c("a1", "a2", "a3", "a4",
+                   "b1", "b2", "b3", "b4",
+                   "c1", "c2", "c3", "c4",
+                   "d1", "d2", "d3", "d4")
+vpop <- unlist(dt[1 , stage_names])
+pop_mat <- matrix(vpop, byrow = TRUE, ncol=4)
+dimnames(pop_mat) <- list(c("a", "b", "c", "d"),
+                            c( "a", "b", "c", "d"))
+
+```
+
+The matrix should look like this:
+```{r print-matrix, echo=FALSE}
+
+knitr::kable(format(pop_mat, scientific=F), digits = 4) |> 
+  kableExtra::column_spec(1, bold = TRUE) |>
+  kableExtra::kable_styling(full_width = F,  latex_options = "hold_position")
+```
+
+
+This matrix includes information of population growth and survival and reproduction.
+
+See https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html
+
+We can show the different matrix components converting to the structure recommended by ...
 
 ### Projection models.
 
@@ -294,6 +324,30 @@ write.csv2(model_ref3, "inst/other/model_lookup.csv", row.names = FALSE)
 #  summarise(count_years = length(ayear), 
 #            count_years_unique = length(unique(ayear))) |> 
 #  ungroup()
+```
+
+Compare lambda. Use this as the basis to establish number of runs to use.
+```{r compare-lambda}
+model_lookup <- readRDS("inst/other/model_lookup.rds")
+
+model_lookup |> 
+  mutate(recover_flag = if_else(fem_diff_t100 > 0, 1, 0)) |> 
+  group_by(recover_flag) |> 
+  summarise(model_count = n(),
+            lambda_avg = mean(lambda_mean), 
+            lambda_min = min(lambda_mean), 
+            lambda_max = max(lambda_mean))
+# 18 where mean lambda is less than one but population increases.
+# 100, 144 and 198 with lowest lambda. Results uncertain
+model_lookup |> 
+  filter(fem_diff_t100 > 0, lambda_mean < 1) |> 
+  arrange(lambda_mean)
+# 10 where t100 females can be more or less than t0.
+model_lookup |> 
+  mutate(flag_uncertain = if_else((fem_q25_t100 < fem_t0) & (fem_q75_t100 > fem_t0), 
+                                  1, 0)) |> 
+  filter(flag_uncertain == 1) |> 
+  arrange(lambda_mean)
 ```
 
 
