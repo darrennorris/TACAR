@@ -238,7 +238,9 @@ model_ref2 <- model_ref |> left_join(dout_all |>
   group_by(akey, modelf, typef, first_year, ayear) |> 
   summarise(fem_t0 = mean(fem_t0), 
             fem = mean(femnew),
-            fem_sd = sd(femnew, na.rm = TRUE),
+            fem_sd = sd(femnew, na.rm = TRUE), 
+            fem_q25 = quantile(femnew, probs = 0.25, na.rm = TRUE),
+            fem_q75 = quantile(femnew, probs = 0.75, na.rm = TRUE),
             fem_diff = mean(femnew_diff), 
             fem_diff_sd = sd(femnew_diff, na.rm = TRUE), 
             fem_diff_q25 = quantile(femnew_diff, probs = 0.25, na.rm = TRUE),
@@ -246,7 +248,7 @@ model_ref2 <- model_ref |> left_join(dout_all |>
   ungroup() |> 
     mutate(ayear = paste("t", ayear, sep="")) |>
   pivot_wider(names_from = ayear, 
-               values_from = c(fem, fem_sd, fem_diff, 
+               values_from = c(fem, fem_sd, fem_q25, fem_q75, fem_diff, 
                                fem_diff_sd, fem_diff_q25, fem_diff_q75)) |> 
   arrange(typef, first_year, modelf)
 )
@@ -284,8 +286,8 @@ model_ref3 <- model_ref2 |>
 )
 
 # Export for future use
-saveRDS(model_ref, "inst/other/model_ref.rds") 
-write.csv2(model_ref, "inst/other/model_ref.csv", row.names = FALSE) 
+saveRDS(model_ref3, "inst/other/model_lookup.rds") 
+write.csv2(model_ref3, "inst/other/model_lookup.csv", row.names = FALSE) 
 # summaries of  10050 runs.
 #model_all_sum <- dout_all |> 
 #  group_by(akey, modelf, typef, first_year, arun) |> 
