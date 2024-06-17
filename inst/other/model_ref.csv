@@ -1,751 +1,301 @@
-"modelkey";"modelid";"akey";"modelf";"typef";"first_year";"first_yearf";"count_runs";"count_years";"lambda_mean";"lambda_min";"lambda_max";"lambda_boot_lcl";"lambda_boot_ucl"
-1;"poun_base_0_1";"poun_base_0";"Deterministic";"base";0;"first-year
-survival
-0";1;101;0,930057214617213;0,930057214617213;0,930057214617213;NA;NA
-2;"poun_base_0_2";"poun_base_0";"Stochastic uniform";"base";0;"first-year
-survival
-0";50;101;0,93481331793227;0,931937097350437;0,938046716233415;0,934408908159285;0,935198928877923
-3;"poun_base_0_3";"poun_base_0";"Stochastic equal";"base";0;"first-year
-survival
-0";50;101;0,941853478768194;0,936166833500191;0,946976159216229;0,941223718052564;0,942436477400835
-4;"poun_base_0_4";"poun_base_0";"Stochastic bad x2";"base";0;"first-year
-survival
-0";50;101;0,945942223712956;0,941336511016557;0,951205895365983;0,945387423321313;0,946477990291925
-5;"poun_base_0_5";"poun_base_0";"Stochastic worst x4";"base";0;"first-year
-survival
-0";50;101;0,948968834913446;0,943216393749781;0,954025719465819;0,948395470679813;0,94961762944175
-6;"poun_base_0.1_1";"poun_base_0.1";"Deterministic";"base";0,1;"first-year
-survival
-0.1";1;101;0,977054282947812;0,977054282947812;0,977054282947812;NA;NA
-7;"poun_base_0.1_2";"poun_base_0.1";"Stochastic uniform";"base";0,1;"first-year
-survival
-0.1";50;101;0,972232383737093;0,968124839964998;0,975644370897894;0,971771812467453;0,972646192923743
-8;"poun_base_0.1_3";"poun_base_0.1";"Stochastic equal";"base";0,1;"first-year
-survival
-0.1";50;101;0,964835045181856;0,95966536766549;0,96906478133161;0,964280479775555;0,96543684264183
-9;"poun_base_0.1_4";"poun_base_0.1";"Stochastic bad x2";"base";0,1;"first-year
-survival
-0.1";50;101;0,961564049226047;0,957315514248961;0,964835045181856;0,961018883233412;0,962128249031355
-10;"poun_base_0.1_5";"poun_base_0.1";"Stochastic worst x4";"base";0,1;"first-year
-survival
-0.1";50;101;0,958443443888895;0,953555748782513;0,962485191765326;0,957832012029914;0,959007643694204
-11;"poun_base_0.2_1";"poun_base_0.2";"Deterministic";"base";0,2;"first-year
-survival
-0.2";1;101;1,01202568197873;1,01202568197873;1,01202568197873;NA;NA
-12;"poun_base_0.2_2";"poun_base_0.2";"Stochastic uniform";"base";0,2;"first-year
-survival
-0.2";50;101;1,00074546345692;0,993774217950568;1,0058289746688;1,00005094355606;1,00141776869019
-13;"poun_base_0.2_3";"poun_base_0.2";"Stochastic equal";"base";0,2;"first-year
-survival
-0.2";50;101;0,982689726964156;0,976943722061001;0,990397334740473;0,981838941984919;0,983434547330962
-14;"poun_base_0.2_4";"poun_base_0.2";"Stochastic bad x2";"base";0,2;"first-year
-survival
-0.2";50;101;0,97342963739829;0,965817850620698;0,981621316716699;0,972639341203146;0,974205016915599
-15;"poun_base_0.2_5";"poun_base_0.2";"Stochastic worst x4";"base";0,2;"first-year
-survival
-0.2";50;101;0,96599400366427;0,958560945251158;0,973676039455222;0,965096916703092;0,967000836348468
-16;"poun_base_0.3_1";"poun_base_0.3";"Deterministic";"base";0,3;"first-year
-survival
-0.3";1;101;1,04051420532558;1,04051420532558;1,04051420532558;NA;NA
-17;"poun_base_0.3_2";"poun_base_0.3";"Stochastic uniform";"base";0,3;"first-year
-survival
-0.3";50;101;1,0220399799875;1,01571978174832;1,02927996277616;1,02113200216903;1,02295190451096
-18;"poun_base_0.3_3";"poun_base_0.3";"Stochastic equal";"base";0,3;"first-year
-survival
-0.3";50;101;0,99706461019133;0,985354678759431;1,00606007978929;0,995772917215515;0,998392387878072
-19;"poun_base_0.3_4";"poun_base_0.3";"Stochastic bad x2";"base";0,3;"first-year
-survival
-0.3";50;101;0,982186721844823;0,971300612110178;0,990548271213906;0,98110910019654;0,983487800888822
-20;"poun_base_0.3_5";"poun_base_0.3";"Stochastic worst x4";"base";0,3;"first-year
-survival
-0.3";50;101;0,971859772556553;0,963826135027209;0,98105319779535;0,970567556228126;0,973212219653284
-21;"poun_base_0.4_1";"poun_base_0.4";"Deterministic";"base";0,4;"first-year
-survival
-0.4";1;101;1,06484801116801;1,06484801116801;1,06484801116801;NA;NA
-22;"poun_base_0.4_2";"poun_base_0.4";"Stochastic uniform";"base";0,4;"first-year
-survival
-0.4";50;101;1,04210731322654;1,03111436993787;1,05114697716726;1,04079627998863;1,04343365594684
-23;"poun_base_0.4_3";"poun_base_0.4";"Stochastic equal";"base";0,4;"first-year
-survival
-0.4";50;101;1,00926675942706;0,994028929840186;1,02308892622923;1,00763781358507;1,01081785825633
-24;"poun_base_0.4_4";"poun_base_0.4";"Stochastic bad x2";"base";0,4;"first-year
-survival
-0.4";50;101;0,991114178063276;0,979733916987315;1,00283436465418;0,98956692084326;0,992573478374415
-25;"poun_base_0.4_5";"poun_base_0.4";"Stochastic worst x4";"base";0,4;"first-year
-survival
-0.4";50;101;0,975938747764826;0,96590887481775;0,986535460899265;0,974655593215302;0,977236018392069
-26;"poun_base_0.5_1";"poun_base_0.5";"Deterministic";"base";0,5;"first-year
-survival
-0.5";1;101;1,08624995407359;1,08624995407359;1,08624995407359;NA;NA
-27;"poun_base_0.5_2";"poun_base_0.5";"Stochastic uniform";"base";0,5;"first-year
-survival
-0.5";50;101;1,05953639994158;1,04830765057013;1,06970466341071;1,05815450615788;1,06088586750936
-28;"poun_base_0.5_3";"poun_base_0.5";"Stochastic equal";"base";0,5;"first-year
-survival
-0.5";50;101;1,01984397162514;1,00288759008187;1,03426422866842;1,01785774477428;1,02177415649466
-29;"poun_base_0.5_4";"poun_base_0.5";"Stochastic bad x2";"base";0,5;"first-year
-survival
-0.5";50;101;0,998037886702976;0,987738286819534;1,00930123965414;0,996335757157707;0,999708451048994
-30;"poun_base_0.5_5";"poun_base_0.5";"Stochastic worst x4";"base";0,5;"first-year
-survival
-0.5";50;101;0,980411663468491;0,971662966839958;0,993059979680545;0,97928701539508;0,981761349179937
-31;"poun_base_0.6_1";"poun_base_0.6";"Deterministic";"base";0,6;"first-year
-survival
-0.6";1;101;1,105452331734;1,105452331734;1,105452331734;NA;NA
-32;"poun_base_0.6_2";"poun_base_0.6";"Stochastic uniform";"base";0,6;"first-year
-survival
-0.6";50;101;1,07499849494567;1,06245131782428;1,0851267514874;1,07345785074068;1,07644547608618
-33;"poun_base_0.6_3";"poun_base_0.6";"Stochastic equal";"base";0,6;"first-year
-survival
-0.6";50;101;1,02934056318605;1,01093241118283;1,04785756177449;1,02722889945557;1,03153209920594
-34;"poun_base_0.6_4";"poun_base_0.6";"Stochastic bad x2";"base";0,6;"first-year
-survival
-0.6";50;101;1,00542113565152;0,994332840837761;1,02064210840528;1,00377676227868;1,00720399001971
-35;"poun_base_0.6_5";"poun_base_0.6";"Stochastic worst x4";"base";0,6;"first-year
-survival
-0.6";50;101;0,984744219728836;0,970591534245967;0,995398713766429;0,983037625204697;0,986465542292997
-36;"poun_base_0.7_1";"poun_base_0.7";"Deterministic";"base";0,7;"first-year
-survival
-0.7";1;101;1,12293274265566;1,12293274265566;1,12293274265566;NA;NA
-37;"poun_base_0.7_2";"poun_base_0.7";"Stochastic uniform";"base";0,7;"first-year
-survival
-0.7";50;101;1,09031799059959;1,07258961517702;1,10458513121843;1,08855311641234;1,09211401043954
-38;"poun_base_0.7_3";"poun_base_0.7";"Stochastic equal";"base";0,7;"first-year
-survival
-0.7";50;101;1,03817942727437;1,02266758583453;1,06920207529956;1,03578670860396;1,04067172545085
-39;"poun_base_0.7_4";"poun_base_0.7";"Stochastic bad x2";"base";0,7;"first-year
-survival
-0.7";50;101;1,0100442747235;0,990867559981766;1,03048035205039;1,0076487035163;1,01234449274012
-40;"poun_base_0.7_5";"poun_base_0.7";"Stochastic worst x4";"base";0,7;"first-year
-survival
-0.7";50;101;0,987353019894984;0,974448703824918;1,00333116048352;0,985502771894165;0,989401626526518
-41;"poun_base_0.8_1";"poun_base_0.8";"Deterministic";"base";0,8;"first-year
-survival
-0.8";1;101;1,13902205922838;1,13902205922838;1,13902205922838;NA;NA
-42;"poun_base_0.8_2";"poun_base_0.8";"Stochastic uniform";"base";0,8;"first-year
-survival
-0.8";50;101;1,10155584694801;1,08453187317412;1,11702630694529;1,09957681372194;1,10348086635022
-43;"poun_base_0.8_3";"poun_base_0.8";"Stochastic equal";"base";0,8;"first-year
-survival
-0.8";50;101;1,04545607098245;1,02701209730713;1,07199398249745;1,04271647941732;1,0482088786347
-44;"poun_base_0.8_4";"poun_base_0.8";"Stochastic bad x2";"base";0,8;"first-year
-survival
-0.8";50;101;1,01559649939324;0,979730797957821;1,02983192140697;1,01322866869241;1,01792829170568
-45;"poun_base_0.8_5";"poun_base_0.8";"Stochastic worst x4";"base";0,8;"first-year
-survival
-0.8";50;101;0,9902490313983;0,976281676719322;1,01363514377891;0,988051612698661;0,99268776256371
-46;"poun_base_0.9_1";"poun_base_0.9";"Deterministic";"base";0,9;"first-year
-survival
-0.9";1;101;1,1539600855664;1,1539600855664;1,1539600855664;NA;NA
-47;"poun_base_0.9_2";"poun_base_0.9";"Stochastic uniform";"base";0,9;"first-year
-survival
-0.9";50;101;1,11385323646276;1,09596698853369;1,13521873923089;1,11137956153268;1,11612936803252
-48;"poun_base_0.9_3";"poun_base_0.9";"Stochastic equal";"base";0,9;"first-year
-survival
-0.9";50;101;1,05355671268202;1,02805116344124;1,07744729161225;1,05095716606539;1,05610353266435
-49;"poun_base_0.9_4";"poun_base_0.9";"Stochastic bad x2";"base";0,9;"first-year
-survival
-0.9";50;101;1,0212437344901;1,00013205285369;1,04209280294369;1,01886881000248;1,02347170141532
-50;"poun_base_0.9_5";"poun_base_0.9";"Stochastic worst x4";"base";0,9;"first-year
-survival
-0.9";50;101;0,998256731637472;0,978322561149115;1,02039413594615;0,995847156210088;1,00059112095417
-51;"poun_female-hunt 2.5%_0_1";"poun_female-hunt 2.5%_0";"Deterministic";"female-hunt 2.5%";0;"first-year
-survival
-0";1;101;0,906811761488231;0,906811761488231;0,906811761488231;NA;NA
-52;"poun_female-hunt 2.5%_0_2";"poun_female-hunt 2.5%_0";"Stochastic uniform";"female-hunt 2.5%";0;"first-year
-survival
-0";50;101;0,911802390872053;0,908305961902549;0,914780830364593;0,911393976092139;0,912230977357559
-53;"poun_female-hunt 2.5%_0_3";"poun_female-hunt 2.5%_0";"Stochastic equal";"female-hunt 2.5%";0;"first-year
-survival
-0";50;101;0,919502503673838;0,915278897169366;0,923247966045728;0,918984514196874;0,920030703520299
-54;"poun_female-hunt 2.5%_0_4";"poun_female-hunt 2.5%_0";"Stochastic bad x2";"female-hunt 2.5%";0;"first-year
-survival
-0";50;101;0,923447192767637;0,918267297998002;0,926734433679137;0,922868688173894;0,924055332336265
-55;"poun_female-hunt 2.5%_0_5";"poun_female-hunt 2.5%_0";"Stochastic worst x4";"female-hunt 2.5%";0;"first-year
-survival
-0";50;101;0,926037140152455;0,920757632021865;0,932213168531636;0,925379442936753;0,926694588334755
-56;"poun_female-hunt 2.5%_0.1_1";"poun_female-hunt 2.5%_0.1";"Deterministic";"female-hunt 2.5%";0,1;"first-year
-survival
-0.1";1;101;0,956618441965496;0,956618441965496;0,956618441965496;NA;NA
-57;"poun_female-hunt 2.5%_0.1_2";"poun_female-hunt 2.5%_0.1";"Stochastic uniform";"female-hunt 2.5%";0,1;"first-year
-survival
-0.1";50;101;0,951229359137856;0,947155172674815;0,955124241551178;0,950771137677465;0,95170775230384
-58;"poun_female-hunt 2.5%_0.1_3";"poun_female-hunt 2.5%_0.1";"Stochastic equal";"female-hunt 2.5%";0,1;"first-year
-survival
-0.1";50;101;0,944425766584661;0,939186103798453;0,950143573503451;0,943818125082839;0,944973640069911
-59;"poun_female-hunt 2.5%_0.1_4";"poun_female-hunt 2.5%_0.1";"Stochastic bad x2";"female-hunt 2.5%";0,1;"first-year
-survival
-0.1";50;101;0,940381464129907;0,933209302141181;0,943668705041407;0,93984330294735;0,940939547984655
-60;"poun_female-hunt 2.5%_0.1_5";"poun_female-hunt 2.5%_0.1";"Stochastic worst x4";"female-hunt 2.5%";0,1;"first-year
-survival
-0.1";50;101;0,937313372612508;0,930718968117318;0,942672571431862;0,93653613936366;0,938030837844783
-61;"poun_female-hunt 2.5%_0.2_1";"poun_female-hunt 2.5%_0.2";"Deterministic";"female-hunt 2.5%";0,2;"first-year
-survival
-0.2";1;101;0,992898345408849;0,992898345408849;0,992898345408849;NA;NA
-62;"poun_female-hunt 2.5%_0.2_2";"poun_female-hunt 2.5%_0.2";"Stochastic uniform";"female-hunt 2.5%";0,2;"first-year
-survival
-0.2";50;101;0,980579425727093;0,974002301222897;0,985058289362238;0,979904933440538;0,981278093030983
-63;"poun_female-hunt 2.5%_0.2_3";"poun_female-hunt 2.5%_0.2";"Stochastic equal";"female-hunt 2.5%";0,2;"first-year
-survival
-0.2";50;101;0,962414327896219;0,955284529083868;0,9694211815456;0,961577843090992;0,96325738374118
-64;"poun_female-hunt 2.5%_0.2_4";"poun_female-hunt 2.5%_0.2";"Stochastic bad x2";"female-hunt 2.5%";0,2;"first-year
-survival
-0.2";50;101;0,952222129936813;0,944997143289977;0,959269063522049;0,951240794090104;0,95320983079413
-65;"poun_female-hunt 2.5%_0.2_5";"poun_female-hunt 2.5%_0.2";"Stochastic worst x4";"female-hunt 2.5%";0,2;"first-year
-survival
-0.2";50;101;0,944246290118466;0,93629622140416;0,952468145361567;0,943124437669953;0,945327744038028
-66;"poun_female-hunt 2.5%_0.3_1";"poun_female-hunt 2.5%_0.3";"Deterministic";"female-hunt 2.5%";0,3;"first-year
-survival
-0.3";1;101;1,02216370960387;1,02216370960387;1,02216370960387;NA;NA
-67;"poun_female-hunt 2.5%_0.3_2";"poun_female-hunt 2.5%_0.3";"Stochastic uniform";"female-hunt 2.5%";0,3;"first-year
-survival
-0.3";50;101;1,00407606076367;0,995684579917155;1,01427236829733;1,00303248973208;1,00502624813082
-68;"poun_female-hunt 2.5%_0.3_3";"poun_female-hunt 2.5%_0.3";"Stochastic equal";"female-hunt 2.5%";0,3;"first-year
-survival
-0.3";50;101;0,976195375946363;0,96637443527341;0,984856656161853;0,975098811653084;0,977383584126883
-69;"poun_female-hunt 2.5%_0.3_4";"poun_female-hunt 2.5%_0.3";"Stochastic bad x2";"female-hunt 2.5%";0,3;"first-year
-survival
-0.3";50;101;0,961926529923821;0,951221296146766;0,975837704564091;0,960536412953158;0,96316459853393
-70;"poun_female-hunt 2.5%_0.3_5";"poun_female-hunt 2.5%_0.3";"Stochastic worst x4";"female-hunt 2.5%";0,3;"first-year
-survival
-0.3";50;101;0,951391977917433;0,942019049487453;0,960029112761062;0,950406156165483;0,952413108352026
-71;"poun_female-hunt 2.5%_0.4_1";"poun_female-hunt 2.5%_0.4";"Deterministic";"female-hunt 2.5%";0,4;"first-year
-survival
-0.4";1;101;1,04701688216965;1,04701688216965;1,04701688216965;NA;NA
-72;"poun_female-hunt 2.5%_0.4_2";"poun_female-hunt 2.5%_0.4";"Stochastic uniform";"female-hunt 2.5%";0,4;"first-year
-survival
-0.4";50;101;1,0240295912486;1,01183613202454;1,03548670412537;1,02256403904661;1,02560068109018
-73;"poun_female-hunt 2.5%_0.4_3";"poun_female-hunt 2.5%_0.4";"Stochastic equal";"female-hunt 2.5%";0,4;"first-year
-survival
-0.4";50;101;0,989912464819665;0,976747531086927;1,00311005639389;0,988287807687773;0,991513401348765
-74;"poun_female-hunt 2.5%_0.4_4";"poun_female-hunt 2.5%_0.4";"Stochastic bad x2";"female-hunt 2.5%";0,4;"first-year
-survival
-0.4";50;101;0,970954566760411;0,960107215020165;0,984532301548282;0,969495971389563;0,972449146647625
-75;"poun_female-hunt 2.5%_0.4_5";"poun_female-hunt 2.5%_0.4";"Stochastic worst x4";"female-hunt 2.5%";0,4;"first-year
-survival
-0.4";50;101;0,954460381028666;0,944776800952713;0,965087883067892;0,953127920950708;0,955874347365316
-76;"poun_female-hunt 2.5%_0.5_1";"poun_female-hunt 2.5%_0.5";"Deterministic";"female-hunt 2.5%";0,5;"first-year
-survival
-0.5";1;101;1,06879150955633;1,06879150955633;1,06879150955633;NA;NA
-77;"poun_female-hunt 2.5%_0.5_2";"poun_female-hunt 2.5%_0.5";"Stochastic uniform";"female-hunt 2.5%";0,5;"first-year
-survival
-0.5";50;101;1,04154834193303;1,02517825318363;1,05022447633134;1,04011783130811;1,04296654620617
-78;"poun_female-hunt 2.5%_0.5_3";"poun_female-hunt 2.5%_0.5";"Stochastic equal";"female-hunt 2.5%";0,5;"first-year
-survival
-0.5";50;101;1,00070208434118;0,982808003092517;1,0168280716475;0,998658354910107;1,00264622836343
-79;"poun_female-hunt 2.5%_0.5_4";"poun_female-hunt 2.5%_0.5";"Stochastic bad x2";"female-hunt 2.5%";0,5;"first-year
-survival
-0.5";50;101;0,978460971240288;0,956016385397758;0,992526787976603;0,976623671053225;0,980275192229425
-80;"poun_female-hunt 2.5%_0.5_5";"poun_female-hunt 2.5%_0.5";"Stochastic worst x4";"female-hunt 2.5%";0,5;"first-year
-survival
-0.5";50;101;0,96008762227927;0,943183602618673;0,971590696333433;0,958315438238339;0,961849529380123
-81;"poun_female-hunt 2.5%_0.6_1";"poun_female-hunt 2.5%_0.6";"Deterministic";"female-hunt 2.5%";0,6;"first-year
-survival
-0.6";1;101;1,08827415884246;1,08827415884246;1,08827415884246;NA;NA
-82;"poun_female-hunt 2.5%_0.6_2";"poun_female-hunt 2.5%_0.6";"Stochastic uniform";"female-hunt 2.5%";0,6;"first-year
-survival
-0.6";50;101;1,05857990301861;1,04856493760195;1,06998513879336;1,05729933051879;1,05993502208601
-83;"poun_female-hunt 2.5%_0.6_3";"poun_female-hunt 2.5%_0.6";"Stochastic equal";"female-hunt 2.5%";0,6;"first-year
-survival
-0.6";50;101;1,01016759243492;0,99316494771801;1,02333784521791;1,00798284745093;1,01214925554131
-84;"poun_female-hunt 2.5%_0.6_4";"poun_female-hunt 2.5%_0.6";"Stochastic bad x2";"female-hunt 2.5%";0,6;"first-year
-survival
-0.6";50;101;0,984548886049985;0,967795075020289;1,00277099732237;0,982278812219136;0,986516389202591
-85;"poun_female-hunt 2.5%_0.6_5";"poun_female-hunt 2.5%_0.6";"Stochastic worst x4";"female-hunt 2.5%";0,6;"first-year
-survival
-0.6";50;101;0,963014096207614;0,949328411725642;0,976868194888001;0,961329735886502;0,964656736031731
-86;"poun_female-hunt 2.5%_0.7_1";"poun_female-hunt 2.5%_0.7";"Deterministic";"female-hunt 2.5%";0,7;"first-year
-survival
-0.7";1;101;1,10597246694176;1,10597246694176;1,10597246694176;NA;NA
-87;"poun_female-hunt 2.5%_0.7_2";"poun_female-hunt 2.5%_0.7";"Stochastic uniform";"female-hunt 2.5%";0,7;"first-year
-survival
-0.7";50;101;1,07129017817291;1,04622689596392;1,08456417647575;1,06920850156678;1,07305258504495
-88;"poun_female-hunt 2.5%_0.7_3";"poun_female-hunt 2.5%_0.7";"Stochastic equal";"female-hunt 2.5%";0,7;"first-year
-survival
-0.7";50;101;1,01999886361278;0,994447093039669;1,03627018102035;1,01760892179268;1,02235915380251
-89;"poun_female-hunt 2.5%_0.7_4";"poun_female-hunt 2.5%_0.7";"Stochastic bad x2";"female-hunt 2.5%";0,7;"first-year
-survival
-0.7";50;101;0,990614143982661;0,976523949877963;1,00590064905577;0,988582407231538;0,992565920546517
-90;"poun_female-hunt 2.5%_0.7_5";"poun_female-hunt 2.5%_0.7";"Stochastic worst x4";"female-hunt 2.5%";0,7;"first-year
-survival
-0.7";50;101;0,966815555359064;0,946153097584272;0,985984578510422;0,964674332372941;0,969006652843896
-91;"poun_female-hunt 2.5%_0.8_1";"poun_female-hunt 2.5%_0.8";"Deterministic";"female-hunt 2.5%";0,8;"first-year
-survival
-0.8";1;101;1,12223541127499;1,12223541127499;1,12223541127499;NA;NA
-92;"poun_female-hunt 2.5%_0.8_2";"poun_female-hunt 2.5%_0.8";"Stochastic uniform";"female-hunt 2.5%";0,8;"first-year
-survival
-0.8";50;101;1,08478758165082;1,06888972460151;1,10053107701753;1,08313674433405;1,08650052923376
-93;"poun_female-hunt 2.5%_0.8_3";"poun_female-hunt 2.5%_0.8";"Stochastic equal";"female-hunt 2.5%";0,8;"first-year
-survival
-0.8";50;101;1,03001062391139;1,00924329771321;1,06242701510791;1,02703761557506;1,03328214771568
-94;"poun_female-hunt 2.5%_0.8_4";"poun_female-hunt 2.5%_0.8";"Stochastic bad x2";"female-hunt 2.5%";0,8;"first-year
-survival
-0.8";50;101;0,995798682370225;0,973293472301454;1,01670214081636;0,99320796920353;0,998562745827925
-95;"poun_female-hunt 2.5%_0.8_5";"poun_female-hunt 2.5%_0.8";"Stochastic worst x4";"female-hunt 2.5%";0,8;"first-year
-survival
-0.8";50;101;0,972223970666735;0,953581405263093;0,988049189228973;0,970178297945643;0,974146268276964
-96;"poun_female-hunt 2.5%_0.9_1";"poun_female-hunt 2.5%_0.9";"Deterministic";"female-hunt 2.5%";0,9;"first-year
-survival
-0.9";1;101;1,13731441844186;1,13731441844186;1,13731441844186;NA;NA
-97;"poun_female-hunt 2.5%_0.9_2";"poun_female-hunt 2.5%_0.9";"Stochastic uniform";"female-hunt 2.5%";0,9;"first-year
-survival
-0.9";50;101;1,09671162228026;1,07744158319213;1,11314056724083;1,0944823010167;1,09897972902863
-98;"poun_female-hunt 2.5%_0.9_3";"poun_female-hunt 2.5%_0.9";"Stochastic equal";"female-hunt 2.5%";0,9;"first-year
-survival
-0.9";50;101;1,03546828146282;1,01544902882718;1,05588551791108;1,03281031960774;1,03802675450764
-99;"poun_female-hunt 2.5%_0.9_4";"poun_female-hunt 2.5%_0.9";"Stochastic bad x2";"female-hunt 2.5%";0,9;"first-year
-survival
-0.9";50;101;1,00354791424579;0,975765510340291;1,02747222847963;1,00049528303974;1,00644634511597
-100;"poun_female-hunt 2.5%_0.9_5";"poun_female-hunt 2.5%_0.9";"Stochastic worst x4";"female-hunt 2.5%";0,9;"first-year
-survival
-0.9";50;101;0,973997439690727;0,956885086537436;0,994205722896581;0,971739395771755;0,976064800338539
-101;"poun_female-hunt 10%_0_1";"poun_female-hunt 10%_0";"Deterministic";"female-hunt 10%";0;"first-year
-survival
-0";1;101;0,837079201317298;0,837079201317298;0,837079201317298;NA;NA
-102;"poun_female-hunt 10%_0_2";"poun_female-hunt 10%_0";"Stochastic uniform";"female-hunt 10%";0;"first-year
-survival
-0";50;101;0,842966592728046;0,840058650411806;0,845421658781921;0,842573305447571;0,843347962212143
-103;"poun_female-hunt 10%_0_3";"poun_female-hunt 10%_0";"Stochastic equal";"female-hunt 10%";0;"first-year
-survival
-0";50;101;0,851821515436925;0,846613438419725;0,856743565341053;0,85112998530209;0,852489209979004
-104;"poun_female-hunt 10%_0_4";"poun_female-hunt 10%_0";"Stochastic bad x2";"female-hunt 10%";0;"first-year
-survival
-0";50;101;0,856135757725773;0,850188777333134;0,864490132986774;0,855373018757579;0,856863041249743
-105;"poun_female-hunt 10%_0_5";"poun_female-hunt 10%_0";"Stochastic worst x4";"female-hunt 10%";0;"first-year
-survival
-0";50;101;0,860962465258876;0,853764116246544;0,868065471900184;0,860080548326902;0,861832464394473
-106;"poun_female-hunt 10%_0.1_1";"poun_female-hunt 10%_0.1";"Deterministic";"female-hunt 10%";0,1;"first-year
-survival
-0.1";1;101;0,896668183207464;0,896668183207464;0,896668183207464;NA;NA
-107;"poun_female-hunt 10%_0.1_2";"poun_female-hunt 10%_0.1";"Stochastic uniform";"female-hunt 10%";0,1;"first-year
-survival
-0.1";50;101;0,890673531629313;0,887133946105037;0,894284623931857;0,89020873757057;0,891174079077191
-108;"poun_female-hunt 10%_0.1_3";"poun_female-hunt 10%_0.1";"Stochastic equal";"female-hunt 10%";0,1;"first-year
-survival
-0.1";50;101;0,881592170789252;0,874024370089201;0,886538056286136;0,880924476247172;0,882235731793666
-109;"poun_female-hunt 10%_0.1_4";"poun_female-hunt 10%_0.1";"Stochastic bad x2";"female-hunt 10%";0,1;"first-year
-survival
-0.1";50;101;0,876872723423551;0,871044920994693;0,883558607191627;0,876157655640869;0,87754071591054
-110;"poun_female-hunt 10%_0.1_5";"poun_female-hunt 10%_0.1";"Stochastic worst x4";"female-hunt 10%";0,1;"first-year
-survival
-0.1";50;101;0,873261631121007;0,866873692262381;0,881175047916021;0,872403251836879;0,874120010405134
-111;"poun_female-hunt 10%_0.2_1";"poun_female-hunt 10%_0.2";"Deterministic";"female-hunt 10%";0,2;"first-year
-survival
-0.2";1;101;0,936979222247523;0,936979222247523;0,936979222247523;NA;NA
-112;"poun_female-hunt 10%_0.2_2";"poun_female-hunt 10%_0.2";"Stochastic uniform";"female-hunt 10%";0,2;"first-year
-survival
-0.2";50;101;0,922372383325853;0,91533412189968;0,928163448258905;0,92148235455846;0,923325853636718
-113;"poun_female-hunt 10%_0.2_3";"poun_female-hunt 10%_0.2";"Stochastic equal";"female-hunt 10%";0,2;"first-year
-survival
-0.2";50;101;0,901551038045877;0,891533344771529;0,910111238357871;0,900434004180613;0,902636981768553
-114;"poun_female-hunt 10%_0.2_4";"poun_female-hunt 10%_0.2";"Stochastic bad x2";"female-hunt 10%";0,2;"first-year
-survival
-0.2";50;101;0,891122143429432;0,884522791773015;0,901716126293052;0,890071879862768;0,892330488274378
-115;"poun_female-hunt 10%_0.2_5";"poun_female-hunt 10%_0.2";"Stochastic worst x4";"female-hunt 10%";0,2;"first-year
-survival
-0.2";50;101;0,880293999759934;0,87332345850879;0,889289910324228;0,879117286128123;0,881435328584811
-116;"poun_female-hunt 10%_0.3_1";"poun_female-hunt 10%_0.3";"Deterministic";"female-hunt 10%";0,3;"first-year
-survival
-0.3";1;101;0,968514482562383;0,968514482562383;0,968514482562383;NA;NA
-117;"poun_female-hunt 10%_0.3_2";"poun_female-hunt 10%_0.3";"Stochastic uniform";"female-hunt 10%";0,3;"first-year
-survival
-0.3";50;101;0,948561358159261;0,941001694566891;0,958227830357736;0,947486435807066;0,949613266680978
-118;"poun_female-hunt 10%_0.3_3";"poun_female-hunt 10%_0.3";"Stochastic equal";"female-hunt 10%";0,3;"first-year
-survival
-0.3";50;101;0,918324637241272;0,907301838087423;0,927017130274186;0,917046530266011;0,919510208942184
-119;"poun_female-hunt 10%_0.3_4";"poun_female-hunt 10%_0.3";"Stochastic bad x2";"female-hunt 10%";0,3;"first-year
-survival
-0.3";50;101;0,90206946518375;0,889724958826972;0,912664846457538;0,900599988670596;0,903716258766288
-120;"poun_female-hunt 10%_0.3_5";"poun_female-hunt 10%_0.3";"Stochastic worst x4";"female-hunt 10%";0,3;"first-year
-survival
-0.3";50;101;0,886960363889154;0,876687027822775;0,898908452459792;0,88544586000177;0,888547032595172
-121;"poun_female-hunt 10%_0.4_1";"poun_female-hunt 10%_0.4";"Deterministic";"female-hunt 10%";0,4;"first-year
-survival
-0.4";1;101;0,994835943527529;0,994835943527529;0,994835943527529;NA;NA
-122;"poun_female-hunt 10%_0.4_2";"poun_female-hunt 10%_0.4";"Stochastic uniform";"female-hunt 10%";0,4;"first-year
-survival
-0.4";50;101;0,969201400781076;0,957428945751185;0,982249820435617;0,967581599420889;0,970840110973985
-123;"poun_female-hunt 10%_0.4_3";"poun_female-hunt 10%_0.4";"Stochastic equal";"female-hunt 10%";0,4;"first-year
-survival
-0.4";50;101;0,932468210792695;0,915499347743137;0,951328778097379;0,930232497895804;0,934851472348792
-124;"poun_female-hunt 10%_0.4_4";"poun_female-hunt 10%_0.4";"Stochastic bad x2";"female-hunt 10%";0,4;"first-year
-survival
-0.4";50;101;0,911367281489115;0,895972648859008;0,928329989154558;0,909453776907747;0,913098384952823
-125;"poun_female-hunt 10%_0.4_5";"poun_female-hunt 10%_0.4";"Stochastic worst x4";"female-hunt 10%";0,4;"first-year
-survival
-0.4";50;101;0,892329468063164;0,883352109482189;0,903894902254426;0,890932277593081;0,893676781101176
-126;"poun_female-hunt 10%_0.5_1";"poun_female-hunt 10%_0.5";"Deterministic";"female-hunt 10%";0,5;"first-year
-survival
-0.5";1;101;1,01763848392833;1,01763848392833;1,01763848392833;NA;NA
-127;"poun_female-hunt 10%_0.5_2";"poun_female-hunt 10%_0.5";"Stochastic uniform";"female-hunt 10%";0,5;"first-year
-survival
-0.5";50;101;0,986791425666109;0,968797860776325;0,997741116102306;0,984982911330786;0,988625068286101
-128;"poun_female-hunt 10%_0.5_3";"poun_female-hunt 10%_0.5";"Stochastic equal";"female-hunt 10%";0,5;"first-year
-survival
-0.5";50;101;0,944204694478002;0,929003125124276;0,95552697443584;0,942570216563103;0,945809539834419
-129;"poun_female-hunt 10%_0.5_4";"poun_female-hunt 10%_0.5";"Stochastic bad x2";"female-hunt 10%";0,5;"first-year
-survival
-0.5";50;101;0,917427075141189;0,904320715377633;0,927775498747662;0,915749743973557;0,919257876907129
-130;"poun_female-hunt 10%_0.5_5";"poun_female-hunt 10%_0.5";"Stochastic worst x4";"female-hunt 10%";0,5;"first-year
-survival
-0.5";50;101;0,899106352738376;0,88803453320383;0,913348679508185;0,897643750233611;0,900727266116226
-131;"poun_female-hunt 10%_0.6_1";"poun_female-hunt 10%_0.6";"Deterministic";"female-hunt 10%";0,6;"first-year
-survival
-0.6";1;101;1,03787836587798;1,03787836587798;1,03787836587798;NA;NA
-132;"poun_female-hunt 10%_0.6_2";"poun_female-hunt 10%_0.6";"Stochastic uniform";"female-hunt 10%";0,6;"first-year
-survival
-0.6";50;101;1,00503665565623;0,988364633250003;1,01735780504411;1,00306205076222;1,00705647136531
-133;"poun_female-hunt 10%_0.6_3";"poun_female-hunt 10%_0.6";"Stochastic equal";"female-hunt 10%";0,6;"first-year
-survival
-0.6";50;101;0,953894089529331;0,933332646810817;0,973712801911854;0,951349499189576;0,956327013257905
-134;"poun_female-hunt 10%_0.6_4";"poun_female-hunt 10%_0.6";"Stochastic bad x2";"female-hunt 10%";0,6;"first-year
-survival
-0.6";50;101;0,925323842462557;0,904715042646714;0,944564384676654;0,923266648792532;0,927725309172453
-135;"poun_female-hunt 10%_0.6_5";"poun_female-hunt 10%_0.6";"Stochastic worst x4";"female-hunt 10%";0,6;"first-year
-survival
-0.6";50;101;0,902493440468759;0,887834897474056;0,917293805591453;0,900657700472068;0,904473296674714
-136;"poun_female-hunt 10%_0.7_1";"poun_female-hunt 10%_0.7";"Deterministic";"female-hunt 10%";0,7;"first-year
-survival
-0.7";1;101;1,05615453382135;1,05615453382135;1,05615453382135;NA;NA
-137;"poun_female-hunt 10%_0.7_2";"poun_female-hunt 10%_0.7";"Stochastic uniform";"female-hunt 10%";0,7;"first-year
-survival
-0.7";50;101;1,0176453450704;0,999773365221993;1,02965521600309;1,01549375541118;1,01955026408832
-138;"poun_female-hunt 10%_0.7_3";"poun_female-hunt 10%_0.7";"Stochastic equal";"female-hunt 10%";0,7;"first-year
-survival
-0.7";50;101;0,960272565582484;0,937994244318117;0,985016509798408;0,957745936241697;0,962949526369946
-139;"poun_female-hunt 10%_0.7_4";"poun_female-hunt 10%_0.7";"Stochastic bad x2";"female-hunt 10%";0,7;"first-year
-survival
-0.7";50;101;0,930428239959693;0,908918561273689;0,952943905692268;0,927456194786817;0,933321922856982
-140;"poun_female-hunt 10%_0.7_5";"poun_female-hunt 10%_0.7";"Stochastic worst x4";"female-hunt 10%";0,7;"first-year
-survival
-0.7";50;101;0,903150770983425;0,874655203842509;0,924849724367874;0,900548335053128;0,905731637798117
-141;"poun_female-hunt 10%_0.8_1";"poun_female-hunt 10%_0.8";"Deterministic";"female-hunt 10%";0,8;"first-year
-survival
-0.8";1;101;1,07286986829678;1,07286986829678;1,07286986829678;NA;NA
-142;"poun_female-hunt 10%_0.8_2";"poun_female-hunt 10%_0.8";"Stochastic uniform";"female-hunt 10%";0,8;"first-year
-survival
-0.8";50;101;1,03198830917518;1,01459504918824;1,04991234402354;1,02953773201184;1,03420447503236
-143;"poun_female-hunt 10%_0.8_3";"poun_female-hunt 10%_0.8";"Stochastic equal";"female-hunt 10%";0,8;"first-year
-survival
-0.8";50;101;0,969982118759679;0,943960459517648;0,989305270851027;0,967015645561755;0,973162287402547
-144;"poun_female-hunt 10%_0.8_4";"poun_female-hunt 10%_0.8";"Stochastic bad x2";"female-hunt 10%";0,8;"first-year
-survival
-0.8";50;101;0,934420311371425;0,916261469299013;0,962849365481819;0,931781329608012;0,937389247219508
-145;"poun_female-hunt 10%_0.8_5";"poun_female-hunt 10%_0.8";"Stochastic worst x4";"female-hunt 10%";0,8;"first-year
-survival
-0.8";50;101;0,909035308260888;0,89332959763159;0,927480765434897;0,907181588769053;0,91099913723278
-146;"poun_female-hunt 10%_0.9_1";"poun_female-hunt 10%_0.9";"Deterministic";"female-hunt 10%";0,9;"first-year
-survival
-0.9";1;101;1,08830984599065;1,08830984599065;1,08830984599065;NA;NA
-147;"poun_female-hunt 10%_0.9_2";"poun_female-hunt 10%_0.9";"Stochastic uniform";"female-hunt 10%";0,9;"first-year
-survival
-0.9";50;101;1,04175543263536;1,01996258324434;1,0654415936278;1,03930386688911;1,04437785477173
-148;"poun_female-hunt 10%_0.9_3";"poun_female-hunt 10%_0.9";"Stochastic equal";"female-hunt 10%";0,9;"first-year
-survival
-0.9";50;101;0,98124973258384;0,957960460200424;1,00905997329625;0,978234940924741;0,98412850566985
-149;"poun_female-hunt 10%_0.9_4";"poun_female-hunt 10%_0.9";"Stochastic bad x2";"female-hunt 10%";0,9;"first-year
-survival
-0.9";50;101;0,944291964571896;0,918697842348236;0,969797355444063;0,941168166814084;0,947313676810717
-150;"poun_female-hunt 10%_0.9_5";"poun_female-hunt 10%_0.9";"Stochastic worst x4";"female-hunt 10%";0,9;"first-year
-survival
-0.9";50;101;0,911094270297831;0,888550164987434;0,926830651507339;0,908694037635996;0,91337205802154
-151;"poun_female-hunt 25%_0_1";"poun_female-hunt 25%_0";"Deterministic";"female-hunt 25%";0;"first-year
-survival
-0";1;101;0,697646565555005;0,697646565555005;0,697646565555005;NA;NA
-152;"poun_female-hunt 25%_0_2";"poun_female-hunt 25%_0";"Stochastic uniform";"female-hunt 25%";0;"first-year
-survival
-0";50;101;0,706309197919475;0,699382564024839;0,712402552548592;0,705580078562145;0,707038317276806
-153;"poun_female-hunt 25%_0_3";"poun_female-hunt 25%_0";"Stochastic equal";"female-hunt 25%";0;"first-year
-survival
-0";50;101;0,720093025769955;0,712402552548592;0,728026538777095;0,719050992688437;0,721221424775347
-154;"poun_female-hunt 25%_0_4";"poun_female-hunt 25%_0";"Stochastic bad x2";"female-hunt 25%";0;"first-year
-survival
-0";50;101;0,725630860888724;0,718478547193009;0,732366534951679;0,724710347700095;0,726551374077353
-155;"poun_female-hunt 25%_0_5";"poun_female-hunt 25%_0";"Stochastic worst x4";"female-hunt 25%";0;"first-year
-survival
-0";50;101;0,732887334492629;0,724554541837427;0,741046527300847;0,731827941426413;0,734033093482719
-156;"poun_female-hunt 25%_0.1_1";"poun_female-hunt 25%_0.1";"Deterministic";"female-hunt 25%";0,1;"first-year
-survival
-0.1";1;101;0,784446489046689;0,784446489046689;0,784446489046689;NA;NA
-157;"poun_female-hunt 25%_0.1_2";"poun_female-hunt 25%_0.1";"Stochastic uniform";"female-hunt 25%";0,1;"first-year
-survival
-0.1";50;101;0,775835936636314;0,771426500522937;0,781842491341939;0,775141537248381;0,776530336024248
-158;"poun_female-hunt 25%_0.1_3";"poun_female-hunt 25%_0.1";"Stochastic equal";"female-hunt 25%";0,1;"first-year
-survival
-0.1";50;101;0,763406187592305;0,749726519650016;0,769690502053103;0,762243068617516;0,764430860689124
-159;"poun_female-hunt 25%_0.1_4";"poun_female-hunt 25%_0.1";"Stochastic bad x2";"female-hunt 25%";0,1;"first-year
-survival
-0.1";50;101;0,756635793559954;0,749726519650016;0,762746508173768;0,755680994401545;0,757538512764267
-160;"poun_female-hunt 25%_0.1_5";"poun_female-hunt 25%_0.1";"Stochastic worst x4";"female-hunt 25%";0,1;"first-year
-survival
-0.1";50;101;0,749171000139669;0,74017852806593;0,757538512764267;0,748094681088372;0,750247319190966
-161;"poun_female-hunt 25%_0.2_1";"poun_female-hunt 25%_0.2";"Deterministic";"female-hunt 25%";0,2;"first-year
-survival
-0.2";1;101;0,832540274434403;0,832540274434403;0,832540274434403;NA;NA
-162;"poun_female-hunt 25%_0.2_2";"poun_female-hunt 25%_0.2";"Stochastic uniform";"female-hunt 25%";0,2;"first-year
-survival
-0.2";50;101;0,813724942745243;0,8030629669163;0,824258898955964;0,812356837522755;0,815056429554254
-163;"poun_female-hunt 25%_0.2_3";"poun_female-hunt 25%_0.2";"Stochastic equal";"female-hunt 25%";0,2;"first-year
-survival
-0.2";50;101;0,787362525303757;0,774934596486991;0,798171267394381;0,785733622362678;0,7887619955812
-164;"poun_female-hunt 25%_0.2_4";"poun_female-hunt 25%_0.2";"Stochastic bad x2";"female-hunt 25%";0,2;"first-year
-survival
-0.2";50;101;0,772503016330092;0,761937718942619;0,779286148151266;0,771323124551746;0,773657244306036
-165;"poun_female-hunt 25%_0.2_5";"poun_female-hunt 25%_0.2";"Stochastic worst x4";"female-hunt 25%";0,2;"first-year
-survival
-0.2";50;101;0,759515121515628;0,748166718636167;0,772846203105188;0,758005680347812;0,760974809395302
-166;"poun_female-hunt 25%_0.3_1";"poun_female-hunt 25%_0.3";"Deterministic";"female-hunt 25%";0,3;"first-year
-survival
-0.3";1;101;0,86791886575348;0,86791886575348;0,86791886575348;NA;NA
-167;"poun_female-hunt 25%_0.3_2";"poun_female-hunt 25%_0.3";"Stochastic uniform";"female-hunt 25%";0,3;"first-year
-survival
-0.3";50;101;0,843269581105559;0,831460060816128;0,855231631908217;0,841804306192217;0,844710140737272
-168;"poun_female-hunt 25%_0.3_3";"poun_female-hunt 25%_0.3";"Stochastic equal";"female-hunt 25%";0,3;"first-year
-survival
-0.3";50;101;0,805985142566469;0,790860912511286;0,821476651079162;0,80411880093932;0,807842492989083
-169;"poun_female-hunt 25%_0.3_4";"poun_female-hunt 25%_0.3";"Stochastic bad x2";"female-hunt 25%";0,3;"first-year
-survival
-0.3";50;101;0,783626271845682;0,765486444820759;0,795935806049391;0,782051245327016;0,785184193355338
-170;"poun_female-hunt 25%_0.3_5";"poun_female-hunt 25%_0.3";"Stochastic worst x4";"female-hunt 25%";0,3;"first-year
-survival
-0.3";50;101;0,768412848149017;0,757874104513601;0,779307881643731;0,766945851158098;0,769841150170668
-171;"poun_female-hunt 25%_0.4_1";"poun_female-hunt 25%_0.4";"Deterministic";"female-hunt 25%";0,4;"first-year
-survival
-0.4";1;101;0,896523909179569;0,896523909179569;0,896523909179569;NA;NA
-172;"poun_female-hunt 25%_0.4_2";"poun_female-hunt 25%_0.4";"Stochastic uniform";"female-hunt 25%";0,4;"first-year
-survival
-0.4";50;101;0,865693888073628;0,846408697676285;0,878734622589039;0,863885113719855;0,867451384071049
-173;"poun_female-hunt 25%_0.4_3";"poun_female-hunt 25%_0.4";"Stochastic equal";"female-hunt 25%";0,4;"first-year
-survival
-0.4";50;101;0,820963426547323;0,801391807246821;0,840299276736817;0,818326738026127;0,823384250578265
-174;"poun_female-hunt 25%_0.4_4";"poun_female-hunt 25%_0.4";"Stochastic bad x2";"female-hunt 25%";0,4;"first-year
-survival
-0.4";50;101;0,79382136869022;0,773768327810744;0,812566122965059;0,79140533753709;0,796147062696983
-175;"poun_female-hunt 25%_0.4_5";"poun_female-hunt 25%_0.4";"Stochastic worst x4";"female-hunt 25%";0,4;"first-year
-survival
-0.4";50;101;0,771777443997926;0,758254015917922;0,791161738804131;0,769682100529197;0,77381108182852
-176;"poun_female-hunt 25%_0.5_1";"poun_female-hunt 25%_0.5";"Deterministic";"female-hunt 25%";0,5;"first-year
-survival
-0.5";1;101;0,92081791952842;0,92081791952842;0,92081791952842;NA;NA
-177;"poun_female-hunt 25%_0.5_2";"poun_female-hunt 25%_0.5";"Stochastic uniform";"female-hunt 25%";0,5;"first-year
-survival
-0.5";50;101;0,883484915924465;0,866514217695132;0,894658494476759;0,881682124388252;0,885241085331469
-178;"poun_female-hunt 25%_0.5_3";"poun_female-hunt 25%_0.5";"Stochastic equal";"female-hunt 25%";0,5;"first-year
-survival
-0.5";50;101;0,830228029212324;0,805887659407657;0,84841364756749;0,827579832368683;0,832794403197675
-179;"poun_female-hunt 25%_0.5_4";"poun_female-hunt 25%_0.5";"Stochastic bad x2";"female-hunt 25%";0,5;"first-year
-survival
-0.5";50;101;0,8014149154619;0,774520238946495;0,827338787020446;0,79866931650334;0,804033796469906
-180;"poun_female-hunt 25%_0.5_5";"poun_female-hunt 25%_0.5";"Stochastic worst x4";"female-hunt 25%";0,5;"first-year
-survival
-0.5";50;101;0,778277720127687;0,759642812498389;0,794854514064235;0,776080556366379;0,78048493757241
-181;"poun_female-hunt 25%_0.6_1";"poun_female-hunt 25%_0.6";"Deterministic";"female-hunt 25%";0,6;"first-year
-survival
-0.6";1;101;0,942087880601186;0,942087880601186;0,942087880601186;NA;NA
-182;"poun_female-hunt 25%_0.6_2";"poun_female-hunt 25%_0.6";"Stochastic uniform";"female-hunt 25%";0,6;"first-year
-survival
-0.6";50;101;0,900549663134065;0,871997822009237;0,920566915909896;0,89789546322623;0,903213931862399
-183;"poun_female-hunt 25%_0.6_3";"poun_female-hunt 25%_0.6";"Stochastic equal";"female-hunt 25%";0,6;"first-year
-survival
-0.6";50;101;0,8460064608116;0,822011898747322;0,872316991117815;0,842876085290392;0,849103332985709
-184;"poun_female-hunt 25%_0.6_4";"poun_female-hunt 25%_0.6";"Stochastic bad x2";"female-hunt 25%";0,6;"first-year
-survival
-0.6";50;101;0,810247257717001;0,788977282984351;0,832976719692664;0,807498652603441;0,813066843532014
-185;"poun_female-hunt 25%_0.6_5";"poun_female-hunt 25%_0.6";"Stochastic worst x4";"female-hunt 25%";0,6;"first-year
-survival
-0.6";50;101;0,782358287701796;0,764533151479733;0,796470106990025;0,780067680635821;0,784543158139154
-186;"poun_female-hunt 25%_0.7_1";"poun_female-hunt 25%_0.7";"Deterministic";"female-hunt 25%";0,7;"first-year
-survival
-0.7";1;101;0,961100689433346;0,961100689433346;0,961100689433346;NA;NA
-187;"poun_female-hunt 25%_0.7_2";"poun_female-hunt 25%_0.7";"Stochastic uniform";"female-hunt 25%";0,7;"first-year
-survival
-0.7";50;101;0,91626110944173;0,893348442323763;0,93113056243568;0,913737659970448;0,9186710310215
-188;"poun_female-hunt 25%_0.7_3";"poun_female-hunt 25%_0.7";"Stochastic equal";"female-hunt 25%";0,7;"first-year
-survival
-0.7";50;101;0,849463050619875;0,822093654740479;0,87481502305018;0,846113074495579;0,852660402392013
-189;"poun_female-hunt 25%_0.7_4";"poun_female-hunt 25%_0.7";"Stochastic bad x2";"female-hunt 25%";0,7;"first-year
-survival
-0.7";50;101;0,816009320139609;0,796555154519496;0,847540524359363;0,813318819917909;0,819028047653416
-190;"poun_female-hunt 25%_0.7_5";"poun_female-hunt 25%_0.7";"Stochastic worst x4";"female-hunt 25%";0,7;"first-year
-survival
-0.7";50;101;0,786900316853134;0,764011573351113;0,809666773645347;0,784163875927679;0,789606374991025
-191;"poun_female-hunt 25%_0.8_1";"poun_female-hunt 25%_0.8";"Deterministic";"female-hunt 25%";0,8;"first-year
-survival
-0.8";1;101;0,978354234863157;0,978354234863157;0,978354234863157;NA;NA
-192;"poun_female-hunt 25%_0.8_2";"poun_female-hunt 25%_0.8";"Stochastic uniform";"female-hunt 25%";0,8;"first-year
-survival
-0.8";50;101;0,929820108379054;0,906497002347878;0,947070233262598;0,927605059558007;0,932095646917641
-193;"poun_female-hunt 25%_0.8_3";"poun_female-hunt 25%_0.8";"Stochastic equal";"female-hunt 25%";0,8;"first-year
-survival
-0.8";50;101;0,859802313658928;0,830152377951277;0,881492074380068;0,856815667592741;0,862579082437075
-194;"poun_female-hunt 25%_0.8_4";"poun_female-hunt 25%_0.8";"Stochastic bad x2";"female-hunt 25%";0,8;"first-year
-survival
-0.8";50;101;0,821261707702306;0,791518224494722;0,845664997616594;0,818200005894044;0,824440907121638
-195;"poun_female-hunt 25%_0.8_5";"poun_female-hunt 25%_0.8";"Stochastic worst x4";"female-hunt 25%";0,8;"first-year
-survival
-0.8";50;101;0,788136499640743;0,756965304942827;0,824132066588452;0,78490028413005;0,791483773186964
-196;"poun_female-hunt 25%_0.9_1";"poun_female-hunt 25%_0.9";"Deterministic";"female-hunt 25%";0,9;"first-year
-survival
-0.9";1;101;0,994192024743783;0,994192024743783;0,994192024743783;NA;NA
-197;"poun_female-hunt 25%_0.9_2";"poun_female-hunt 25%_0.9";"Stochastic uniform";"female-hunt 25%";0,9;"first-year
-survival
-0.9";50;101;0,939421419673509;0,918971289285177;0,967648018877435;0,936823680647828;0,942530551214114
-198;"poun_female-hunt 25%_0.9_3";"poun_female-hunt 25%_0.9";"Stochastic equal";"female-hunt 25%";0,9;"first-year
-survival
-0.9";50;101;0,867089821624305;0,8376032732163;0,897996735715468;0,863622200465466;0,870733870539846
-199;"poun_female-hunt 25%_0.9_4";"poun_female-hunt 25%_0.9";"Stochastic bad x2";"female-hunt 25%";0,9;"first-year
-survival
-0.9";50;101;0,829644549696662;0,807587270410285;0,851562546940822;0,82673104334424;0,832508691699092
-200;"poun_female-hunt 25%_0.9_5";"poun_female-hunt 25%_0.9";"Stochastic worst x4";"female-hunt 25%";0,9;"first-year
-survival
-0.9";50;101;0,791209808911792;0,773159985463833;0,81713526199437;0,788338058823999;0,794380668240016
-201;"poun_female-hunt 50%_0_1";"poun_female-hunt 50%_0";"Deterministic";"female-hunt 50%";0;"first-year
-survival
-0";1;101;0,465918973184579;0,465918973184579;0,465918973184579;NA;NA
-202;"poun_female-hunt 50%_0_2";"poun_female-hunt 50%_0";"Stochastic uniform";"female-hunt 50%";0;"first-year
-survival
-0";50;101;0,48115774294331;0,47237607901455;0,491747396504462;0,480026942284836;0,482287736463555
-203;"poun_female-hunt 50%_0_3";"poun_female-hunt 50%_0";"Stochastic equal";"female-hunt 50%";0;"first-year
-survival
-0";50;101;0,506727882029994;0,486904567131984;0,522418649196823;0,504952177926752;0,508375251154865
-204;"poun_female-hunt 50%_0_4";"poun_female-hunt 50%_0";"Stochastic bad x2";"female-hunt 50%";0;"first-year
-survival
-0";50;101;0,51857667122799;0,494975949419447;0,533718584399271;0,516251305990972;0,521159513559978
-205;"poun_female-hunt 50%_0_5";"poun_female-hunt 50%_0";"Stochastic worst x4";"female-hunt 50%";0;"first-year
-survival
-0";50;101;0,530328603838537;0,515961543366852;0,549861348974198;0,527970953072369;0,532814589583075
-206;"poun_female-hunt 50%_0.1_1";"poun_female-hunt 50%_0.1";"Deterministic";"female-hunt 50%";0,1;"first-year
-survival
-0.1";1;101;0,627346618933846;0,627346618933846;0,627346618933846;NA;NA
-207;"poun_female-hunt 50%_0.1_2";"poun_female-hunt 50%_0.1";"Stochastic uniform";"female-hunt 50%";0,1;"first-year
-survival
-0.1";50;101;0,610203002955274;0,5934468133265;0,620889513103876;0,608750154143531;0,611558995179568
-208;"poun_female-hunt 50%_0.1_3";"poun_female-hunt 50%_0.1";"Stochastic equal";"female-hunt 50%";0,1;"first-year
-survival
-0.1";50;101;0,587764560196126;0,570846942921603;0,604746748528949;0,585666000801386;0,589959976178316
-209;"poun_female-hunt 50%_0.1_4";"poun_female-hunt 50%_0.1";"Stochastic bad x2";"female-hunt 50%";0,1;"first-year
-survival
-0.1";50;101;0,574172352424038;0,561161284176647;0,588603983954022;0,572106078558447;0,576013434723808
-210;"poun_female-hunt 50%_0.1_5";"poun_female-hunt 50%_0.1";"Stochastic worst x4";"female-hunt 50%";0,1;"first-year
-survival
-0.1";50;101;0,563195272513088;0,546632796059213;0,580532601666559;0,560870714414298;0,565262353516907
-211;"poun_female-hunt 50%_0.2_1";"poun_female-hunt 50%_0.2";"Deterministic";"female-hunt 50%";0,2;"first-year
-survival
-0.2";1;101;0,682048983393649;0,682048983393649;0,682048983393649;NA;NA
-212;"poun_female-hunt 50%_0.2_2";"poun_female-hunt 50%_0.2";"Stochastic uniform";"female-hunt 50%";0,2;"first-year
-survival
-0.2";50;101;0,656213182518817;0,644706269060906;0,669054388304803;0,65446066948314;0,657996086506005
-213;"poun_female-hunt 50%_0.2_3";"poun_female-hunt 50%_0.2";"Stochastic equal";"female-hunt 50%";0,2;"first-year
-survival
-0.2";50;101;0,614494056346918;0,594368959639318;0,633272361476951;0,612007271790712;0,616598017636191
-214;"poun_female-hunt 50%_0.2_4";"poun_female-hunt 50%_0.2";"Stochastic bad x2";"female-hunt 50%";0,2;"first-year
-survival
-0.2";50;101;0,593475007307355;0,573222598834105;0,611031953382541;0,591461222454372;0,595668534278966
-215;"poun_female-hunt 50%_0.2_5";"poun_female-hunt 50%_0.2";"Stochastic worst x4";"female-hunt 50%";0,2;"first-year
-survival
-0.2";50;101;0,574745196549842;0,556452427185676;0,598530792985691;0,572220979165534;0,577221981199328
-216;"poun_female-hunt 50%_0.3_1";"poun_female-hunt 50%_0.3";"Deterministic";"female-hunt 50%";0,3;"first-year
-survival
-0.3";1;101;0,719551756523078;0,719551756523078;0,719551756523078;NA;NA
-217;"poun_female-hunt 50%_0.3_2";"poun_female-hunt 50%_0.3";"Stochastic uniform";"female-hunt 50%";0,3;"first-year
-survival
-0.3";50;101;0,684995818205492;0,67228632526338;0,698801481267414;0,683029539191406;0,68691522046694
-218;"poun_female-hunt 50%_0.3_3";"poun_female-hunt 50%_0.3";"Stochastic equal";"female-hunt 50%";0,3;"first-year
-survival
-0.3";50;101;0,634913835805297;0,616260032833343;0,657303676954811;0,632321425809607;0,63744551493502
-219;"poun_female-hunt 50%_0.3_4";"poun_female-hunt 50%_0.3";"Stochastic bad x2";"female-hunt 50%";0,3;"first-year
-survival
-0.3";50;101;0,603576049023486;0,580984015658969;0,626408090365607;0,600301349509025;0,606762956785328
-220;"poun_female-hunt 50%_0.3_5";"poun_female-hunt 50%_0.3";"Stochastic worst x4";"female-hunt 50%";0,3;"first-year
-survival
-0.3";50;101;0,583480952022464;0,560463566697598;0,603121487276558;0,580538466996296;0,586368521440891
-221;"poun_female-hunt 50%_0.4_1";"poun_female-hunt 50%_0.4";"Deterministic";"female-hunt 50%";0,4;"first-year
-survival
-0.4";1;101;0,748888241383713;0,748888241383713;0,748888241383713;NA;NA
-222;"poun_female-hunt 50%_0.4_2";"poun_female-hunt 50%_0.4";"Stochastic uniform";"female-hunt 50%";0,4;"first-year
-survival
-0.4";50;101;0,709586113932461;0,676493976825404;0,730276973308756;0,70681146727682;0,712134524782885
-223;"poun_female-hunt 50%_0.4_3";"poun_female-hunt 50%_0.4";"Stochastic equal";"female-hunt 50%";0,4;"first-year
-survival
-0.4";50;101;0,648253155573881;0,619862452134544;0,677671721998869;0,644848163871976;0,651576190308227
-224;"poun_female-hunt 50%_0.4_4";"poun_female-hunt 50%_0.4";"Stochastic bad x2";"female-hunt 50%";0,4;"first-year
-survival
-0.4";50;101;0,614283348095556;0,586305000183642;0,636024052234987;0,610909752206634;0,617536890368543
-225;"poun_female-hunt 50%_0.4_5";"poun_female-hunt 50%_0.4";"Stochastic worst x4";"female-hunt 50%";0,4;"first-year
-survival
-0.4";50;101;0,589508313494435;0,568890312807666;0,617792808867507;0,586626578887188;0,592451884694584
-226;"poun_female-hunt 50%_0.5_1";"poun_female-hunt 50%_0.5";"Deterministic";"female-hunt 50%";0,5;"first-year
-survival
-0.5";1;101;0,773314222082995;0,773314222082995;0,773314222082995;NA;NA
-227;"poun_female-hunt 50%_0.5_2";"poun_female-hunt 50%_0.5";"Stochastic uniform";"female-hunt 50%";0,5;"first-year
-survival
-0.5";50;101;0,726076904908159;0,709534221944334;0,74465277492865;0,723466467831371;0,728523424072874
-228;"poun_female-hunt 50%_0.5_3";"poun_female-hunt 50%_0.5";"Stochastic equal";"female-hunt 50%";0,5;"first-year
-survival
-0.5";50;101;0,658517929371461;0,633613012275737;0,684410528556976;0,655245101525176;0,661722664485748
-229;"poun_female-hunt 50%_0.5_4";"poun_female-hunt 50%_0.5";"Stochastic bad x2";"female-hunt 50%";0,5;"first-year
-survival
-0.5";50;101;0,624087088684007;0,597343984111932;0,652829729339648;0,620678402630606;0,627440041011473
-230;"poun_female-hunt 50%_0.5_5";"poun_female-hunt 50%_0.5";"Stochastic worst x4";"female-hunt 50%";0,5;"first-year
-survival
-0.5";50;101;0,593162641519185;0,560456554244122;0,615410225996354;0,590288113665208;0,59589089171736
-231;"poun_female-hunt 50%_0.6_1";"poun_female-hunt 50%_0.6";"Deterministic";"female-hunt 50%";0,6;"first-year
-survival
-0.6";1;101;0,794414254767074;0,794414254767074;0,794414254767074;NA;NA
-232;"poun_female-hunt 50%_0.6_2";"poun_female-hunt 50%_0.6";"Stochastic uniform";"female-hunt 50%";0,6;"first-year
-survival
-0.6";50;101;0,745116247258701;0,718521940598063;0,761339127005466;0,742507834817934;0,7475976607791
-233;"poun_female-hunt 50%_0.6_3";"poun_female-hunt 50%_0.6";"Stochastic equal";"female-hunt 50%";0,6;"first-year
-survival
-0.6";50;101;0,673938748343585;0,6407897503682;0,708554282348909;0,669391311343068;0,677995596278293
-234;"poun_female-hunt 50%_0.6_4";"poun_female-hunt 50%_0.6";"Stochastic bad x2";"female-hunt 50%";0,6;"first-year
-survival
-0.6";50;101;0,629858464649955;0,603097392837473;0,660161067858112;0,626360926013116;0,633268470589568
-235;"poun_female-hunt 50%_0.6_5";"poun_female-hunt 50%_0.6";"Stochastic worst x4";"female-hunt 50%";0,6;"first-year
-survival
-0.6";50;101;0,598278348040049;0,57976432372166;0,624252186487396;0,595232104859659;0,601592124670405
-236;"poun_female-hunt 50%_0.7_1";"poun_female-hunt 50%_0.7";"Deterministic";"female-hunt 50%";0,7;"first-year
-survival
-0.7";1;101;0,813091076554318;0,813091076554318;0,813091076554318;NA;NA
-237;"poun_female-hunt 50%_0.7_2";"poun_female-hunt 50%_0.7";"Stochastic uniform";"female-hunt 50%";0,7;"first-year
-survival
-0.7";50;101;0,759174510669231;0,737111649676908;0,789916969538505;0,755844155911489;0,76221212895479
-238;"poun_female-hunt 50%_0.7_3";"poun_female-hunt 50%_0.7";"Stochastic equal";"female-hunt 50%";0,7;"first-year
-survival
-0.7";50;101;0,676631214724275;0,65135866368105;0,719023540152285;0,67292917183336;0,680426243702022
-239;"poun_female-hunt 50%_0.7_4";"poun_female-hunt 50%_0.7";"Stochastic bad x2";"female-hunt 50%";0,7;"first-year
-survival
-0.7";50;101;0,637675745473272;0,607111062344341;0,660402718443362;0,634175761450885;0,641069180210867
-240;"poun_female-hunt 50%_0.7_5";"poun_female-hunt 50%_0.7";"Stochastic worst x4";"female-hunt 50%";0,7;"first-year
-survival
-0.7";50;101;0,602447060766933;0,574892900566216;0,631656277698934;0,598822953258065;0,605905498682377
-241;"poun_female-hunt 50%_0.8_1";"poun_female-hunt 50%_0.8";"Deterministic";"female-hunt 50%";0,8;"first-year
-survival
-0.8";1;101;0,829912618602293;0,829912618602293;0,829912618602293;NA;NA
-242;"poun_female-hunt 50%_0.8_2";"poun_female-hunt 50%_0.8";"Stochastic uniform";"female-hunt 50%";0,8;"first-year
-survival
-0.8";50;101;0,772891410140288;0,740908609545274;0,799970359890492;0,769423216121032;0,776329176349486
-243;"poun_female-hunt 50%_0.8_3";"poun_female-hunt 50%_0.8";"Stochastic equal";"female-hunt 50%";0,8;"first-year
-survival
-0.8";50;101;0,689406451774911;0,663615919229896;0,722266286035922;0,685370457995289;0,69326287875369
-244;"poun_female-hunt 50%_0.8_4";"poun_female-hunt 50%_0.8";"Stochastic bad x2";"female-hunt 50%";0,8;"first-year
-survival
-0.8";50;101;0,644272892726975;0,619494040541305;0,687007299013903;0,640639088218014;0,647910391080609
-245;"poun_female-hunt 50%_0.8_5";"poun_female-hunt 50%_0.8";"Stochastic worst x4";"female-hunt 50%";0,8;"first-year
-survival
-0.8";50;101;0,603570376836436;0,572966376016111;0,632819635740438;0,600031305379594;0,6068342585271
-246;"poun_female-hunt 50%_0.9_1";"poun_female-hunt 50%_0.9";"Deterministic";"female-hunt 50%";0,9;"first-year
-survival
-0.9";1;101;0,845261617183403;0,845261617183403;0,845261617183403;NA;NA
-247;"poun_female-hunt 50%_0.9_2";"poun_female-hunt 50%_0.9";"Stochastic uniform";"female-hunt 50%";0,9;"first-year
-survival
-0.9";50;101;0,785272748078315;0,758981867878647;0,812654711563486;0,782119961419931;0,788668055743589
-248;"poun_female-hunt 50%_0.9_3";"poun_female-hunt 50%_0.9";"Stochastic equal";"female-hunt 50%";0,9;"first-year
-survival
-0.9";50;101;0,695971408444658;0,648811812883956;0,752928947338648;0,691345802531924;0,700688806800737
-249;"poun_female-hunt 50%_0.9_4";"poun_female-hunt 50%_0.9";"Stochastic bad x2";"female-hunt 50%";0,9;"first-year
-survival
-0.9";50;101;0,64724166166064;0,609102583791549;0,68505145670883;0,642571671771782;0,651820356950134
-250;"poun_female-hunt 50%_0.9_5";"poun_female-hunt 50%_0.9";"Stochastic worst x4";"female-hunt 50%";0,9;"first-year
-survival
-0.9";50;101;0,607945371859445;0,576495678171632;0,645907101141426;0,603873875824668;0,611947667927175
+"modelkey";"modelid";"akey";"modelf";"typef";"first_year";"count_runs";"count_years";"lambda_mean";"lambda_min";"lambda_max";"lambda_sd";"lambda_boot_lcl";"lambda_boot_ucl";"lambda_q25";"lambda_q75";"gen_mean";"gen_min";"gen_max";"gen_sd";"gen_boot_lcl";"gen_boot_ucl";"gen_q25";"gen_q75"
+1;"poun_base_0_1";"poun_base_0";"Deterministic";"base";0;1;101;0,930057214617213;0,930057214617213;0,930057214617213;NA;NA;NA;0,930057214617213;0,930057214617213;101,998649897405;101,998649897405;101,998649897405;NA;NA;NA;101,998649897405;101,998649897405
+2;"poun_base_0_2";"poun_base_0";"Stochastic uniform";"base";0;50;101;0,934794519104938;0,931937097350437;0,938516686916721;0,00134559025036021;0,934418542558293;0,935151931809592;0,933816980083661;0,935226892133579;93,8366266615133;87,4236084047414;98,759751787924;2,31835190621343;93,1078745868801;94,4362276740309;93,0916800963327;95,5208536784433
+3;"poun_base_0_3";"poun_base_0";"Stochastic equal";"base";0;50;101;0,941721886976868;0,937576745550109;0,946036217849617;0,00189347711596915;0,941214318638897;0,94222969030018;0,940396569649945;0,943098901078954;81,9012871280767;74,4680159668184;89,0430574594818;3,26232021969798;80,9943956574221;82,7923889704476;79,528794262882;84,1847102952606
+4;"poun_base_0_4";"poun_base_0";"Stochastic bad x2";"base";0;50;101;0,946534386773921;0,941336511016557;0,950265953999371;0,00202177709722738;0,94597982136762;0,947023156284559;0,945566247166311;0,94826857859532;73,609707967806;67,1804952204867;82,5652612405203;3,48337154348509;72,6862171443403;74,5489884195554;70,62182446181;75,2777404941886
+5;"poun_base_0_5";"poun_base_0";"Stochastic worst x4";"base";0;50;101;0,949138024359436;0,944156335116393;0,954495690149125;0,00214843740939879;0,948573824554128;0,949730422405744;0,947563622570361;0,950735924682677;69,1238340861751;59,892974474155;77,7069140762991;3,70159783940658;68,1517597910672;70,1926704623038;66,3707706931165;71,8364112528653
+6;"poun_base_0.1_1";"poun_base_0.1";"Deterministic";"base";0,1;1;101;0,977054282947812;0,977054282947812;0,977054282947812;NA;NA;NA;0,977054282947812;0,977054282947812;21,0261971603859;21,0261971603859;21,0261971603859;NA;NA;NA;21,0261971603859;21,0261971603859
+7;"poun_base_0.1_2";"poun_base_0.1";"Stochastic uniform";"base";0,1;50;101;0,972514366147076;0,970004722698222;0,975174400214588;0,001279551011872;0,97218515168342;0,972852745039056;0,97141463474814;0,973294517481364;28,8481360947819;24,2650952698666;33,1720650709387;2,20457121079518;28,2161461011695;29,4477371072995;27,5039933793474;30,7428914888282
+8;"poun_base_0.1_3";"poun_base_0.1";"Stochastic equal";"base";0,1;50;101;0,965182823487503;0,960605309032102;0,970004722698222;0,00200925297088405;0,964590660426537;0,965690391825473;0,963895103815244;0,96671492791508;41,4798387217569;33,1720650709387;49,3665556183425;3,46179340543457;40,6045265076697;42,41952403577;38,84013676253;43,6984839267512
+9;"poun_base_0.1_4";"poun_base_0.1";"Stochastic bad x2";"base";0,1;50;101;0,96087789202842;0,955435631515737;0,965305015865162;0,00199637935947259;0,960332491050443;0,96139532975074;0,95966536766549;0,96201522108202;48,8969153924678;41,2693103446406;58,2735254194146;3,43961313060899;47,9090514690762;49,8042117253861;46,9373820362319;50,9860046730829
+10;"poun_base_0.1_5";"poun_base_0.1";"Stochastic worst x4";"base";0,1;50;101;0,958941612813199;0,953555748782513;0,963895103815244;0,00224731087725897;0,958321016525894;0,959590172356161;0,957785484932267;0,960135338348796;52,232980445233;43,6984839267512;61,5124235288953;3,87194946957498;51,2766957784088;53,2856223308142;50,1762801457127;54,2249027825636
+11;"poun_base_0.2_1";"poun_base_0.2";"Deterministic";"base";0,2;1;101;1,01202568197873;1,01202568197873;1,01202568197873;NA;NA;NA;1,01202568197873;1,01202568197873;17,1545537830033;17,1545537830033;17,1545537830033;NA;NA;NA;17,1545537830033;17,1545537830033
+12;"poun_base_0.2_2";"poun_base_0.2";"Stochastic uniform";"base";0,2;50;101;1,00053345105065;0,995654100683792;1,00676891603542;0,00280395034994293;0,999772469848377;1,00129190210138;0,998430040499528;1,00244103537003;25,746175420823;20,009608136626;30,3070489716756;2,57484592773148;25,0131588857308;26,4412792063116;24,2130965085722;27,7520469798001
+13;"poun_base_0.2_3";"poun_base_0.2";"Stochastic equal";"base";0,2;50;101;0,983255406347013;0,97529329662509;0,990758104819463;0,00360755253072039;0,982296966273315;0,984346682702154;0,98059394685251;0,98561053948046;39,130504330675;30,1167873846866;47,7404653998418;4,18864502557417;38,0166634208662;40,2757512615191;36,0647230756682;41,8788115393814
+14;"poun_base_0.2_4";"poun_base_0.2";"Stochastic bad x2";"base";0,2;50;101;0,973298266728738;0,965719706105063;0,97999300345815;0,00309788892444933;0,972428237958056;0,974101596405191;0,971181393216786;0,975107723611878;46,3853280699893;39,2980928040556;56,3023078788296;3,90592837151996;45,3033104084516;47,4013809132824;43,9725369078511;49,4672147929303
+15;"poun_base_0.2_5";"poun_base_0.2";"Stochastic worst x4";"base";0,2;50;101;0,965491521127092;0,959981913389757;0,97345763824659;0,00290167281954424;0,964708300859052;0,966339977598035;0,963670494421025;0,967340067367725;51,7957715798252;41,8821321212615;60,7380948534188;3,93925782534349;50,6972707147778;52,8785989303581;48,9204864844735;54,550671887761
+16;"poun_base_0.3_1";"poun_base_0.3";"Deterministic";"base";0,3;1;101;1,04051420532558;1,04051420532558;1,04051420532558;NA;NA;NA;1,04051420532558;1,04051420532558;15,3727674002214;15,3727674002214;15,3727674002214;NA;NA;NA;15,3727674002214;15,3727674002214
+17;"poun_base_0.3_2";"poun_base_0.3";"Stochastic uniform";"base";0,3;50;101;1,02281700531255;1,01618975243163;1,03212370181411;0,00375669373461654;1,02177520457067;1,02379000734325;1,01992629696654;1,02514978309365;24,9197008058772;18,4238182559501;31,3611663329259;2,60842546286768;24,2216861897384;25,6670952251815;22,9671159968154;26,785040353023
+18;"poun_base_0.3_3";"poun_base_0.3";"Stochastic equal";"base";0,3;50;101;0,996447908717886;0,988174502859267;1,00368631143466;0,00382407632001156;0,995350741327136;0,99751410864944;0,993433167386969;0,998938774725378;38,8941807394958;32,774523772967;44,4498729417596;2,96910895795671;38,0911637479645;39,7390007772473;36,7948792610172;40,6032311330611
+19;"poun_base_0.3_4";"poun_base_0.3";"Stochastic bad x2";"base";0,3;50;101;0,983741139752646;0,974895749036154;0,994331951618463;0,00417264800330622;0,98255753757668;0,984873758859047;0,980642320450744;0,986270705187934;45,462607311829;37,9155424251964;51,6060807319408;3,3193544004296;44,539315723439;46,3879380856822;43,4992629740753;47,6139923926915
+20;"poun_base_0.3_5";"poun_base_0.3";"Stochastic worst x4";"base";0,3;50;101;0,971725900312468;0,964484649189095;0,983567679752352;0,00463776613075587;0,970434525068135;0,973039800097076;0,968268329593652;0,975001284237926;52,353356073349;41,9459207011002;60,4948061720657;4,02184673111241;51,1950901955609;53,4078282066039;49,7609447904839;54,7984673316736
+21;"poun_base_0.4_1";"poun_base_0.4";"Deterministic";"base";0,4;1;101;1,06484801116801;1,06484801116801;1,06484801116801;NA;NA;NA;1,06484801116801;1,06484801116801;14,2954343536476;14,2954343536476;14,2954343536476;NA;NA;NA;14,2954343536476;14,2954343536476
+22;"poun_base_0.4_2";"poun_base_0.4";"Stochastic uniform";"base";0,4;50;101;1,04298968959566;1,03186829905125;1,05237087696395;0,00499465318125876;1,0415608474442;1,04430661493124;1,04002673645182;1,0460458192333;23,8009991653865;18,5439468841391;29,2029480055247;2,5551823935491;23,115394689507;24,5431234235182;22,0352485988725;25,4255888715049
+23;"poun_base_0.4_3";"poun_base_0.4";"Stochastic equal";"base";0,4;50;101;1,009686605603;0,99590881257341;1,02625471284356;0,00618933701704781;1,00799611694001;1,01145684134907;1,00656155263066;1,01256513439104;37,8203455030342;27,3122354479532;44,1777692854692;3,68503324185806;36,7852198959423;38,8161850206751;35,8133264900594;40,551852314601
+24;"poun_base_0.4_4";"poun_base_0.4";"Stochastic bad x2";"base";0,4;50;101;0,989279064306648;0,980611854269517;0,998604628504426;0,00448884271440685;0,988044936430434;0,990408291708635;0,985972484089343;0,99244356650791;46,5028869010344;40,263761904753;52,4749044528117;3,48067826185026;45,5242461556786;47,3840724875925;44,0921100074638;49,2028607769376
+25;"poun_base_0.4_5";"poun_base_0.4";"Stochastic worst x4";"base";0,4;50;101;0,976698338950254;0,966848816184362;0,990109214112482;0,00488885212886837;0,975380392256928;0,977989670802802;0,973612842556113;0,979325950388419;51,8465039231111;44,5795820633119;61,9203352784228;3,58131788854043;50,8923971678625;52,8127894025286;49,7581487084935;53,8903976327883
+26;"poun_base_0.5_1";"poun_base_0.5";"Deterministic";"base";0,5;1;101;1,08624995407359;1,08624995407359;1,08624995407359;NA;NA;NA;1,08624995407359;1,08624995407359;13,5541763014357;13,5541763014357;13,5541763014357;NA;NA;NA;13,5541763014357;13,5541763014357
+27;"poun_base_0.5_2";"poun_base_0.5";"Stochastic uniform";"base";0,5;50;101;1,05927433033088;1,04722961850824;1,07032664943866;0,00540187736069328;1,05779454392138;1,06075755505556;1,05549530151499;1,06279696396834;23,1757138303635;17,8391573311695;27,4186090095471;2,46918477617158;22,4962406422582;23,84693566088;21,6758171093663;24,9894354274365
+28;"poun_base_0.5_3";"poun_base_0.5";"Stochastic equal";"base";0,5;50;101;1,01940470561972;1,00381360679911;1,03785805414085;0,0070789644503063;1,01752735475094;1,0213922309579;1,01443262438474;1,02443313710476;37,1630529027739;30,0841409845405;47,1874718021326;3,66771712165542;36,2252350048729;38,175270246545;34,627593302559;39,5263500128534
+29;"poun_base_0.5_4";"poun_base_0.5";"Stochastic bad x2";"base";0,5;50;101;0,998444544811538;0,98789030216418;1,01256318513854;0,00607040472701111;0,99687391316258;1,00008465039003;0,994182977903281;1,00143967419579;45,0200015611915;37,6202178908694;54,3377498983997;4,10006390418363;43,8819613073389;46,2046886601465;41,7996008927519;47,3864700907207
+30;"poun_base_0.5_5";"poun_base_0.5";"Stochastic worst x4";"base";0,5;50;101;0,979962441063429;0,965097301923043;0,992437993652594;0,0060670839201419;0,978253651297727;0,981716468107945;0,977630724915715;0,984738887025917;52,3652533937;43,300487349575;61,500225761781;3,63941131987557;51,3301639269908;53,3535290095017;49,8903638814208;55,0289118278526
+31;"poun_base_0.6_1";"poun_base_0.6";"Deterministic";"base";0,6;1;101;1,105452331734;1,105452331734;1,105452331734;NA;NA;NA;1,105452331734;1,105452331734;13,0036618458928;13,0036618458928;13,0036618458928;NA;NA;NA;13,0036618458928;13,0036618458928
+32;"poun_base_0.6_2";"poun_base_0.6";"Stochastic uniform";"base";0,6;50;101;1,07455002353489;1,05812940567738;1,0899186343176;0,00584783805118683;1,07291303149817;1,07620734897354;1,07075110299681;1,07875293704666;22,7536988142986;16,3153143125976;28,4462402313086;2,22728653153979;22,1499478700163;23,3522972848789;21,5691849956027;24,2427701351085
+33;"poun_base_0.6_3";"poun_base_0.6";"Stochastic equal";"base";0,6;50;101;1,03146342830748;1,00892659688755;1,0494855813836;0,00861032023540281;1,02890321332266;1,03378974524671;1,024586225866;1,03709886940583;36,3552567503757;28,3585438822428;47,1277167262053;3,69338705976248;35,4034066159853;37,3259567336462;34,0210123268935;38,1134831382774
+34;"poun_base_0.6_4";"poun_base_0.6";"Stochastic bad x2";"base";0,6;50;101;1,00323179952313;0,983809133810753;1,0193243723525;0,00779231722351873;1,00126221556272;1,00542573412625;0,998812167437222;1,0083644502071;45,9384249842402;35,9520240493125;56,9171654118716;4,17197449791717;44,8476168150657;47,0601007862026;43,3197701487892;48,050308287372
+35;"poun_base_0.6_5";"poun_base_0.6";"Stochastic worst x4";"base";0,6;50;101;0,986108614602461;0,970029387565523;1,00297666513154;0,00644016524676091;0,984458084853632;0,987844672497588;0,981570606848225;0,990394889593862;51,0505760759958;42,0137515107076;59,0981919386265;4,02257078906673;49,9545649160438;52,0819628798575;48,0045923638589;53,8368502597005
+36;"poun_base_0.7_1";"poun_base_0.7";"Deterministic";"base";0,7;1;101;1,12293274265566;1,12293274265566;1,12293274265566;NA;NA;NA;1,12293274265566;1,12293274265566;12,5735729179867;12,5735729179867;12,5735729179867;NA;NA;NA;12,5735729179867;12,5735729179867
+37;"poun_base_0.7_2";"poun_base_0.7";"Stochastic uniform";"base";0,7;50;101;1,0906571196831;1,07946244002627;1,10599504326835;0,00624100100350313;1,08899938717344;1,09236060869263;1,08628170363128;1,09559743829431;22,0338994395333;16,9113121789793;29,1772442288259;2,57807517238591;21,2765151241892;22,7290228211133;20,0923374686884;23,7149662812482
+38;"poun_base_0.7_3";"poun_base_0.7";"Stochastic equal";"base";0,7;50;101;1,03976942856701;1,02271645838169;1,06341580945841;0,00954346034489549;1,03709481380987;1,04230579835919;1,03343457565492;1,04674506112604;36,4068795354942;29,5018987498373;45,1402434971429;3,7493477799569;35,4088835747583;37,5048033517462;33,5205053518648;38,5567894751514
+39;"poun_base_0.7_4";"poun_base_0.7";"Stochastic bad x2";"base";0,7;50;101;1,01152065343756;0,995713884456308;1,03725543180532;0,00879916168830401;1,00919516219983;1,01394160614821;1,00594512421236;1,01646022185723;45,1956826162597;36,2688115929405;53,2240383221603;4,19230006905085;44,1127957661371;46,2781629832252;41,9702619315264;48,2389017943031
+40;"poun_base_0.7_5";"poun_base_0.7";"Stochastic worst x4";"base";0,7;50;101;0,986683706622803;0,972617693638854;1,00417335675582;0,00652593454881169;0,984975764038377;0,988567142386072;0,982548168672231;0,989254628303491;52,7695534259898;37,4521789868764;65,1028770567566;4,89270514643045;51,4565640073098;54,144217199068;49,5346522156113;55,7310129223526
+41;"poun_base_0.8_1";"poun_base_0.8";"Deterministic";"base";0,8;1;101;1,13902205922838;1,13902205922838;1,13902205922838;NA;NA;NA;1,13902205922838;1,13902205922838;12,2252314334129;12,2252314334129;12,2252314334129;NA;NA;NA;12,2252314334129;12,2252314334129
+42;"poun_base_0.8_2";"poun_base_0.8";"Stochastic uniform";"base";0,8;50;101;1,1011451389285;1,08756146298684;1,11514642421207;0,00699730815648401;1,09923500846397;1,10316030102565;1,09608999087034;1,10579544763279;22,2977733045841;15,8865402172997;29,8982485424594;2,5677067907802;21,6281166048798;22,9867516029068;20,8108946244731;23,9001406361066
+43;"poun_base_0.8_3";"poun_base_0.8";"Stochastic equal";"base";0,8;50;101;1,04576221649283;1,02821224364416;1,05809661902839;0,00672613698382505;1,04388445836827;1,04754590482185;1,04172990730129;1,04978846450147;36,8033440144868;30,1270022903834;43,5226430146551;3,26145954187962;35,8991477980142;37,6635956175455;34,4220608877118;38,6422934361165
+44;"poun_base_0.8_4";"poun_base_0.8";"Stochastic bad x2";"base";0,8;50;101;1,01651812245349;0,995927575585878;1,03657083742861;0,00963518594108063;1,01389889979044;1,01909953284462;1,00952290029999;1,02330076892753;44,6502177483264;34,3340066298312;56,0732839876713;4,3489966957926;43,4246379445099;45,8810605831685;41,4762846813013;47,6592307081649
+45;"poun_base_0.8_5";"poun_base_0.8";"Stochastic worst x4";"base";0,8;50;101;0,992238472823192;0,979260827274515;1,01060555396619;0,00789968909722783;0,990071942856146;0,994317049005075;0,985869640810947;0,99762291223498;51,8352410192534;41,7622714668171;60,0162593553099;3,9484458611697;50,7730400182353;52,8646793488807;48,724165401373;54,6914520874371
+46;"poun_base_0.9_1";"poun_base_0.9";"Deterministic";"base";0,9;1;101;1,1539600855664;1,1539600855664;1,1539600855664;NA;NA;NA;1,1539600855664;1,1539600855664;11,9353844852362;11,9353844852362;11,9353844852362;NA;NA;NA;11,9353844852362;11,9353844852362
+47;"poun_base_0.9_2";"poun_base_0.9";"Stochastic uniform";"base";0,9;50;101;1,11452104552443;1,09643695921699;1,13132147720225;0,00700327023388585;1,11261076936198;1,11638088306722;1,11023027745021;1,12012633365479;21,9277904770993;15,4554555883647;28,2461289995713;2,38353414756161;21,3064085196113;22,5652760170079;20,7001622912797;23,5611494754599
+48;"poun_base_0.9_3";"poun_base_0.9";"Stochastic equal";"base";0,9;50;101;1,05494429429907;1,0220523692653;1,07437914624319;0,0108539819923782;1,05201864436465;1,05786320989466;1,04753850790605;1,06177409064581;36,631515662315;27,8084855926004;46,9944957094103;4,062046546245;35,4993107420925;37,7121312208333;33,9601614096821;40,235526496801
+49;"poun_base_0.9_4";"poun_base_0.9";"Stochastic bad x2";"base";0,9;50;101;1,02099331643519;1,00118281892734;1,04397268567691;0,00957658910889669;1,018358941637;1,02363688048542;1,01479656417242;1,02650272050753;44,97500352193;38,7978936955636;55,6371897436212;4,01369520084226;43,9743614269817;46,0568198230264;41,5806456730822;47,6678580466533
+50;"poun_base_0.9_5";"poun_base_0.9";"Stochastic worst x4";"base";0,9;50;101;0,996064699996311;0,977963415172847;1,01356622511064;0,0083095376673226;0,99374565369561;0,998184250871945;0,990402233709667;1,00330435496601;50,8437826712356;43,2270460662071;58,3475363193795;3,54904578850732;49,9598243810523;51,8029932953427;48,6720717476164;52,6567375961003
+51;"poun_female-hunt 2.5%_0_1";"poun_female-hunt 2.5%_0";"Deterministic";"female-hunt 2.5%";0;1;101;0,906811761488231;0,906811761488231;0,906811761488231;NA;NA;NA;0,906811761488231;0,906811761488231;78,796909637414;78,796909637414;78,796909637414;NA;NA;NA;78,796909637414;78,796909637414
+52;"poun_female-hunt 2.5%_0_2";"poun_female-hunt 2.5%_0";"Stochastic uniform";"female-hunt 2.5%";0;50;101;0,911832274880339;0,908305961902549;0,915278897169366;0,00140096167939064;0,911463705444807;0,912210805651966;0,910796295926412;0,91229049634073;72,6728474433686;68,4686301434882;76,9742720796624;1,70890420679861;72,2108088224786;73,1345822913324;72,1139052589915;73,9365428167431
+53;"poun_female-hunt 2.5%_0_3";"poun_female-hunt 2.5%_0";"Stochastic equal";"female-hunt 2.5%";0;50;101;0,919173779582688;0,913784696755048;0,923746032850501;0,00208584570230841;0,918575850383558;0,91976149841232;0,917769231193229;0,920259565217092;63,7176215762824;58,1403506495624;70,2912677012398;2,54433118895731;63,0608645096392;64,422678538206;62,3931716176495;65,4309008805689
+54;"poun_female-hunt 2.5%_0_4";"poun_female-hunt 2.5%_0";"Stochastic bad x2";"female-hunt 2.5%";0;50;101;0,923427270095446;0,918267297998002;0,926734433679137;0,00205422291867832;0,922879396610196;0,923965182244601;0,922251832436183;0,924742166460046;58,5291799952161;54,4950755340592;64,823355027985;2,50575746579905;57,8608795573739;59,222086040088;56,9252589443947;59,962988207314
+55;"poun_female-hunt 2.5%_0_5";"poun_female-hunt 2.5%_0";"Stochastic worst x4";"female-hunt 2.5%";0;50;101;0,927093041778573;0,920757632021865;0,934205435750726;0,00267752449307053;0,926315559496323;0,927810507010848;0,925738300069591;0,928602184197034;54,0576425201988;45,3818877453012;61,7856257650657;3,26606568711052;53,1584746583747;54,9206614037942;52,2167785868697;55,710167239227
+56;"poun_female-hunt 2.5%_0.1_1";"poun_female-hunt 2.5%_0.1";"Deterministic";"female-hunt 2.5%";0,1;1;101;0,956618441965496;0,956618441965496;0,956618441965496;NA;NA;NA;0,956618441965496;0,956618441965496;18,042324379027;18,042324379027;18,042324379027;NA;NA;NA;18,042324379027;18,042324379027
+57;"poun_female-hunt 2.5%_0.1_2";"poun_female-hunt 2.5%_0.1";"Stochastic uniform";"female-hunt 2.5%";0,1;50;101;0,951757309950915;0,947155172674815;0,954626174746405;0,00159914130135547;0,951348895171001;0,952155763394733;0,950641640308224;0,953131974332087;23,9719719002456;20,4725077893625;29,5856955781205;1,95064528698629;23,4616333840751;24,5069160234457;22,2951453471141;25,3328746100334
+58;"poun_female-hunt 2.5%_0.1_3";"poun_female-hunt 2.5%_0.1";"Stochastic equal";"female-hunt 2.5%";0,1;50;101;0,944007390468652;0,940182237407998;0,949147439893906;0,00199592313101899;0,943479439655593;0,944535590315114;0,942672571431862;0,945660972260497;33,4253853664506;27,1555121677851;38,0913375142947;2,43464292080319;32,8053848238888;34,0815348872412;31,4083331358721;35,0536082513754
+59;"poun_female-hunt 2.5%_0.1_4";"poun_female-hunt 2.5%_0.1";"Stochastic bad x2";"female-hunt 2.5%";0,1;50;101;0,94000293335828;0,933707368945954;0,944664838650952;0,00227411799489533;0,939385330520362;0,940580939885219;0,938189970188908;0,941551921121123;38,3100540212249;32,6234248410399;45,989433597885;2,77398722991722;37,6049970593013;39,0998636295839;36,4205864196891;40,5215209246302
+60;"poun_female-hunt 2.5%_0.1_5";"poun_female-hunt 2.5%_0.1";"Stochastic worst x4";"female-hunt 2.5%";0,1;50;101;0,93658619507754;0,932213168531636;0,942672571431862;0,00233893428676361;0,935988514911812;0,937223720587649;0,934828019256692;0,938189970188908;42,4778185699503;35,0536082513754;47,8120711556366;2,85305065861212;41,7120070227683;43,1947226759992;40,5215209246302;44,6224554295713
+61;"poun_female-hunt 2.5%_0.2_1";"poun_female-hunt 2.5%_0.2";"Deterministic";"female-hunt 2.5%";0,2;1;101;0,992898345408849;0,992898345408849;0,992898345408849;NA;NA;NA;0,992898345408849;0,992898345408849;15,0192381598821;15,0192381598821;15,0192381598821;NA;NA;NA;15,0192381598821;15,0192381598821
+62;"poun_female-hunt 2.5%_0.2_2";"poun_female-hunt 2.5%_0.2";"Stochastic uniform";"female-hunt 2.5%";0,2;50;101;0,980510431361145;0,974635635798009;0,988366484948724;0,00286506983319486;0,979759886538889;0,981318244873694;0,97893996499404;0,982563264132934;21,8590897029531;17,6610376055577;26,163750932977;2,08125007062771;21,3117973116072;22,4659893710984;20,3935296378077;23,4380844640862
+63;"poun_female-hunt 2.5%_0.2_3";"poun_female-hunt 2.5%_0.2";"Stochastic equal";"female-hunt 2.5%";0,2;50;101;0,962911300023988;0,956643461727847;0,970780114189579;0,00313575949246484;0,962071915179888;0,963714411219584;0,960688006452345;0,965172171430446;31,3860284128117;25,9189754266905;36,1536337252871;2,57007462856235;30,6417639121751;32,0802259770341;29,6549431287681;32,9647501514105
+64;"poun_female-hunt 2.5%_0.2_4";"poun_female-hunt 2.5%_0.2";"Stochastic bad x2";"female-hunt 2.5%";0,2;50;101;0,952202817152531;0,943908746186677;0,958906264487615;0,00359804070104459;0,951203116956546;0,953120872714964;0,949731905405611;0,9546803202459;37,1915895878092;32,1426596547316;43,4412553475386;2,81525213109698;36,4077180290766;37,9885979204684;34,7625181059523;38,9768183441114
+65;"poun_female-hunt 2.5%_0.2_5";"poun_female-hunt 2.5%_0.2";"Stochastic worst x4";"female-hunt 2.5%";0,2;50;101;0,943713788680125;0,935300087794615;0,94961501230327;0,00310286734389404;0,942854856460269;0,944577648784946;0,942096314749656;0,945559716509626;42,178242059076;36,2111668409151;49,8190224952918;2,95214335539793;41,3981512476666;42,943449414259;40,0083284195643;44,2226286577233
+66;"poun_female-hunt 2.5%_0.3_1";"poun_female-hunt 2.5%_0.3";"Deterministic";"female-hunt 2.5%";0,3;1;101;1,02216370960387;1,02216370960387;1,02216370960387;NA;NA;NA;1,02216370960387;1,02216370960387;13,613160065491;13,613160065491;13,613160065491;NA;NA;NA;13,613160065491;13,613160065491
+67;"poun_female-hunt 2.5%_0.3_2";"poun_female-hunt 2.5%_0.3";"Stochastic uniform";"female-hunt 2.5%";0,3;50;101;1,00393919297732;0,996182646721927;1,01180794346341;0,00395591685632321;1,00294237352168;1,00510849087479;1,00119666662307;1,00667588415856;20,3310487661931;16,0558806271377;25,6562764903847;2,06428209323246;19,7647566387367;20,8877205515911;19,0175637550974;21,4366742546491
+68;"poun_female-hunt 2.5%_0.3_3";"poun_female-hunt 2.5%_0.3";"Stochastic equal";"female-hunt 2.5%";0,3;50;101;0,977107232442235;0,968838860107334;0,986141652324681;0,00402295988026477;0,976097239160089;0,978197296923227;0,97445554893899;0,980236100939742;31,2346035577335;26,6749842824979;37,8765594878198;2,51867361168378;30,5593221051762;31,923958403311;29,3013457991148;32,7615157191205
+69;"poun_female-hunt 2.5%_0.3_4";"poun_female-hunt 2.5%_0.3";"Stochastic bad x2";"female-hunt 2.5%";0,3;50;101;0,962006220612584;0,950276980917099;0,969546131163597;0,00431128596143269;0,960800639635205;0,963171130047601;0,959465790298447;0,965089439110582;36,8461566459802;32,1554341070639;43,1480882480201;2,49064186726416;36,2218162512457;37,5494358151614;35,2374550131187;38,618444510337
+70;"poun_female-hunt 2.5%_0.3_5";"poun_female-hunt 2.5%_0.3";"Stochastic worst x4";"female-hunt 2.5%";0,3;50;101;0,949252170318908;0,938925081167085;0,956725940189204;0,00440763801706921;0,948169117886112;0,950508543491348;0,946560429090764;0,952459020495224;41,6793152783827;34,7310295981167;47,9324089337316;3,28557849266979;40,7698927135183;42,5400552004243;38,8683171232371;43,9106548515778
+71;"poun_female-hunt 2.5%_0.4_1";"poun_female-hunt 2.5%_0.4";"Deterministic";"female-hunt 2.5%";0,4;1;101;1,04701688216965;1,04701688216965;1,04701688216965;NA;NA;NA;1,04701688216965;1,04701688216965;12,7566543564327;12,7566543564327;12,7566543564327;NA;NA;NA;12,7566543564327;12,7566543564327
+72;"poun_female-hunt 2.5%_0.4_2";"poun_female-hunt 2.5%_0.4";"Stochastic uniform";"female-hunt 2.5%";0,4;50;101;1,02407312256128;1,00731621001433;1,03277475091924;0,00569835282769536;1,0225373616002;1,02550941645419;1,02070043146644;1,02807053049403;19,8939978658103;16,0325449703832;25,4896075106244;2,01624587375168;19,3000142339323;20,4403173082851;18,5816559562271;20,7082195402779
+73;"poun_female-hunt 2.5%_0.4_3";"poun_female-hunt 2.5%_0.4";"Stochastic equal";"female-hunt 2.5%";0,4;50;101;0,989742025537237;0,976747531086927;1,00261198958911;0,00674760701295224;0,987862511844378;0,991724497159728;0,986017748126102;0,9955232914576;31,1792775858396;25,8067477119801;36,5317586576149;2,72707462236166;30,4520332584961;31,8936748840791;29,5249304403048;33,2693884187353
+74;"poun_female-hunt 2.5%_0.4_4";"poun_female-hunt 2.5%_0.4";"Stochastic bad x2";"female-hunt 2.5%";0,4;50;101;0,970846134740591;0,960789580239945;0,984753920730544;0,00638902416893432;0,969148062287731;0,972642474986021;0,966361040655263;0,975409638512177;36,4025108260732;30,1130377803221;43,188640885939;3,11049436804747;35,5644894769078;37,2130836357973;34,3658587484092;38,3679165904375
+75;"poun_female-hunt 2.5%_0.4_5";"poun_female-hunt 2.5%_0.4";"Stochastic worst x4";"female-hunt 2.5%";0,4;50;101;0,95445594864502;0,945865083769762;0,965807569054926;0,0044191272055283;0,953251013699193;0,955682014075462;0,951736029109468;0,956726603704323;41,5717812400741;35,0001391511205;45,8569856473057;2,65866901807935;40,7769975902936;42,2423951247257;40,3295326362931;43,5982803126901
+76;"poun_female-hunt 2.5%_0.5_1";"poun_female-hunt 2.5%_0.5";"Deterministic";"female-hunt 2.5%";0,5;1;101;1,06879150955633;1,06879150955633;1,06879150955633;NA;NA;NA;1,06879150955633;1,06879150955633;12,1639264329576;12,1639264329576;12,1639264329576;NA;NA;NA;12,1639264329576;12,1639264329576
+77;"poun_female-hunt 2.5%_0.5_2";"poun_female-hunt 2.5%_0.5";"Stochastic uniform";"female-hunt 2.5%";0,5;50;101;1,0399359074179;1,02904151201613;1,04860467885066;0,00488380362027376;1,03858514811955;1,04132175003841;1,036609952983;1,04361968934226;20,071988943341;17,2985070929551;25,2944650774899;1,83953200781595;19,5862388346008;20,5741693414378;18,6899507365049;20,9828601299421
+78;"poun_female-hunt 2.5%_0.5_3";"poun_female-hunt 2.5%_0.5";"Stochastic equal";"female-hunt 2.5%";0,5;50;101;0,998022576854845;0,981188205611836;1,01121941826796;0,00670491989016713;0,996222573063715;0,9998618458158;0,994738850061829;1,00321246793398;30,7342815222976;25,3726209204574;36,5238761268329;2,5849185279273;30,0226793370121;31,4242069509137;29,0619840205561;32,4965051448352
+79;"poun_female-hunt 2.5%_0.5_4";"poun_female-hunt 2.5%_0.5";"Stochastic bad x2";"female-hunt 2.5%";0,5;50;101;0,978074299640183;0,963119239191618;0,998135441356145;0,00755415387023063;0,975806241222423;0,980253621670259;0,971496498533661;0,983557264030016;36,1056146881125;29,7233037894889;42,0896507010322;2,84033310981363;35,3843887956004;36,8649509743031;34,2847406497447;37,6360123193269
+80;"poun_female-hunt 2.5%_0.5_5";"poun_female-hunt 2.5%_0.5";"Stochastic worst x4";"female-hunt 2.5%";0,5;50;101;0,960483218064907;0,950407732018216;0,974332224490022;0,00514535677252592;0,958998112533818;0,961886722610413;0,957604783611849;0,963554507463209;40,2254167653834;35,72027227789;47,4202893573887;2,52247111540643;39,533882458097;40,9232531508622;38,4736840266418;41,7123142517969
+81;"poun_female-hunt 2.5%_0.6_1";"poun_female-hunt 2.5%_0.6";"Deterministic";"female-hunt 2.5%";0,6;1;101;1,08827415884246;1,08827415884246;1,08827415884246;NA;NA;NA;1,08827415884246;1,08827415884246;11,7216451125337;11,7216451125337;11,7216451125337;NA;NA;NA;11,7216451125337;11,7216451125337
+82;"poun_female-hunt 2.5%_0.6_2";"poun_female-hunt 2.5%_0.6";"Stochastic uniform";"female-hunt 2.5%";0,6;50;101;1,05784834221665;1,04393955604532;1,06948707198859;0,00624816947353535;1,05607810172449;1,05955701574821;1,05309278180284;1,06323342543694;18,936994860857;15,707476265427;22,6046230959098;1,87130938930369;18,4605691595683;19,438107540651;17,0489815559246;20,3869430840024
+83;"poun_female-hunt 2.5%_0.6_3";"poun_female-hunt 2.5%_0.6";"Stochastic equal";"female-hunt 2.5%";0,6;50;101;1,01029353693925;0,997149482156191;1,02287464134501;0,00683078403061379;1,00854841071644;1,01221287056655;1,00586731553281;1,0172356947129;30,1379895777926;23,6159317785488;36,3989167568755;2,76297568791929;29,3611859523329;30,9713329996927;28,0267697282982;31,9310025329775
+84;"poun_female-hunt 2.5%_0.6_4";"poun_female-hunt 2.5%_0.6";"Stochastic bad x2";"female-hunt 2.5%";0,6;50;101;0,984059883607499;0,964486250632429;1,00472840160958;0,00840696902046985;0,981884979429192;0,986243267974164;0,978754209018381;0,990771318903342;35,9731362656475;29,9932616231781;43,9281315140077;3,41648250992663;35,0370993738795;36,9943489090402;33,8194367407769;37,9229611031009
+85;"poun_female-hunt 2.5%_0.6_5";"poun_female-hunt 2.5%_0.6";"Stochastic worst x4";"female-hunt 2.5%";0,6;50;101;0,964984548693773;0,951641102503957;0,976725414574325;0,00577890922277261;0,963413210382845;0,966560786910922;0,961292395066247;0,968871314519641;40,2039685298091;35,1696624071738;47,6998202148408;2,5857611076182;39,5269567654007;40,9864069964909;38,4286154444204;41,5453531981709
+86;"poun_female-hunt 2.5%_0.7_1";"poun_female-hunt 2.5%_0.7";"Deterministic";"female-hunt 2.5%";0,7;1;101;1,10597246694176;1,10597246694176;1,10597246694176;NA;NA;NA;1,10597246694176;1,10597246694176;11,3747420286334;11,3747420286334;11,3747420286334;NA;NA;NA;11,3747420286334;11,3747420286334
+87;"poun_female-hunt 2.5%_0.7_2";"poun_female-hunt 2.5%_0.7";"Stochastic uniform";"female-hunt 2.5%";0,7;50;101;1,07107120042159;1,05568554410271;1,08655512336573;0,00708221886918564;1,06909958139554;1,07302314712918;1,06589327294233;1,07585081309159;18,8093523751243;14,9384144385358;25,3259063149171;2,29085450466016;18,1603749616737;19,3918833874117;17,3352599371193;20,1302945164643
+88;"poun_female-hunt 2.5%_0.7_3";"poun_female-hunt 2.5%_0.7";"Stochastic equal";"female-hunt 2.5%";0,7;50;101;1,01761881726368;0,996438700094204;1,03477466027693;0,0082849409487611;1,01537813836585;1,02006833021995;1,01149927945758;1,02220540518425;30,6542383873993;25,6443585503399;36,165202073729;2,52414712452054;30,0086900205947;31,381346901572;29,1248099673454;32,4255108037562
+89;"poun_female-hunt 2.5%_0.7_4";"poun_female-hunt 2.5%_0.7";"Stochastic bad x2";"female-hunt 2.5%";0,7;50;101;0,991251299800619;0,974531682658872;1,01336769014003;0,00796824364030776;0,989129513963009;0,99384056307624;0,985609212954315;0,99544388681377;35,9636522062516;29,5563369598588;42,0998455115114;2,99656524273641;35,144095736585;36,7408451570863;33,9683840456573;37,8970314110523
+90;"poun_female-hunt 2.5%_0.7_5";"poun_female-hunt 2.5%_0.7";"Stochastic worst x4";"female-hunt 2.5%";0,7;50;101;0,967233759832288;0,952625325388095;0,980507163987033;0,00670914982309304;0,965272181031995;0,969026482611601;0,961588547380337;0,971545922488458;40,7935575594849;35,8168960741124;48,9087380958934;2,82072062930727;40,0350430175571;41,6012452555479;38,4637759108357;42,3590853644787
+91;"poun_female-hunt 2.5%_0.8_1";"poun_female-hunt 2.5%_0.8";"Deterministic";"female-hunt 2.5%";0,8;1;101;1,12223541127499;1,12223541127499;1,12223541127499;NA;NA;NA;1,12223541127499;1,12223541127499;11,0928160725758;11,0928160725758;11,0928160725758;NA;NA;NA;11,0928160725758;11,0928160725758
+92;"poun_female-hunt 2.5%_0.8_2";"poun_female-hunt 2.5%_0.8";"Stochastic uniform";"female-hunt 2.5%";0,8;50;101;1,08455223532884;1,06938779140628;1,10036910773876;0,00682935962559486;1,08276875440087;1,08638506675052;1,07949893781207;1,08951694061003;18,4349189896268;14,2358602085532;22,6899169566596;1,87752434424271;17,9168371915679;18,9265321159856;17,1693468468758;19,8948843602354
+93;"poun_female-hunt 2.5%_0.8_3";"poun_female-hunt 2.5%_0.8";"Stochastic equal";"female-hunt 2.5%";0,8;50;101;1,02627318645867;1,00858326162966;1,05149386333979;0,00939212042223162;1,0237901509645;1,02890904875226;1,02100453432787;1,03302088382914;29,7152787762978;23,611262931495;36,3181406476885;2,92915676865596;28,9527458456056;30,4867283801555;27,7901113427684;31,4577738270175
+94;"poun_female-hunt 2.5%_0.8_4";"poun_female-hunt 2.5%_0.8";"Stochastic bad x2";"female-hunt 2.5%";0,8;50;101;0,995020404204155;0,977265847771194;1,01189560101585;0,00831251959295542;0,992850039829531;0,997154811173439;0,989036203612187;1,00021838878269;36,2361062928876;30,052106767653;43,5750155856239;2,69274326038324;35,4974287808703;36,9346363965743;34,4439179018691;38,0678778970876
+95;"poun_female-hunt 2.5%_0.8_5";"poun_female-hunt 2.5%_0.8";"Stochastic worst x4";"female-hunt 2.5%";0,8;50;101;0,971588147412208;0,957229842175278;0,989867328200845;0,00827526183776787;0,969329819305733;0,97376270565143;0,965713152239224;0,978019027462574;40,7861644999524;34,6008179629948;47,2382005961238;3,33875951627904;39,9385732650994;41,6708382893327;38,2634668492642;42,7987456233585
+96;"poun_female-hunt 2.5%_0.9_1";"poun_female-hunt 2.5%_0.9";"Deterministic";"female-hunt 2.5%";0,9;1;101;1,13731441844186;1,13731441844186;1,13731441844186;NA;NA;NA;1,13731441844186;1,13731441844186;10,8575314038592;10,8575314038592;10,8575314038592;NA;NA;NA;10,8575314038592;10,8575314038592
+97;"poun_female-hunt 2.5%_0.9_2";"poun_female-hunt 2.5%_0.9";"Stochastic uniform";"female-hunt 2.5%";0,9;50;101;1,09666181559978;1,0820516363312;1,11164636682652;0,0073156941326569;1,09460818489059;1,09867813989042;1,09072734894099;1,10103917775077;18,2690855608244;14,9729796130537;22,8383132820736;1,73145802043104;17,7841064513157;18,772528132009;16,9572750127466;19,8005840191542
+98;"poun_female-hunt 2.5%_0.9_3";"poun_female-hunt 2.5%_0.9";"Stochastic equal";"female-hunt 2.5%";0,9;50;101;1,03380842751716;1,0073525080547;1,05987005234926;0,0126821102929639;1,03010639005139;1,03730900198244;1,02442303689787;1,04273873275296;30,0310591791872;22,1652426003488;37,1837537414826;3,4098103881999;29,0088994401022;30,9527482205255;27,5105829468436;32,3920733002579
+99;"poun_female-hunt 2.5%_0.9_4";"poun_female-hunt 2.5%_0.9";"Stochastic bad x2";"female-hunt 2.5%";0,9;50;101;1,00127763494479;0,970529938500327;1,0238004533919;0,0104643654380142;0,998523980113083;1,00409311675544;0,994191259007029;1,00931291229976;35,979456580323;27,5348680298923;42,5470560704153;3,65255336065165;34,9854908456522;36,9753521359032;33,4845926786656;38,7319325093282
+100;"poun_female-hunt 2.5%_0.9_5";"poun_female-hunt 2.5%_0.9";"Stochastic worst x4";"female-hunt 2.5%";0,9;50;101;0,974137133211657;0,950780832984045;0,999313842840426;0,0093604252797775;0,971492893728129;0,97673406554449;0,969438215968692;0,979845633700561;40,7261201661437;35,4002016989122;50,5951711141197;3,3496229225849;39,7413228067998;41,7368916688298;38,4590544945749;42,7837233924136
+101;"poun_female-hunt 5%_0_1";"poun_female-hunt 5%_0";"Deterministic";"female-hunt 5%";0;1;101;0,883566872894478;0,883566872894478;0,883566872894478;NA;NA;NA;0,883566872894478;0,883566872894478;64,2752763569437;64,2752763569437;64,2752763569437;NA;NA;NA;64,2752763569437;64,2752763569437
+102;"poun_female-hunt 5%_0_2";"poun_female-hunt 5%_0";"Stochastic uniform";"female-hunt 5%";0;50;101;0,888723163810472;0,886208415371934;0,892019808822337;0,00144213981053211;0,888311083183989;0,889135244436955;0,887793340858408;0,889906574840372;59,5596472408149;56,5447368223064;61,8594827523695;1,31889309406088;59,1827834385013;59,8978583454553;58,4773717059657;60,410006589625
+103;"poun_female-hunt 5%_0_3";"poun_female-hunt 5%_0";"Stochastic equal";"female-hunt 5%";0;50;101;0,89667948975257;0,892019808822337;0,901001053245688;0,00218659757906419;0,896097822099034;0,897250327081948;0,895189659795285;0,898359510768232;52,2832769038376;48,3310385667542;56,5447368223064;1,99972875407548;51,7518023108312;52,8534041945171;50,7468321713284;53,6457844968174
+104;"poun_female-hunt 5%_0_4";"poun_female-hunt 5%_0";"Stochastic bad x2";"female-hunt 5%";0;50;101;0,900557274109475;0,894661351299793;0,905227521209617;0,00212763254956239;0,899986436780097;0,901138413454516;0,899416127759214;0,90205767023667;48,7368918923227;44,4657687994356;54,1289432177322;1,9458029352103;48,2054172993164;49,2587033109107;47,3647211249246;49,7805147294987
+105;"poun_female-hunt 5%_0_5";"poun_female-hunt 5%_0";"Stochastic worst x4";"female-hunt 5%";0;50;101;0,904720345053946;0,899944436254705;0,909982297669038;0,00242914065937986;0,903991279330168;0,905386013758265;0,903114287227653;0,9062841382006;44,9296011715138;40,1173403112021;49,2973560085839;2,22154385917444;44,3014948343245;45,5673706831214;43,4994513576059;46,3984036830949
+106;"poun_female-hunt 5%_0.1_1";"poun_female-hunt 5%_0.1";"Deterministic";"female-hunt 5%";0,1;1;101;0,936397722443599;0,936397722443599;0,936397722443599;NA;NA;NA;0,936397722443599;0,936397722443599;15,9594042654605;15,9594042654605;15,9594042654605;NA;NA;NA;15,9594042654605;15,9594042654605
+107;"poun_female-hunt 5%_0.1_2";"poun_female-hunt 5%_0.1";"Stochastic uniform";"female-hunt 5%";0,1;50;101;0,931125203658597;0,928473095011231;0,933756179966143;0,00142197348046094;0,930755387711753;0,93151615194526;0,930058020497704;0,932171254479669;20,7813283001905;18,3751978700346;23,206785079183;1,30045019880957;20,4334540211318;21,1388657536675;19,8246740327791;21,7573089164385
+108;"poun_female-hunt 5%_0.1_3";"poun_female-hunt 5%_0.1";"Stochastic equal";"female-hunt 5%";0,1;50;101;0,923200576226228;0,918435233596898;0,927416478020248;0,00217300927923793;0,922577172201549;0,923792281741179;0,922133393065336;0,924774935542792;28,028709113913;24,1731025210126;32,3868007765648;1,98730172399838;27,4873297671279;28,5601837069193;26,5888961255868;29,004689730161
+109;"poun_female-hunt 5%_0.1_4";"poun_female-hunt 5%_0.1";"Stochastic bad x2";"female-hunt 5%";0,1;50;101;0,918762784864102;0,912095531651003;0,922133393065336;0,00210212648487456;0,918171079349152;0,919301923683751;0,917906925101406;0,920020159083371;32,0872423695976;29,004689730161;38,1847054275428;1,92247664442504;31,5651893716491;32,6095369469065;30,9373246138203;32,8699594974796
+110;"poun_female-hunt 5%_0.1_5";"poun_female-hunt 5%_0.1";"Stochastic worst x4";"female-hunt 5%";0,1;50;101;0,915582367721245;0,909453989173547;0,920020159083371;0,00258156155755789;0,914927001032588;0,916301131429361;0,913680457137477;0,918039002225279;34,9958578695049;30,9373246138203;40,6004990321169;2,3609387143261;34,3870778811522;35,6341105398334;32,7491698172509;36,7352292647983
+111;"poun_female-hunt 5%_0.2_1";"poun_female-hunt 5%_0.2";"Deterministic";"female-hunt 5%";0,2;1;101;0,974007989501608;0,974007989501608;0,974007989501608;NA;NA;NA;0,974007989501608;0,974007989501608;13,5034839111539;13,5034839111539;13,5034839111539;NA;NA;NA;13,5034839111539;13,5034839111539
+112;"poun_female-hunt 5%_0.2_2";"poun_female-hunt 5%_0.2";"Stochastic uniform";"female-hunt 5%";0,2;50;101;0,960725564702329;0,955328590447328;0,967909831968173;0,00274548891548163;0,959894732340672;0,961435347130512;0,958885849008498;0,962107262301165;18,9561269451661;15,2476705164152;21,897121941454;1,49351769819482;18,5538206801578;19,3680472661856;18,3185372667056;19,8355512391935
+113;"poun_female-hunt 5%_0.2_3";"poun_female-hunt 5%_0.2";"Stochastic equal";"female-hunt 5%";0,2;50;101;0,942094364100089;0,934159854740504;0,950287049904876;0,0037096189837308;0,941120871924468;0,94317339279071;0,939261781386071;0,94408824886625;26,8218795148808;21,7823512736851;31,2570774135837;2,06622432677662;26,2476213931552;27,3663467987373;25,477592165263;28,2660280748082
+114;"poun_female-hunt 5%_0.2_4";"poun_female-hunt 5%_0.2";"Stochastic bad x2";"female-hunt 5%";0,2;50;101;0,931806907858159;0,925044052059033;0,937938529013095;0,00314295902994687;0,93094886320597;0,932659975488174;0,929624288046655;0,934007648915593;31,0111412727468;25,7293240015795;34,647213809934;2,01613926699098;30,4552188647892;31,5700929712438;30,077752489813;32,2499603964431
+115;"poun_female-hunt 5%_0.2_5";"poun_female-hunt 5%_0.2";"Stochastic worst x4";"female-hunt 5%";0,2;50;101;0,923053377055049;0,912838913208768;0,930703239684525;0,00361060767924221;0,92203335398929;0,924037314628373;0,921130819528321;0,9252723607964;34,4810873001681;29,7910673972427;40,3794662002293;2,27797153653525;33,8847119779279;35,1107488925306;33,0072830313049;35,4619217786803
+116;"poun_female-hunt 5%_0.3_1";"poun_female-hunt 5%_0.3";"Deterministic";"female-hunt 5%";0,3;1;101;1,0040429912785;1,0040429912785;1,0040429912785;NA;NA;NA;1,0040429912785;1,0040429912785;12,3525151389784;12,3525151389784;12,3525151389784;NA;NA;NA;12,3525151389784;12,3525151389784
+117;"poun_female-hunt 5%_0.3_2";"poun_female-hunt 5%_0.3";"Stochastic uniform";"female-hunt 5%";0,3;50;101;0,985495900017054;0,973711549213698;0,995693538908538;0,00451104178381317;0,984221744158641;0,986722874650868;0,982710222044286;0,988808100059916;17,7912500987436;14,1626802143711;22,6145975743048;1,76168624287495;17,3007229758182;18,2730076722241;16,4019006737814;18,880814838069
+118;"poun_female-hunt 5%_0.3_3";"poun_female-hunt 5%_0.3";"Stochastic equal";"female-hunt 5%";0,3;50;101;0,958150653601475;0,945725361240635;0,965213952650877;0,00422479244391714;0,957013838322397;0,959214803023369;0,955617801138613;0,961069999265613;25,8466562878149;21,2951338421474;30,3166108399978;1,99323408223797;25,3272942653923;26,409039115065;24,3113100642471;27,2733829494495
+119;"poun_female-hunt 5%_0.3_4";"poun_female-hunt 5%_0.3";"Stochastic bad x2";"female-hunt 5%";0,3;50;101;0,941340705930035;0,931648391337185;0,952805784150818;0,00466159107281124;0,940000348116319;0,9427095428345;0,937498182174055;0,944705780297867;31,0016702683627;26,0042512430291;34,9535904583499;2,04137613666084;30,4577201649758;31,5997001348762;29,7199995336326;32,5342310701577
+120;"poun_female-hunt 5%_0.3_5";"poun_female-hunt 5%_0.3";"Stochastic worst x4";"female-hunt 5%";0,3;50;101;0,929633128817424;0,921121436709316;0,940693904036476;0,0048456984094607;0,928266847932803;0,930972059071985;0,926252836899378;0,9328259202933;34,2284627158359;28,6221950607201;39,9151900980853;2,72501868172507;33,524545519588;34,9390109051207;32,6407576159142;35,977782548237
+121;"poun_female-hunt 5%_0.4_1";"poun_female-hunt 5%_0.4";"Deterministic";"female-hunt 5%";0,4;1;101;1,02940240401655;1,02940240401655;1,02940240401655;NA;NA;NA;1,02940240401655;1,02940240401655;11,6473646321441;11,6473646321441;11,6473646321441;NA;NA;NA;11,6473646321441;11,6473646321441
+122;"poun_female-hunt 5%_0.4_2";"poun_female-hunt 5%_0.4";"Stochastic uniform";"female-hunt 5%";0,4;50;101;1,00590514933848;0,994231250783038;1,01640377639081;0,00490267684187064;1,00449496065125;1,00730342905676;1,00306669553247;1,00956600934533;17,1491353747414;14,6668437853826;20,4559140751105;1,41081267194549;16,8071246234202;17,5550240440498;15,8595433079613;17,9215393806202
+123;"poun_female-hunt 5%_0.4_3";"poun_female-hunt 5%_0.4";"Stochastic equal";"female-hunt 5%";0,4;50;101;0,971954287554882;0,957348601887803;0,989201306178632;0,00597682980782034;0,970378972398702;0,973638835531875;0,968762304027063;0,97579543328404;25,0894841640945;21,4045627944401;29,4800654997427;1,8788147247346;24,5875980422522;25,6304972053465;23,7448957054312;26,1477006206096
+124;"poun_female-hunt 5%_0.4_4";"poun_female-hunt 5%_0.4";"Stochastic bad x2";"female-hunt 5%";0,4;50;101;0,950489597742113;0,93534670204424;0,966753612425871;0,00635206104204933;0,948813017263419;0,952200441175734;0,946870453512893;0,954701552461727;30,4603245608656;23,7252812450979;37,1066955192137;2,46929235141712;29,7954239086851;31,1295034986442;29,1735426923063;31,3499655267356
+125;"poun_female-hunt 5%_0.4_5";"poun_female-hunt 5%_0.4";"Stochastic worst x4";"female-hunt 5%";0,4;50;101;0,934970927835726;0,92486304672071;0,954156723120377;0,0054315761550388;0,933583781413415;0,936457378101408;0,931515066304023;0,938304669959829;34,2528786957661;27,9786345794151;39,4274139698715;2,3601695022331;33,5976804469246;34,9256828947715;32,523050588981;35,872821338135
+126;"poun_female-hunt 5%_0.5_1";"poun_female-hunt 5%_0.5";"Deterministic";"female-hunt 5%";0,5;1;101;1,05153591837062;1,05153591837062;1,05153591837062;NA;NA;NA;1,05153591837062;1,05153591837062;11,1571170841584;11,1571170841584;11,1571170841584;NA;NA;NA;11,1571170841584;11,1571170841584
+127;"poun_female-hunt 5%_0.5_2";"poun_female-hunt 5%_0.5";"Stochastic uniform";"female-hunt 5%";0,5;50;101;1,02327721945357;1,00897506719186;1,03666271786839;0,0060269521718577;1,02158439707358;1,02485977680827;1,01847396835584;1,02746173252279;16,7809873346554;12,6997089877443;21,5377045768657;1,69394406357701;16,3021919839812;17,2263515144753;15,7885552983969;18,0715535047891
+128;"poun_female-hunt 5%_0.5_3";"poun_female-hunt 5%_0.5";"Stochastic equal";"female-hunt 5%";0,5;50;101;0,980334849970866;0,960941601121607;0,993140014666937;0,00708539241511788;0,978296030086896;0,982103354101028;0,976082506456532;0,985845561868257;25,7840386287715;20,8536643603449;29,83865856769;2,19777799882423;25,2116663053021;26,3711113429779;24,4187911788322;27,2307734758638
+129;"poun_female-hunt 5%_0.5_4";"poun_female-hunt 5%_0.5";"Stochastic bad x2";"female-hunt 5%";0,5;50;101;0,958019507823915;0,946352695524246;0,970301905418109;0,0068110290466986;0,956105540707974;0,959930152475757;0,952438313550954;0,96326805628222;30,1732136123323;24,0858467857405;33,9891355631022;2,36369686808173;29,508257295273;30,7867536520654;28,8213882512627;31,4787612162943
+130;"poun_female-hunt 5%_0.5_5";"poun_female-hunt 5%_0.5";"Stochastic worst x4";"female-hunt 5%";0,5;50;101;0,940700404268016;0,929745320913207;0,961469909617098;0,00594705373664265;0,939043191468272;0,942362483137233;0,936934938415041;0,943403166899854;33,4501988238632;28,9654568667018;41,137540630414;2,29379157788204;32,8372960476723;34,0768899513354;32,0062803055414;34,7484257969419
+131;"poun_female-hunt 5%_0.6_1";"poun_female-hunt 5%_0.6";"Deterministic";"female-hunt 5%";0,6;1;101;1,07128576695135;1,07128576695135;1,07128576695135;NA;NA;NA;1,07128576695135;1,07128576695135;10,7898947986009;10,7898947986009;10,7898947986009;NA;NA;NA;10,7898947986009;10,7898947986009
+132;"poun_female-hunt 5%_0.6_2";"poun_female-hunt 5%_0.6";"Stochastic uniform";"female-hunt 5%";0,6;50;101;1,0378272687055;1,02371529811624;1,04893932629322;0,00555953460305146;1,03639502994299;1,03922747741423;1,03480139797861;1,04200104283596;16,9234866534283;13,4979561022892;20,2442753261994;1,43397170707824;16,5558772798164;17,2875418476563;16,0255879526433;17,6604726639523
+133;"poun_female-hunt 5%_0.6_3";"poun_female-hunt 5%_0.6";"Stochastic equal";"female-hunt 5%";0,6;50;101;0,991130195440332;0,966410402711498;1,01268820951423;0,00917551931094091;0,988622382729638;0,993695876314936;0,986851545222707;0,996015499487329;25,4253441464025;20,6916283093193;28,9391187906425;1,92789281553654;24,9101657855992;25,9384984538353;24,1249310723857;26,903093717646
+134;"poun_female-hunt 5%_0.6_4";"poun_female-hunt 5%_0.6";"Stochastic bad x2";"female-hunt 5%";0,6;50;101;0,962388050622229;0,950864582691457;0,977145227859419;0,00671202033925334;0,960705437776228;0,964196652065716;0,956805260418083;0,966643654905244;30,2949712500442;25,5728971011124;36,2023889612387;2,54102977574046;29,5232033922427;30,9544830358917;28,7869990898432;31,8629119074539
+135;"poun_female-hunt 5%_0.6_5";"poun_female-hunt 5%_0.6";"Stochastic worst x4";"female-hunt 5%";0,6;50;101;0,942227704454763;0,929867022478407;0,955911622604973;0,00564956734478709;0,940745378192804;0,943854253531025;0,937755162161475;0,946216566997209;34,2894700044617;28,9371052786187;39,566597138745;2,66386506718935;33,5329391117593;34,9578571066972;32,7765274986031;35,8693364290993
+136;"poun_female-hunt 5%_0.7_1";"poun_female-hunt 5%_0.7";"Deterministic";"female-hunt 5%";0,7;1;101;1,08918996060769;1,08918996060769;1,08918996060769;NA;NA;NA;1,08918996060769;1,08918996060769;10,5009189409791;10,5009189409791;10,5009189409791;NA;NA;NA;10,5009189409791;10,5009189409791
+137;"poun_female-hunt 5%_0.7_2";"poun_female-hunt 5%_0.7";"Stochastic uniform";"female-hunt 5%";0,7;50;101;1,05258104664285;1,03854050959421;1,06974127193219;0,00660570780619356;1,0508417415346;1,05443424222706;1,04870765777021;1,05693258127874;16,5351891202161;13,3614963298003;19,7052495132264;1,51840822884346;16,0933081361121;16,9561477235992;15,5609767609673;17,8135532695007
+138;"poun_female-hunt 5%_0.7_3";"poun_female-hunt 5%_0.7";"Stochastic equal";"female-hunt 5%";0,7;50;101;0,999326840750047;0,970798896858516;1,02514650734044;0,0115146413622443;0,996118986245756;1,00288035796257;0,990818646358138;1,00522651327427;25,6805349430797;21,2174154875042;32,8375396643256;2,53197432555377;24,9706778557925;26,3679171201049;23,8187148234125;27,1735334431939
+139;"poun_female-hunt 5%_0.7_4";"poun_female-hunt 5%_0.7";"Stochastic bad x2";"female-hunt 5%";0,7;50;101;0,971058854933765;0,951293205078177;0,990946903344012;0,00877554759001341;0,968443498805747;0,973402610534343;0,965508171627605;0,976335705422965;30,2096855171417;25,1534800246446;37,2486579640924;2,41818158521211;29,5194124067436;30,8619363967873;29,0814396034966;31,6958476890224
+140;"poun_female-hunt 5%_0.7_5";"poun_female-hunt 5%_0.7";"Stochastic worst x4";"female-hunt 5%";0,7;50;101;0,948001460473376;0,930487603335527;0,969555990001038;0,00959381512448362;0,945552494149336;0,95056975043995;0,939405234153836;0,954402232808292;33,9212607622199;25,917667970072;39,0802280995506;2,74108181409064;33,2132091995805;34,6878923852214;32,4034245416329;35,7547281459637
+141;"poun_female-hunt 5%_0.8_1";"poun_female-hunt 5%_0.8";"Deterministic";"female-hunt 5%";0,8;1;101;1,10561559198582;1,10561559198582;1,10561559198582;NA;NA;NA;1,10561559198582;1,10561559198582;10,265401480248;10,265401480248;10,265401480248;NA;NA;NA;10,265401480248;10,265401480248
+142;"poun_female-hunt 5%_0.8_2";"poun_female-hunt 5%_0.8";"Stochastic uniform";"female-hunt 5%";0,8;50;101;1,06550548356592;1,04956714616824;1,08044741797238;0,00751089729805811;1,06332082188334;1,06740695130623;1,0602753401385;1,07092990750429;16,3898805278028;13,0521367816892;19,9026004321033;1,67903321817654;15,9521114851074;16,8753509419806;15,1555917489049;17,415631792714
+143;"poun_female-hunt 5%_0.8_3";"poun_female-hunt 5%_0.8";"Stochastic equal";"female-hunt 5%";0,8;50;101;1,00917628348973;0,977133179441182;1,03169599543198;0,0115406181808934;1,00592337475831;1,01231504212457;1,00217126571806;1,01575635372397;25,4521768231197;19,7334433802034;32,0987745739912;2,51737038574417;24,7902472402576;26,1293476859651;23,6698881823372;26,5123162378882
+144;"poun_female-hunt 5%_0.8_4";"poun_female-hunt 5%_0.8";"Stochastic bad x2";"female-hunt 5%";0,8;50;101;0,975808353326455;0,957784356427402;1,00430733422763;0,00932116765092546;0,973410179762385;0,978239284788309;0,968965242901367;0,982447056472957;30,2701031473541;23,9127148165369;36,6473246755354;2,79577965411377;29,540718000061;30,9982187852421;28,2908605924388;32,3485108327155
+145;"poun_female-hunt 5%_0.8_5";"poun_female-hunt 5%_0.8";"Stochastic worst x4";"female-hunt 5%";0,8;50;101;0,95083235628459;0,932616182413966;0,975011987909966;0,00953736207542306;0,948147683822636;0,953301798563771;0,944032420446127;0,957565871234879;33,6142726301817;25,3638540109379;40,286497363102;2,97990189196804;32,7814226564561;34,4988968880255;31,7380685649616;35,2129150355822
+146;"poun_female-hunt 5%_0.9_1";"poun_female-hunt 5%_0.9";"Deterministic";"female-hunt 5%";0,9;1;101;1,12082562171301;1,12082562171301;1,12082562171301;NA;NA;NA;1,12082562171301;1,12082562171301;10,0683550258047;10,0683550258047;10,0683550258047;NA;NA;NA;10,0683550258047;10,0683550258047
+147;"poun_female-hunt 5%_0.9_2";"poun_female-hunt 5%_0.9";"Stochastic uniform";"female-hunt 5%";0,9;50;101;1,07979522280956;1,0631054614779;1,1007979062996;0,00797692034563929;1,07773849664803;1,08190136987586;1,07437285167602;1,08458362488316;16,0138162641913;12,1069361125148;18,9063191342342;1,50170888054417;15,6084811135858;16,4147629595085;14,949830786964;16,9855590323173
+148;"poun_female-hunt 5%_0.9_3";"poun_female-hunt 5%_0.9";"Stochastic equal";"female-hunt 5%";0,9;50;101;1,01730183765191;0,996961169764084;1,04176177556728;0,011118644190468;1,01418960832816;1,02048232992615;1,00834863523226;1,02561713326892;24,7244780990865;20,2142247487009;30,6432355681528;2,24895655841369;24,1654211444618;25,3533289848819;23,3016674790431;26,1033479796305
+149;"poun_female-hunt 5%_0.9_4";"poun_female-hunt 5%_0.9";"Stochastic bad x2";"female-hunt 5%";0,9;50;101;0,983319272915809;0,956627182464933;1,00328166874388;0,00933379777259145;0,980783581897835;0,985860847168161;0,976923852867619;0,989243059315194;29,5309000392673;24,8334561354324;34,8971292187626;2,50353616325157;28,8384374647571;30,2349105475573;27,2492497400066;31,0290066100872
+150;"poun_female-hunt 5%_0.9_5";"poun_female-hunt 5%_0.9";"Stochastic worst x4";"female-hunt 5%";0,9;50;101;0,953842512080987;0,934217278080283;0,98166902784399;0,00980392269668918;0,95120579897931;0,956679243096757;0,947336148383382;0,959006971065406;34,0255342877108;29,900685314167;40,7420695803948;2,50230901387871;33,3875958356822;34,7179880866665;32,4813356141884;35,8398129511863
+151;"poun_female-hunt 10%_0_1";"poun_female-hunt 10%_0";"Deterministic";"female-hunt 10%";0;1;101;0,837079201317298;0,837079201317298;0,837079201317298;NA;NA;NA;0,837079201317298;0,837079201317298;46,9332739470926;46,9332739470926;46,9332739470926;NA;NA;NA;46,9332739470926;46,9332739470926
+152;"poun_female-hunt 10%_0_2";"poun_female-hunt 10%_0";"Stochastic uniform";"female-hunt 10%";0;50;101;0,843383715601278;0,838866870774003;0,849592887514233;0,00197850510681974;0,842835496967888;0,843956067772333;0,842442209687413;0,844229879144118;43,3633059638006;39,8473261541689;45,9209956909606;1,12034005602534;43,0729508173334;43,6604096319753;42,8841609225648;43,8964391786967
+153;"poun_female-hunt 10%_0_3";"poun_female-hunt 10%_0";"Stochastic equal";"female-hunt 10%";0;50;101;0,851750008658657;0,846017548600823;0,859127124616659;0,00302144908291666;0,850891629374529;0,852572634553651;0,849145970150057;0,853764116246544;38,625843725103;34,4485087881319;41,8718826664328;1,71091316528048;38,1600270142397;39,0646663491362;37,4853435565277;40,1003957182019
+154;"poun_female-hunt 10%_0_4";"poun_female-hunt 10%_0";"Stochastic bad x2";"female-hunt 10%";0;50;101;0,856922332286723;0,851380556970938;0,862106573711168;0,00297153391995869;0,856111922133017;0,857757173923004;0,85391308870127;0,859127124616659;35,6969853040279;32,7613783612453;38,835047898037;1,68264841313398;35,2313373062073;36,1491362584336;34,4485087881319;37,4009870351834
+155;"poun_female-hunt 10%_0_5";"poun_female-hunt 10%_0";"Stochastic worst x4";"female-hunt 10%";0;50;101;0,861153150000925;0,855551785703249;0,868065471900184;0,0027975625337152;0,860414246625487;0,861951642358253;0,859276097071385;0,862702463530069;33,301260097849;29,3871175074722;36,4730653003958;1,5841361010156;32,8354433869856;33,7129199220093;32,423952275868;34,3641522667876
+156;"poun_female-hunt 10%_0.1_1";"poun_female-hunt 10%_0.1";"Deterministic";"female-hunt 10%";0,1;1;101;0,896668183207464;0,896668183207464;0,896668183207464;NA;NA;NA;0,896668183207464;0,896668183207464;13,190665409361;13,190665409361;13,190665409361;NA;NA;NA;13,190665409361;13,190665409361
+157;"poun_female-hunt 10%_0.1_2";"poun_female-hunt 10%_0.1";"Stochastic uniform";"female-hunt 10%";0,1;50;101;0,890721202814825;0,887729835923939;0,893688734112955;0,00148663243998398;0,890303781996685;0,891126407891678;0,889517505380644;0,891901064656251;16,5581777414266;14,8777958362476;18,2520566900207;0,841814289667376;16,315230959955;16,7876274794832;15,8900740923795;17,2397784338888
+158;"poun_female-hunt 10%_0.1_3";"poun_female-hunt 10%_0.1";"Stochastic equal";"female-hunt 10%";0,1;50;101;0,882045047051617;0,874024370089201;0,886538056286136;0,00229751764839246;0,881448859287806;0,882640936870519;0,881175047916021;0,883558607191627;21,4711015445203;18,9269088607754;26,012856653699;1,30098276827634;21,1132611809777;21,8692643252656;20,614039287662;21,9637436291712
+159;"poun_female-hunt 10%_0.1_4";"poun_female-hunt 10%_0.1";"Stochastic bad x2";"female-hunt 10%";0,1;50;101;0,876836970034417;0,869257251537987;0,882962717372726;0,00324386817694078;0,875954755157533;0,877754640355525;0,874620259908102;0,87923840600459;24,4202055307181;20,9514653730393;28,7122653367175;1,83685927449252;23,9273947330245;24,9195961370765;23,0603784066475;25,6754305683217
+160;"poun_female-hunt 10%_0.1_5";"poun_female-hunt 10%_0.1";"Stochastic worst x4";"female-hunt 10%";0,1;50;101;0,872808754858641;0,865681912624578;0,879983268278217;0,00296105349259135;0,872010262501313;0,873583411623214;0,871044920994693;0,875067177272279;26,7012058678687;22,6385957999258;30,7368218489814;1,67671381001195;26,2691317655431;27,1737711004397;25,4223610042887;27,6999870805856
+161;"poun_female-hunt 10%_0.2_1";"poun_female-hunt 10%_0.2";"Deterministic";"female-hunt 10%";0,2;1;101;0,936979222247523;0,936979222247523;0,936979222247523;NA;NA;NA;0,936979222247523;0,936979222247523;11,4534191094108;11,4534191094108;11,4534191094108;NA;NA;NA;11,4534191094108;11,4534191094108
+162;"poun_female-hunt 10%_0.2_2";"poun_female-hunt 10%_0.2";"Stochastic uniform";"female-hunt 10%";0,2;50;101;0,922591116028674;0,917349673851683;0,928356227687406;0,002760700037556;0,921863045281532;0,923339263169715;0,920364226012988;0,924360226850197;15,3281135411199;13,3837640182904;17,2518031244364;0,934047793409633;15,0781469242609;15,5855185666191;14,5263357469186;15,9498730561758
+163;"poun_female-hunt 10%_0.2_3";"poun_female-hunt 10%_0.2";"Stochastic equal";"female-hunt 10%";0,2;50;101;0,902666764753062;0,891130234381128;0,911916459347974;0,00410005341743538;0,90147024117106;0,903766231949982;0,899564765536373;0,905309016739861;20,3891048304914;17,2097089100506;24,340424803586;1,64779924204036;19,8988277151171;20,853786342307;19,4297056310589;21,8134038074495
+164;"poun_female-hunt 10%_0.2_4";"poun_female-hunt 10%_0.2";"Stochastic bad x2";"female-hunt 10%";0,2;50;101;0,890842072340159;0,882139232497408;0,898911905093647;0,0041922319760132;0,889646177011494;0,8919563244311;0,888124457986522;0,89346559879961;23,7106475285868;19,6859494603016;27,5336117389773;1,72843294746561;23,2754587204046;24,1850976967856;22,5088027064133;25,1281979838374
+165;"poun_female-hunt 10%_0.2_5";"poun_female-hunt 10%_0.2";"Stochastic worst x4";"female-hunt 10%";0,2;50;101;0,881022395210443;0,871921347909087;0,889868248609731;0,0039730309872486;0,879919180743381;0,882100913484736;0,878760989036128;0,883177579937416;26,4282843181972;21,971092917558;31,0468522967465;1,9085479973758;25,9332591648541;26,9600972492978;25,2628345720835;27,4350570198432
+166;"poun_female-hunt 10%_0.3_1";"poun_female-hunt 10%_0.3";"Deterministic";"female-hunt 10%";0,3;1;101;0,968514482562383;0,968514482562383;0,968514482562383;NA;NA;NA;0,968514482562383;0,968514482562383;10,630388699733;10,630388699733;10,630388699733;NA;NA;NA;10,630388699733;10,630388699733
+167;"poun_female-hunt 10%_0.3_2";"poun_female-hunt 10%_0.3";"Stochastic uniform";"female-hunt 10%";0,3;50;101;0,948871146049204;0,94017763445303;0,956790904370637;0,00404608474871592;0,947743873719973;0,950001514931993;0,94592109438784;0,951827194016701;14,4796533062881;12,0267084623091;16,3830546919923;1,04109981651983;14,1718208550782;14,7759008128236;13,8226506493549;15,2619646757012
+168;"poun_female-hunt 10%_0.3_3";"poun_female-hunt 10%_0.3";"Stochastic equal";"female-hunt 10%";0,3;50;101;0,91794892454222;0,904550559287874;0,929874006194046;0,00593571701300956;0,916327855214262;0,919629843958954;0,913308355624437;0,922662041779903;20,179002312317;16,1178467947781;23,9764677137158;1,76656767547391;19,720766874611;20,6608473740467;18,9004644708596;21,7662911400039
+169;"poun_female-hunt 10%_0.3_4";"poun_female-hunt 10%_0.3";"Stochastic bad x2";"female-hunt 10%";0,3;50;101;0,901802710257534;0,893177724565734;0,913260736276439;0,00505705448272899;0,900505795924034;0,9032596149597;0,897790691450064;0,906154368982607;23,4356822402832;19,9529574562843;26,517669681031;1,59942469326488;23,016263451592;23,8742421564335;22,1706822500518;24,7013778903816
+170;"poun_female-hunt 10%_0.3_5";"poun_female-hunt 10%_0.3";"Stochastic worst x4";"female-hunt 10%";0,3;50;101;0,888892934397144;0,880752659434775;0,899381769104046;0,00467131203244542;0,887630134399576;0,890097623924066;0,885169034516381;0,892673764627818;25,8814093646013;21,9473210883263;29,2380910180201;1,75413963850135;25,3607896791647;26,3579980577214;24,5792802687598;26,9401153381196
+171;"poun_female-hunt 10%_0.4_1";"poun_female-hunt 10%_0.4";"Deterministic";"female-hunt 10%";0,4;1;101;0,994835943527529;0,994835943527529;0,994835943527529;NA;NA;NA;0,994835943527529;0,994835943527529;10,1215441607542;10,1215441607542;10,1215441607542;NA;NA;NA;10,1215441607542;10,1215441607542
+172;"poun_female-hunt 10%_0.4_2";"poun_female-hunt 10%_0.4";"Stochastic uniform";"female-hunt 10%";0,4;50;101;0,969911722370374;0,959392300957587;0,980252048944309;0,00513834802701198;0,968575936747951;0,971290978939779;0,96648275028582;0,973073756741227;14,0568581039697;11,9009254770685;16,2569506264569;1,03405120105864;13,7709238348011;14,3354421822517;13,2736482279423;14,6771065042945
+173;"poun_female-hunt 10%_0.4_3";"poun_female-hunt 10%_0.4";"Stochastic equal";"female-hunt 10%";0,4;50;101;0,93317701155759;0,914903457924236;0,946420390081375;0,00758419930267364;0,931019622066137;0,93514784311995;0,927156318740499;0,938304341712517;19,5855929761488;16,3186875553679;22,8220340669645;1,58042911418088;19,1972254026747;19,9813831125565;18,5655781061864;20,6670399016349
+174;"poun_female-hunt 10%_0.4_4";"poun_female-hunt 10%_0.4";"Stochastic bad x2";"female-hunt 10%";0,4;50;101;0,908444235554685;0,894043709937513;0,92535054006005;0,00702701569649706;0,906564523973282;0,910438659180161;0,903684800219823;0,912948706789061;23,559553031821;20,0612429589739;26,9020155559478;1,69882007749301;23,0773211441396;24,0278242287385;22,193218714939;24,7700397999827
+175;"poun_female-hunt 10%_0.4_5";"poun_female-hunt 10%_0.4";"Stochastic worst x4";"female-hunt 10%";0,4;50;101;0,892582567176398;0,877847831647284;0,903299012435524;0,00632749876894229;0,890815021997859;0,894398929740436;0,888767643360955;0,897540711128592;26,1340039008111;22,9142849563922;31,6261580031997;1,92936615348959;25,5787270647322;26,6636029157833;24,6704706113724;27,201254877687
+176;"poun_female-hunt 10%_0.5_1";"poun_female-hunt 10%_0.5";"Deterministic";"female-hunt 10%";0,5;1;101;1,01763848392833;1,01763848392833;1,01763848392833;NA;NA;NA;1,01763848392833;1,01763848392833;9,76508584110341;9,76508584110341;9,76508584110341;NA;NA;NA;9,76508584110341;9,76508584110341
+177;"poun_female-hunt 10%_0.5_2";"poun_female-hunt 10%_0.5";"Stochastic uniform";"female-hunt 10%";0,5;50;101;0,988496299110374;0,968201970957423;1,00014259874732;0,00587948242180337;0,986770445397183;0,990136389249212;0,98567993276903;0,991706043593317;13,6035088276331;11,8632858161809;16,9349408397375;1,06694150254356;13,3214443634696;13,8970071597055;12,7864925056342;14,196144489588
+178;"poun_female-hunt 10%_0.5_3";"poun_female-hunt 10%_0.5";"Stochastic equal";"female-hunt 10%";0,5;50;101;0,940784910502606;0,92537401610265;0,957946380450257;0,00764681086589367;0,938855952396645;0,942905700446258;0,934410941917905;0,945867273747576;20,1218748879166;17,1456074852814;23,0531299151087;1,4525909943373;19,7185389082872;20,5201753844634;18,9427862802743;21,2169802790989
+179;"poun_female-hunt 10%_0.5_4";"poun_female-hunt 10%_0.5";"Stochastic bad x2";"female-hunt 10%";0,5;50;101;0,917264886067942;0,902479275812712;0,933210200595399;0,00776779100870427;0,915279388162204;0,919383175701562;0,911060322579088;0,922828041845264;23,2625649115049;20,1875741251257;26,4376545117787;1,62387450888093;22,8262766536915;23,6885311424019;22,0545474793458;24,4936056172728
+180;"poun_female-hunt 10%_0.5_5";"poun_female-hunt 10%_0.5";"Stochastic worst x4";"female-hunt 10%";0,5;50;101;0,899526613445529;0,8849833906317;0,912067283023355;0,00636937788348648;0,897831253856829;0,901247365750811;0,895194172715353;0,904293830323525;25,7843462474726;22,1881385846039;30,4918994077549;1,71330463588733;25,3089988575604;26,2707385655567;24,9046751654637;26,5318579499058
+181;"poun_female-hunt 10%_0.6_1";"poun_female-hunt 10%_0.6";"Deterministic";"female-hunt 10%";0,6;1;101;1,03787836587798;1,03787836587798;1,03787836587798;NA;NA;NA;1,03787836587798;1,03787836587798;9,49636322768652;9,49636322768652;9,49636322768652;NA;NA;NA;9,49636322768652;9,49636322768652
+182;"poun_female-hunt 10%_0.6_2";"poun_female-hunt 10%_0.6";"Stochastic uniform";"female-hunt 10%";0,6;50;101;1,00073484923371;0,981965090683183;1,01958611887861;0,00713401170451802;0,998893139503739;1,00252399172346;0,997041297212185;1,00395910687736;13,9181898781;11,626809916374;16,752209462614;1,06426738105904;13,6310690233164;14,2147109546614;13,2258796551463;14,7141203284684
+183;"poun_female-hunt 10%_0.6_3";"poun_female-hunt 10%_0.6";"Stochastic equal";"female-hunt 10%";0,6;50;101;0,953576417613765;0,929471908960701;0,977508463014166;0,00892709910612068;0,951162094276188;0,956170939585464;0,949176257786769;0,957340927636971;19,5417868056615;14,944372192224;23,5967435685307;1,69847199967135;19,0343052796442;20,0094729929109;18,7576524413705;20,5463761782531
+184;"poun_female-hunt 10%_0.6_4";"poun_female-hunt 10%_0.6";"Stochastic bad x2";"female-hunt 10%";0,6;50;101;0,924716536686187;0,903302940820009;0,94449930792885;0,00931222845897795;0,922175879201682;0,927410012064634;0,91817509434706;0,930669961584877;23,0710424281352;19,6633984984798;26,6655824697167;1,66293987687321;22,643659987637;23,5532962172654;21,6460730999003;24,1188847629918
+185;"poun_female-hunt 10%_0.6_5";"poun_female-hunt 10%_0.6";"Stochastic worst x4";"female-hunt 10%";0,6;50;101;0,903678006611099;0,883533515246137;0,915946780512551;0,00671257938168429;0,9016423359624;0,905497357203113;0,899072908326266;0,9084556232018;25,3593642245001;22,2371614489683;27,7837509022723;1,33107252076723;24,970025489199;25,7381290580609;24,3682501602548;26,1280319085182
+186;"poun_female-hunt 10%_0.7_1";"poun_female-hunt 10%_0.7";"Deterministic";"female-hunt 10%";0,7;1;101;1,05615453382135;1,05615453382135;1,05615453382135;NA;NA;NA;1,05615453382135;1,05615453382135;9,28373121778287;9,28373121778287;9,28373121778287;NA;NA;NA;9,28373121778287;9,28373121778287
+187;"poun_female-hunt 10%_0.7_2";"poun_female-hunt 10%_0.7";"Stochastic uniform";"female-hunt 10%";0,7;50;101;1,01794013273952;0,999773365221993;1,03682336579712;0,00893979484616404;1,01544158072241;1,02047834575922;1,01087610430192;1,02263167067199;13,5385465348072;10,7257722349884;16,1529855847549;1,30217527391278;13,1721825027453;13,8788736789158;12,6961553907644;14,3291124611631
+188;"poun_female-hunt 10%_0.7_3";"poun_female-hunt 10%_0.7";"Stochastic equal";"female-hunt 10%";0,7;50;101;0,963652989623037;0,940798359429262;0,983631924210038;0,0105668826742673;0,960794571514111;0,966489261427129;0,956988001928858;0,970531237755636;19,2911692726808;15,9469655169896;22,7629525501812;1,63243942014321;18,8567592028648;19,7196157322613;18,1242498989505;20,4844453154647
+189;"poun_female-hunt 10%_0.7_4";"poun_female-hunt 10%_0.7";"Stochastic bad x2";"female-hunt 10%";0,7;50;101;0,93200628123241;0,913492873874336;0,951349042186129;0,0090652201489176;0,929552120549554;0,934491699444121;0,924902293847316;0,938248355731727;22,9202227827033;19,4668303802396;26,8262635665737;1,69910181552103;22,4761923956346;23,3765065244107;21,6734167686372;24,2342955738235
+190;"poun_female-hunt 10%_0.7_5";"poun_female-hunt 10%_0.7";"Stochastic worst x4";"female-hunt 10%";0,7;50;101;0,905317676429482;0,885801776418278;0,924849724367874;0,00923521167135605;0,902733031198164;0,907923401868479;0,901237820660645;0,911508030475264;26,1437285670679;23,153645969339;30,7865645490835;1,68180559051406;25,6808054957517;26,5810535734189;25,1986183109804;27,2071896502525
+191;"poun_female-hunt 10%_0.8_1";"poun_female-hunt 10%_0.8";"Deterministic";"female-hunt 10%";0,8;1;101;1,07286986829678;1,07286986829678;1,07286986829678;NA;NA;NA;1,07286986829678;1,07286986829678;9,10959963821024;9,10959963821024;9,10959963821024;NA;NA;NA;9,10959963821024;9,10959963821024
+192;"poun_female-hunt 10%_0.8_2";"poun_female-hunt 10%_0.8";"Stochastic uniform";"female-hunt 10%";0,8;50;101;1,03206032900556;1,01342892215625;1,04638831032176;0,00792681466311394;1,02991331977326;1,03418099563615;1,02650790238613;1,03564799730731;13,2133778936434;11,0714638453921;15,8252988747008;1,19414388287888;12,896460307686;13,5349715960095;12,2469847323701;14,0871551256748
+193;"poun_female-hunt 10%_0.8_3";"poun_female-hunt 10%_0.8";"Stochastic equal";"female-hunt 10%";0,8;50;101;0,968288134919945;0,946914256006345;0,986351474362331;0,00916846685945798;0,965777869104235;0,970698140010733;0,964125986059818;0,974010943254626;19,9849234158511;16,804754659777;22,9491046883064;1,41132767108296;19,5821262904778;20,3482272695139;18,9925538028869;21,1599476171411
+194;"poun_female-hunt 10%_0.8_4";"poun_female-hunt 10%_0.8";"Stochastic bad x2";"female-hunt 10%";0,8;50;101;0,937023756698408;0,900947902248252;0,960465806206212;0,0127053703474136;0,933600775233418;0,940239621545313;0,926463610857631;0,947225027218701;22,721992353506;19,5340331768218;28,9491410963308;1,93097210339061;22,2450465784977;23,2495612316306;21,2415689325641;23,927301585976
+195;"poun_female-hunt 10%_0.8_5";"poun_female-hunt 10%_0.8";"Stochastic worst x4";"female-hunt 10%";0,8;50;101;0,910797207514077;0,886230225016394;0,929838672104691;0,00834974576614567;0,908592658568414;0,912878353541382;0,905099891526205;0,917536619905704;25,4006308660112;21,996566100227;30,5845200418206;1,87526339764883;24,9048296170823;25,8702433115055;24,2381137713976;26,7401984651078
+196;"poun_female-hunt 10%_0.9_1";"poun_female-hunt 10%_0.9";"Deterministic";"female-hunt 10%";0,9;1;101;1,08830984599065;1,08830984599065;1,08830984599065;NA;NA;NA;1,08830984599065;1,08830984599065;8,9632917414483;8,9632917414483;8,9632917414483;NA;NA;NA;8,9632917414483;8,9632917414483
+197;"poun_female-hunt 10%_0.9_2";"poun_female-hunt 10%_0.9";"Stochastic uniform";"female-hunt 10%";0,9;50;101;1,0462163772349;1,01553386016977;1,06808264724566;0,0102809334703377;1,04343138592437;1,04924315106396;1,04018978198934;1,05269890214662;12,8168398263238;10,7357334497488;15,7571424178965;1,13605964316661;12,521512815338;13,142567132785;11,9810901136578;13,4364787968648
+198;"poun_female-hunt 10%_0.9_3";"poun_female-hunt 10%_0.9";"Stochastic equal";"female-hunt 10%";0,9;50;101;0,97821664442502;0,942419478872248;1,00475999739281;0,0121543500538417;0,975034560397;0,981515926524669;0,972780502273339;0,986863945847043;19,2005077618232;14,9569966532159;24,8284282186277;1,94969820987896;18,711935956138;19,761865423542;17,7309572314647;20,198051314762
+199;"poun_female-hunt 10%_0.9_4";"poun_female-hunt 10%_0.9";"Stochastic bad x2";"female-hunt 10%";0,9;50;101;0,941826668208721;0,913077339635867;0,968138433158485;0,0113793082022568;0,938597316602799;0,944945500517395;0,932889807809468;0,951381749174139;23,1617266707972;20,2727941620061;29,1734573999094;1,612828635667;22,7600899522469;23,6148323390247;21,9176508522136;24,0592239484008
+200;"poun_female-hunt 10%_0.9_5";"poun_female-hunt 10%_0.9";"Stochastic worst x4";"female-hunt 10%";0,9;50;101;0,912176145360419;0,884121441912868;0,939053788264359;0,0107849790329164;0,909316374189387;0,91492104671808;0,906104123321787;0,919869396702441;25,7679545236047;22,8476730591544;29,8490733787197;1,84530151750433;25,256357265438;26,2674547509556;24,4183597581594;26,7171227027959
+201;"poun_female-hunt 25%_0_1";"poun_female-hunt 25%_0";"Deterministic";"female-hunt 25%";0;1;101;0,697646565555005;0,697646565555005;0,697646565555005;NA;NA;NA;0,697646565555005;0,697646565555005;25,4056171741893;25,4056171741893;25,4056171741893;NA;NA;NA;25,4056171741893;25,4056171741893
+202;"poun_female-hunt 25%_0_2";"poun_female-hunt 25%_0";"Stochastic uniform";"female-hunt 25%";0;50;101;0,706899437399219;0,699382564024839;0,711534553313675;0,00270882295186934;0,70618724402697;0,707628990756166;0,705458558669257;0,708062556374007;23,6806463946934;22,8165428334825;25,081982881601;0,504993532545761;23,5446390832331;23,829518169284;23,4638114186592;23,9492628575417
+203;"poun_female-hunt 25%_0_3";"poun_female-hunt 25%_0";"Stochastic equal";"female-hunt 25%";0;50;101;0,718374387284819;0,711534553313675;0,725422541072344;0,00346596885484957;0,717419588126411;0,71927754048875;0,715874549488259;0,72108254489776;21,5414237206843;20,2274684927756;22,8165428334825;0,646144796763553;21,3763702314643;21,7129498957562;21,0365542242465;22,0074571020116
+204;"poun_female-hunt 25%_0_4";"poun_female-hunt 25%_0";"Stochastic bad x2";"female-hunt 25%";0;50;101;0,726811339848211;0,720214545662843;0,734102533421512;0,00338680908512416;0,725839180705104;0,72773185303684;0,724554541837427;0,729545537438199;19,9685610587049;18,6092970298338;21,1983713705407;0,63138740122334;19,8065820952644;20,1499580797007;19,4588370478783;20,3892856390698
+205;"poun_female-hunt 25%_0_5";"poun_female-hunt 25%_0";"Stochastic worst x4";"female-hunt 25%";0;50;101;0,731481175732064;0,721950544132677;0,743650525005598;0,00469398142709821;0,730230388834548;0,732696808660565;0,727375539350907;0,733885533612783;19,0979848116422;16,8293084205978;20,8747370779523;0,87507759078115;18,8648872124055;19,3246097250272;18,6497513164074;19,8633799136137
+206;"poun_female-hunt 25%_0.1_1";"poun_female-hunt 25%_0.1";"Deterministic";"female-hunt 25%";0,1;1;101;0,784446489046689;0,784446489046689;0,784446489046689;NA;NA;NA;0,784446489046689;0,784446489046689;9,22390254477144;9,22390254477144;9,22390254477144;NA;NA;NA;9,22390254477144;9,22390254477144
+207;"poun_female-hunt 25%_0.1_2";"poun_female-hunt 25%_0.1";"Stochastic uniform";"female-hunt 25%";0,1;50;101;0,776339376192566;0,769690502053103;0,780106492872105;0,00236323102438894;0,775679696774029;0,776999055611103;0,775115497271333;0,778153494593542;10,7352746911591;10,0329882762423;11,9747940317725;0,440566402615696;10,6187663458273;10,8614920652685;10,3970768554042;10,9634368674339
+208;"poun_female-hunt 25%_0.1_3";"poun_female-hunt 25%_0.1";"Stochastic equal";"female-hunt 25%";0,1;50;101;0,763701307332177;0,754934515059517;0,769690502053103;0,00370446430784279;0,762659274250659;0,76470818644468;0,761010509703934;0,766869504539623;13,0913323412023;11,9747940317725;14,7256855187735;0,690606418450577;12,9100162287797;13,3016946313847;12,5006997572286;13,5929654947143
+209;"poun_female-hunt 25%_0.1_4";"poun_female-hunt 25%_0.1";"Stochastic bad x2";"female-hunt 25%";0,1;50;101;0,75573307435564;0,747990521180182;0,765350505878519;0,00373994853205276;0,754778275197232;0,756757313452842;0,752547517163495;0,758406511999184;14,5768137441829;12,7838797632434;16,020222689127;0,697221580848355;14,3824713514836;14,76775797681;14,0784169335968;15,1706826710825
+210;"poun_female-hunt 25%_0.1_5";"poun_female-hunt 25%_0.1";"Stochastic worst x4";"female-hunt 25%";0,1;50;101;0,749900119496999;0,741914526535764;0,758406511999184;0,0037488183772099;0,748858520415099;0,750924792593818;0,747339521753994;0,752330517354766;15,6642249672798;14,0784169335968;17,1529427131862;0,698875145706088;15,4700443917267;15,8650400458308;15,2111369576561;16,1415855488476
+211;"poun_female-hunt 25%_0.2_1";"poun_female-hunt 25%_0.2";"Deterministic";"female-hunt 25%";0,2;1;101;0,832540274434403;0,832540274434403;0,832540274434403;NA;NA;NA;0,832540274434403;0,832540274434403;8,43658215988053;8,43658215988053;8,43658215988053;NA;NA;NA;8,43658215988053;8,43658215988053
+212;"poun_female-hunt 25%_0.2_2";"poun_female-hunt 25%_0.2";"Stochastic uniform";"female-hunt 25%";0,2;50;101;0,81526226880688;0,80605402600209;0,82329702324821;0,00410471868234971;0,814152961677085;0,816394688409831;0,812751773209642;0,818625570546272;10,1217038179577;9,17832919124415;11,0842890620627;0,471371546919218;9,9822978754368;10,2504344644857;9,835439281232;10,4796512981175
+213;"poun_female-hunt 25%_0.2_3";"poun_female-hunt 25%_0.2";"Stochastic equal";"female-hunt 25%";0,2;50;101;0,788384684412814;0,776001904157273;0,79970795742885;0,00503149812338685;0,787027703552358;0,789760629848386;0,784192292035297;0,792913444876039;12,7049654723848;11,0405699735021;14,4859692687733;0,70739376779606;12,5240338033509;12,8999766709439;12,1969096091081;13,156882714733
+214;"poun_female-hunt 25%_0.2_4";"poun_female-hunt 25%_0.2";"Stochastic bad x2";"female-hunt 25%";0,2;50;101;0,772285539976222;0,759521474183543;0,783426835890485;0,0056852323391562;0,770783620624293;0,773849289780041;0,76938611979404;0,776350693919162;14,2733675770583;12,8162055134221;16,5694926935838;0,815297878907215;14,0501377597549;14,5058409769797;13,7418374690559;14,7698210747256
+215;"poun_female-hunt 25%_0.2_5";"poun_female-hunt 25%_0.2";"Stochastic worst x4";"female-hunt 25%";0,2;50;101;0,760305246254749;0,745468844458579;0,7708993407103;0,00546994793845092;0,758826687676433;0,76183646112909;0,757272043985526;0,763849556729608;15,3994187788258;13,8815868373741;17,3899717634366;0,761017660511758;15,1924411185191;15,5977175358124;14,9224685161461;15,8607903111865
+216;"poun_female-hunt 25%_0.3_1";"poun_female-hunt 25%_0.3";"Deterministic";"female-hunt 25%";0,3;1;101;0,86791886575348;0,86791886575348;0,86791886575348;NA;NA;NA;0,86791886575348;0,86791886575348;8,0528178856323;8,0528178856323;8,0528178856323;NA;NA;NA;8,0528178856323;8,0528178856323
+217;"poun_female-hunt 25%_0.3_2";"poun_female-hunt 25%_0.3";"Stochastic uniform";"female-hunt 25%";0,3;50;101;0,842769412354675;0,831526611751826;0,860306525446322;0,00574462155006385;0,841169999317915;0,844313932241771;0,838546184701532;0,846767930100066;9,86613594835949;8,60853440406319;10,9112416979412;0,550164249292101;9,7124593143531;10,0222987923063;9,53765631309584;10,203024844656
+218;"poun_female-hunt 25%_0.3_3";"poun_female-hunt 25%_0.3";"Stochastic equal";"female-hunt 25%";0,3;50;101;0,805372827795111;0,79256363551327;0,82231137484623;0,00726448830952241;0,803479454250174;0,807175419588469;0,801085569390156;0,811010037790676;12,647358367217;11,086904396812;14,0251694292753;0,75039958990128;12,4483089511414;12,8512185962815;12,168526640699;13,1141474666261
+219;"poun_female-hunt 25%_0.3_4";"poun_female-hunt 25%_0.3";"Stochastic bad x2";"female-hunt 25%";0,3;50;101;0,782163869850629;0,767990616121963;0,798706181093386;0,00706251780700715;0,780278013580122;0,784164442599384;0,777555954707684;0,786687293675946;14,3406755769683;12,4655521992905;16,4779830228561;0,867077651118628;14,1051859812629;14,5797119731795;13,7505132290378;14,9694635730436
+220;"poun_female-hunt 25%_0.3_5";"poun_female-hunt 25%_0.3";"Stochastic worst x4";"female-hunt 25%";0,3;50;101;0,766384278493906;0,750295039674292;0,781812052944934;0,00744598688613885;0,76429363941613;0,768408616754921;0,761254593916684;0,77212193135478;15,4778505285447;13,532276555772;17,5542835199437;0,922717179446416;15,2199813087037;15,7332734590554;14,8744501181536;16,1623388595487
+221;"poun_female-hunt 25%_0.4_1";"poun_female-hunt 25%_0.4";"Deterministic";"female-hunt 25%";0,4;1;101;0,896523909179569;0,896523909179569;0,896523909179569;NA;NA;NA;0,896523909179569;0,896523909179569;7,80970254748966;7,80970254748966;7,80970254748966;NA;NA;NA;7,80970254748966;7,80970254748966
+222;"poun_female-hunt 25%_0.4_2";"poun_female-hunt 25%_0.4";"Stochastic uniform";"female-hunt 25%";0,4;50;101;0,867502481202749;0,850386244548776;0,879602621823956;0,00639096633494364;0,86574685436676;0,869230146231964;0,863972627884323;0,872705108538699;9,55781720703331;8,62667513234019;10,9565700337296;0,484117527204195;9,43001511550871;9,6849051299945;9,18283657108682;9,85485365621596
+223;"poun_female-hunt 25%_0.4_3";"poun_female-hunt 25%_0.4";"Stochastic equal";"female-hunt 25%";0,4;50;101;0,818417796548928;0,796040711206589;0,835816179931502;0,00876448846724163;0,815963933709891;0,820753057880395;0,813541447673024;0,824344957515407;12,615144050297;11,1404160333762;14,6595989587162;0,809352246846089;12,4065867725571;12,8168130873279;12,0060697647384;13,1360701421977
+224;"poun_female-hunt 25%_0.4_4";"poun_female-hunt 25%_0.4";"Stochastic bad x2";"female-hunt 25%";0,4;50;101;0,79296366836297;0,77203232934091;0,811807798065823;0,00811516547501211;0,790940750522041;0,795164131164777;0,78855774109938;0,797751639955135;14,1462605631278;12,2181997643307;16,0185909823405;0,877109749686934;13,8994890091318;14,383926841774;13,4915239347249;14,7727349584987
+225;"poun_female-hunt 25%_0.4_5";"poun_female-hunt 25%_0.4";"Stochastic worst x4";"female-hunt 25%";0,4;50;101;0,772306161050819;0,755616591918122;0,791414513770543;0,00801685685874815;0,770146894153038;0,774483285081098;0,765903846391285;0,776589325324224;15,4026251683073;13,3729486417424;17,1309138598338;0,853677541635872;15,1605045663788;15,6549772395943;15,022939604623;15,9274838359104
+226;"poun_female-hunt 25%_0.5_1";"poun_female-hunt 25%_0.5";"Deterministic";"female-hunt 25%";0,5;1;101;0,92081791952842;0,92081791952842;0,92081791952842;NA;NA;NA;0,92081791952842;0,92081791952842;7,63595736021744;7,63595736021744;7,63595736021744;NA;NA;NA;7,63595736021744;7,63595736021744
+227;"poun_female-hunt 25%_0.5_2";"poun_female-hunt 25%_0.5";"Stochastic uniform";"female-hunt 25%";0,5;50;101;0,886212623337151;0,87358164247935;0,909535920924865;0,0078908757931935;0,884076387721807;0,888350254530005;0,87953221476852;0,891527923975887;9,43464200614882;8,07074781572457;10,6061385452173;0,548291867871017;9,293729753293;9,59334471536854;9,04259792861226;9,79308295078498
+228;"poun_female-hunt 25%_0.5_3";"poun_female-hunt 25%_0.5";"Stochastic equal";"female-hunt 25%";0,5;50;101;0,831651308983544;0,809236225442441;0,846181934027756;0,0088304110705968;0,829059741094917;0,83401588907838;0,825012508851685;0,838680509626079;12,4366433998519;11,1331830839589;14,1252889764818;0,746655415696667;12,232889962505;12,6317950913965;11,8129662297863;13,0005086783453
+229;"poun_female-hunt 25%_0.5_4";"poun_female-hunt 25%_0.5";"Stochastic bad x2";"female-hunt 25%";0,5;50;101;0,802258029370804;0,789150803584833;0,816550512036428;0,00661784704599535;0,800395570823729;0,804060864679907;0,797054374152566;0,807965084316286;14,0502357947317;12,8753675338262;15,33438363193;0,61209096222605;13,8757171732338;14,2245023886501;13,6566642245674;14,5126326546152
+230;"poun_female-hunt 25%_0.5_5";"poun_female-hunt 25%_0.5";"Stochastic worst x4";"female-hunt 25%";0,5;50;101;0,778349708342593;0,758402529098456;0,797705373578754;0,00795096357600174;0,776251285400327;0,780494725494746;0,771824165925673;0,783448088830614;15,3086768035593;13,5037340393186;17,4160818262312;0,84024222124481;15,0869075114093;15,5489262866277;14,7198211855669;16,017572561922
+231;"poun_female-hunt 25%_0.6_1";"poun_female-hunt 25%_0.6";"Deterministic";"female-hunt 25%";0,6;1;101;0,942087880601186;0,942087880601186;0,942087880601186;NA;NA;NA;0,942087880601186;0,942087880601186;7,50277916873132;7,50277916873132;7,50277916873132;NA;NA;NA;7,50277916873132;7,50277916873132
+232;"poun_female-hunt 25%_0.6_2";"poun_female-hunt 25%_0.6";"Stochastic uniform";"female-hunt 25%";0,6;50;101;0,900873508093709;0,885636717122803;0,915678089608972;0,00755562150055731;0,898672737722496;0,902824880006365;0,895631369533379;0,905643541059824;9,53100242240161;8,55282217284783;10,5978953309404;0,507061383817603;9,40044291876885;9,67214206067133;9,15014663117297;9,77071414231126
+233;"poun_female-hunt 25%_0.6_3";"poun_female-hunt 25%_0.6";"Stochastic equal";"female-hunt 25%";0,6;50;101;0,843989275263878;0,815865827639431;0,874442235159699;0,0132268808405219;0,840282828556539;0,847334079568575;0,834942379180259;0,852527166989523;12,2726403622872;10,728669158573;14,1129971458496;0,840975710412435;12,0430919385886;12,5001483748262;11,6969588023276;12,9140059845762
+234;"poun_female-hunt 25%_0.6_4";"poun_female-hunt 25%_0.6";"Stochastic bad x2";"female-hunt 25%";0,6;50;101;0,810513027972925;0,790872866008474;0,8406992047161;0,0106607691177877;0,807535142076976;0,813612104263815;0,80291297018379;0,817743891547685;13,7989664403261;12,0024582015748;15,7001252901299;0,787793038512741;13,5784769374148;14,0118127233822;13,4097526147686;14,3711656522557
+235;"poun_female-hunt 25%_0.6_5";"poun_female-hunt 25%_0.6";"Stochastic worst x4";"female-hunt 25%";0,6;50;101;0,783844710002764;0,761859077311509;0,80341410086936;0,00838080418302329;0,781625657484272;0,786104856157011;0,778411423424731;0,787834868686265;15,3454147997439;13,4346852420114;17,1323523305665;0,643033890472796;15,1754388976683;15,516528083842;14,8772469099409;15,6889064392392
+236;"poun_female-hunt 25%_0.7_1";"poun_female-hunt 25%_0.7";"Deterministic";"female-hunt 25%";0,7;1;101;0,961100689433346;0,961100689433346;0,961100689433346;NA;NA;NA;0,961100689433346;0,961100689433346;7,39590073079086;7,39590073079086;7,39590073079086;NA;NA;NA;7,39590073079086;7,39590073079086
+237;"poun_female-hunt 25%_0.7_2";"poun_female-hunt 25%_0.7";"Stochastic uniform";"female-hunt 25%";0,7;50;101;0,918337687687445;0,892480443088846;0,935592732746396;0,00943129622709279;0,915715604196147;0,920983715670766;0,91352622946508;0,9256597519164;9,30256934601531;7,9754552773365;10,8570099082803;0,578506581581927;9,15537818950684;9,45815103084995;8,84852107229672;9,66217680830256
+238;"poun_female-hunt 25%_0.7_3";"poun_female-hunt 25%_0.7";"Stochastic equal";"female-hunt 25%";0,7;50;101;0,852128035733291;0,825565651680146;0,87831756352388;0,0124742844227476;0,848794690447532;0,8558282660207;0,845130618812817;0,859000139733971;12,289398514851;10,3925415045016;14,010061794357;0,782494823426088;12,0707534098282;12,5100131402209;11,8150388018337;12,7429446512133
+239;"poun_female-hunt 25%_0.7_4";"poun_female-hunt 25%_0.7";"Stochastic bad x2";"female-hunt 25%";0,7;50;101;0,814661861251226;0,78769190096613;0,837809271571081;0,0103375782344471;0,811658248772366;0,817526960374907;0,809636230111314;0,82029656920258;13,9364569115941;12,3397532939599;16,0486736745143;0,772305290787979;13,721996622538;14,1459015102156;13,5462691448194;14,3370748581505
+240;"poun_female-hunt 25%_0.7_5";"poun_female-hunt 25%_0.7";"Stochastic worst x4";"female-hunt 25%";0,7;50;101;0,787905107747956;0,768412656593763;0,810504229346231;0,0105825517451465;0,784956206950088;0,790758573799569;0,78111318375268;0,79431643348063;15,1609114381097;13,1542450593589;16,8787424410891;0,889157512608542;14,9095268119476;15,4059255212712;14,665439430426;15,8072994635551
+241;"poun_female-hunt 25%_0.8_1";"poun_female-hunt 25%_0.8";"Deterministic";"female-hunt 25%";0,8;1;101;0,978354234863157;0,978354234863157;0,978354234863157;NA;NA;NA;0,978354234863157;0,978354234863157;7,30730063811549;7,30730063811549;7,30730063811549;NA;NA;NA;7,30730063811549;7,30730063811549
+242;"poun_female-hunt 25%_0.8_2";"poun_female-hunt 25%_0.8";"Stochastic uniform";"female-hunt 25%";0,8;50;101;0,93034457641701;0,912111155734041;0,947070233262598;0,00840995594307789;0,928156979309188;0,932591991784517;0,924055152500036;0,935638847501941;9,3356634070643;8,40387665558478;10,4138574936195;0,472186735658319;9,20649490220333;9,45859617709554;9,10864329796117;9,65159279404339
+243;"poun_female-hunt 25%_0.8_3";"poun_female-hunt 25%_0.8";"Stochastic equal";"female-hunt 25%";0,8;50;101;0,859851445698888;0,832497613386104;0,881288995391737;0,011944924853716;0,856684661939486;0,863236821128259;0,85132992074984;0,870263767607742;12,3034076018022;10,6353607286565;13,9590447561111;0,818018602929367;12,0730314457067;12,5390251864415;11,8580253275103;12,7996979518925
+244;"poun_female-hunt 25%_0.8_4";"poun_female-hunt 25%_0.8";"Stochastic bad x2";"female-hunt 25%";0,8;50;101;0,819036747329435;0,785700992120228;0,854548068954094;0,0130933996725204;0,815254448964402;0,822708092467238;0,81139376844091;0,828148609925631;13,9695029782617;11,9022428861816;15,9413705813176;0,898965491881359;13,7425831381266;14,2263333575354;13,3629074828128;14,5573700609526
+245;"poun_female-hunt 25%_0.8_5";"poun_female-hunt 25%_0.8";"Stochastic worst x4";"female-hunt 25%";0,8;50;101;0,790623366532482;0,770391451443241;0,814380996016036;0,011140171211091;0,787568135410205;0,793653312681144;0,782843145680063;0,798355765345381;15,0900863725658;13,2373001262113;16,6737922365222;0,765763248236969;14,8855832268709;15,2938849175628;14,7064537166042;15,5149924401893
+246;"poun_female-hunt 25%_0.9_1";"poun_female-hunt 25%_0.9";"Deterministic";"female-hunt 25%";0,9;1;101;0,994192024743783;0,994192024743783;0,994192024743783;NA;NA;NA;0,994192024743783;0,994192024743783;7,23205818613516;7,23205818613516;7,23205818613516;NA;NA;NA;7,23205818613516;7,23205818613516
+247;"poun_female-hunt 25%_0.9_2";"poun_female-hunt 25%_0.9";"Stochastic uniform";"female-hunt 25%";0,9;50;101;0,944825776168487;0,926276740051649;0,972710928826294;0,00880782681716247;0,942476045826837;0,947198934041738;0,939096921875901;0,94853547098227;9,16903323012849;7,89677561729496;10,0975211394478;0,472714492155904;9,0405244266928;9,29644579168451;8,86022928656017;9,37057877992566
+248;"poun_female-hunt 25%_0.9_3";"poun_female-hunt 25%_0.9";"Stochastic equal";"female-hunt 25%";0,9;50;101;0,86683675153273;0,836373817094246;0,893801825001526;0,0128480284623844;0,863359012897767;0,870176118089219;0,859066547642326;0,875358098024011;12,2040531469408;11,0211783372303;14,0110911472677;0,682150479927102;12,0421290442921;12,3850413910299;11,7282022531661;12,6499668370562
+249;"poun_female-hunt 25%_0.9_4";"poun_female-hunt 25%_0.9";"Stochastic bad x2";"female-hunt 25%";0,9;50;101;0,82773515246216;0,803898902044123;0,85814508393302;0,0125286023246431;0,824423830337505;0,83146240945805;0,817587083103292;0,835560539098187;13,8009028989831;11,4419352501472;15,3230771636043;0,773816900661449;13,5955862745096;14,0084391727896;13,2449697156637;14,3098678010632
+250;"poun_female-hunt 25%_0.9_5";"poun_female-hunt 25%_0.9";"Stochastic worst x4";"female-hunt 25%";0,9;50;101;0,7935662885905;0,766361077045141;0,820607258934038;0,0124928908778672;0,790215929925221;0,797061821209779;0,784334533040036;0,80337453820488;15,1758344303078;12,8734319280019;17,0359016492713;0,953024320595409;14,9130060397645;15,4415729343991;14,4959656024395;15,8583651271427
+251;"poun_female-hunt 50%_0_1";"poun_female-hunt 50%_0";"Deterministic";"female-hunt 50%";0;1;101;0,465918973184579;0,465918973184579;0,465918973184579;NA;NA;NA;0,465918973184579;0,465918973184579;13,2541304866427;13,2541304866427;13,2541304866427;NA;NA;NA;13,2541304866427;13,2541304866427
+252;"poun_female-hunt 50%_0_2";"poun_female-hunt 50%_0";"Stochastic uniform";"female-hunt 50%";0;50;101;0,482707448342503;0,470761802557057;0,490133120046969;0,00404720526454391;0,481609740351408;0,483772870804448;0,480447461302013;0,485290290674491;12,5928178582944;12,3003141957558;13,0633672284653;0,159422933040906;12,5495781864409;12,638601040257;12,4910774539331;12,6818407121105
+253;"poun_female-hunt 50%_0_3";"poun_female-hunt 50%_0";"Stochastic equal";"female-hunt 50%";0;50;101;0,506179028034446;0,493361672961955;0,517575819824345;0,00588315537533169;0,504629322635254;0,507697255042718;0,501836624363791;0,511118713994374;11,6682519336613;11,2193223994172;12,1731386903042;0,231742603639956;11,6021206708265;11,7382302555361;11,4736734103204;11,8393029884937
+254;"poun_female-hunt 50%_0_4";"poun_female-hunt 50%_0";"Stochastic bad x2";"female-hunt 50%";0;50;101;0,518738098873739;0,501433055249418;0,533718584399271;0,00695696243383566;0,516800159986519;0,520513802976981;0,514347266909359;0,523629356539942;11,1735392174546;10,5834448721592;11,8551999266752;0,274040796984994;11,1048644445108;11,2447892943839;10,9808683266955;11,3464979048688
+255;"poun_female-hunt 50%_0_5";"poun_female-hunt 50%_0";"Stochastic worst x4";"female-hunt 50%";0;50;101;0,530134890663638;0,514347266909359;0,543404243144228;0,00767134088210458;0,528035524130669;0,532136593470929;0,524032925654315;0,533718584399271;10,7246096832105;10,2019183558044;11,3464979048688;0,302180784971759;10,6393703006816;10,8123607819721;10,5834448721592;10,964971388514
+256;"poun_female-hunt 50%_0.1_1";"poun_female-hunt 50%_0.1";"Deterministic";"female-hunt 50%";0,1;1;101;0,627346618933846;0,627346618933846;0,627346618933846;NA;NA;NA;0,627346618933846;0,627346618933846;6,89535521406297;6,89535521406297;6,89535521406297;NA;NA;NA;6,89535521406297;6,89535521406297
+257;"poun_female-hunt 50%_0.1_2";"poun_female-hunt 50%_0.1";"Stochastic uniform";"female-hunt 50%";0,1;50;101;0,612204705762565;0,601518195613964;0,622503789561368;0,00531796987607757;0,610848713538271;0,613689840103459;0,609589577901427;0,616046683731398;7,49180833463095;7,08611847224036;7,91275925767573;0,209479455587487;7,43330760212321;7,55285257724771;7,34046948314355;7,59482049404674
+258;"poun_female-hunt 50%_0.1_3";"poun_female-hunt 50%_0.1";"Stochastic equal";"female-hunt 50%";0,1;50;101;0,587829131254426;0,575689772294081;0,599903919156471;0,00663774993982251;0,585859713976285;0,589637120886818;0,582146878124052;0,5934468133265;8,45198340079049;7,97634701040152;8,93016330128849;0,26146673939896;8,37949336268308;8,52320168384338;8,23069802130471;8,6758122903853
+259;"poun_female-hunt 50%_0.1_4";"poun_female-hunt 50%_0.1";"Stochastic bad x2";"female-hunt 50%";0,1;50;101;0,573332928666142;0,559547007719154;0,590218260411515;0,00669336036276403;0,571458753698993;0,575205489356833;0,567618390006618;0,577304048751574;9,02300142026815;8,35787352675631;9,56604082854646;0,263657282293003;8,95047958828438;9,09294794826653;8,86657554856269;9,24810206491748
+260;"poun_female-hunt 50%_0.1_5";"poun_female-hunt 50%_0.1";"Stochastic worst x4";"female-hunt 50%";0,1;50;101;0,56258184745924;0,541789966686735;0,578918325209066;0,00855836872617808;0,560224196693072;0,56493869108718;0,556722023918542;0,568829097349737;9,44649585342196;8,80298779583689;10,2655061085302;0,337121582719285;9,35235418551142;9,54190927638702;9,20041125037313;9,67731939581661
+261;"poun_female-hunt 50%_0.2_1";"poun_female-hunt 50%_0.2";"Deterministic";"female-hunt 50%";0,2;1;101;0,682048983393649;0,682048983393649;0,682048983393649;NA;NA;NA;0,682048983393649;0,682048983393649;6,59043249526722;6,59043249526722;6,59043249526722;NA;NA;NA;6,59043249526722;6,59043249526722
+262;"poun_female-hunt 50%_0.2_2";"poun_female-hunt 50%_0.2";"Stochastic uniform";"female-hunt 50%";0,2;50;101;0,653242287422721;0,639262827091227;0,666319270081813;0,00627933357275634;0,65142378878856;0,655100536607183;0,649152227938086;0,657934184257599;7,3296551514392;6,95106043952761;7,75070419849267;0,187958363988879;7,27885773406712;7,3801267475204;7,18211445339011;7,43200312806669
+263;"poun_female-hunt 50%_0.2_3";"poun_female-hunt 50%_0.2";"Stochastic equal";"female-hunt 50%";0,2;50;101;0,615008481255212;0,593795141518419;0,634339614289845;0,00845803987801999;0,612711323219886;0,617493966279318;0,609081094001429;0,620654541026177;8,30703060263219;7,72980562639828;8,93841894640974;0,271393716584598;8,23056437227169;8,38070001401796;8,13115211947479;8,51202783358791
+264;"poun_female-hunt 50%_0.2_4";"poun_female-hunt 50%_0.2";"Stochastic bad x2";"female-hunt 50%";0,2;50;101;0,59298996579821;0,5748904642442;0,613193253484632;0,00826816506066396;0,590633636287942;0,595388754364006;0,587394408170693;0,598474420503446;8,885042373585;8,22980598486209;9,53510253844558;0,260365737586712;8,8193922689928;8,95893963003965;8,69626484425838;9,03631050500006
+265;"poun_female-hunt 50%_0.2_5";"poun_female-hunt 50%_0.2";"Stochastic worst x4";"female-hunt 50%";0,2;50;101;0,573761938975772;0,554317921559887;0,590979639866524;0,0079586696675684;0,571454304844651;0,575909810022614;0,56634852665161;0,580036383444921;9,38199204685364;8,79034486886375;10,0864937408834;0,287128708588858;9,30397460251664;9,46473823152214;9,12734130241748;9,63833024461482
+266;"poun_female-hunt 50%_0.3_1";"poun_female-hunt 50%_0.3";"Deterministic";"female-hunt 50%";0,3;1;101;0,719551756523078;0,719551756523078;0,719551756523078;NA;NA;NA;0,719551756523078;0,719551756523078;6,43031438654723;6,43031438654723;6,43031438654723;NA;NA;NA;6,43031438654723;6,43031438654723
+267;"poun_female-hunt 50%_0.3_2";"poun_female-hunt 50%_0.3";"Stochastic uniform";"female-hunt 50%";0,3;50;101;0,682537851008065;0,665139740550533;0,696035327139737;0,00819193394781974;0,680365283854463;0,684663952575939;0,677417124053404;0,689695194105956;7,21248656341416;6,88159702702938;7,63686720631504;0,206768634607604;7,15719288411409;7,26870755607945;7,07701069348193;7,35810155196727
+268;"poun_female-hunt 50%_0.3_3";"poun_female-hunt 50%_0.3";"Stochastic equal";"female-hunt 50%";0,3;50;101;0,636080491684679;0,611417203460865;0,658225728330703;0,00928539071199625;0,633594375831399;0,638446441950632;0,630614778130696;0,640873629512019;8,17535781280494;7,51586007226501;8,91630859535896;0,265394494079193;8,10806765945985;8,24690332226841;8,01058673952193;8,30216514635036
+269;"poun_female-hunt 50%_0.3_4";"poun_female-hunt 50%_0.3";"Stochastic bad x2";"female-hunt 50%";0,3;50;101;0,606296842056024;0,581906067034862;0,634017073865762;0,0116274268808652;0,603285069467325;0,609552592404702;0,600468186646984;0,61436121970671;8,81017171230609;8,02608005719779;9,54440326919302;0,34029791833274;8,71495012747667;8,90372317319191;8,58826177416848;9,00934089058609
+270;"poun_female-hunt 50%_0.3_5";"poun_female-hunt 50%_0.3";"Stochastic worst x4";"female-hunt 50%";0,3;50;101;0,583181244132318;0,555850563619412;0,603813712358159;0,00931224538074364;0,580499907502232;0,585727150431196;0,577239040131508;0,589057457595476;9,28050224972136;8,67742677240764;10,2500369205784;0,310429170677041;9,20162268225263;9,36602928193108;9,04265273007539;9,46605705063058
+271;"poun_female-hunt 50%_0.4_1";"poun_female-hunt 50%_0.4";"Deterministic";"female-hunt 50%";0,4;1;101;0,748888241383713;0,748888241383713;0,748888241383713;NA;NA;NA;0,748888241383713;0,748888241383713;6,32408345174873;6,32408345174873;6,32408345174873;NA;NA;NA;6,32408345174873;6,32408345174873
+272;"poun_female-hunt 50%_0.4_2";"poun_female-hunt 50%_0.4";"Stochastic uniform";"female-hunt 50%";0,4;50;101;0,710410713412568;0,687812747553369;0,726231864402266;0,00908396771525225;0,707868779028328;0,712797914882885;0,705308314462076;0,718141646589286;7,03357899843474;6,71057482685542;7,50715630643262;0,198477491444906;6,98051931981236;7,09007622747417;6,86774209982852;7,14351580181849
+273;"poun_female-hunt 50%_0.4_3";"poun_female-hunt 50%_0.4";"Stochastic equal";"female-hunt 50%";0,4;50;101;0,650164405872398;0,625939533257037;0,675658585308383;0,0100985298109526;0,647619291238939;0,653115332704866;0,643819833754601;0,657246747349922;8,16459423588109;7,56428348266404;8,80597923132182;0,26589863690697;8,09065767607688;8,24027452532709;7,9686608695114;8,30212264188622
+274;"poun_female-hunt 50%_0.4_4";"poun_female-hunt 50%_0.4";"Stochastic bad x2";"female-hunt 50%";0,4;50;101;0,615196826958453;0,589951248857138;0,635188660717966;0,0108579432079139;0,612303624111156;0,618213461084317;0,607014993363197;0,622155898474259;8,7982319425955;8,14650297470004;9,59113527565273;0,301077449856669;8,72149375107642;8,88657957394378;8,59875814080955;8,96525500423525
+275;"poun_female-hunt 50%_0.4_5";"poun_female-hunt 50%_0.4";"Stochastic worst x4";"female-hunt 50%";0,4;50;101;0,58822411611208;0,56524406413417;0,603663180983067;0,0101229825320186;0,585513976854939;0,590956936685293;0,581225069643633;0,594352838064209;9,29909152954409;8,68873344337405;9,97762665075942;0,316816033646835;9,21019217454024;9,38618611050639;9,06597542151147;9,50233364943954
+276;"poun_female-hunt 50%_0.5_1";"poun_female-hunt 50%_0.5";"Deterministic";"female-hunt 50%";0,5;1;101;0,773314222082995;0,773314222082995;0,773314222082995;NA;NA;NA;0,773314222082995;0,773314222082995;6,24563137755101;6,24563137755101;6,24563137755101;NA;NA;NA;6,24563137755101;6,24563137755101
+277;"poun_female-hunt 50%_0.5_2";"poun_female-hunt 50%_0.5";"Stochastic uniform";"female-hunt 50%";0,5;50;101;0,727999580937879;0,711148498401826;0,746576252238145;0,00936734038767639;0,72524995244444;0,730471582940639;0,721945982219771;0,733838223061335;7,00346100010088;6,5338532112052;7,36837586593108;0,216961270649826;6,94399526898502;7,06123073743302;6,8745323091121;7,13862917756297
+278;"poun_female-hunt 50%_0.5_3";"poun_female-hunt 50%_0.5";"Stochastic equal";"female-hunt 50%";0,5;50;101;0,66453496566826;0,641529794137199;0,700776165755385;0,0120696779931127;0,661184426579266;0,667888365137496;0,656319804984615;0,670616392463048;8,07332859191097;7,4709470488476;8,58069706049743;0,259289531612028;8,00795346056652;8,14487445189675;7,93078658331517;8,23514503381668
+279;"poun_female-hunt 50%_0.5_4";"poun_female-hunt 50%_0.5";"Stochastic bad x2";"female-hunt 50%";0,5;50;101;0,62318582475571;0,599112860995426;0,643607871872695;0,0128595331175554;0,619930329361367;0,626741182290391;0,614096122375343;0,63277173794825;8,82591569449976;8,3147362037894;9,43471143031867;0,316794434775689;8,75069425997528;8,9148802318815;8,59856446600151;9,06455508110285
+280;"poun_female-hunt 50%_0.5_5";"poun_female-hunt 50%_0.5";"Stochastic worst x4";"female-hunt 50%";0,5;50;101;0,594093019929578;0,571911089872572;0,616560701175843;0,0123184208506042;0,590753869352339;0,597519089502888;0,581364847978526;0,605243697924024;9,27013735461376;8,59646079907846;9,82411981596398;0,310011039780594;9,18664051374621;9,35218227566483;9,02858059142881;9,55027708996543
+281;"poun_female-hunt 50%_0.6_1";"poun_female-hunt 50%_0.6";"Deterministic";"female-hunt 50%";0,6;1;101;0,794414254767074;0,794414254767074;0,794414254767074;NA;NA;NA;0,794414254767074;0,794414254767074;6,18396862049257;6,18396862049257;6,18396862049257;NA;NA;NA;6,18396862049257;6,18396862049257
+282;"poun_female-hunt 50%_0.6_2";"poun_female-hunt 50%_0.6";"Stochastic uniform";"female-hunt 50%";0,6;50;101;0,742975250352659;0,718691140300582;0,767909032637116;0,0104352778494565;0,740350531094298;0,74599083635477;0,734946704677187;0,748185215766957;7,02571996000433;6,52368602262421;7,64068418933682;0,230638400055804;6,96306050450727;7,08848070830027;6,89853571373883;7,1653359900295
+283;"poun_female-hunt 50%_0.6_3";"poun_female-hunt 50%_0.6";"Stochastic equal";"female-hunt 50%";0,6;50;101;0,669285395325281;0,640902550169879;0,7017587771139;0,0130537877499587;0,665837802265839;0,673094921979342;0,660626367040039;0,677121630995213;8,16638765013629;7,48592730153349;8,76567030337622;0,290989389117406;8,08663413638818;8,24826171479615;7,99862329700326;8,33968212492328
+284;"poun_female-hunt 50%_0.6_4";"poun_female-hunt 50%_0.6";"Stochastic bad x2";"female-hunt 50%";0,6;50;101;0,631863276279954;0,594631211244132;0,665398696536468;0,0144011067259296;0,628003902773884;0,635598157247162;0,624421386189915;0,6419722577609;8,76356625825887;8,03774955964963;9,41664964389668;0,312700045712704;8,67519761210148;8,8461845959904;8,55222402160333;9,00089522365176
+285;"poun_female-hunt 50%_0.6_5";"poun_female-hunt 50%_0.6";"Stochastic worst x4";"female-hunt 50%";0,6;50;101;0,600756864211807;0,574977894250022;0,617569481054067;0,0106960741241706;0,597546634436433;0,603575268445117;0,592111096731424;0,610596006308044;9,200006971045;8,66071047712281;9,89733324265578;0,286390636638491;9,12504463321572;9,27750464921378;8,98209691354577;9,43588499469821
+286;"poun_female-hunt 50%_0.7_1";"poun_female-hunt 50%_0.7";"Deterministic";"female-hunt 50%";0,7;1;101;0,813091076554318;0,813091076554318;0,813091076554318;NA;NA;NA;0,813091076554318;0,813091076554318;6,13347776114645;6,13347776114645;6,13347776114645;NA;NA;NA;6,13347776114645;6,13347776114645
+287;"poun_female-hunt 50%_0.7_2";"poun_female-hunt 50%_0.7";"Stochastic uniform";"female-hunt 50%";0,7;50;101;0,760860390214903;0,729925039490801;0,788302693081012;0,0131410021704481;0,757249590855425;0,764374488254677;0,75261281026919;0,770883295882847;6,90484633906697;6,50972916451628;7,44303279335996;0,231993318110335;6,84354936561054;6,96726868319259;6,70041894895661;7,07747668892369
+288;"poun_female-hunt 50%_0.7_3";"poun_female-hunt 50%_0.7";"Stochastic equal";"female-hunt 50%";0,7;50;101;0,681290878966673;0,644016785749723;0,709736317271261;0,0151009281503232;0,676983162289645;0,685107343994174;0,670696297485098;0,690702643615604;8,06748728691897;7,52683931318078;8,99170128741834;0,317031464450998;7,98169732535146;8,16066542126022;7,8173795030975;8,29099070292539
+289;"poun_female-hunt 50%_0.7_4";"poun_female-hunt 50%_0.7";"Stochastic bad x2";"female-hunt 50%";0,7;50;101;0,636397156386931;0,606226290242984;0,667501428255977;0,0135415284074609;0,63277189879089;0,640149907795708;0,626327112089032;0,645261176778707;8,76090969856591;7,86997806194148;9,43154044351397;0,326234115981702;8,6742305258455;8,84957547236832;8,53442599368382;9,00627944735355
+290;"poun_female-hunt 50%_0.7_5";"poun_female-hunt 50%_0.7";"Stochastic worst x4";"female-hunt 50%";0,7;50;101;0,605362485115168;0,564964073702548;0,639329224122465;0,0147621526890423;0,601563916705296;0,609176975851243;0,600444472081522;0,613346975148972;9,14569427936924;8,40651762537204;9,98595511249534;0,333971962427015;9,05254001498781;9,23305742341583;8,94628066068113;9,2788710579824
+291;"poun_female-hunt 50%_0.8_1";"poun_female-hunt 50%_0.8";"Deterministic";"female-hunt 50%";0,8;1;101;0,829912618602293;0,829912618602293;0,829912618602293;NA;NA;NA;0,829912618602293;0,829912618602293;6,09091918293515;6,09091918293515;6,09091918293515;NA;NA;NA;6,09091918293515;6,09091918293515
+292;"poun_female-hunt 50%_0.8_2";"poun_female-hunt 50%_0.8";"Stochastic uniform";"female-hunt 50%";0,8;50;101;0,774615772087898;0,743725778921068;0,802787529266286;0,0128601955551311;0,770981602024939;0,777836163018521;0,765771089415727;0,785402799648965;6,86284633636741;6,3701704045366;7,40519742830077;0,242135333889953;6,79341621068658;6,93081677321218;6,666754307074;7,02089269210374
+293;"poun_female-hunt 50%_0.8_3";"poun_female-hunt 50%_0.8";"Stochastic equal";"female-hunt 50%";0,8;50;101;0,690058514566735;0,660767492154828;0,724672071872524;0,0133023414797083;0,686124953174357;0,693559830925558;0,682702142339871;0,698583255809315;8,03114103583694;7,36650988627324;8,71870854390197;0,28799018063737;7,95717196512247;8,11046462400853;7,85041021415571;8,17055185030363
+294;"poun_female-hunt 50%_0.8_4";"poun_female-hunt 50%_0.8";"Stochastic bad x2";"female-hunt 50%";0,8;50;101;0,646117543966415;0,61946278284203;0,672858936736386;0,0131700470091845;0,642374966262202;0,649938165476939;0,637377370732978;0,657404835655771;8,64704784611736;7,93305668978742;9,07840336861621;0,291888514379273;8,56333447513391;8,72620462557404;8,45564455969743;8,86896495241512
+295;"poun_female-hunt 50%_0.8_5";"poun_female-hunt 50%_0.8";"Stochastic worst x4";"female-hunt 50%";0,8;50;101;0,605600614248964;0,576194928931096;0,629591082825452;0,0130893511072975;0,602274537085145;0,609264569225131;0,597726010001765;0,615917877847832;9,21848137593364;8,68155526140329;9,84299066085463;0,303114280136242;9,13314015167737;9,30193721186276;8,96530549370935;9,42928670325473
+296;"poun_female-hunt 50%_0.9_1";"poun_female-hunt 50%_0.9";"Deterministic";"female-hunt 50%";0,9;1;101;0,845261617183403;0,845261617183403;0,845261617183403;NA;NA;NA;0,845261617183403;0,845261617183403;6,05426288509287;6,05426288509287;6,05426288509287;NA;NA;NA;6,05426288509287;6,05426288509287
+297;"poun_female-hunt 50%_0.9_2";"poun_female-hunt 50%_0.9";"Stochastic uniform";"female-hunt 50%";0,9;50;101;0,78753424341306;0,762775294318636;0,817013011528477;0,0125304361581054;0,784233741095536;0,790933612153321;0,779563276536081;0,796230126401655;6,83229136943561;6,39272312889307;7,29035093423786;0,212486123591995;6,77004923731827;6,8889789248808;6,67323181806331;6,96307633892121
+298;"poun_female-hunt 50%_0.9_3";"poun_female-hunt 50%_0.9";"Stochastic equal";"female-hunt 50%";0,9;50;101;0,702365303628441;0,661726024543898;0,733396941613704;0,0155312931288784;0,697932614348007;0,706677027165704;0,69501893604069;0,711928050610007;7,97893225552776;7,51845751916586;8,60684858268804;0,262444469509163;7,91650736545191;8,04892488236407;7,78702181777299;8,12598788962623
+299;"poun_female-hunt 50%_0.9_4";"poun_female-hunt 50%_0.9";"Stochastic bad x2";"female-hunt 50%";0,9;50;101;0,64695596183939;0,615075160214033;0,675769983253845;0,0140112114934388;0,643210130675522;0,650563783203061;0,63757336812084;0,655954924590802;8,70901095097473;8,08502434789407;9,44088863530703;0,289590307607902;8,63142183832222;8,79182970308633;8,49388636494038;8,87213232804827
+300;"poun_female-hunt 50%_0.9_5";"poun_female-hunt 50%_0.9";"Stochastic worst x4";"female-hunt 50%";0,9;50;101;0,612121354708132;0,580369448729136;0,649215998173927;0,0149552796761322;0,608256831092348;0,616249248629303;0,600103547099066;0,622965152061488;9,15204414011593;8,52912696086857;10,0000561968516;0,336070812424321;9,05935387936204;9,2401450301503;8,90855074640093;9,38100051617304

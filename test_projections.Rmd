@@ -175,7 +175,7 @@ A species is considered viable in a spatial unit if application of
 the Regional Red List Guidelines to the population in the spatial unit 
 would result in a categorization of ‘Least Concern’ OR 
 ‘Near Threatened and Not Declining’.
-```{r model-summaries, warning=FALSE, message=FALSE}
+```{r model-summaries, warning=FALSE, message=FALSE, eval=FALSE}
 # load data
 dout_all <- readRDS("inst/other/dout_all.rds")
 
@@ -227,38 +227,22 @@ gen_3_q25 <- gen_q25 * 3
 gen_3_q75 <- gen_q75 * 3
 
 # Add population changes.
-dout_all |> 
-  filter(akey == "poun_base_0.2", modelf == "Stochastic uniform", ayear == 42) |>
-  filter(ayear %in% c(ceiling(gen_3), ceiling(gen_3_q25), ceiling(gen_3_q75), 100)) |> 
-  dplyr::group_by(akey, modelf, typef, first_year, ayear, arun) |> 
-  dplyr::summarise(fem_t0 = mean(fem_t0), 
-            fem = mean(fem),
-            fem_diff = mean(fem_diff)
-  ) |> ungroup() |> 
-  dplyr::group_by(akey, modelf, typef, first_year, ayear) |> 
-  dplyr::summarise(acount = n(), 
-            fem_t0 = mean(fem_t0), 
-            fem = mean(fem),
-            fem_min = min(fem),
-            fem_max = max(fem),
-            fem_sd = sd(fem))
-
-model_ref2 <- model_ref |> left_join(dout_all |> ungroup() |>
+model_ref2 <- model_ref |> left_join(dout_all |>
   filter(ayear %in% c(ceiling(gen_3), ceiling(gen_3_q25), ceiling(gen_3_q75), 100)) |> 
   group_by(akey, modelf, typef, first_year, ayear, arun) |> 
   summarise(fem_t0 = mean(fem_t0), 
-            fem = mean(fem),
-            fem_diff = mean(fem_diff)
+            femnew = mean(fem),
+            femnew_diff = mean(fem_diff)
   ) |> 
     ungroup() |> 
   group_by(akey, modelf, typef, first_year, ayear) |> 
   summarise(fem_t0 = mean(fem_t0), 
-            fem = mean(fem),
-            fem_sd = sd(fem, na.rm = TRUE),
-            fem_diff = mean(fem_diff), 
-            fem_diff_sd = sd(fem_diff, na.rm = TRUE), 
-            fem_diff_q25 = quantile(fem_diff, probs = 0.25, na.rm = TRUE),
-            fem_diff_q75 = quantile(fem_diff, probs = 0.75, na.rm = TRUE)) |> 
+            fem = mean(femnew),
+            fem_sd = sd(femnew, na.rm = TRUE),
+            fem_diff = mean(femnew_diff), 
+            fem_diff_sd = sd(femnew_diff, na.rm = TRUE), 
+            fem_diff_q25 = quantile(femnew_diff, probs = 0.25, na.rm = TRUE),
+            fem_diff_q75 = quantile(femnew_diff, probs = 0.75, na.rm = TRUE)) |> 
   ungroup() |> 
     mutate(ayear = paste("t", ayear, sep="")) |>
   pivot_wider(names_from = ayear, 
@@ -281,7 +265,8 @@ model_ref3 <- model_ref2 |>
   summarise(change50_ymean = floor(mean(change50_yf)), 
             change50_ysd = sd(change50_yf), 
             change50_yq25 = floor(quantile(change50_yf, probs = 0.25, na.rm = TRUE)),
-            change50_yq75 = floor(quantile(change50_yf, probs = 0.75, na.rm = TRUE)))
+            change50_yq75 = floor(quantile(change50_yf, probs = 0.75, na.rm = TRUE))) |> 
+   ungroup()
 ) |> left_join(dout_all |> 
   filter(change30_flag == 1) |>
  group_by(akey, modelf, typef, first_year, arun, 
@@ -294,7 +279,8 @@ model_ref3 <- model_ref2 |>
   summarise(change30_ymean = floor(mean(change30_yf)), 
             change30_ysd = sd(change30_yf), 
             change30_yq25 = floor(quantile(change30_yf, probs = 0.25, na.rm = TRUE)),
-            change30_yq75 = floor(quantile(change30_yf, probs = 0.75, na.rm = TRUE))) 
+            change30_yq75 = floor(quantile(change30_yf, probs = 0.75, na.rm = TRUE))) |> 
+   ungroup()
 )
 
 # Export for future use
@@ -329,14 +315,14 @@ fig_model_lambda <- model_ref |>
   scale_x_continuous("first year survival and graduation", 
                      breaks = c(0, 0.2, 0.4, 0.6, 0.8)) + 
   scale_color_viridis_d() +
-  facet_wrap(~ typef, ncol = 5) + 
+  facet_wrap(~ typef, ncol = 6) + 
   theme(legend.position="top") + 
   guides(colour=guide_legend(nrow=2,byrow=TRUE)) + 
   labs(y = "lambda", colour = "model")
 # save
 png(file = "inst/other/fig_unifilis_lambda.png", bg = "transparent", 
     type = c("cairo"), 
-    width = 8, height = 4, units = "in", res=600)
+    width = 9, height = 4, units = "in", res=600)
 fig_model_lambda
 invisible(dev.off())
              
