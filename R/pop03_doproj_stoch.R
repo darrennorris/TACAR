@@ -100,47 +100,79 @@ pop03_doproj_stoch <- function(x) {
    spr_02_boot <- Hmisc::smean.cl.boot(spr_02_lambda_vals)
    spr_02_boot_mean <- as.numeric(spr_02_boot["Mean"])
    spr_02_boot_lcl <- as.numeric(spr_02_boot["Lower"])
-   spr_02_boot_ucl <- as.numeric(spr_02_boot["Upper"])
+   spr_02_boot_ucl <- as.numeric(spr_02_boot["Upper"]) 
+   spr_02_quant <- quantile(spr_02_lambda_vals, probs = seq(0, 1, 0.25), 
+                            na.rm = TRUE)
+   spr_02_q25 <- as.numeric(spr_02_quant["25%"])
+   spr_02_q75 <- as.numeric(spr_02_quant["75%"])
    spr_02_sd <- sd(spr_02_lambda_vals, na.rm = TRUE)
    spr_03_boot <- Hmisc::smean.cl.boot(spr_03_lambda_vals)
    spr_03_boot_mean <- as.numeric(spr_03_boot["Mean"])
    spr_03_boot_lcl <- as.numeric(spr_03_boot["Lower"])
-   spr_03_boot_ucl <- as.numeric(spr_03_boot["Upper"])
+   spr_03_boot_ucl <- as.numeric(spr_03_boot["Upper"]) 
+   spr_03_quant <- quantile(spr_03_lambda_vals, probs = seq(0, 1, 0.25), 
+                            na.rm = TRUE)
+   spr_03_q25 <- as.numeric(spr_03_quant["25%"])
+   spr_03_q75 <- as.numeric(spr_03_quant["75%"])
    spr_03_sd <- sd(spr_03_lambda_vals, na.rm = TRUE)
    spr_04_boot <- Hmisc::smean.cl.boot(spr_04_lambda_vals)
    spr_04_boot_mean <- as.numeric(spr_04_boot["Mean"])
    spr_04_boot_lcl <- as.numeric(spr_04_boot["Lower"])
-   spr_04_boot_ucl <- as.numeric(spr_04_boot["Upper"])
+   spr_04_boot_ucl <- as.numeric(spr_04_boot["Upper"]) 
+   spr_04_quant <- quantile(spr_04_lambda_vals, probs = seq(0, 1, 0.25), 
+                            na.rm = TRUE)
+   spr_04_q25 <- as.numeric(spr_04_quant["25%"])
+   spr_04_q75 <- as.numeric(spr_04_quant["75%"])
    spr_04_sd <- sd(spr_04_lambda_vals, na.rm = TRUE)
    # generation times
    spr_01_gen_boot <- Hmisc::smean.cl.boot(spr_01_gen_vals)
    spr_01_gen_boot_mean <- as.numeric(spr_01_gen_boot["Mean"])
    spr_01_gen_boot_lcl <- as.numeric(spr_01_gen_boot["Lower"])
    spr_01_gen_boot_ucl <- as.numeric(spr_01_gen_boot["Upper"])
-   spr_01_gen_sd <- sd(spr_01_gen_vals, na.rm = TRUE)
+   spr_01_gen_sd <- sd(spr_01_gen_vals, na.rm = TRUE) 
+   spr_01_gen_quant <- quantile(spr_01_gen_vals, probs = seq(0, 1, 0.25), 
+                            na.rm = TRUE)
+   spr_01_gen_q25 <- as.numeric(spr_01_gen_quant["25%"])
+   spr_01_gen_q75 <- as.numeric(spr_01_gen_quant["75%"])
    spr_02_gen_boot <- Hmisc::smean.cl.boot(spr_02_gen_vals)
    spr_02_gen_boot_mean <- as.numeric(spr_02_gen_boot["Mean"])
    spr_02_gen_boot_lcl <- as.numeric(spr_02_gen_boot["Lower"])
    spr_02_gen_boot_ucl <- as.numeric(spr_02_gen_boot["Upper"]) 
-   spr_02_gen_sd <- sd(spr_02_gen_vals, na.rm = TRUE)
+   spr_02_gen_sd <- sd(spr_02_gen_vals, na.rm = TRUE) 
+   spr_02_gen_quant <- quantile(spr_02_gen_vals, probs = seq(0, 1, 0.25), 
+                                na.rm = TRUE)
+   spr_02_gen_q25 <- as.numeric(spr_02_gen_quant["25%"])
+   spr_02_gen_q75 <- as.numeric(spr_02_gen_quant["75%"])
    spr_03_gen_boot <- Hmisc::smean.cl.boot(spr_03_gen_vals)
    spr_03_gen_boot_mean <- as.numeric(spr_03_gen_boot["Mean"])
    spr_03_gen_boot_lcl <- as.numeric(spr_03_gen_boot["Lower"])
    spr_03_gen_boot_ucl <- as.numeric(spr_03_gen_boot["Upper"])
-   spr_03_gen_sd <- sd(spr_03_gen_vals, na.rm = TRUE)
+   spr_03_gen_sd <- sd(spr_03_gen_vals, na.rm = TRUE) 
+   spr_03_gen_quant <- quantile(spr_03_gen_vals, probs = seq(0, 1, 0.25), 
+                                na.rm = TRUE)
+   spr_03_gen_q25 <- as.numeric(spr_03_gen_quant["25%"])
+   spr_03_gen_q75 <- as.numeric(spr_03_gen_quant["75%"])
    spr_04_gen_boot <- Hmisc::smean.cl.boot(spr_04_gen_vals)
    spr_04_gen_boot_mean <- as.numeric(spr_04_gen_boot["Mean"])
    spr_04_gen_boot_lcl <- as.numeric(spr_04_gen_boot["Lower"])
    spr_04_gen_boot_ucl <- as.numeric(spr_04_gen_boot["Upper"]) 
-   spr_04_gen_sd <- sd(spr_04_gen_vals, na.rm = TRUE)
+   spr_04_gen_sd <- sd(spr_04_gen_vals, na.rm = TRUE) 
+   spr_04_gen_quant <- quantile(spr_04_gen_vals, probs = seq(0, 1, 0.25), 
+                                na.rm = TRUE)
+   spr_04_gen_q25 <- as.numeric(spr_04_gen_quant["25%"])
+   spr_04_gen_q75 <- as.numeric(spr_04_gen_quant["75%"])
    # data.frame to return
    dfpop <- rbind(data.frame(model = "Stochastic uniform",  
                              lambda = spr_01_boot_mean,
                              lambda_lcl = spr_01_boot_lcl, 
                              lambda_ucl = spr_01_boot_ucl, 
-                             lambda_sd = spr_01_sd,
+                             lambda_sd = spr_01_sd, 
+                             lambda_q25 = spr_01_q25, 
+                             lambda_q75 = spr_01_q75,
                              gen_time = spr_01_gen_boot_mean, 
-                             gen_sd = spr_01_gen_sd,
+                             gen_sd = spr_01_gen_sd, 
+                             gen_q25 = spr_01_gen_q25, 
+                             gen_q75 = spr_01_gen_q75,
                              ayear = 0:ttime,
                        egghatch = popdemo::vec(spr_01)[,1], 
                        j_early = popdemo::vec(spr_01)[,2], 
@@ -152,9 +184,13 @@ pop03_doproj_stoch <- function(x) {
                            lambda = spr_02_boot_mean,
                            lambda_lcl = spr_02_boot_lcl, 
                            lambda_ucl = spr_02_boot_ucl, 
-                           lambda_sd = spr_02_sd,
+                           lambda_sd = spr_02_sd, 
+                           lambda_q25 = spr_02_q25, 
+                           lambda_q75 = spr_02_q75,
                            gen_time = spr_02_gen_boot_mean, 
-                           gen_sd = spr_02_gen_sd,
+                           gen_sd = spr_02_gen_sd, 
+                           gen_q25 = spr_02_gen_q25, 
+                           gen_q75 = spr_02_gen_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_02)[,1], 
                            j_early = popdemo::vec(spr_02)[,2], 
@@ -166,9 +202,13 @@ pop03_doproj_stoch <- function(x) {
                            lambda = spr_03_boot_mean,
                            lambda_lcl = spr_03_boot_lcl, 
                            lambda_ucl = spr_03_boot_ucl, 
-                           lambda_sd = spr_03_sd,
+                           lambda_sd = spr_03_sd, 
+                           lambda_q25 = spr_03_q25, 
+                           lambda_q75 = spr_03_q75,
                            gen_time = spr_03_gen_boot_mean, 
-                           gen_sd = spr_03_gen_sd,
+                           gen_sd = spr_03_gen_sd, 
+                           gen_q25 = spr_03_gen_q25, 
+                           gen_q75 = spr_03_gen_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_03)[,1], 
                            j_early = popdemo::vec(spr_03)[,2], 
@@ -180,9 +220,13 @@ pop03_doproj_stoch <- function(x) {
                            lambda = spr_04_boot_mean,
                            lambda_lcl = spr_04_boot_lcl, 
                            lambda_ucl = spr_04_boot_ucl, 
-                           lambda_sd = spr_04_sd,
+                           lambda_sd = spr_04_sd, 
+                           lambda_q25 = spr_04_q25, 
+                           lambda_q75 = spr_04_q75,
                            gen_time = spr_04_gen_boot_mean, 
-                           gen_sd = spr_04_gen_sd,
+                           gen_sd = spr_04_gen_sd, 
+                           gen_q25 = spr_04_gen_q25, 
+                           gen_q75 = spr_04_gen_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_04)[,1], 
                            j_early = popdemo::vec(spr_04)[,2], 

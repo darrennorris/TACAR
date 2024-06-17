@@ -101,25 +101,33 @@ ceiling(737 / 20) # 37 years for a female to lay sufficient eggs (maturity 9 yea
 nruns <- 50
 dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
 dt_stoch$arun <- rep(1:nruns, each = nrow(dt))
-# Approx 7 minutes. 1,015,050 million rows.
-dout_stoch <- plyr::ddply(dt_stoch[1:100, ], 
+# Approx 30 minutes. 1,212,000 rows. Projections quick. Summaries slow.
+dout_stoch <- plyr::ddply(dt_stoch, 
                     c("arun", "species", "type", "first_year","akey"), 
                     .fun =  pop03_doproj_stoch)
 table(dout_stoch$model)
 table(dout_stoch$type)
+# Export for future use
+saveRDS(dout_stoch, "inst/other/dout_stoch.rds")
 ```
 
 #### Combine results.
 ```{r projection-join, eval=FALSE}
 # Combine data for plotting
 dout_all <- dplyr::bind_rows(dout |> dplyr::select(arun, model, type, first_year, 
-                                                   akey, ayear, lambda,
+                                                   akey, ayear, 
+                                                   lambda, gen_time,
                                             fem, fem_t0, fem_diff, change50_flag, 
-                                            double_flag), 
+                                            change30_flag,
+                                            double_flag) |> 
+                               dplyr::mutate(lambda_lcl = NA, lambda_ucl = NA, 
+                                             lambda_sd = NA,  gen_sd = NA), 
                              dout_stoch |> dplyr::select(arun, model, type, first_year, 
                                                          akey, ayear, 
-                                                         lambda,
+                                                         lambda, lambda_lcl, lambda_ucl, 
+                                                         lambda_sd, gen_time, gen_sd,
                                             fem, fem_t0, fem_diff, change50_flag, 
+                                            change30_flag,
                                             double_flag))
 # Limit adult female number to maximum (10 x original).
 dout_all[which(dout_all$fem > (nf * 10)), 'fem' ] <- (nf * 10)
@@ -137,11 +145,13 @@ unique(dout_all$modelf)
 table(dout_all$modelf)
 dout_all$typef <- 1
 dout_all[which(dout_all$type=="female-hunt 2.5%") , 'typef'] <- 2
-dout_all[which(dout_all$type=="female-hunt 10%") , 'typef'] <- 3
-dout_all[which(dout_all$type=="female-hunt 25%") , 'typef'] <- 4
-dout_all[which(dout_all$type=="female-hunt 50%") , 'typef'] <- 5
+dout_all[which(dout_all$type=="female-hunt 5%") , 'typef'] <- 3
+dout_all[which(dout_all$type=="female-hunt 10%") , 'typef'] <- 4
+dout_all[which(dout_all$type=="female-hunt 25%") , 'typef'] <- 5
+dout_all[which(dout_all$type=="female-hunt 50%") , 'typef'] <- 6
 dout_all$typef <- as.factor(dout_all$typef)
 levels(dout_all$typef) <- c("base", "female-hunt 2.5%", 
+                            "female-hunt 5%",
                           "female-hunt 10%", "female-hunt 25%", 
                           "female-hunt 50%")
 table(dout_all$typef)
@@ -149,31 +159,53 @@ table(dout_all$typef)
 dout_all$first_yearf <- as.factor(dout_all$first_year)
 fylev <- paste("first-year\nsurvival\n", seq(0, 0.9, by = 0.1), sep = "")
 levels(dout_all$first_yearf) <- fylev
-# Export for future use
+# Export for future use. 17/6/2024 - 1,218,060 rows 21 columns.
 saveRDS(dout_all, "inst/other/dout_all.rds")
 
 ```
 
 Model summaries.
+RedList guidelines p38
+For example, upper and lower quartiles of the projected magnitude of 
+the future reduction (i.e., reductions with 25% and 75% probability) 
+may be considered to represent a plausible range of projected reduction
+Green Status
+Species Status: Viability
+A species is considered viable in a spatial unit if application of 
+the Regional Red List Guidelines to the population in the spatial unit 
+would result in a categorization of ‘Least Concern’ OR 
+‘Near Threatened and Not Declining’.
 ```{r model-summaries, warning=FALSE, message=FALSE}
 # load data
 dout_all <- readRDS("inst/other/dout_all.rds")
 
 # Make unique model ID. boot mean is same as mean (at least to 6 decimal places)
-# 250 projection models.
+# 300 projection models.
 model_ref <- dout_all |>
-  group_by(akey, modelf, typef, first_year, first_yearf, arun) |> 
+  group_by(akey, modelf, typef, first_year, arun) |> 
   summarise(lambda = min(lambda), 
+            gen_time = min(gen_time),
             yc = length(unique(ayear))) |> 
   ungroup() |> 
-  group_by(akey, modelf, typef, first_year, first_yearf) |>
+  group_by(akey, modelf, typef, first_year) |>
   summarise(count_runs = length(unique(arun)), 
             count_years = min(yc),
             lambda_mean = mean(lambda), 
             lambda_min = min(lambda), 
             lambda_max = max(lambda), 
+            lambda_sd = sd(lambda),
             lambda_boot_lcl = Hmisc::smean.cl.boot(lambda)["Lower"],
-            lambda_boot_ucl = Hmisc::smean.cl.boot(lambda)["Upper"]
+            lambda_boot_ucl = Hmisc::smean.cl.boot(lambda)["Upper"], 
+            lambda_q25 = quantile(lambda, probs = 0.25, na.rm = TRUE),
+            lambda_q75 = quantile(lambda, probs = 0.75, na.rm = TRUE), 
+            gen_mean = mean(gen_time), 
+            gen_min = min(gen_time), 
+            gen_max = max(gen_time), 
+            gen_sd = sd(gen_time),
+            gen_boot_lcl = Hmisc::smean.cl.boot(gen_time)["Lower"],
+            gen_boot_ucl = Hmisc::smean.cl.boot(gen_time)["Upper"], 
+            gen_q25 = quantile(gen_time, probs = 0.25, na.rm = TRUE),
+            gen_q75 = quantile(gen_time, probs = 0.75, na.rm = TRUE),
             ) |> 
   ungroup() |> 
   arrange(typef, first_year, modelf) |>
@@ -181,16 +213,89 @@ model_ref <- dout_all |>
          modelkey = row_number()) |> 
   relocate(modelkey, modelid)
 
-# Now add usefull info, 25 and 75 quartiles.
-# RedList guidelines p38
-# For example, upper and lower quartiles of the projected magnitude of 
-# the future reduction (i.e., reductions with 25% and 75% probability) 
-# may be considered to represent a plausible range of projected reduction
-# Species Status: Viability
-# A species is considered viable in a spatial unit if application of 
-# the Regional Red List Guidelines to the population in the spatial unit 
-# would result in a categorization of ‘Least Concern’ OR 
-# ‘Near Threatened and Not Declining’.
+# Estimates of generation time
+gen_mean <- model_ref |> 
+  filter(lambda_mean >= 1, first_year < 0.5) |> pull(gen_mean) |> mean()
+gen_q25 <- model_ref |> 
+  filter(lambda_mean >= 1, first_year < 0.5) |> pull(gen_mean) |> 
+  quantile(probs = 0.25)
+gen_q75 <- model_ref |> 
+  filter(lambda_mean >= 1, first_year < 0.5) |> pull(gen_mean) |> 
+  quantile(probs = 0.75)
+gen_3 <- gen_mean * 3
+gen_3_q25 <- gen_q25 * 3
+gen_3_q75 <- gen_q75 * 3
+
+# Add population changes.
+dout_all |> 
+  filter(akey == "poun_base_0.2", modelf == "Stochastic uniform", ayear == 42) |>
+  filter(ayear %in% c(ceiling(gen_3), ceiling(gen_3_q25), ceiling(gen_3_q75), 100)) |> 
+  dplyr::group_by(akey, modelf, typef, first_year, ayear, arun) |> 
+  dplyr::summarise(fem_t0 = mean(fem_t0), 
+            fem = mean(fem),
+            fem_diff = mean(fem_diff)
+  ) |> ungroup() |> 
+  dplyr::group_by(akey, modelf, typef, first_year, ayear) |> 
+  dplyr::summarise(acount = n(), 
+            fem_t0 = mean(fem_t0), 
+            fem = mean(fem),
+            fem_min = min(fem),
+            fem_max = max(fem),
+            fem_sd = sd(fem))
+
+model_ref2 <- model_ref |> left_join(dout_all |> ungroup() |>
+  filter(ayear %in% c(ceiling(gen_3), ceiling(gen_3_q25), ceiling(gen_3_q75), 100)) |> 
+  group_by(akey, modelf, typef, first_year, ayear, arun) |> 
+  summarise(fem_t0 = mean(fem_t0), 
+            fem = mean(fem),
+            fem_diff = mean(fem_diff)
+  ) |> 
+    ungroup() |> 
+  group_by(akey, modelf, typef, first_year, ayear) |> 
+  summarise(fem_t0 = mean(fem_t0), 
+            fem = mean(fem),
+            fem_sd = sd(fem, na.rm = TRUE),
+            fem_diff = mean(fem_diff), 
+            fem_diff_sd = sd(fem_diff, na.rm = TRUE), 
+            fem_diff_q25 = quantile(fem_diff, probs = 0.25, na.rm = TRUE),
+            fem_diff_q75 = quantile(fem_diff, probs = 0.75, na.rm = TRUE)) |> 
+  ungroup() |> 
+    mutate(ayear = paste("t", ayear, sep="")) |>
+  pivot_wider(names_from = ayear, 
+               values_from = c(fem, fem_sd, fem_diff, 
+                               fem_diff_sd, fem_diff_q25, fem_diff_q75)) |> 
+  arrange(typef, first_year, modelf)
+)
+
+# Add time to change by 50% and 30% 
+model_ref3 <- model_ref2 |> 
+  left_join(dout_all |> 
+  filter(change50_flag == 1) |>
+ group_by(akey, modelf, typef, first_year, arun, 
+          change50_flag) |>
+  summarise(acount = n(), 
+            change50_yf = min(ayear), 
+            change50_yl = max(ayear)) |> 
+  ungroup() |> 
+  group_by(akey, modelf, typef, first_year) |> 
+  summarise(change50_ymean = floor(mean(change50_yf)), 
+            change50_ysd = sd(change50_yf), 
+            change50_yq25 = floor(quantile(change50_yf, probs = 0.25, na.rm = TRUE)),
+            change50_yq75 = floor(quantile(change50_yf, probs = 0.75, na.rm = TRUE)))
+) |> left_join(dout_all |> 
+  filter(change30_flag == 1) |>
+ group_by(akey, modelf, typef, first_year, arun, 
+          change30_flag) |>
+  summarise(acount = n(), 
+            change30_yf = min(ayear), 
+            change30_yl = max(ayear)) |> 
+  ungroup() |> 
+  group_by(akey, modelf, typef, first_year) |> 
+  summarise(change30_ymean = floor(mean(change30_yf)), 
+            change30_ysd = sd(change30_yf), 
+            change30_yq25 = floor(quantile(change30_yf, probs = 0.25, na.rm = TRUE)),
+            change30_yq75 = floor(quantile(change30_yf, probs = 0.75, na.rm = TRUE))) 
+)
 
 # Export for future use
 saveRDS(model_ref, "inst/other/model_ref.rds") 
