@@ -15,6 +15,8 @@ library(plyr)
 library(tidyverse)
 library(popdemo)
 library(popbio)
+library(Rcompadre)
+library(Rage)
 ```
 
 Load functions.
@@ -42,7 +44,7 @@ slice_head(dt, n = 3)  |>
   kableExtra::kable_styling(full_width = F,  latex_options = "hold_position")
 ```
 
-The rows can be easily converted into a stage-based matrix population model. 
+The rows can be easily converted for use in a stage-based matrix population model. 
 The first row becomes the following stage-based matrix, where columns reflect 
 the stage and rows what to the stage at time + 1.
 ```{r mpm-example}
@@ -50,7 +52,7 @@ stage_names <- c("a1", "a2", "a3", "a4",
                    "b1", "b2", "b3", "b4",
                    "c1", "c2", "c3", "c4",
                    "d1", "d2", "d3", "d4")
-vpop <- unlist(dt[1 , stage_names])
+vpop <- unlist(dt[3 , stage_names])
 pop_mat <- matrix(vpop, byrow = TRUE, ncol=4)
 dimnames(pop_mat) <- list(c("a", "b", "c", "d"),
                             c( "a", "b", "c", "d"))
@@ -71,6 +73,71 @@ This matrix includes information of population growth and survival and reproduct
 See https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html
 
 We can show the different matrix components converting to the structure recommended by ...
+```{r rcompadre-example, warning=FALSE, message=FALSE}
+meta <- data.frame(idNum = 3, 
+                   SpeciesAccepted = dt[3 , 'species'],
+                   type = dt[3 , 'type'], 
+                   first_year = dt[3 , 'first_year']) 
+stageInfo <- list(
+  data.frame(
+    MatrixClassOrganized = rep("active", 4),
+    MatrixClassAuthor = c("eggs/hatchling", "juvenile-early", "juvenile-late", "adult")
+  ))
+# Simple full A matrix
+l_pop_mat <- list(mpm = pop_mat)
+x <- cdb_build_cdb(mat_a = l_pop_mat, metadata = meta)
+# Seperate into U, F, C
+mat_u1 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], dt[3, 'd4'])
+)
+mat_f1 <- rbind(
+  c(0.0, 0.0, 0.0, dt[3, 'a4']),
+  c(0.0, 0.0, 0.0, 0.0),
+  c(0.0, 0.0, 0.0, 0.0), 
+  c(0.0, 0.0, 0.0, 0.0)
+)
+mat_c1 <- rbind(
+  c(0.0, 0.0, 0.0, 0.0),
+  c(0.0, 0.0, 0.0, 0.0),
+  c(0.0, 0.0, 0.0, 0.0), 
+  c(0.0, 0.0, 0.0, 0.0)
+)
+l_u <- list(m_u = mat_u1)
+l_f <- list(m_f = mat_f1)
+l_c <- list(m_c = mat_c1)
+
+my_comadre <- cdb_build_cdb(
+  mat_u = l_u, mat_f = l_f, mat_c = l_c,
+  metadata = meta, 
+  stages = stageInfo
+)
+
+matA(my_comadre)
+matU(my_comadre)
+matF(my_comadre)
+matC(my_comadre)
+
+```
+
+We can get life history metrics
+```{r gen-time}
+# the time required for a population to 
+# increase by a factor of R0 (the net reproductive rate)
+gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]]) # 17.15
+# the average parent-offspring age difference # 16.22
+gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "age_diff")
+# expected age at reproduction for a cohort 5.69
+gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "cohort")
+```
+Plot the life cycle diagram.
+```{r plot-lifecycle}
+plot_life_cycle(matA = matA(my_comadre)[[1]])
+```
+
+
 
 ### Projection models.
 
@@ -195,12 +262,13 @@ saveRDS(dout_all, "inst/other/dout_all.rds")
 ```
 
 Model summaries.
-RedList guidelines p38
+
+- RedList guidelines p38    
 For example, upper and lower quartiles of the projected magnitude of 
 the future reduction (i.e., reductions with 25% and 75% probability) 
 may be considered to represent a plausible range of projected reduction
-Green Status
-Species Status: Viability
+
+- Green Status Viability    
 A species is considered viable in a spatial unit if application of 
 the Regional Red List Guidelines to the population in the spatial unit 
 would result in a categorization of ‘Least Concern’ OR 
