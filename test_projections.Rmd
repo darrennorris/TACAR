@@ -9,6 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## To do
+
+ - Choose models for scenarios
+ - Run scenarios across points
+ - Determine Green Status
+ - Evaluate uncertainty/sensitivity
+
+
 ## Packages
 ```{r load-packages, warning=FALSE, message=FALSE}
 library(plyr)
@@ -268,11 +276,18 @@ For example, upper and lower quartiles of the projected magnitude of
 the future reduction (i.e., reductions with 25% and 75% probability) 
 may be considered to represent a plausible range of projected reduction
 
+- Green Status Presence    
+Present when population is at least 1 as measured by lower quartile population.
+
 - Green Status Viability    
+Viable when not declining as measured by lower quartile of lambda. 
 A species is considered viable in a spatial unit if application of 
 the Regional Red List Guidelines to the population in the spatial unit 
 would result in a categorization of ‘Least Concern’ OR 
 ‘Near Threatened and Not Declining’.
+
+- Green Status Functional    
+Functional when population lower quartile is 10 times base level.
 ```{r model-summaries, warning=FALSE, message=FALSE, eval=FALSE}
 # load data
 dout_all <- readRDS("inst/other/dout_all.rds")
