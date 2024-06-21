@@ -280,7 +280,7 @@ may be considered to represent a plausible range of projected reduction
 Present when population is at least 1 as measured by lower quartile population.
 
 - Green Status Viability    
-Viable when not declining as measured by lower quartile of lambda. 
+Viable when not declining: lower quartile of lambda >= 1. 
 A species is considered viable in a spatial unit if application of 
 the Regional Red List Guidelines to the population in the spatial unit 
 would result in a categorization of ‘Least Concern’ OR 
