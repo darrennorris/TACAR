@@ -1,0 +1,49 @@
+---
+title: "River sections"
+author: "Darren Norris"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages
+```{r load-packages, warning=FALSE, message=FALSE}
+library(plyr)
+library(tidyverse)
+library(sf)
+
+```
+
+Check what attributes were in cmartr version made using "Old_RiverlengthSummary.R".
+Missing country and other basin details.
+```{r load-river}
+rpin <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shapes_rivers3395\\riversec3395_1_2018021339.shp"
+r_01_3395 <- read_sf(rpin) |> st_transform(3395)
+
+pounf <- "C:\\Users\\user\\Documents\\IUCN_redgreen\\IUCN_greenstatus\\analysis\\vector\\poun_presence.gpkg"
+basins_ffr_3395 <- read_sf(pounf, layer = "basins_ffr") |> st_transform(3395)
+
+# crop to speed up processing.
+basins_ffr_crop <- st_crop(basins_ffr_3395, st_bbox(r_01_3395))
+
+```
+
+See if intersection works with Free Flowing Rivers.
+```{r spatial-check, warning=FALSE, message=FALSE}
+# no where close to be spatially consistent.
+mapview::mapview(basins_ffr_crop) + 
+  mapview::mapview(r_01_3395)
+```
+
+Add free flowiong river data to points.
+Spatial join. 
+```{r spatial-join}
+# intersect. no data sources are not consistent reprsentation of rivers
+# 111 obs
+# ls_samp_sf <- st_intersection(st_buffer(basins_ffr_crop, 100), r_01_3395)
+# 3030
+ls_samp_sf <- st_join(r_01_3395, basins_ffr_crop, join = st_nearest_feature)
+```
