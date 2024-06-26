@@ -13,7 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-packages, warning=FALSE, message=FALSE}
 library(plyr)
 library(tidyverse)
+library(readxl)
 library(sf)
+library(patchwork)
 
 ```
 
@@ -39,11 +41,137 @@ mapview::mapview(basins_ffr_crop) +
 ```
 
 Add free flowiong river data to points.
-Spatial join. 
+Spatial join. Get country, CSI_FF.
+ 
+REACH_ID Reach Identifier. The reach identifier can be used to link 
+this dataset to the HydroATLAS database.
+COUNTRY
+BAS_ID Basin Identifier. Identifies the hydrological river basin 
+according to the HydroSHEDS framework.
+BAS_NAME  Basin Name (if available).
+RIV_ORD River order. River order is here defined and calculated based 
+on the long-term average discharge (DIS_AV_CMS) using logarithmic progression:
+1 = > 100000
+2 = 10000 – 100000
+3 = 1000 – 10000
+4 = 100 – 1000
+5 = 10 – 100
+CSI above or below free-flowing threshold.
+Indicates if the CSI value of a river reach is below (value = 0) or 
+above (value = 1) the threshold of 95%.
+BasinATLAS, RiverATLAS, and LakeATLAS are related through the 
+level 12 HydroBASIN ID codes found in the attribute tables of each dataset. 
+Every river reach in RiverATLAS and every lake in LakeATLAS shows 
+the HydroBASINS ID (“HYBAS_ID”) of its corresponding level 12 HydroBASIN 
+in which the reach or lake’s pour point is located.
+https://hydrosheds.freeflarum.com/
 ```{r spatial-join}
 # intersect. no data sources are not consistent reprsentation of rivers
 # 111 obs
 # ls_samp_sf <- st_intersection(st_buffer(basins_ffr_crop, 100), r_01_3395)
 # 3030
 ls_samp_sf <- st_join(r_01_3395, basins_ffr_crop, join = st_nearest_feature)
+ls_samp_sf |> st_drop_geometry() |>
+pull(BAS_ID) |> table() # 3418183
+ls_samp_sf |> st_drop_geometry() |>
+pull(BAS_NAME) |> table() # Amazon basin
+ls_samp_sf |> st_drop_geometry() |>
+pull(BB_NAME) |> table() # 7 backbone rivers
+# Free-flowing status (three categories).
+ls_samp_sf |> st_drop_geometry() |> 
+  group_by(CSI_FF2) |> 
+  summarise(CSI_mean = mean(CSI))
+# Indicates if the CSI value of a river reach is below (value = 0) or 
+# above (value = 1) the threshold of 95%.
+ls_samp_sf |> st_drop_geometry() |> 
+  group_by(CSI_FF) |> 
+  summarise(CSI_mean = mean(CSI))
+
 ```
+
+## Join with scenarios
+
+Load lookup table.
+```{r load-lookup}
+# model_lookup has population projections created in "test_projections.Rmd".
+model_lookup <- readRDS('inst/other/model_lookup.rds')
+# actions has models associted with different scenarios
+actions <- read_excel("inst/other/Podocnemis conservation actions.xlsx", 
+                      sheet = "scenario_parameters", .name_repair = "universal")
+```
+
+
+```{r join-scenarios}
+# Join model results to scenarios
+scenario_res <- ls_samp_sf |> data.frame() |> 
+  mutate(Protected = if_else(All == 1, "yes", "no"), 
+         Accessible = if_else(accessible == "No", "no", "yes"), 
+         Free.flowing = if_else(CSI_FF == 1, "yes", "no")
+         ) |> left_join( 
+           actions |> 
+  filter(Podocnemis.modelling.scenario == "Protection") |> 
+  left_join(model_lookup, by = join_by(modelkey_BAU == modelkey) 
+            ), 
+  by = c("Protected" = "Protected", "Accessible" = "Accessible", "Free.flowing" = "Free.flowing")
+           )
+# should be zero rows if join worked
+test_join <- scenario_res |> 
+  filter(is.na(lambda_mean)) |> nrow()
+```
+
+## Sexy figures 
+Expected change over 100 years.
+```{r fig-change-100}
+# changes over 100 years
+fig_bar_100 <- scenario_res |> 
+  select(BASIN_N, subbasn, Protected, Accessible, Free.flowing, 
+         fem_diff_t100, fem_diff_q25_t100, fem_diff_q75_t100) |>
+  pivot_longer(cols = starts_with("fem")) |>
+  mutate(flag_50 = factor(if_else(value <= -0.5, 1, 0))) |> 
+  group_by(name, flag_50) |> 
+  summarise(length_rkm = n()
+            ) |> 
+  pivot_wider(names_from = name, values_from = length_rkm, values_fill = 0) |>
+ggplot(aes(x = flag_50, y = fem_diff_t100)) + 
+  geom_errorbar(aes(ymin = fem_diff_q25_t100, ymax = fem_diff_q75_t100), 
+                colour="black") + 
+  geom_point() +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(limits = c(0, NA)) +
+  labs(y = "river length (km)", x = "50% loss") + 
+  coord_flip()
+
+# Try to use bbox for sensible breaks.
+# All on western hemisphere so this works
+mybbox <-  st_bbox(st_as_sf(scenario_res) |> st_transform(4326))
+myxmin <- ceiling(mybbox["xmin"])
+myxmax <- floor(mybbox["xmax"])
+fig_map_100 <- st_as_sf(scenario_res) |> 
+  ggplot() +
+  geom_sf(aes(colour = fem_diff_t100)) + 
+  scale_x_continuous(breaks = c(seq(myxmin, myxmax, by = 2))) +
+  scale_colour_gradient2("%\nchange")
+
+fig_map_100 + fig_bar_100 + 
+  plot_annotation("Population change 100 years", tag_levels = 'A')
+
+```
+
+Visualize with mapview.
+```{r fig-interactive, eval = FALSE}
+diff_100y <- st_as_sf(scenario_res) |> 
+                   select(fem_diff_t100)
+mapview::mapview(diff_100y, zcol = "fem_diff_t100")
+```
+
+
+Join back with basins.
+```{r join-basins}
+# level 12 should have code to join with Free Flowing Rivers
+fhybas_l12 <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev12_v1c.shp"
+hybas_l12_3395 <- st_read(fhybas_l12) |> st_transform(3395)
+hybas_l12_3395_crop <- st_crop(hybas_l12_3395, st_bbox(r_01_3395))
+hybas_l12_3395_crop |> st_drop_geometry() |> pull(HYBAS_ID) |> table()
+hybas_l12_3395_crop |> st_drop_geometry() |> pull(MAIN_BAS) |> table()
+```
+
