@@ -110,50 +110,96 @@ scenario_res <- ls_samp_sf |> data.frame() |>
          ) |> left_join( 
            actions |> 
   filter(Podocnemis.modelling.scenario == "Protection") |> 
-  left_join(model_lookup, by = join_by(modelkey_BAU == modelkey) 
+  pivot_longer(cols = starts_with("modelkey"), names_to = "model_name", 
+               values_to = "modelkey") |> 
+  left_join(model_lookup, by = join_by(modelkey == modelkey) 
             ), 
-  by = c("Protected" = "Protected", "Accessible" = "Accessible", "Free.flowing" = "Free.flowing")
+  by = c("Protected" = "Protected", "Accessible" = "Accessible", 
+         "Free.flowing" = "Free.flowing"), 
+  relationship = "many-to-many"
            )
 # should be zero rows if join worked
 test_join <- scenario_res |> 
   filter(is.na(lambda_mean)) |> nrow()
+
+# summary
+sum_diff_mean <- scenario_res |> 
+  mutate(flag_50_42y = factor(if_else(fem_diff_t42 <= -0.5, 1, 0))) |>
+  group_by(BASIN_N, subbasn, Protected, Accessible, Free.flowing, 
+           model_name, flag_50_42y) |> 
+  summarise(river_length = n(), 
+            lambda = mean(lambda_mean), 
+            diff_42y = mean(fem_diff_t42)) |> 
+  ungroup() 
+sum_diff_q25 <- scenario_res |> 
+  mutate(flag_50_42y = factor(if_else(fem_diff_q25_t42 <= -0.5, 1, 0))) |>
+  group_by(BASIN_N, subbasn, Protected, Accessible, Free.flowing, 
+           model_name, flag_50_42y) |> 
+  summarise(river_length = n(), 
+            lambda = mean(lambda_q25), 
+            diff_42y = mean(fem_diff_q25_t42)) |> 
+  ungroup() 
+sum_diff_q75 <- scenario_res |> 
+  mutate(flag_50_42y = factor(if_else(fem_diff_q75_t42 <= -0.5, 1, 0))) |>
+  group_by(BASIN_N, subbasn, Protected, Accessible, Free.flowing, 
+           model_name, flag_50_42y) |> 
+  summarise(river_length = n(), 
+            lambda = mean(lambda_q75), 
+            diff_42y = mean(fem_diff_q75_t42)) |> 
+  ungroup() 
+
+sum_diff <- bind_rows(sum_diff_mean |> mutate(scen_est = "mean"), 
+                      sum_diff_q25 |> mutate(scen_est = "lower"), 
+                      sum_diff_q75 |> mutate(scen_est = "upper"))
+sum_diff$model_namef <- factor(sum_diff$model_name)
+sum_diff$model_namef <- relevel(sum_diff$model_namef, ref = "modelkey_pessimistic")
+levels(sum_diff$model_namef) <- c("pessimistic", "BAU", "optimistic") 
+sum_diff$model_cat <- factor(paste(sum_diff$flag_50_42y, sum_diff$scen_est, sep = ""))
 ```
 
 ## Sexy figures 
-Expected change over 100 years.
-```{r fig-change-100}
-# changes over 100 years
-fig_bar_100 <- scenario_res |> 
-  select(BASIN_N, subbasn, Protected, Accessible, Free.flowing, 
-         fem_diff_t100, fem_diff_q25_t100, fem_diff_q75_t100) |>
-  pivot_longer(cols = starts_with("fem")) |>
-  mutate(flag_50 = factor(if_else(value <= -0.5, 1, 0))) |> 
-  group_by(name, flag_50) |> 
-  summarise(length_rkm = n()
-            ) |> 
-  pivot_wider(names_from = name, values_from = length_rkm, values_fill = 0) |>
-ggplot(aes(x = flag_50, y = fem_diff_t100)) + 
-  geom_errorbar(aes(ymin = fem_diff_q25_t100, ymax = fem_diff_q75_t100), 
-                colour="black") + 
-  geom_point() +
+Expected change over 42 years.
+```{r fig-change-42}
+# changes over 3 generations. test with lowest estimate.
+# Expect to see differences.....
+#colour gradient to follow map colours - get mute palette?
+# calculate as % of river lengths
+# to do - check with 5 basins. then check scenario development - 
+# ajust to obtain more variation within stochastic - more runs?
+# more variation across pessimistic, BAU and optimistic?
+myfill <- c("lightsteelblue" ,"mediumpurple1", "mediumpurple3",
+              "indianred3", "firebrick", "lightpink4")
+fig_bar_42 <- sum_diff |> 
+  group_by(model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(rl = sum(river_length), 
+            ml = mean(lambda)) |> 
+  ungroup() |>
+ggplot(aes(x = flag_50_42y, y = rl)) + 
+  # geom_col(fill = rep(c("mediumpurple1", "firebrick"), 3)) +
+  geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  scale_fill_manual(values = rep(myfill, 3)) +
   scale_x_discrete(labels = c("no", "yes")) + 
-  scale_y_continuous(limits = c(0, NA)) +
+  scale_y_continuous(limits = c(0, NA)) + 
   labs(y = "river length (km)", x = "50% loss") + 
-  coord_flip()
-
+  coord_flip() + 
+  facet_wrap(~ model_namef, ncol = 1) + 
+  theme(legend.position="none")
+fig_bar_42
 # Try to use bbox for sensible breaks.
 # All on western hemisphere so this works
 mybbox <-  st_bbox(st_as_sf(scenario_res) |> st_transform(4326))
 myxmin <- ceiling(mybbox["xmin"])
 myxmax <- floor(mybbox["xmax"])
-fig_map_100 <- st_as_sf(scenario_res) |> 
+fig_map_42 <- scenario_res |> 
+  filter(model_name == "modelkey_BAU") |> 
+  st_as_sf() |>
   ggplot() +
-  geom_sf(aes(colour = fem_diff_t100)) + 
+  geom_sf(aes(colour = fem_diff_t42)) + 
   scale_x_continuous(breaks = c(seq(myxmin, myxmax, by = 2))) +
-  scale_colour_gradient2("%\nchange")
+  scale_colour_gradient2("BAU %\nchange")
 
-fig_map_100 + fig_bar_100 + 
-  plot_annotation("Population change 100 years", tag_levels = 'A')
+fig_map_42 + fig_bar_42 + 
+  plot_annotation("Population change 42 years", tag_levels = 'A')
 
 ```
 
