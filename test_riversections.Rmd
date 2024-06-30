@@ -27,6 +27,7 @@ pounf <- "C:\\Users\\user\\Documents\\IUCN_redgreen\\IUCN_greenstatus\\analysis\
 basins_ffr_3395 <- read_sf(pounf, layer = "basins_ffr") |> st_transform(3395)
 
 rpin <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shapes_rivers3395\\riversec3395_1_2018021339.shp"
+test <- read_sf(rpin)
 # get points
 dir <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shapes_rivers3395"
 ff <- list.files(dir, pattern="\\.shp$", full.names=TRUE)
@@ -39,7 +40,7 @@ ffr_crop <- st_crop(basins_ffr_3395, st_bbox(points_3395))
 # join
 join_sf <- st_join(points_3395, ffr_crop, join = st_nearest_feature)
 dout <- join_sf |> 
-  select(BASIN_N, subbasn, All, accessible, COUNTRY, BAS_NAME, 
+  select(BASIN_N, subbasn, SUBBASI, All, accessible, COUNTRY, BAS_NAME, 
          RIV_ORD, BB_ID, BB_NAME, CSI, CSI_FF) |> 
   data.frame()
 return(dout)
@@ -47,6 +48,7 @@ return(dout)
 tout <- plyr::adply(df_points[c(1, 11, 33, 17, 46), ], 
                     .margins = 1, .fun = join_ffr)
 table(tout$subbasn)
+table(tout$SUBBASI)
 ```
 
 See if intersection works with Free Flowing Rivers.
@@ -136,7 +138,7 @@ scenario_res <- tout |> data.frame() |>
   relationship = "many-to-many"
            ) |> 
   filter(!is.na(lambda_mean)) |> # where points do not overlap new basins
-  mutate(flag_b = paste(BASIN_N, subbasn, sep="_"))
+  mutate(flag_b = paste(BASIN_N, SUBBASI, sep="_"))
 # should be zero rows if join worked. 
 test_join <- scenario_res |> 
   filter(is.na(lambda_mean)) |> nrow()
@@ -250,7 +252,7 @@ Expected change over 42 years.
 # to do - check with 5 basins. then check scenario development - 
 # ajust to obtain more variation within stochastic - more runs?
 # more variation across pessimistic, BAU and optimistic?
-
+# make sure names in same order - basin, subbasin.....
 fig_bar_42 <- sum_diff |> 
   group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
   summarise(rl = sum(river_length), 
@@ -264,7 +266,7 @@ ggplot(aes(x = flag_50_42y, y = rl)) +
   scale_y_continuous(limits = c(0, NA)) + 
   labs(y = "river length (km)", x = "Endangered (50% loss)") + 
   coord_flip() + 
-  facet_grid(subbasn ~ model_namef) + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
   theme_bw() +
   theme(legend.position="none")
 fig_bar_42
@@ -283,8 +285,8 @@ ggplot(aes(x = flag_50_42y, y = rl_prop)) +
   scale_y_continuous(limits = c(0, NA), breaks = c(0, 0.5, 1), 
                      labels = c("", "0.5", "1.0")) + 
   labs(y = "river proportion", x = "Endangered (50% loss)") + 
-  coord_flip() + 
-  facet_grid(subbasn ~ model_namef) + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
   theme_bw() +
   theme(legend.position="none")
 fig_bar_42_prop
@@ -314,9 +316,9 @@ ggplot(aes(x = flag_50_42y, y = ml)) +
   scale_colour_manual(values = rep(myfillhex3, 3)) +
   scale_x_discrete(labels = c("no", "yes")) + 
   scale_y_continuous(breaks = c(0.8, 0.9, 1)) + 
-  labs(y = "lambda", x = "Endangered (50% loss)") + 
-  coord_flip() + 
-  facet_grid(subbasn ~ model_namef) + 
+  labs(y = "population growth rate (lambda)", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
   theme_bw() +
   theme(legend.position="none")
 fig_bar_42_lambda
@@ -363,6 +365,10 @@ fig_bar_42_prop + fig_bar_42_lambda +
 Maps seperately.
 ```{r make-maps}
 # function to make ggplot maps for all subbasins
+# set scale values to be consistent across all maps - ensures only one 
+# scale with patchwork.
+col_min <- min(scenario_res$fem_diff_t42, na.rm = TRUE)
+col_max <- max(scenario_res$fem_diff_t42, na.rm = TRUE)
 make_maps <- function(x){ 
 # Try to use bbox for sensible breaks. yaxis usually ok. xaxis squashed
 # All on western hemisphere so this works
@@ -371,6 +377,9 @@ mybbox <-  st_bbox(st_as_sf(inp) |> st_transform(4326))
 myxmin <- ceiling(mybbox["xmin"])
 myxmax <- floor(mybbox["xmax"])
 xdiff <- myxmax - myxmin
+myymin <- ceiling(mybbox["ymin"])
+myymax <- floor(mybbox["ymax"])
+ydiff <- myymax - myymin
 # scale options based on how big subbasin is
 if(xdiff <= 2){
   breaks_x = myxmax
@@ -381,18 +390,30 @@ if(xdiff <= 2){
   tmin <- ceiling(tq["25%"])
   tmax <- floor(tq["75%"]) 
   breaks_x = c(tmin, tmax)
+}
+# y axis
+if(ydiff <= 2){
+  breaks_y = myymax
+} else if (ydiff == 3){ 
+  breaks_y = c(seq(myymin, myymax, by = 2)) 
+} else { 
+  tq <- quantile(seq(myymin, myymax, by = 1), probs = c(0.25, 0.75))
+  tmin <- floor(tq["25%"])
+  tmax <- ceiling(tq["75%"]) 
+  breaks_y = c(tmin, tmax)
       }
 fig_map <- inp |> 
   filter(model_name == "modelkey_BAU") |>
   st_as_sf() |>
   ggplot() +
-  geom_sf(aes(colour = fem_diff_t42)) + 
-  scale_x_continuous(breaks = breaks_x) +
-  scale_colour_gradient2("BAU\nchange", 
+  geom_sf(aes(colour = fem_diff_t42), size = 0.6) + 
+  scale_x_continuous(breaks = breaks_x) + 
+  scale_y_continuous(breaks = breaks_y) +
+  scale_colour_gradient2("BAU\nchange", limits = c(col_min, col_max),
                          low = "#A3720E", mid = "white", 
                          high = "#7274C1", midpoint = 0) + 
   theme_bw()
-ba <- paste(x[1, 'BASIN_N'], "_", x[1, 'subbasn'], sep = "")
+ba <- paste(x[1, 'BASIN_N'], "_", x[1, 'SUBBASI'], sep = "")
 dir_name <- "inst/other/fig_rds"
 fig_name <- paste("map_t42_", ba, ".rds", sep = "")
 fig_out <- paste(dir_name, fig_name, sep = "/")
@@ -405,7 +426,7 @@ selb <- which(scenario_res$subbasn == "Juruá")
 plyr::d_ply(scenario_res, .variables = c("flag_b"),
                      .fun = make_maps)
 
-fig_test <- readRDS("inst/other/map_t42_Amazon_Abacaxis.rds")
+fig_test <- readRDS("inst/other/fig_rds/map_t42_Amazon_1.rds")
 fig_test <- readRDS("inst/other/fig_rds/map_t42_Amazon_Juruá.rds")
 ```
 
@@ -416,7 +437,7 @@ dirrds <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\
 ffrds <- list.files(dirrds, pattern="\\.rds$", full.names=TRUE)
 # Make a vector of file names
 file_names <-  gsub(pattern = "\\.rds$", replacement = "", x = basename(ffrds))
-# Read all your data into a list
+# Read into a list
 fig_42_list <- lapply(ffrds, readRDS)
 # Assign file names to list elements
 names(fig_42_list) <- file_names  
@@ -424,13 +445,15 @@ names(fig_42_list) <- file_names
 # save
 png(file = "inst/other/fig_unifilis_basin.png", bg = "transparent", 
     type = c("cairo"), 
-    width = 8, height = 9, units = "in", res=600)
-(fig_bar_42_prop + fig_bar_42_lambda) +
-patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = 5, 
+    width = 9, height = 8, units = "in", res=600)
+((fig_bar_42_prop + fig_bar_42_lambda) +
+(patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = 5, 
                       widths = c(1,1,1,1,1), 
-                      heights = c(1, 1,1,1,1), 
-                      guides = "keep") +
-  plot_annotation("Population change 42 years (3 generations lower estimate)")
+                      heights = c(1,1,1,1,1), 
+                      guides = "collect"))) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B", "C", "", "", "", ""))) + 
+  plot_layout(widths = c(6, 6, 3))
 invisible(dev.off())
 
 #library(ggforce)
