@@ -21,43 +21,6 @@ library(patchwork)
 
 Check what attributes were in cmartr version made using "Old_RiverlengthSummary.R".
 Missing country and other basin details.
-```{r load-river}
-# Free flowing rivers for unifilis
-pounf <- "C:\\Users\\user\\Documents\\IUCN_redgreen\\IUCN_greenstatus\\analysis\\vector\\poun_presence.gpkg"
-basins_ffr_3395 <- read_sf(pounf, layer = "basins_ffr") |> st_transform(3395)
-
-rpin <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shapes_rivers3395\\riversec3395_1_2018021339.shp"
-test <- read_sf(rpin)
-# get points
-dir <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shapes_rivers3395"
-ff <- list.files(dir, pattern="\\.shp$", full.names=TRUE)
-df_points <- data.frame(points_file = ff)
-join_ffr <- function(x){
-rpin <- x
-points_3395 <- read_sf(rpin) |> st_transform(3395)
-# crop to speed up processing.
-ffr_crop <- st_crop(basins_ffr_3395, st_bbox(points_3395))
-# join
-join_sf <- st_join(points_3395, ffr_crop, join = st_nearest_feature)
-dout <- join_sf |> 
-  select(BASIN_N, subbasn, SUBBASI, All, accessible, COUNTRY, BAS_NAME, 
-         RIV_ORD, BB_ID, BB_NAME, CSI, CSI_FF) |> 
-  data.frame()
-return(dout)
-}
-tout <- plyr::adply(df_points[c(1, 11, 33, 17, 46), ], 
-                    .margins = 1, .fun = join_ffr)
-table(tout$subbasn)
-table(tout$SUBBASI)
-```
-
-See if intersection works with Free Flowing Rivers.
-```{r spatial-check, warning=FALSE, message=FALSE}
-# no where close to be spatially consistent.
-mapview::mapview(basins_ffr_crop) + 
-  mapview::mapview(r_01_3395)
-```
-
 Add free flowiong river data to points.
 Spatial join. Get country, CSI_FF.
  
@@ -77,48 +40,56 @@ on the long-term average discharge (DIS_AV_CMS) using logarithmic progression:
 CSI above or below free-flowing threshold.
 Indicates if the CSI value of a river reach is below (value = 0) or 
 above (value = 1) the threshold of 95%.
-BasinATLAS, RiverATLAS, and LakeATLAS are related through the 
-level 12 HydroBASIN ID codes found in the attribute tables of each dataset. 
-Every river reach in RiverATLAS and every lake in LakeATLAS shows 
-the HydroBASINS ID (“HYBAS_ID”) of its corresponding level 12 HydroBASIN 
-in which the reach or lake’s pour point is located.
-https://hydrosheds.freeflarum.com/
+
+```{r load-river}
+# Free flowing rivers for unifilis
+pounf <- "C:\\Users\\user\\Documents\\IUCN_redgreen\\IUCN_greenstatus\\analysis\\vector\\poun_presence.gpkg"
+basins_ffr_3395 <- read_sf(pounf, layer = "basins_ffr") |> st_transform(3395)
+
+# get points from cmartr
+dir <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shapes_rivers3395"
+ff <- list.files(dir, pattern="\\.shp$", full.names=TRUE)
+df_points <- data.frame(points_file = ff)
+```
+
+Now join.
 ```{r spatial-join}
-# intersect. no. data sources are not consistent reprsentation of rivers
-# 111 obs
-# ls_samp_sf <- st_intersection(st_buffer(basins_ffr_crop, 100), r_01_3395)
-# 3030
-ls_samp_sf <- st_join(r_01_3395, basins_ffr_crop, join = st_nearest_feature)
-ls_samp_sf |> st_drop_geometry() |>
-pull(BAS_ID) |> table() # 3418183
-ls_samp_sf |> st_drop_geometry() |>
-pull(BAS_NAME) |> table() # Amazon basin
-ls_samp_sf |> st_drop_geometry() |>
-pull(BB_NAME) |> table() # 7 backbone rivers
-# Free-flowing status (three categories).
-ls_samp_sf |> st_drop_geometry() |> 
-  group_by(CSI_FF2) |> 
-  summarise(CSI_mean = mean(CSI))
-# Indicates if the CSI value of a river reach is below (value = 0) or 
-# above (value = 1) the threshold of 95%.
-ls_samp_sf |> st_drop_geometry() |> 
-  group_by(CSI_FF) |> 
-  summarise(CSI_mean = mean(CSI))
+# function to join
+join_ffr <- function(x){
+rpin <- x
+points_3395 <- read_sf(rpin) |> st_transform(3395)
+# crop to speed up processing.
+ffr_crop <- st_crop(basins_ffr_3395, st_bbox(points_3395))
+# join
+join_sf <- st_join(points_3395, ffr_crop, join = st_nearest_feature)
+dout <- join_sf |> 
+  select(BASIN_N, subbasn, SUBBASI, All, accessible, COUNTRY, BAS_NAME, 
+         RIV_ORD, BB_ID, BB_NAME, CSI, CSI_FF) |> 
+  data.frame()
+return(dout)
+}
+# 5 minutes
+tout <- plyr::adply(df_points, 
+                    .margins = 1, .fun = join_ffr)
+# Check
+table(tout$BASIN_N)
+table(tout$subbasn)
+table(tout$SUBBASI)
 
 ```
 
 ## Join with scenarios
 
-Load lookup table.
+Load projection model lookup table.
 ```{r load-lookup}
-# model_lookup has population projections created in "test_projections.Rmd".
+# model_lookup has 300 population projections created in "test_projections.Rmd".
 model_lookup <- readRDS('inst/other/model_lookup.rds')
-# actions has models associted with different scenarios
+# actions has projection models associated with different scenarios
 actions <- read_excel("inst/other/Podocnemis conservation actions.xlsx", 
                       sheet = "scenario_parameters", .name_repair = "universal")
 ```
 
-
+### Projections based on current situation
 ```{r join-scenarios}
 # Join model results to scenarios
 scenario_res <- tout |> data.frame() |> 
@@ -142,11 +113,15 @@ scenario_res <- tout |> data.frame() |>
 # should be zero rows if join worked. 
 test_join <- scenario_res |> 
   filter(is.na(lambda_mean)) |> nrow()
-
-scenario_res |> 
-  group_by(BASIN_N, subbasn, model_name) |> summarise(acount = n())
+# check counts match
 tout |> 
   group_by(BASIN_N, subbasn) |> summarise(acount = n())
+scenario_res |> 
+  group_by(BASIN_N, subbasn, model_name) |> summarise(acount = n())
+```
+
+Make summaries for plotting.
+```{r plot-summary}
 # summary
 sum_diff_mean <- scenario_res |> 
   mutate(flag_50_42y = factor(if_else(fem_diff_t42 <= -0.5, 1, 0))) |>
@@ -181,16 +156,26 @@ sum_diff <- bind_rows(sum_diff_mean |> mutate(scen_est = "mean"),
                       sum_diff_q75 |> mutate(scen_est = "upper")) |> 
   left_join(tot_km)|>
   mutate(river_prop = river_length / river_tot)
+# Factor levels follow sequence worst to best case
 sum_diff$model_namef <- factor(sum_diff$model_name)
 sum_diff$model_namef <- relevel(sum_diff$model_namef, ref = "modelkey_pessimistic")
 levels(sum_diff$model_namef) <- c("pessimistic", "BAU", "optimistic") 
 sum_diff$model_cat <- factor(paste(sum_diff$flag_50_42y, sum_diff$scen_est, sep = ""))
+
 ```
+
 
 ## Sexy figures 
 
-Make colourblind friendly pallette.
-```{r make-palette}
+Colourblind friendly pallette.
+```{r final-palette}
+myfillhex3 <- c("#DADCFF", "#B7B8F0", "#8385CD", 
+                "#F6DABF", "#D0A570", "#B28339" 
+                )
+```
+
+The colour palette was chosen using the following.
+```{r make-palette, eval=FALSE}
 # function to help checking
 # https://hiweller.rbind.io/post/using-the-dichromat-package-to-check-if-your-plot-is-colorblind-friendly/
 check_cb <- function(palette, return_cb_palettes = FALSE, ...) {
@@ -236,9 +221,9 @@ PAL_LOPEZ <- c("#A3720E", "#B28339", "#C09355", "#D0A570", "#DEB688",
 myfillhex3 <- c("#DADCFF", "#B7B8F0", "#8385CD", 
                 "#F6DABF", "#D0A570", "#B28339" 
                 )
-# not great!!
-check_cb(myfillhex)
-check_cb(myfillhex2)
+# check
+check_cb(myfillhex) # not great!!
+check_cb(myfillhex2) # not great!!
 # this gives good contrast across all
 check_cb(myfillhex3)
 
@@ -246,6 +231,69 @@ check_cb(myfillhex3)
 
 
 Expected change over 42 years.
+Make maps seperately.
+```{r make-maps}
+# set scale values to be consistent across all maps - ensures only one 
+# scale with patchwork.
+col_min <- min(scenario_res$fem_diff_t42, na.rm = TRUE)
+col_max <- max(scenario_res$fem_diff_t42, na.rm = TRUE)
+# function to make ggplot maps for all subbasins
+make_maps <- function(x){ 
+# Try to use bbox for breaks as I am squishing maps in final figures.
+inp <- x
+mybbox <-  st_bbox(st_as_sf(inp) |> st_transform(4326))
+myxmin <- ceiling(mybbox["xmin"])
+myxmax <- floor(mybbox["xmax"])
+xdiff <- myxmax - myxmin
+myymin <- ceiling(mybbox["ymin"])
+myymax <- floor(mybbox["ymax"])
+ydiff <- myymax - myymin
+# scale options based on how big subbasin is
+if(xdiff <= 2){
+  breaks_x = myxmax
+} else if (xdiff == 3){ 
+  breaks_x = c(seq(myxmin, myxmax, by = 2)) 
+} else { 
+  tq <- quantile(seq(myxmin, myxmax, by = 1), probs = c(0.25, 0.75))
+  tmin <- ceiling(tq["25%"])
+  tmax <- floor(tq["75%"]) 
+  breaks_x = c(tmin, tmax)
+}
+# y axis
+if(ydiff <= 2){
+  breaks_y = myymax
+} else if (ydiff == 3){ 
+  breaks_y = c(seq(myymin, myymax, by = 2)) 
+} else { 
+  tq <- quantile(seq(myymin, myymax, by = 1), probs = c(0.25, 0.75))
+  tmin <- floor(tq["25%"])
+  tmax <- ceiling(tq["75%"]) 
+  breaks_y = c(tmin, tmax)
+      }
+fig_map <- inp |> 
+  filter(model_name == "modelkey_BAU") |>
+  st_as_sf() |>
+  ggplot() +
+  geom_sf(aes(colour = fem_diff_t42), size = 0.6) + 
+  scale_x_continuous(breaks = breaks_x) + 
+  scale_y_continuous(breaks = breaks_y) +
+  scale_colour_gradient2("BAU\nchange", limits = c(col_min, col_max),
+                         low = "#A3720E", mid = "white", 
+                         high = "#7274C1", midpoint = 0) + 
+  theme_bw()
+ba <- paste(x[1, 'BASIN_N'], "_", x[1, 'SUBBASI'], sep = "")
+dir_name <- "inst/other/fig_rds"
+fig_name <- paste("map_t42_", ba, ".rds", sep = "")
+fig_out <- paste(dir_name, fig_name, sep = "/")
+# export
+saveRDS(fig_map, fig_out)
+}
+# values mapped for each subbasin
+plyr::d_ply(scenario_res, .variables = c("flag_b"),
+                     .fun = make_maps)
+```
+
+
 ```{r fig-change-42}
 # changes over 3 generations. test with lowest estimate.
 # Expect to see differences.....
@@ -362,73 +410,6 @@ fig_bar_42_prop + fig_bar_42_lambda +
                   tag_levels = 'A')
 ```
 
-Maps seperately.
-```{r make-maps}
-# function to make ggplot maps for all subbasins
-# set scale values to be consistent across all maps - ensures only one 
-# scale with patchwork.
-col_min <- min(scenario_res$fem_diff_t42, na.rm = TRUE)
-col_max <- max(scenario_res$fem_diff_t42, na.rm = TRUE)
-make_maps <- function(x){ 
-# Try to use bbox for sensible breaks. yaxis usually ok. xaxis squashed
-# All on western hemisphere so this works
-inp <- x
-mybbox <-  st_bbox(st_as_sf(inp) |> st_transform(4326))
-myxmin <- ceiling(mybbox["xmin"])
-myxmax <- floor(mybbox["xmax"])
-xdiff <- myxmax - myxmin
-myymin <- ceiling(mybbox["ymin"])
-myymax <- floor(mybbox["ymax"])
-ydiff <- myymax - myymin
-# scale options based on how big subbasin is
-if(xdiff <= 2){
-  breaks_x = myxmax
-} else if (xdiff == 3){ 
-  breaks_x = c(seq(myxmin, myxmax, by = 2)) 
-} else { 
-  tq <- quantile(seq(myxmin, myxmax, by = 1), probs = c(0.25, 0.75))
-  tmin <- ceiling(tq["25%"])
-  tmax <- floor(tq["75%"]) 
-  breaks_x = c(tmin, tmax)
-}
-# y axis
-if(ydiff <= 2){
-  breaks_y = myymax
-} else if (ydiff == 3){ 
-  breaks_y = c(seq(myymin, myymax, by = 2)) 
-} else { 
-  tq <- quantile(seq(myymin, myymax, by = 1), probs = c(0.25, 0.75))
-  tmin <- floor(tq["25%"])
-  tmax <- ceiling(tq["75%"]) 
-  breaks_y = c(tmin, tmax)
-      }
-fig_map <- inp |> 
-  filter(model_name == "modelkey_BAU") |>
-  st_as_sf() |>
-  ggplot() +
-  geom_sf(aes(colour = fem_diff_t42), size = 0.6) + 
-  scale_x_continuous(breaks = breaks_x) + 
-  scale_y_continuous(breaks = breaks_y) +
-  scale_colour_gradient2("BAU\nchange", limits = c(col_min, col_max),
-                         low = "#A3720E", mid = "white", 
-                         high = "#7274C1", midpoint = 0) + 
-  theme_bw()
-ba <- paste(x[1, 'BASIN_N'], "_", x[1, 'SUBBASI'], sep = "")
-dir_name <- "inst/other/fig_rds"
-fig_name <- paste("map_t42_", ba, ".rds", sep = "")
-fig_out <- paste(dir_name, fig_name, sep = "/")
-# export
-saveRDS(fig_map, fig_out)
-}
-# Juruá 
-selb <- which(scenario_res$subbasn == "Abacaxis")
-selb <- which(scenario_res$subbasn == "Juruá")
-plyr::d_ply(scenario_res, .variables = c("flag_b"),
-                     .fun = make_maps)
-
-fig_test <- readRDS("inst/other/fig_rds/map_t42_Amazon_1.rds")
-fig_test <- readRDS("inst/other/fig_rds/map_t42_Amazon_Juruá.rds")
-```
 
 Multipage output using ggforce.
 ```{r plot-multipage}
