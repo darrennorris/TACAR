@@ -104,3 +104,31 @@ knitr::include_graphics("inst/other/fig_t42_Amazon_46.png")
 knitr::include_graphics("inst/other/fig_t42_Coastal NOrth_3.png")
 ```
 
+\newpage 
+
+```{r load-figure-p6, out.width = '95%', out.height = '95%', echo=FALSE}
+knitr::include_graphics("inst/other/fig_t42_Coastal NOrth_12.png")
+```
+
+\newpage 
+
+```{r load-figure-p7, out.width = '95%', out.height = '95%', echo=FALSE}
+knitr::include_graphics("inst/other/fig_t42_Coastal NOrth_19.png")
+```
+
+\newpage
+
+### Orinoco
+
+```{r load-figure-p8, out.width = '95%', out.height = '95%', echo=FALSE}
+knitr::include_graphics("inst/other/fig_t42_Orinoco_43.png")
+```
+
+\newpage
+
+### Coastal South
+
+```{r load-figure-p9, out.width = '95%', out.height = '95%', echo=FALSE}
+knitr::include_graphics("inst/other/fig_t42_Coastal South_5.png")
+```
+

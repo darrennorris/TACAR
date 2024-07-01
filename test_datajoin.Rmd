@@ -27,7 +27,6 @@ library(tidyverse)
 library(readxl)
 library(sf)
 library(patchwork)
-
 ```
 
 Check what attributes were in cmartr version made using "Old_RiverlengthSummary.R".
@@ -726,6 +725,337 @@ fig_out <- paste(dir_name, fig_name, sep = "/")
 png(file = fig_out, bg = "transparent", 
     type = c("cairo"), 
     width = 9, height = 11, units = "in", res=600)
+((fig_bar_42_prop + fig_bar_42_lambda) +
+(patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = nrow(to_use), 
+                      widths = c(rep(1, nrow(to_use))), 
+                      heights = c(rep(1, nrow(to_use))), 
+                      guides = "collect"))) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B", "C", "", "", "", ""))) + 
+  plot_layout(widths = c(6, 6, 3)) 
+invisible(dev.off())
+```
+
+#### Page 6
+
+```{r make-groupsp6, echo=FALSE, warning=FALSE, message=FALSE}
+# Apply same sequence to data and maps.
+sid <- dfref |> 
+  filter(BASIN_N == "Coastal North") |> pull(subbasn)
+n_perpage <- 7
+to_use <- dfref |> 
+  filter(subbasn %in% sid[8:(n_perpage * 2)])
+# Read into a list
+fig_42_list <- lapply(to_use$apath, readRDS)
+# Assign file names to list elements
+names(fig_42_list) <- to_use$aname  
+# values to plot. Check this as myabe summarise is not necessary.
+dfplot <- sum_diff_current |> 
+  filter(subbasn %in% to_use$subbasn) |>
+  group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(rl = sum(river_length), 
+            rl_prop = round(sum(river_length) / river_tot, 3),
+            ml = mean(lambda), 
+            maxl = max(lambda), 
+            minl = min(lambda)) |> 
+   ungroup()
+# Proportion of rivers with Endangered populations
+fig_bar_42_prop <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = rl_prop)) + 
+  geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", colour = "black") +
+  scale_fill_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(limits = c(0, NA), breaks = c(0, 0.5, 1), 
+                     labels = c("", "0.5", "1.0")) + 
+  labs(y = "river proportion", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+# Population growth
+fig_bar_42_lambda <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = ml)) + 
+  geom_linerange(aes(group = interaction(scen_est, model_cat), 
+                    ymin = minl, ymax = maxl), 
+                position=position_dodge(.9)) +
+  geom_point(aes(group = scen_est, colour = model_cat), 
+                position=position_dodge(.9)) +
+  geom_hline(yintercept = 1.0, linetype = "dashed", colour = "black") +
+  scale_colour_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(breaks = c(0.8, 0.9, 1)) + 
+  labs(y = "population growth rate (lambda)", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+
+# save plot
+# file name
+ba <- paste(to_use[1, 'BASIN_N'], "_", to_use[1, 'SUBBASI'], sep = "")
+dir_name <- "inst/other"
+fig_name <- paste("fig_t42_", ba, ".png", sep = "")
+fig_out <- paste(dir_name, fig_name, sep = "/")
+# save
+mynrow <- nrow(to_use)
+# Need to check ggplot for these as sf complains about no x...?
+png(file = fig_out, bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 11, units = "in", res=600)
+((fig_bar_42_prop + fig_bar_42_lambda) +
+(patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = mynrow, 
+                      widths = c(rep(1, mynrow)), 
+                      heights = c(rep(1, mynrow)), 
+                      guides = "collect"))) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B", "C", "", "", "", ""))) + 
+  plot_layout(widths = c(6, 6, 3)) 
+invisible(dev.off())
+
+# just use graphs for now....
+png(file = fig_out, bg = "transparent", 
+    type = c("cairo"), 
+    width = 6, height = 11, units = "in", res=600)
+(fig_bar_42_prop + fig_bar_42_lambda) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B"))) + 
+  plot_layout(widths = c(6, 6)) 
+invisible(dev.off())
+
+```
+
+#### Page 7
+```{r make-groupsp7, echo=FALSE, warning=FALSE, message=FALSE}
+# Apply same sequence to data and maps.
+sid <- dfref |> 
+  filter(BASIN_N == "Coastal North") |> pull(subbasn)
+n_perpage <- 7
+to_use <- dfref |> 
+  filter(subbasn %in% sid[15:(n_perpage * 3)])
+# Read into a list
+fig_42_list <- lapply(to_use$apath, readRDS)
+# Assign file names to list elements
+names(fig_42_list) <- to_use$aname  
+# values to plot. Check this as myabe summarise is not necessary.
+dfplot <- sum_diff_current |> 
+  filter(subbasn %in% to_use$subbasn) |>
+  group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(rl = sum(river_length), 
+            rl_prop = round(sum(river_length) / river_tot, 3),
+            ml = mean(lambda), 
+            maxl = max(lambda), 
+            minl = min(lambda)) |> 
+   ungroup()
+# Proportion of rivers with Endangered populations
+fig_bar_42_prop <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = rl_prop)) + 
+  geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", colour = "black") +
+  scale_fill_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(limits = c(0, NA), breaks = c(0, 0.5, 1), 
+                     labels = c("", "0.5", "1.0")) + 
+  labs(y = "river proportion", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+# Population growth
+fig_bar_42_lambda <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = ml)) + 
+  geom_linerange(aes(group = interaction(scen_est, model_cat), 
+                    ymin = minl, ymax = maxl), 
+                position=position_dodge(.9)) +
+  geom_point(aes(group = scen_est, colour = model_cat), 
+                position=position_dodge(.9)) +
+  geom_hline(yintercept = 1.0, linetype = "dashed", colour = "black") +
+  scale_colour_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(breaks = c(0.8, 0.9, 1)) + 
+  labs(y = "population growth rate (lambda)", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+
+# save plot
+# file name
+ba <- paste(to_use[1, 'BASIN_N'], "_", to_use[1, 'SUBBASI'], sep = "")
+dir_name <- "inst/other"
+fig_name <- paste("fig_t42_", ba, ".png", sep = "")
+fig_out <- paste(dir_name, fig_name, sep = "/")
+# same problem sf cant find x_start - need to correct breaks for super small regions.
+# save
+png(file = fig_out, bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 11, units = "in", res=600)
+((fig_bar_42_prop + fig_bar_42_lambda) +
+(patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = nrow(to_use), 
+                      widths = c(rep(1, nrow(to_use))), 
+                      heights = c(rep(1, nrow(to_use))), 
+                      guides = "collect"))) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B", "C", "", "", "", ""))) + 
+  plot_layout(widths = c(6, 6, 3)) 
+invisible(dev.off())
+
+# just use graphs for now....
+png(file = fig_out, bg = "transparent", 
+    type = c("cairo"), 
+    width = 6, height = 11, units = "in", res=600)
+(fig_bar_42_prop + fig_bar_42_lambda) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B"))) + 
+  plot_layout(widths = c(6, 6)) 
+invisible(dev.off())
+
+```
+
+### Orinoco
+#### Page 8
+```{r make-groupsp8, echo=FALSE, warning=FALSE, message=FALSE}
+# Apply same sequence to data and maps. Orinoco maps wrong way around.
+sid <- dfref |> 
+  filter(BASIN_N == "Orinoco") |> 
+  arrange(SUBBASI) |> pull(subbasn)
+n_perpage <- 7
+to_use <- dfref |> 
+  filter(subbasn %in% sid[1:(n_perpage * 1)]) |> 
+  arrange(SUBBASI)
+# Read into a list
+fig_42_list <- lapply(to_use$apath, readRDS)
+# Assign file names to list elements
+names(fig_42_list) <- rev(to_use$aname)  
+# values to plot. Check this as myabe summarise is not necessary.
+dfplot <- sum_diff_current |> 
+  filter(subbasn %in% to_use$subbasn) |>
+  group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(rl = sum(river_length), 
+            rl_prop = round(sum(river_length) / river_tot, 3),
+            ml = mean(lambda), 
+            maxl = max(lambda), 
+            minl = min(lambda)) |> 
+   ungroup()
+# Proportion of rivers with Endangered populations
+fig_bar_42_prop <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = rl_prop)) + 
+  geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", colour = "black") +
+  scale_fill_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(limits = c(0, NA), breaks = c(0, 0.5, 1), 
+                     labels = c("", "0.5", "1.0")) + 
+  labs(y = "river proportion", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+# Population growth
+fig_bar_42_lambda <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = ml)) + 
+  geom_linerange(aes(group = interaction(scen_est, model_cat), 
+                    ymin = minl, ymax = maxl), 
+                position=position_dodge(.9)) +
+  geom_point(aes(group = scen_est, colour = model_cat), 
+                position=position_dodge(.9)) +
+  geom_hline(yintercept = 1.0, linetype = "dashed", colour = "black") +
+  scale_colour_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(breaks = c(0.8, 0.9, 1)) + 
+  labs(y = "population growth rate (lambda)", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+
+# save plot
+# file name
+ba <- paste(to_use[1, 'BASIN_N'], "_", to_use[1, 'SUBBASI'], sep = "")
+dir_name <- "inst/other"
+fig_name <- paste("fig_t42_", ba, ".png", sep = "")
+fig_out <- paste(dir_name, fig_name, sep = "/")
+# save
+png(file = fig_out, bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 6, units = "in", res=600)
+((fig_bar_42_prop + fig_bar_42_lambda) +
+(patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = nrow(to_use), 
+                      widths = c(rep(1, nrow(to_use))), 
+                      heights = c(rep(1, nrow(to_use))), 
+                      guides = "collect"))) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B", "C", "", "", "", ""))) + 
+  plot_layout(widths = c(6, 6, 3)) 
+invisible(dev.off())
+```
+
+### Coastal South
+#### Page 9
+
+```{r make-groupsp9, echo=FALSE, warning=FALSE, message=FALSE}
+# Apply same sequence to data and maps.
+sid <- dfref |> 
+  filter(BASIN_N == "Coastal South") |> pull(subbasn)
+n_perpage <- 7
+to_use <- dfref |> 
+  filter(subbasn %in% sid[1:(n_perpage * 1)])
+# Read into a list
+fig_42_list <- lapply(to_use$apath, readRDS)
+# Assign file names to list elements
+names(fig_42_list) <- to_use$aname  
+# values to plot. Check this as myabe summarise is not necessary.
+dfplot <- sum_diff_current |> 
+  filter(subbasn %in% to_use$subbasn) |>
+  group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(rl = sum(river_length), 
+            rl_prop = round(sum(river_length) / river_tot, 3),
+            ml = mean(lambda), 
+            maxl = max(lambda), 
+            minl = min(lambda)) |> 
+   ungroup()
+# Proportion of rivers with Endangered populations
+fig_bar_42_prop <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = rl_prop)) + 
+  geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", colour = "black") +
+  scale_fill_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(limits = c(0, NA), breaks = c(0, 0.5, 1), 
+                     labels = c("", "0.5", "1.0")) + 
+  labs(y = "river proportion", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+# Population growth
+fig_bar_42_lambda <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = ml)) + 
+  geom_linerange(aes(group = interaction(scen_est, model_cat), 
+                    ymin = minl, ymax = maxl), 
+                position=position_dodge(.9)) +
+  geom_point(aes(group = scen_est, colour = model_cat), 
+                position=position_dodge(.9)) +
+  geom_hline(yintercept = 1.0, linetype = "dashed", colour = "black") +
+  scale_colour_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(breaks = c(0.8, 0.9, 1)) + 
+  labs(y = "population growth rate (lambda)", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+
+# save plot
+# file name
+ba <- paste(to_use[1, 'BASIN_N'], "_", to_use[1, 'SUBBASI'], sep = "")
+dir_name <- "inst/other"
+fig_name <- paste("fig_t42_", ba, ".png", sep = "")
+fig_out <- paste(dir_name, fig_name, sep = "/")
+# save
+png(file = fig_out, bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 3, units = "in", res=600)
 ((fig_bar_42_prop + fig_bar_42_lambda) +
 (patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = nrow(to_use), 
                       widths = c(rep(1, nrow(to_use))), 
