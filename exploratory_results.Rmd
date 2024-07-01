@@ -3,8 +3,8 @@ title: "Exploratory results"
 author: "Darren Norris"
 date: "`r Sys.Date()`"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -84,3 +84,23 @@ knitr::include_graphics("inst/other/fig_t42_Amazon_27.png")
 
 
 \newpage 
+
+```{r load-figure-p3, out.width = '95%', out.height = '95%', echo=FALSE}
+knitr::include_graphics("inst/other/fig_t42_Amazon_35.png")
+```
+
+\newpage 
+
+
+```{r load-figure-p4, out.width = '95%', out.height = '95%', echo=FALSE}
+knitr::include_graphics("inst/other/fig_t42_Amazon_46.png")
+```
+
+\newpage 
+
+### Coastal North
+
+```{r load-figure-p5, out.width = '95%', out.height = '95%', echo=FALSE}
+knitr::include_graphics("inst/other/fig_t42_Coastal NOrth_3.png")
+```
+
