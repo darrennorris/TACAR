@@ -1,0 +1,481 @@
+---
+title: "Join river and population data"
+author: "Darren Norris"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Objective
+Integrate point locations and population projections.
+
+Specifically: 
+
+- Join with free flowing rivers. 
+- Join point scenarios with population projections.
+- Generate data used for summaries.
+
+## Packages
+```{r load-packages, warning=FALSE, message=FALSE}
+library(plyr)
+library(tidyverse)
+library(readxl)
+library(sf)
+library(patchwork)
+
+```
+
+Check what attributes were in cmartr version made using "Old_RiverlengthSummary.R".
+Missing country and other basin details.
+Add free flowiong river data to points.
+Spatial join. Get country, CSI_FF.
+ 
+REACH_ID Reach Identifier. The reach identifier can be used to link 
+this dataset to the HydroATLAS database.
+COUNTRY
+BAS_ID Basin Identifier. Identifies the hydrological river basin 
+according to the HydroSHEDS framework.
+BAS_NAME  Basin Name (if available).
+RIV_ORD River order. River order is here defined and calculated based 
+on the long-term average discharge (DIS_AV_CMS) using logarithmic progression:
+1 = > 100000
+2 = 10000 – 100000
+3 = 1000 – 10000
+4 = 100 – 1000
+5 = 10 – 100
+CSI above or below free-flowing threshold.
+Indicates if the CSI value of a river reach is below (value = 0) or 
+above (value = 1) the threshold of 95%.
+
+```{r load-river}
+# Free flowing rivers for unifilis.
+pounf <- "C:\\Users\\user\\Documents\\IUCN_redgreen\\IUCN_greenstatus\\analysis\\vector\\poun_presence.gpkg"
+basins_ffr_3395 <- read_sf(pounf, layer = "basins_ffr") |> st_transform(3395)
+
+# Get points from cmartr.
+dir <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shapes_rivers3395"
+ff <- list.files(dir, pattern="\\.shp$", full.names=TRUE)
+df_points <- data.frame(points_file = ff)
+```
+
+Now join.
+```{r spatial-join}
+# function to join
+join_ffr <- function(x){
+rpin <- x
+points_3395 <- read_sf(rpin) |> st_transform(3395)
+# crop to speed up processing.
+ffr_crop <- st_crop(basins_ffr_3395, st_bbox(points_3395))
+# join
+join_sf <- st_join(points_3395, ffr_crop, join = st_nearest_feature)
+dout <- join_sf |> 
+  select(BASIN_N, subbasn, SUBBASI, All, accessible, COUNTRY, BAS_NAME, 
+         RIV_ORD, BB_ID, BB_NAME, CSI, CSI_FF) |> 
+  data.frame()
+return(dout)
+}
+# 3 minutes
+tout <- plyr::adply(df_points, 
+                    .margins = 1, .fun = join_ffr)
+# Check
+table(tout$BASIN_N)
+table(tout$subbasn)
+table(tout$SUBBASI)
+tout |> 
+  group_by(BASIN_N, subbasn, SUBBASI) |> 
+  summarise(acount = n())
+```
+
+## Join with scenarios
+
+Load projection model lookup table.
+```{r load-lookup}
+# model_lookup has 300 population projections created in "test_projections.Rmd".
+model_lookup <- readRDS('inst/other/model_lookup.rds')
+# actions has scenarios with associated projection models
+actions <- readxl::read_excel("inst/other/Podocnemis conservation actions.xlsx", 
+                      sheet = "scenario_parameters", .name_repair = "universal")
+```
+
+### Projections based on current situation
+```{r join-scenarios}
+# Join model results to scenarios
+scenario_res <- tout |> data.frame() |> 
+  #filter(subbasn == "Trombetas") |>
+  mutate(Protected = if_else(All == 1, "yes", "no"), 
+         Accessible = if_else(accessible == "No", "no", "yes"), 
+         Free.flowing = if_else(CSI_FF == 1, "yes", "no")
+         ) |> left_join( 
+           actions |> 
+  filter(Podocnemis.modelling.scenario == "Protection") |> 
+  pivot_longer(cols = starts_with("modelkey"), names_to = "model_name", 
+               values_to = "modelkey") |> 
+  left_join(model_lookup, by = join_by(modelkey == modelkey) 
+            ), 
+  by = c("Protected" = "Protected", "Accessible" = "Accessible", 
+         "Free.flowing" = "Free.flowing"), 
+  relationship = "many-to-many"
+           ) |> 
+  filter(!is.na(lambda_mean)) |> # where points do not overlap new basins
+  mutate(flag_b = paste(BASIN_N, SUBBASI, sep="_"))
+# should be zero rows if join worked. 
+test_join <- scenario_res |> 
+  filter(is.na(lambda_mean)) |> nrow()
+# check counts match
+tout |> 
+  group_by(BASIN_N, subbasn) |> summarise(acount = n())
+scenario_res |> 
+  group_by(BASIN_N, subbasn, model_name) |> summarise(acount = n())
+
+# export for futher use
+saveRDS(scenario_res, "inst/other/scenario_res_current.rds")
+
+```
+
+Make summaries for plotting.
+```{r make-plot-summary}
+# summary
+sum_diff_mean <- scenario_res |> 
+  mutate(flag_50_42y = factor(if_else(fem_diff_t42 <= -0.5, 1, 0))) |>
+  group_by(BASIN_N, subbasn, SUBBASI, Protected, Accessible, Free.flowing, 
+           model_name, flag_50_42y) |> 
+  summarise(river_length = n(), 
+            lambda = mean(lambda_mean), 
+            diff_42y = mean(fem_diff_t42)) |> 
+  ungroup() 
+sum_diff_q25 <- scenario_res |> 
+  mutate(flag_50_42y = factor(if_else(fem_diff_q25_t42 <= -0.5, 1, 0))) |>
+  group_by(BASIN_N, subbasn, SUBBASI, Protected, Accessible, Free.flowing, 
+           model_name, flag_50_42y) |> 
+  summarise(river_length = n(), 
+            lambda = mean(lambda_q25), 
+            diff_42y = mean(fem_diff_q25_t42)) |> 
+  ungroup() 
+sum_diff_q75 <- scenario_res |> 
+  mutate(flag_50_42y = factor(if_else(fem_diff_q75_t42 <= -0.5, 1, 0))) |>
+  group_by(BASIN_N, subbasn, SUBBASI, Protected, Accessible, Free.flowing, 
+           model_name, flag_50_42y) |> 
+  summarise(river_length = n(), 
+            lambda = mean(lambda_q75), 
+            diff_42y = mean(fem_diff_q75_t42)) |> 
+  ungroup() 
+# Join and add percentages
+tot_km <- tout |> 
+  group_by(BASIN_N, subbasn, SUBBASI) |> 
+  summarise(river_tot = n()) |> ungroup()
+sum_diff <- bind_rows(sum_diff_mean |> mutate(scen_est = "mean"), 
+                      sum_diff_q25 |> mutate(scen_est = "lower"), 
+                      sum_diff_q75 |> mutate(scen_est = "upper")) |> 
+  left_join(tot_km)|>
+  mutate(river_prop = river_length / river_tot)
+# Factor levels follow sequence worst to best case
+sum_diff$model_namef <- factor(sum_diff$model_name)
+sum_diff$model_namef <- relevel(sum_diff$model_namef, ref = "modelkey_pessimistic")
+levels(sum_diff$model_namef) <- c("pessimistic", "BAU", "optimistic") 
+sum_diff$model_cat <- factor(paste(sum_diff$flag_50_42y, sum_diff$scen_est, sep = ""))
+
+# export for further use
+saveRDS(sum_diff, "inst/other/sum_diff_current.rds")
+```
+
+
+## Sexy figures 
+
+Colourblind friendly pallette.
+```{r final-palette}
+myfillhex3 <- c("#DADCFF", "#B7B8F0", "#8385CD", 
+                "#F6DABF", "#D0A570", "#B28339" 
+                )
+```
+
+The colour palette was chosen using the following.
+```{r make-palette, eval=FALSE}
+# function to help checking
+# https://hiweller.rbind.io/post/using-the-dichromat-package-to-check-if-your-plot-is-colorblind-friendly/
+check_cb <- function(palette, return_cb_palettes = FALSE, ...) {
+  
+  # make an empty list
+  cb_palettes <- setNames(vector("list", length = 3), 
+                          nm = c("protan", "deutan", "tritan"))
+  
+  # generate colorblindness approximations
+  for (i in 1:length(cb_palettes)) {
+    cb_palettes[[i]] <- dichromat::dichromat(palette, names(cb_palettes)[i])
+  }
+  
+  # reset graphical parameters when function exits:
+  current_par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(current_par))
+  
+  # plot for comparison
+  layout(matrix(1:4, nrow = 4)); par(mar = rep(1, 4))
+  recolorize::plotColorPalette(palette, main = "Trichromacy", ...)
+  pnames <- c("Protanopia", "Deutanopia", "Tritanopia")
+  for (i in 1:3) {
+    recolorize::plotColorPalette(cb_palettes[[i]], main = pnames[i], ...)
+  }
+
+  if (return_cb_palettes) {
+    return(cb_palettes)
+  }
+}
+
+# palettes
+myfill <- c("lightsteelblue" ,"mediumpurple1", "mediumpurple3",
+              "indianred3", "firebrick", "#832424") 
+myfillhex <- c("#B0C4DE", "#AB82FF", "#8968CD", 
+              "#CD5555", "#B22222", "#832424")
+myfillhex2 <- c("#B0C4DE", "#AB82FF", "#8968CD", 
+              "#CD5555", "#B22222", "#661100")
+library(wacolors)
+pal_vector("lopez", 15)
+PAL_LOPEZ <- c("#A3720E", "#B28339", "#C09355", "#D0A570", "#DEB688",
+               "#EBC7A3", "#F6DABF", "#F1F1F1", "#DADCFF", "#C9CAF9",
+               "#B7B8F0", "#A5A6E5", "#9396D9", "#8385CD", "#7274C1")
+myfillhex3 <- c("#DADCFF", "#B7B8F0", "#8385CD", 
+                "#F6DABF", "#D0A570", "#B28339" 
+                )
+# check
+check_cb(myfillhex) # not great!!
+check_cb(myfillhex2) # not great!!
+# this gives good contrast across all
+check_cb(myfillhex3)
+
+```
+
+
+Expected change over 42 years.
+Make maps seperately.
+```{r make-maps}
+# set scale values to be consistent across all maps - ensures only one 
+# scale with patchwork.
+col_min <- min(scenario_res$fem_diff_t42, na.rm = TRUE)
+col_max <- max(scenario_res$fem_diff_t42, na.rm = TRUE)
+# function to make ggplot maps for all subbasins
+make_maps <- function(x){ 
+# Try to use bbox for breaks as I am squishing maps in final figures.
+inp <- x
+mybbox <-  st_bbox(st_as_sf(inp) |> st_transform(4326))
+myxmin <- ceiling(mybbox["xmin"])
+myxmax <- floor(mybbox["xmax"])
+xdiff <- myxmax - myxmin
+myymin <- ceiling(mybbox["ymin"])
+myymax <- floor(mybbox["ymax"])
+ydiff <- myymax - myymin
+# scale options based on how big subbasin is
+if(xdiff <= 2){
+  breaks_x = myxmax
+} else if (xdiff == 3){ 
+  breaks_x = c(seq(myxmin, myxmax, by = 2)) 
+} else { 
+  tq <- quantile(seq(myxmin, myxmax, by = 1), probs = c(0.25, 0.75))
+  tmin <- ceiling(tq["25%"])
+  tmax <- floor(tq["75%"]) 
+  breaks_x = c(tmin, tmax)
+}
+# y axis
+if(ydiff <= 2){
+  breaks_y = myymax
+} else if (ydiff == 3){ 
+  breaks_y = c(seq(myymin, myymax, by = 2)) 
+} else { 
+  tq <- quantile(seq(myymin, myymax, by = 1), probs = c(0.25, 0.75))
+  tmin <- floor(tq["25%"])
+  tmax <- ceiling(tq["75%"]) 
+  breaks_y = c(tmin, tmax)
+      }
+fig_map <- inp |> 
+  filter(model_name == "modelkey_BAU") |>
+  st_as_sf() |>
+  ggplot() +
+  geom_sf(aes(colour = fem_diff_t42), size = 0.6) + 
+  scale_x_continuous(breaks = breaks_x) + 
+  scale_y_continuous(breaks = breaks_y) +
+  scale_colour_gradient2("BAU\nchange", limits = c(col_min, col_max),
+                         low = "#A3720E", mid = "white", 
+                         high = "#7274C1", midpoint = 0) + 
+  theme_bw()
+ba <- paste(x[1, 'BASIN_N'], "_", x[1, 'SUBBASI'], sep = "")
+dir_name <- "inst/other/fig_rds"
+fig_name <- paste("map_t42_", ba, ".rds", sep = "")
+fig_out <- paste(dir_name, fig_name, sep = "/")
+# export
+saveRDS(fig_map, fig_out)
+}
+# values mapped for each subbasin
+plyr::d_ply(scenario_res, .variables = c("flag_b"),
+                     .fun = make_maps)
+```
+
+
+```{r fig-change-42}
+# changes over 3 generations. test with lowest estimate.
+# Expect to see differences.....
+# to do - check with 5 basins. then check scenario development - 
+# ajust to obtain more variation within stochastic - more runs?
+# more variation across pessimistic, BAU and optimistic?
+# make sure names in same order - basin, subbasin.....
+fig_bar_42 <- sum_diff |> 
+  group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(rl = sum(river_length), 
+            ml = mean(lambda)) |> 
+  ungroup() |>
+ggplot(aes(x = flag_50_42y, y = rl)) + 
+  # geom_col(fill = rep(c("mediumpurple1", "firebrick"), 3)) +
+  geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  scale_fill_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(limits = c(0, NA)) + 
+  labs(y = "river length (km)", x = "Endangered (50% loss)") + 
+  coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+fig_bar_42
+
+fig_bar_42_prop <- sum_diff |> 
+  group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(rl = sum(river_length), 
+            rl_prop = round(sum(river_length) / river_tot, 3),
+            ml = mean(lambda)) |> 
+  ungroup() |>
+ggplot(aes(x = flag_50_42y, y = rl_prop)) + 
+  geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", colour = "black") +
+  scale_fill_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(limits = c(0, NA), breaks = c(0, 0.5, 1), 
+                     labels = c("", "0.5", "1.0")) + 
+  labs(y = "river proportion", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+fig_bar_42_prop
+
+# lambda
+fig_bar_42_lambda <- sum_diff |> 
+  group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(acount = n(), 
+            rl = sum(river_length), 
+            ml = mean(lambda), 
+            maxl = max(lambda), 
+            minl = min(lambda)) |> 
+  ungroup() |>
+ggplot(aes(x = flag_50_42y, y = ml)) + 
+  # geom_col(fill = rep(c("mediumpurple1", "firebrick"), 3)) +
+  #geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  #geom_errorbar(aes(group = interaction(scen_est, model_cat), 
+  #                  ymin = minl, ymax = maxl), 
+   #             position=position_dodge(.9), width = 0.1) + 
+  geom_linerange(aes(group = interaction(scen_est, model_cat), 
+                    ymin = minl, ymax = maxl), 
+                position=position_dodge(.9)) +
+  geom_point(aes(group = scen_est, colour = model_cat), 
+                position=position_dodge(.9)) +
+  geom_hline(yintercept = 1.0, linetype = "dashed", colour = "black") +
+  #scale_fill_manual(values = rep(myfillhex3, 3)) + 
+  scale_colour_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(breaks = c(0.8, 0.9, 1)) + 
+  labs(y = "population growth rate (lambda)", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+fig_bar_42_lambda
+
+# Map
+# Try to use bbox for sensible breaks.
+# All on western hemisphere so this works
+mybbox <-  st_bbox(st_as_sf(scenario_res) |> st_transform(4326))
+myxmin <- ceiling(mybbox["xmin"])
+myxmax <- floor(mybbox["xmax"])
+fig_map_42_aba <- scenario_res |> 
+  filter(model_name == "modelkey_BAU", 
+         subbasn == "Abacaxis") |> 
+  st_as_sf() |>
+  ggplot() +
+  geom_sf(aes(colour = fem_diff_t42)) + 
+  scale_x_continuous(breaks = c(seq(myxmin, myxmax, by = 2))) +
+  scale_colour_gradient2("BAU\nchange", 
+                         low = "#B28339", mid = "white", 
+                         high = "#8385CD", midpoint = 0) + 
+  theme_bw()
+
+fig_map_42_juru <- scenario_res |> 
+  filter(model_name == "modelkey_BAU", 
+         subbasn == "Juruá") |> 
+  st_as_sf() |>
+  ggplot() +
+  geom_sf(aes(colour = fem_diff_t42)) + 
+  #scale_x_continuous(breaks = c(seq(myxmin, myxmax, by = 2))) +
+  scale_colour_gradient2("BAU\nchange", 
+                         low = "#B28339", mid = "white", 
+                         high = "#8385CD", midpoint = 0) + 
+  theme_bw()
+fig_map_42_juru
+# make plot
+# fig_map_42 + fig_bar_42_prop + fig_bar_42_lambda +
+#  plot_annotation("Population change 42 years", tag_levels = 'A')
+
+fig_bar_42_prop + fig_bar_42_lambda +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = 'A')
+```
+
+
+Multipage output using ggforce.
+```{r plot-multipage}
+# load .rds holding ggplot objects
+dirrds <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\other\\fig_rds"
+ffrds <- list.files(dirrds, pattern="\\.rds$", full.names=TRUE)
+# Make a vector of file names
+file_names <-  gsub(pattern = "\\.rds$", replacement = "", x = basename(ffrds))
+# Read into a list
+fig_42_list <- lapply(ffrds, readRDS)
+# Assign file names to list elements
+names(fig_42_list) <- file_names  
+
+# save
+png(file = "inst/other/fig_unifilis_basin.png", bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 8, units = "in", res=600)
+((fig_bar_42_prop + fig_bar_42_lambda) +
+(patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = 5, 
+                      widths = c(1,1,1,1,1), 
+                      heights = c(1,1,1,1,1), 
+                      guides = "collect"))) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B", "C", "", "", "", ""))) + 
+  plot_layout(widths = c(6, 6, 3))
+invisible(dev.off())
+
+#library(ggforce)
+ggplot(diamonds) +
+  geom_point(aes(carat, price), alpha = 0.1) +
+  facet_wrap_paginate(~cut:clarity, ncol = 3, nrow = 3, page = 1)
+```
+
+
+Visualize with mapview.
+```{r fig-interactive, eval = FALSE}
+diff_100y <- st_as_sf(scenario_res) |> 
+                   select(fem_diff_t100)
+mapview::mapview(diff_100y, zcol = "fem_diff_t100")
+```
+
+
+Join back with basins.
+```{r join-basins, eval = FALSE}
+# level 12 should have code to join with Free Flowing Rivers
+fhybas_l12 <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev12_v1c.shp"
+hybas_l12_3395 <- st_read(fhybas_l12) |> st_transform(3395)
+hybas_l12_3395_crop <- st_crop(hybas_l12_3395, st_bbox(r_01_3395))
+hybas_l12_3395_crop |> st_drop_geometry() |> pull(HYBAS_ID) |> table()
+hybas_l12_3395_crop |> st_drop_geometry() |> pull(MAIN_BAS) |> table()
+```
+

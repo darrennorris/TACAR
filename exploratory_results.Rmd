@@ -1,0 +1,187 @@
+---
+title: "Exploratory results"
+author: "Darren Norris"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Objective
+
+Produce a series of figures that help validate population projection results.
+
+## Question
+Is *Podocnemis unifilis* an [Endangered](https://www.iucnredlist.org/) species?
+
+To answer this question we use population projection matrices to understand the 
+future impacts of current threats to populations.
+This is an extension of [Norris et al 2019](https://doi.org/10.1016/j.biocon.2019.02.022) that includes:
+
+- stochastic population projections 
+- threats caused by human acessibility and actions that reduce river connectivity.
+
+According to the IUCN Redlist criteria A3, 
+population size reduction is a reduction which is projected, inferred or 
+suspected to be met in the future (up to a maximum of 100 years). 
+Here we use population projection matrices to 
+obtain an index of abundance relevant to the taxon ("b") and consider
+actual or potential levels of exploitation ("d"). 
+
+This assessment is therefore based on criteria - A3bd. 
+
+\newpage
+
+## Load packages and data
+
+### Packages
+```{r load-packages, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(sf)
+library(patchwork)
+```
+
+### Load data
+Here we load data created previously in "test_riversections.Rmd".
+First dataframes with projection values.
+```{r load-data}
+sum_diff_current <- readRDS("inst/other/sum_diff_current.rds")
+scenario_res_current <- readRDS("inst/other/scenario_res_current.rds")
+```
+
+Now load ggplot maps showing spatial patterns in projected changes, 
+created previously in "test_riversections.Rmd".
+```{r load-maps}
+# load .rds holding ggplot objects. Takes a few minutes.
+# Need to include SUBBASI in sum_diff
+dirrds <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\other\\fig_rds"
+ffrds <- list.files(dirrds, pattern="\\.rds$", full.names=TRUE)
+# Make a vector of file names
+file_names <-  gsub(pattern = "\\.rds$", replacement = "", x = basename(ffrds))
+# Dataframe for selecting/joining
+dfref <- data.frame(apath = ffrds, aname = file_names) |> 
+  separate_wider_delim(aname, "_", names = c("a", "b", "BASIN_N", "SUBBASI"), 
+                       cols_remove = FALSE) |> 
+  select(!c(a, b)) |> 
+  left_join(scenario_res_current |> 
+              group_by(BASIN_N, SUBBASI, subbasn) |> 
+              summarise(acount = n()) |> 
+              mutate(SUBBASI = as.character(SUBBASI)) |>
+              ungroup()) |> 
+  select(!acount) |> 
+  arrange(BASIN_N, subbasn)
+# Amazon (n=27) = 6 pages , Coastal North (n=21) = 5 pages 
+# Coastal South = 1 (n=1), Orinoco = 1 (n=3) 
+dfref |> 
+  group_by(BASIN_N) |> 
+  summarise(count_sub = length(unique(subbasn)), 
+            count_subi = length(unique(SUBBASI)))
+```
+
+\newpage
+
+## Results
+```{r final-palette, echo=FALSE}
+myfillhex3 <- c("#DADCFF", "#B7B8F0", "#8385CD", 
+                "#F6DABF", "#D0A570", "#B28339" 
+                )
+```
+
+For each basin and subbasin there are composite figures that show: 
+
+- Projected population changes. 
+- Projected growth rates. 
+- Maps of points with 50% population reductions over three generations. 
+
+This is a wide ranging species, so it takes several pages to show all the results.
+Projections are shown by river basins, and the major sub-basins.
+
+\newpage 
+
+### Amazon
+
+Now plot.
+```{r make-groups, echo=FALSE, warning=FALSE, message=FALSE}
+# Apply same sequence to data and maps.
+sid <- dfref |> 
+  filter(BASIN_N == "Amazon") |> pull(subbasn)
+n_perpage <- 7
+to_use <- dfref |> 
+  filter(subbasn %in% sid[1:(n_perpage * 1)])
+# Read into a list
+fig_42_list <- lapply(to_use$apath, readRDS)
+# Assign file names to list elements
+names(fig_42_list) <- to_use$aname  
+# values to plot. Check this as myabe summarise is not necessary.
+dfplot <- sum_diff_current |> 
+  filter(subbasn %in% to_use$subbasn) |>
+  group_by(BASIN_N, subbasn, model_namef, scen_est, model_cat, flag_50_42y) |> 
+  summarise(rl = sum(river_length), 
+            rl_prop = round(sum(river_length) / river_tot, 3),
+            ml = mean(lambda), 
+            maxl = max(lambda), 
+            minl = min(lambda)) |> 
+   ungroup()
+# Proportion of rivers with Endangered populations
+fig_bar_42_prop <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = rl_prop)) + 
+  geom_col(aes(group = scen_est, fill = model_cat), position = "dodge") + 
+  geom_hline(yintercept = 0.5, linetype = "dashed", colour = "black") +
+  scale_fill_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(limits = c(0, NA), breaks = c(0, 0.5, 1), 
+                     labels = c("", "0.5", "1.0")) + 
+  labs(y = "river proportion", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+# Population growth
+fig_bar_42_lambda <- dfplot |> 
+ggplot(aes(x = flag_50_42y, y = ml)) + 
+  geom_linerange(aes(group = interaction(scen_est, model_cat), 
+                    ymin = minl, ymax = maxl), 
+                position=position_dodge(.9)) +
+  geom_point(aes(group = scen_est, colour = model_cat), 
+                position=position_dodge(.9)) +
+  geom_hline(yintercept = 1.0, linetype = "dashed", colour = "black") +
+  scale_colour_manual(values = rep(myfillhex3, 3)) +
+  scale_x_discrete(labels = c("no", "yes")) + 
+  scale_y_continuous(breaks = c(0.8, 0.9, 1)) + 
+  labs(y = "population growth rate (lambda)", x = "Endangered (50% loss)") + 
+  #coord_flip() + 
+  facet_grid(BASIN_N + subbasn ~ model_namef) + 
+  theme_bw() +
+  theme(legend.position="none")
+
+# save plot
+# file name
+ba <- paste(to_use[1, 'BASIN_N'], "_", to_use[1, 'SUBBASI'], sep = "")
+dir_name <- "inst/other"
+fig_name <- paste("fig_t42_", ba, ".png", sep = "")
+fig_out <- paste(dir_name, fig_name, sep = "/")
+# save
+png(file = fig_out, bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 11, units = "in", res=600)
+((fig_bar_42_prop + fig_bar_42_lambda) +
+(patchwork::wrap_plots(fig_42_list, ncol = 1, nrow = n_perpage, 
+                      widths = c(rep(1, n_perpage)), 
+                      heights = c(rep(1, n_perpage)), 
+                      guides = "collect"))) +
+  plot_annotation("Population change 42 years (3 generations lower estimate)", 
+                  tag_levels = list(c("A", "B", "C", "", "", "", ""))) + 
+  plot_layout(widths = c(6, 6, 3)) 
+invisible(dev.off())
+```
+
+```{r load-figure-p1, out.width = '95%', out.height = '95%', echo=FALSE}
+knitr::include_graphics(fig_out, dpi = NA)
+```
+
+
+\newpage 
