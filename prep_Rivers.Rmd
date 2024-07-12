@@ -54,21 +54,25 @@ crop.l <- sf::st_cast(sf::st_sfc(sf::st_geometry(crop.l)),"LINESTRING")
 # Sample line
 if(myl < 1){sf.r.segs <- sf::st_line_sample(crop.l, sample = 0) 
 } else {sf.r.segs <- sf::st_line_sample(crop.l, density = units::set_units(1, 1/km))}
+rm(crop.l)
 # Make points
 sf.r.segsp <- sf::st_cast(st_sfc(sf::st_geometry(sf.r.segs)),"POINT")
 sf.r.segsp <- sf.r.segsp[which(duplicated(st_coordinates(sf.r.segsp ))==FALSE)]
 n_rows <- length(sf.r.segsp)
 tmpdf <- tmpdf |> dplyr::slice(rep(1:n(), each = n_rows))
+
 # Return sf
 tmpsf <- sf::st_sf(tmpdf, geom = sf.r.segsp)
+rm(tmpdf)
 tmpsf$aid <- row.names(tmpsf)
 tmpsf$reach_id_point <- paste(tmpsf$REACH_ID, tmpsf$aid, sep="_")
 
 dfout <- tmpsf |> data.frame() 
+rm(tmpsf)
 return(dfout)
 }
 
-# run function 18:41
+# run function 18:58 minute or two.....
 dfres <- ddply(df_ffr_ap, .(REACH_ID), .fun = river_points)
 # Remove any duplicate points - e.g. start and end of joining lines.
 sf_res <- dfres |> distinct() |> st_as_sf() # 101
