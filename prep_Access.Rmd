@@ -204,7 +204,9 @@ writeRaster(cd_map, "inst/raster/access_new.tif",
 
 ## Final results
 
-Overlay original point locations and new access based on Free-flowing rivers.
+Overlay original point locations and new access map based on Free-flowing rivers.
+Need to interpolate to fill in where original points do not touch 
+Free-flowing rivers at 931 m scale......
 
 ```{r make-final-res}
 sr_3395 <- vect(st_transform(sr, 3395))
@@ -213,7 +215,8 @@ sr_new <- st_as_sf(extract(access_new, sr_3395, bind = TRUE))
 # 284313 NAs
 summary(sr_new$access_new)
 # Less NA in Accessible and not Protected - which is majority of river lengths.
-# So will inflate importance of accessible and unprotected
+# So will inflate contribution of accessible and unprotected i.e. areas 
+# with population declines.
 sr_new |> data.frame() |> 
   group_by(Accessible, Protected) |> 
   summarise(river_length = n(), 

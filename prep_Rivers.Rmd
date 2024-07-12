@@ -1,0 +1,87 @@
+---
+title: "Rivers to points"
+author: "Darren Norris"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages
+
+### Load packages
+```{r load-packages}
+library(plyr)
+library(tidyverse)
+library(sf)
+library(mapview)
+```
+
+### Load data
+
+
+```{r pressure}
+rin <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\ap_FFR_river_v1\\ap_FFR_river_v1.shp"
+ffr_ap <- read_sf(rin) |> 
+  filter(RIV_ORD <= 4) |> st_transform(3395)
+
+```
+
+## Make points
+
+Make points for each REACH_ID.
+```{r make-points}
+# Total river length. 2400.1
+total_l <- as.numeric(units::set_units(sum(st_length(ffr_ap)), km))
+crop.l <- ffr_ap |> filter(REACH_ID == 60189196) # 1.5
+crop.l <- ffr_ap |> filter(REACH_ID == 60196707)# short
+crop.l <- ffr_ap |> filter(REACH_ID == 60485447) #long
+df_ffr_ap <- ffr_ap |> data.frame()
+# function to make points
+river_points <- function(x){
+# Points by reach
+require(sf)
+require(dplyr)
+din <- x
+crop.l <- st_as_sf(din)
+tmpdf <- din |> select(!geometry)
+crop.l <- sf::st_cast(sf::st_sfc(sf::st_geometry(crop.l)),"LINESTRING")
+crop.l <- sf::st_union(crop.l)
+myl <- as.numeric(units::set_units(sum(sf::st_length(crop.l)), km))
+crop.l <- sf::st_cast(sf::st_sfc(sf::st_geometry(crop.l)),"LINESTRING")
+# Sample line
+if(myl < 1){sf.r.segs <- sf::st_line_sample(crop.l, sample = 0) 
+} else {sf.r.segs <- sf::st_line_sample(crop.l, density = units::set_units(1, 1/km))}
+# Make points
+sf.r.segsp <- sf::st_cast(st_sfc(sf::st_geometry(sf.r.segs)),"POINT")
+sf.r.segsp <- sf.r.segsp[which(duplicated(st_coordinates(sf.r.segsp ))==FALSE)]
+n_rows <- length(sf.r.segsp)
+tmpdf <- tmpdf |> dplyr::slice(rep(1:n(), each = n_rows))
+# Return sf
+tmpsf <- sf::st_sf(tmpdf, geom = sf.r.segsp)
+tmpsf$aid <- row.names(tmpsf)
+tmpsf$reach_id_point <- paste(tmpsf$REACH_ID, tmpsf$aid, sep="_")
+
+dfout <- tmpsf |> data.frame() 
+return(dfout)
+}
+
+# run function 18:41
+dfres <- ddply(df_ffr_ap, .(REACH_ID), .fun = river_points)
+# Remove any duplicate points - e.g. start and end of joining lines.
+sf_res <- dfres |> distinct() |> st_as_sf() # 101
+sf_res$x <- st_coordinates(sf_res)[, 1]
+sf_res$y <- st_coordinates(sf_res)[, 2]
+# avoids rounding issues with packages misidentifying duplicate coordinates
+sf_res <- sf_res |> 
+  mutate(coord_text = paste(floor(x), floor(y), sep="_"))
+sf_res$dupe <- duplicated(sf_res$coord_text)
+# This remains close to original length. 2318 total = 2400
+sf_res <- sf_res |> 
+  filter(!dupe, LENGTH_KM >= .8)
+mapview::mapview(sf_res)
+mapview::mapview(sf_res, zcol = "reach_id_point")
+```
+
