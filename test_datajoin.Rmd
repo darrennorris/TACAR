@@ -47,9 +47,11 @@ on the long-term average discharge (DIS_AV_CMS) using logarithmic progression:
 3 = 1000 – 10000
 4 = 100 – 1000
 5 = 10 – 100
-CSI above or below free-flowing threshold.
+Connectivity Status Index CSI above or below free-flowing threshold.
 Indicates if the CSI value of a river reach is below (value = 0) or 
 above (value = 1) the threshold of 95%.
+
+Updated for Amazon to 92% 2023 - https://doi.org/10.1111/csp2.12853.
 
 ```{r load-river}
 # Free flowing rivers for unifilis.
