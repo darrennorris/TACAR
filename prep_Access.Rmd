@@ -59,10 +59,11 @@ writeRaster(m, "inst/raster/worldpop_pd_2020_1km.tif",
 r <- rast(ncols=10, nrows=10,  xmin=0, xmax= (10*1000), 
           ymin=0, ymax=(10*1000), 
 		   vals = 0, crs="+proj=utm +zone=1 +datum=WGS84")
-
+# Values
 r[2:3, 1] <- r[1, 2:4] <- r[2:6, 5] <- r[6, 6:10] <- 1
 r[7:10, 1:10] <- r[1:5, 6:10] <- r[2:5, 2:4] <- NA
 r[8, 6:8] <- 0
+r[9, 1:4] <- r[9, 9] <- r[10, 10] <- 1
 plot(r)
 d <- costDist(r, scale = 1000)
 plot(log1p(d))
@@ -96,23 +97,33 @@ plot(m_3395)
 # crop and rasterize rivers
 m_3395c <- m_3395
 m_3395c <- ifel(!is.na(m_3395),0 , NA)
-rin <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\ap_FFR_river_v1\\ap_FFR_river_v1.shp"
-ffr_ap <- read_sf(rin)
-ffr_ap$myval <- 1
-ffr_ap_3395 <- ffr_ap |> st_transform(3395)
+ffr_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\sa_FFR_river_v1\\sa_FFR_river_v1.shp"
+# Crop to Amapá
+ffr_ap_3395 <- read_sf(ffr_in) |> st_crop(ap_crop_bbox) |> st_transform(3395)
+ffr_ap_3395$myval <- 1
+
 # 1 to 4 close to Norris et al. 2019. Including 5 adds Capivara/Primeiro Braco
-# I.e. hard to pass with voadeira / rabeta
+# I.e. hard to pass with voadeira / rabeta. 
+# And with much smaller and much fewer nesting areas.
 ffr_ap_1a4_3395 <- ffr_ap_3395 |> 
   filter(RIV_ORD <= 4)
+# Use all rivers to make cost-distance surface
 r_ffr <- rasterize(vect(ffr_ap_3395), m_3395c, field = "myval", 
                    update = TRUE, touches = TRUE)
-rf <- r_ffr + m_3395
+# Population density NAs are water. Change NA to 1.
+mapview::mapview(r_ffr) + 
+  mapview::mapview(ffr_ap_1a4_3395)
+r_ffr <- ifel(is.na(r_ffr), 1, r_ffr)
+rf <- r_ffr + ifel(is.na(m_3395), 0, m_3395)
 rf <- ifel(rf == 0, NA, rf)
 rf <- ifel(rf >= 10, 0, rf)
+mapview::mapview(rf) + 
+  mapview::mapview(ffr_ap_1a4_3395)
+
 cd_access <- costDist(rf, scale = 1000)
 cd_map <- ifel(cd_access >= 48, 0, 1)
 names(cd_map) <- "access_new"
-mapview::mapview(cd_map, na.color = "transparent") +
+mapview::mapview(cd_map) +
 mapview::mapview(ffr_ap_1a4_3395)
 
 ```
@@ -167,9 +178,7 @@ crop_bbox <- st_bbox(st_transform(sr, 4326))
 ffr_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\sa_FFR_river_v1\\sa_FFR_river_v1.shp"
 ffr_3395 <- st_read(ffr_in) |> 
   st_crop(crop_bbox) |> st_transform(3395)
-ffr$myval <- 1
-ffr_3395 <- ffr |> st_transform(3395)
-rm(ffr)
+ffr_3395$myval <- 1
 ```
 
 
@@ -185,10 +194,11 @@ pd_3395c <- pd_3395
 pd_3395c <- ifel(!is.na(pd_3395),0 , NA)
 r_ffr <- rasterize(vect(ffr_3395), pd_3395c, field = "myval", 
                    update = TRUE, touches = TRUE)
+r_ffr <- ifel(is.na(r_ffr), 1, r_ffr)
 # prep cost-distance
-rf <- r_ffr + pd_3395
+rf <- r_ffr + ifel(is.na(pd_3395), 0, pd_3395)
 rf <- ifel(rf == 0, NA, rf)
-rf <- ifel(rf >= 10, 0, rf)
+rf <- ifel(rf >= 10, 0, rf) 
 # cost-distance
 cd_access <- costDist(rf, scale = 1000)
 names(cd_access) <- "cost_distance"
@@ -212,7 +222,7 @@ Free-flowing rivers at 931 m scale......
 sr_3395 <- vect(st_transform(sr, 3395))
 access_new <- rast("inst/raster/access_new.tif") # 3395
 sr_new <- st_as_sf(extract(access_new, sr_3395, bind = TRUE))
-# 284313 NAs
+# 275622 NAs. Was 284313 NAs
 summary(sr_new$access_new)
 # Less NA in Accessible and not Protected - which is majority of river lengths.
 # So will inflate contribution of accessible and unprotected i.e. areas 

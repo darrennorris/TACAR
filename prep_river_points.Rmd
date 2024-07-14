@@ -16,16 +16,30 @@ knitr::opts_chunk$set(echo = TRUE)
 library(plyr)
 library(tidyverse)
 library(sf)
+library(terra)
 library(mapview)
 ```
 
 ### Load data
 
 
-```{r pressure}
-rin <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\ap_FFR_river_v1\\ap_FFR_river_v1.shp"
-ffr_ap <- read_sf(rin) |> 
-  filter(RIV_ORD <= 4) |> st_transform(3395)
+```{r load-data}
+# Use Amapá to check/test
+library(geobr)
+ap <- read_state(
+  code_state="AP",
+  year=2020,
+  showProgress = FALSE
+  )
+ap_crop_box <- ext(vect(st_transform(ap, 4326)))
+ap_crop_bbox <- st_bbox(st_transform(ap, 4326))
+
+# Free-flowing rivers
+ffr_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\sa_FFR_river_v1\\sa_FFR_river_v1.shp"
+ffr <- read_sf(ffr_in) |> 
+  filter(RIV_ORD <= 4) 
+# Crop to Amapá
+ffr_ap_3395 <- ffr |> st_crop(ap_crop_bbox) |> st_transform(3395)
 
 ```
 
@@ -34,11 +48,11 @@ ffr_ap <- read_sf(rin) |>
 Make points for each REACH_ID.
 ```{r make-points}
 # Total river length. 2400.1
-total_l <- as.numeric(units::set_units(sum(st_length(ffr_ap)), km))
-crop.l <- ffr_ap |> filter(REACH_ID == 60189196) # 1.5
-crop.l <- ffr_ap |> filter(REACH_ID == 60196707)# short
-crop.l <- ffr_ap |> filter(REACH_ID == 60485447) #long
-df_ffr_ap <- ffr_ap |> data.frame()
+total_l <- as.numeric(units::set_units(sum(st_length(ffr_ap_3395)), km))
+crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60189196) # 1.5
+crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60196707)# short
+crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60485447) #long
+df_ffr_ap <- ffr_ap_3395 |> data.frame()
 # function to make points
 river_points <- function(x){
 # Points by reach
@@ -72,7 +86,7 @@ rm(tmpsf)
 return(dfout)
 }
 
-# run function 18:58 minute or two.....
+# run function 18:58 approx 1 minute for 2000 km...9:14. 2 min for 4000...
 dfres <- ddply(df_ffr_ap, .(REACH_ID), .fun = river_points)
 # Remove any duplicate points - e.g. start and end of joining lines.
 sf_res <- dfres |> distinct() |> st_as_sf() # 101
@@ -87,5 +101,23 @@ sf_res <- sf_res |>
   filter(!dupe, LENGTH_KM >= .8)
 mapview::mapview(sf_res)
 mapview::mapview(sf_res, zcol = "reach_id_point")
+```
+
+### Test extract
+Test if gets accessibility. 
+```{r test-extract}
+# All fine with updated cost-surface process....
+access_new <- rast("inst/raster/access_new.tif") # 3395
+myext <- ext(vect(sf_res))
+access_crop <- crop(access_new, myext)
+sr_new <- st_as_sf(extract(access_new, sf_res, bind = TRUE))
+sr_new |> data.frame() |> 
+  group_by(access_new) |> 
+  summarise(river_length = n()) |> 
+  ungroup()
+# Map to check
+mapview::mapview(access_crop) +
+mapview::mapview(ffr_ap_3395) + 
+  mapview::mapview(sr_new, zcol = "access_new")
 ```
 
