@@ -62,6 +62,13 @@ basins_ffr_3395 <- read_sf(pounf, layer = "basins_ffr") |> st_transform(3395)
 dir <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shapes_rivers3395"
 ff <- list.files(dir, pattern="\\.shp$", full.names=TRUE)
 df_points <- data.frame(points_file = ff)
+
+# load points made previously in prep_river_points.Rmd. RIVORD 1 to 4. 
+# Cropped to basins from Norris et. al. 2019.
+infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+ffr_1a4_poun_points_3395 <- st_read(dsn = infile, 
+                                    layer = "ffr_1a4_poun_points_3395")
+
 ```
 
 Now join.
@@ -136,6 +143,33 @@ scenario_res |>
 # export for futher use
 saveRDS(scenario_res, "inst/other/scenario_res_current.rds")
 
+# Now with free-flowing river points.  RIV ORD 1 to 4. 
+# Cropped to basins from Norris et. al. 2019.
+# Here 3 versions - modelkey pess, BAU, optimistic.
+scenario_ffr_res <- ffr_1a4_poun_points_3395 |> data.frame() |> 
+  #filter(subbasn == "Trombetas") |>
+  mutate(Protected = if_else(All == 1, "yes", "no"), 
+         Accessible = if_else(access_new == 0, "no", "yes"), 
+         Free.flowing = if_else(CSI >= 0.92, "yes", "no")
+         ) |> left_join( 
+           actions |> 
+  filter(Podocnemis.modelling.scenario == "Protection", 
+         flag_ff == "CSI_FF") |> 
+  pivot_longer(cols = starts_with("modelkey"), names_to = "model_name", 
+               values_to = "modelkey") |> 
+  left_join(model_lookup, by = join_by(modelkey == modelkey) 
+            ), 
+  by = c("Protected" = "Protected", "Accessible" = "Accessible", 
+         "Free.flowing" = "Free.flowing"), 
+  relationship = "many-to-many"
+           ) |> 
+  filter(!is.na(lambda_mean)) |> # where points do not overlap new basins
+  mutate(flag_b = paste(BASIN_NAME, subbasin, sep="_"))
+# should be zero rows if join worked. 
+test_join <- scenario_ffr_res |> 
+  filter(is.na(lambda_mean)) |> nrow()
+
+saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr.rds")
 ```
 
 Make summaries for plotting.
