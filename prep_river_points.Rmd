@@ -21,8 +21,6 @@ library(mapview)
 ```
 
 ### Load data
-
-
 ```{r load-data}
 # Use Amapá to check/test
 library(geobr)
@@ -45,36 +43,40 @@ ffr_ap_3395 <- ffr |> st_crop(ap_crop_bbox) |> st_transform(3395)
 
 ## Make points
 
-Make points for each REACH_ID.
-```{r make-points}
-# Total river length. 2400.1
-total_l <- as.numeric(units::set_units(sum(st_length(ffr_ap_3395)), km))
-crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60189196) # 1.5
-crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60196707)# short
-crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60485447) #long
-df_ffr_ap <- ffr_ap_3395 |> data.frame()
+### Test with Amapá
+Make function.
+```{r point-function}
 # function to make points
 river_points <- function(x){
 # Points by reach
 require(sf)
 require(dplyr)
+require(tidyselect)
 din <- x
-crop.l <- st_as_sf(din)
-tmpdf <- din |> select(!geometry)
+row.names(din) <- NULL
+crop.l <- sf::st_as_sf(din)
+geom_col_name <- attr(ffr_1a4_poun_3395,"sf_column")
+tmpdf <- din |> dplyr::select(!tidyselect::all_of(geom_col_name))
+# crop.l <- reach_warn_sf
 crop.l <- sf::st_cast(sf::st_sfc(sf::st_geometry(crop.l)),"LINESTRING")
 crop.l <- sf::st_union(crop.l)
 myl <- as.numeric(units::set_units(sum(sf::st_length(crop.l)), km))
 crop.l <- sf::st_cast(sf::st_sfc(sf::st_geometry(crop.l)),"LINESTRING")
+
 # Sample line
 if(myl < 1){sf.r.segs <- sf::st_line_sample(crop.l, sample = 0) 
 } else {sf.r.segs <- sf::st_line_sample(crop.l, density = units::set_units(1, 1/km))}
+# Removes empty gemoetries, caused by sampling reaches with broken lines etc.
+sf.r.segs <-  sf.r.segs[(is.na(sf::st_dimension(sf.r.segs)) == FALSE ), ]
 rm(crop.l)
+
 # Make points
-sf.r.segsp <- sf::st_cast(st_sfc(sf::st_geometry(sf.r.segs)),"POINT")
+sf.r.segsp <- sf::st_cast(sf::st_sfc(sf::st_geometry(sf.r.segs)),"POINT")
 sf.r.segsp <- sf.r.segsp[which(duplicated(st_coordinates(sf.r.segsp ))==FALSE)]
+rm(sf.r.segs)
 n_rows <- length(sf.r.segsp)
 tmpdf <- tmpdf |> dplyr::slice(rep(1:n(), each = n_rows))
-
+row.names(tmpdf) <- NULL
 # Return sf
 tmpsf <- sf::st_sf(tmpdf, geom = sf.r.segsp)
 rm(tmpdf)
@@ -85,6 +87,17 @@ dfout <- tmpsf |> data.frame()
 rm(tmpsf)
 return(dfout)
 }
+
+```
+
+Make points for each REACH_ID.
+```{r make-points-test}
+# Total river length. 2400.1
+total_l <- as.numeric(units::set_units(sum(st_length(ffr_ap_3395)), km))
+crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60189196) # 1.5
+crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60196707)# short
+crop.l <- ffr_ap_3395 |> filter(REACH_ID == 60485447) #long
+df_ffr_ap <- ffr_ap_3395 |> data.frame()
 
 # run function 18:58 approx 1 minute for 2000 km...9:14. 2 min for 4000...
 dfres <- ddply(df_ffr_ap, .(REACH_ID), .fun = river_points)
@@ -103,7 +116,7 @@ mapview::mapview(sf_res)
 mapview::mapview(sf_res, zcol = "reach_id_point")
 ```
 
-### Test extract
+#### Test extract
 Test if gets accessibility. 
 ```{r test-extract}
 # All fine with updated cost-surface process....
@@ -119,5 +132,181 @@ sr_new |> data.frame() |>
 mapview::mapview(access_crop) +
 mapview::mapview(ffr_ap_3395) + 
   mapview::mapview(sr_new, zcol = "access_new")
+```
+
+### Process full data
+First make files holding free-flowing rivers and basins for future use.
+```{r select-ffr}
+# Free-flowing rivers
+ffr_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\sa_FFR_river_v1\\sa_FFR_river_v1.shp"
+ffr <- read_sf(ffr_in) |> 
+  filter(RIV_ORD <= 4) 
+# Crop to basins from Norris et. al. 2019.
+basin_in <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\shape_basin\\amazon_orinoco.shp"
+basins <- read_sf(basin_in)
+sf_use_s2(FALSE) # to avoid duplicate vertex error
+basins_clean <- st_union(st_buffer(basins, 0), by_feature = TRUE) |> 
+  group_by(BASIN_NAME, subbasin) |> 
+  summarise(area = min(Area_km2)) |> st_cast("MULTIPOLYGON")
+basins_clean$BASIN_FLAG <- as.numeric(as.factor(basins_clean$BASIN_NAME))
+basins_clean$SUBBASIN_FLAG <- as.numeric(as.factor(basins_clean$subbasin))
+basins_clean_3395 <- st_transform(basins_clean, crs=3395) |> 
+  select(!area)
+basin_bbox <- st_bbox(basins_clean)
+# Add basins to rivers.
+ffr_1a4_poun_3395 <- st_crop(ffr, basin_bbox) |> st_transform(3395)
+ffr_1a4_poun_3395_basins <- sf::st_intersection(ffr_1a4_poun_3395, basins_clean_3395)
+
+plot(basins_clean_3395["BASIN_NAME"])
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_rivers.gpkg"
+st_write(ffr_1a4_poun_3395_basins, dsn = outfile, 
+         layer = "ffr_1a4_poun_3395", delete_layer = TRUE, append = TRUE)
+st_write(basins_clean_3395, dsn = outfile, 
+         layer = "basins_poun_3395", delete_layer = TRUE, append = TRUE)
+```
+
+```{r make-points}
+# Test and see if can run Orinoco, South and North per basin. 
+# Then Amazon by subbasin
+# 1) Load Free-flowing rivers made previously.
+infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_rivers.gpkg"
+ffr_1a4_poun_3395 <- st_read(infile, layer = "ffr_1a4_poun_3395")
+
+# overall length 160,208. Norris et al. 2019 was 215,975. 165 Access, 50 not.
+# 76% rivers accessible. 57.2% Accessible and unprotected.
+lenth_tot <- as.numeric(sum(st_length(ffr_1a4_poun_3395))) / 1000
+#Number of reaches by basin
+ table(ffr_1a4_poun_3395$BASIN_NAME)
+# Amazon    Coastal North  Coastal South   Orinoco 
+# 51871          3728           945          8476 
+ basiin_river_lengths <- ffr_1a4_poun_3395 |> 
+   mutate(reach_length_km = as.numeric(units::set_units(sf::st_length(ffr_1a4_poun_3395), km))) |> 
+   data.frame() |>
+   group_by(BASIN_NAME) |> 
+   summarise(river_km = sum(reach_length_km)) |> 
+   ungroup()
+basiin_river_lengths
+#  BASIN_NAME    river_km
+#1 Amazon         128771.
+#2 Coastal North    9198.
+#3 Coastal South    2515.
+#4 Orinoco         19724.
+ # 2) Seperate basins. Makes testing and processing easier.
+# If you used parallel this would be much more efficient.
+# The time it would take me to code parallel is actually longer than seperate process.
+df_ffr_1a4_poun_3395_south <- ffr_1a4_poun_3395 |> 
+  dplyr::filter(BASIN_NAME == "Coastal South") |> data.frame()
+df_ffr_1a4_poun_3395_north <- ffr_1a4_poun_3395 |> 
+  dplyr::filter(BASIN_NAME == "Coastal North") |> data.frame()
+df_ffr_1a4_poun_3395_orinoco <- ffr_1a4_poun_3395 |> 
+  dplyr::filter(BASIN_NAME == "Orinoco") |> data.frame()
+df_ffr_1a4_poun_3395_amazon <- ffr_1a4_poun_3395 |> 
+  dplyr::filter(BASIN_NAME == "Amazon") |> data.frame()
+# 3) River lines to points.
+# South. n = 2568 on 15/7/2024. 2515 km of RIV_ORD 1 to 4 rivers.
+dfpoints_south <- ddply(df_ffr_1a4_poun_3395_south, .(REACH_ID), 
+                        .fun = river_points)
+sf_points_south <- st_as_sf(dfpoints_south)
+mapview::mapview(sf_points_south)
+# North - warning number of items to replace is not a multiple of replacement length
+# reach_warn <- df_ffr_1a4_poun_3395_north[3632, "REACH_ID"]
+# reach_warn_sf <- df_ffr_1a4_poun_3395_north[3632, ] |> 
+#  st_as_sf()
+# mapview::mapview(reach_warn_sf)
+# Solved - caused by empty point geometry from sample of reach with broken lines.
+# North - warning row names were found from a short variable and have been discarded
+# cant find where this warnign comes from........
+# North. n = 9442 on 15 July 2024. 9198 km of RIV_ORD 1 to 4 rivers.
+dfpoints_north <- ddply(df_ffr_1a4_poun_3395_north, .(REACH_ID), 
+                        .fun = river_points)
+# Orinoco. n = 20515 on 15 July 2024 19724 km of RIV_ORD 1 to 4 rivers.
+dfpoints_orinoco <- ddply(df_ffr_1a4_poun_3395_orinoco, .(REACH_ID), 
+                        .fun = river_points)
+
+# Now Amazon. By subbasin to reduce memory demands....
+# 17:24 - 18:28ish. 132027 points. 128771 km on 15 July 2024.
+dfpoints_amazon <- ddply(df_ffr_1a4_poun_3395_amazon, 
+                         .(SUBBASIN_FLAG, REACH_ID), 
+                        .fun = river_points)
+```
+
+Tidy for export.
+```{r export-points}
+sf_res <- bind_rows(dfpoints_amazon, dfpoints_north, 
+                    dfpoints_orinoco, dfpoints_south) |> 
+  distinct() |> st_as_sf() 
+
+sf_res$x <- st_coordinates(sf_res)[, 1]
+sf_res$y <- st_coordinates(sf_res)[, 2]
+# Drop any within 10 meter radius?
+sf_res <- sf_res |> 
+  mutate(coord_text = paste(round(x, -2), round(y, -2), sep="_"))
+sf_res$dupe <- duplicated(sf_res$coord_text)
+# This remains close to original length. 
+# 160189 points, total river km = 160,208
+sf_res_out <- sf_res |> 
+  filter(!dupe, LENGTH_KM >= .5) |> st_as_sf()
+
+# Export for future use. Avoid GDAL spatial index warning.
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+st_write(sf_res_out, dsn = outfile, 
+         layer = "ffr_1a4_poun_points_3395", 
+         layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+
+```
+
+Map with leaflet to check. Checked in QGIS. Appears to be fine.
+```{r check-points}
+# load points made previously.
+infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+ffr_1a4_poun_points_3395 <- st_read(dsn = infile, 
+                                    layer = "ffr_1a4_poun_points_3395")
+
+```
+
+Check nearest neighbour distances along river netwrok - spatstat?
+
+## Accessibility and PAs
+
+Extract accessibility and PAs.
+```{r extract-raster}
+# From Norris et al. 2019.
+uain <- "inst/raster/uas.grd"
+uas <- rast(uain)
+newr <- c(rast("inst/raster/access_new.tif"), rast("inst/raster/cost_distance.tif"))
+uas_3395 <- project(uas, "epsg:3395")
+pe <- st_as_sf(extract(uas_3395, vect(ffr_1a4_poun_points_3395), bind = TRUE))
+pe |> data.frame() |> select(Indigenous, Dist..km.) |> summary()
+# check NAs. All 20 where rivers join oceans north east.
+rna <- pe |> filter(is.na(Indigenous)) |> select(REACH_ID)
+mapview::mapview(rna)
+pe <- pe |> filter(!is.na(Indigenous))
+pe <- st_as_sf(extract(newr, vect(pe), bind = TRUE))
+pe <- pe |> rename("myuse" = "Use")
+pe |> data.frame() |> select(access_new, cost_distance) |> summary()
+# Export for future use.
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+#outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\poun_river_points.gpkg"
+st_write(pe, dsn = outfile, 
+         layer = "ffr_1a4_poun_points_3395", 
+         layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+
+```
+
+Check correlations.
+```{r check-correlations}
+# load points made previously.
+infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+ffr_1a4_poun_points_3395 <- st_read(dsn = infile, 
+                                    layer = "ffr_1a4_poun_points_3395")
+
+ffr_1a4_poun_points_3395 |> 
+  data.frame() |> 
+  ggplot(aes(x = cost_distance, y = Dist..km.)) + 
+  geom_point() + stat_smooth(method = "lm") + 
+  coord_equal()
+# cor = 0.57, t = 280.11, df = 160167, p-value < 2.2e-16
+cor.test(ffr_1a4_poun_points_3395$cost_distance, ffr_1a4_poun_points_3395$Dist..km.)
+  
 ```
 
