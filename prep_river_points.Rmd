@@ -319,7 +319,10 @@ pe <- pe |> filter(!is.na(Indigenous))
 pe <- st_as_sf(extract(newr, vect(pe), bind = TRUE))
 pe <- pe |> rename("myuse" = "Use")
 pe |> data.frame() |> select(access_new, cost_distance) |> summary() 
-pe <- pe |> filter(!is.na(access_new))
+# Keep size to less tham 100 MB
+pe <- pe |> filter(!is.na(access_new)) |> 
+  select(!c(OBJECTID, GOID, NOID, NUOID, NDOID, CON_ID, 
+            CONTINENT, x, y, coord_text, dupe, mask, aid))
 # Export for future use.
 # outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
 #outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\poun_river_points.gpkg"
@@ -327,7 +330,6 @@ outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR
 st_write(pe, dsn = outfile, 
          layer = "ffr_1a5_poun_points_3395", 
          layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
-
 ```
 
 Check correlations.

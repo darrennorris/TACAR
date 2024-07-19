@@ -145,7 +145,7 @@ scenario_res |>
 # export for futher use
 saveRDS(scenario_res, "inst/other/scenario_res_current.rds")
 
-# Now with free-flowing river points.  RIV ORD 1 to 4. 
+# Now with free-flowing river points.  RIV ORD 1 to 5. 
 # Cropped to basins from Norris et. al. 2019.
 # Here 3 versions - modelkey pess, BAU, optimistic.
 scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |> 
