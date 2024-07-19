@@ -1,0 +1,12 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <Description>worldpop_pd_2020_1km</Description>
+    <Metadata>
+      <MDI key="STATISTICS_MAXIMUM">28638.81640625</MDI>
+      <MDI key="STATISTICS_MEAN">3.6832925999433</MDI>
+      <MDI key="STATISTICS_MINIMUM">0</MDI>
+      <MDI key="STATISTICS_STDDEV">147.39251309816</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">87.55</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>

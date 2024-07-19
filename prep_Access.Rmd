@@ -87,13 +87,18 @@ m_ap <- crop(m, ap_crop_box)
 #plot to check
 plot(log1p(m_ap))
 # reclass b4 transform
-m_ap_rc <- ifel(m_ap >= 3, 10, 0)
+m_ap_rc <- ifel(m_ap >= 5, 10, 0)
 plot(m_ap_rc)
 mapview::mapview(m_ap_rc)
 # project for costdist analysis
 m_3395 <- project(m_ap_rc, method = "near","epsg:3395")
 plot(m_3395)
-
+#writeRaster(m_ap_rc, "inst/raster/worldpop_3pkm_rc_ap.tif", 
+#              gdal=c("COMPRESS=DEFLATE"), overwrite = TRUE)
+writeRaster(m_ap_rc, "inst/raster/worldpop_5pkm_rc_ap.tif", 
+              gdal=c("COMPRESS=DEFLATE"), overwrite = TRUE)
+writeRaster(m_ap, "inst/raster/worldpop_ap.tif", 
+              gdal=c("COMPRESS=DEFLATE"), overwrite = TRUE)
 # crop and rasterize rivers
 m_3395c <- m_3395
 m_3395c <- ifel(!is.na(m_3395),0 , NA)
@@ -102,29 +107,30 @@ ffr_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\sa_FFR_
 ffr_ap_3395 <- read_sf(ffr_in) |> st_crop(ap_crop_bbox) |> st_transform(3395)
 ffr_ap_3395$myval <- 1
 
-# 1 to 4 close to Norris et al. 2019. Including 5 adds Capivara/Primeiro Braco
-# I.e. hard to pass with voadeira / rabeta. 
-# And with much smaller and much fewer nesting areas.
+# 1 to 4 close 70% of Norris et al. 2019. Including 5 adds Capivara/Primeiro Braco
 ffr_ap_1a4_3395 <- ffr_ap_3395 |> 
-  filter(RIV_ORD <= 4)
+  filter(RIV_ORD <= 4) 
+ffr_ap_1a5_3395 <- ffr_ap_3395 |> 
+  filter(RIV_ORD <= 5) |> 
+  filter(DIS_AV_CMS >= 15)
 # Use all rivers to make cost-distance surface
 r_ffr <- rasterize(vect(ffr_ap_3395), m_3395c, field = "myval", 
                    update = TRUE, touches = TRUE)
 # Population density NAs are water. Change NA to 1.
 mapview::mapview(r_ffr) + 
-  mapview::mapview(ffr_ap_1a4_3395)
+  mapview::mapview(ffr_ap_1a5_3395)
 r_ffr <- ifel(is.na(r_ffr), 1, r_ffr)
 rf <- r_ffr + ifel(is.na(m_3395), 0, m_3395)
 rf <- ifel(rf == 0, NA, rf)
 rf <- ifel(rf >= 10, 0, rf)
 mapview::mapview(rf) + 
-  mapview::mapview(ffr_ap_1a4_3395)
+  mapview::mapview(ffr_ap_1a5_3395)
 
 cd_access <- costDist(rf, scale = 1000)
 cd_map <- ifel(cd_access >= 48, 0, 1)
 names(cd_map) <- "access_new"
 mapview::mapview(cd_map) +
-mapview::mapview(ffr_ap_1a4_3395)
+mapview::mapview(ffr_ap_1a5_3395)
 
 ```
 
@@ -185,7 +191,7 @@ ffr_3395$myval <- 1
 ```{r}
 # project for costdist analysis
 # reclass b4 transform
-pd_rc <- ifel(pd >= 3, 10, 0)
+pd_rc <- ifel(pd >= 5, 10, 0)
 pd_3395 <- project(pd_rc, method = "near","epsg:3395")
 rm(pd)
 rm(pd_rc)

@@ -63,12 +63,14 @@ dir <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\in
 ff <- list.files(dir, pattern="\\.shp$", full.names=TRUE)
 df_points <- data.frame(points_file = ff)
 
-# load points made previously in prep_river_points.Rmd. RIVORD 1 to 4. 
+# load points made previously in prep_river_points.Rmd. RIVORD 1 to 5. 
 # Cropped to basins from Norris et. al. 2019.
-infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
-ffr_1a4_poun_points_3395 <- st_read(dsn = infile, 
-                                    layer = "ffr_1a4_poun_points_3395")
-
+# infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+# ffr_1a4_poun_points_3395 <- st_read(dsn = infile, 
+#                                    layer = "ffr_1a4_poun_points_3395")
+infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
+ffr_1a5_poun_points_3395 <- st_read(dsn = infile, 
+                                    layer = "ffr_1a5_poun_points_3395")
 ```
 
 Now join.
@@ -82,7 +84,7 @@ ffr_crop <- st_crop(basins_ffr_3395, st_bbox(points_3395))
 # join
 join_sf <- st_join(points_3395, ffr_crop, join = st_nearest_feature)
 dout <- join_sf |> 
-  select(BASIN_N, subbasn, SUBBASI, All, accessible, COUNTRY, BAS_NAME, 
+  select(BASIN_NAME, subbasin, SUBBASIN_FLAG, All, accessible, COUNTRY, BAS_NAME, 
          RIV_ORD, BB_ID, BB_NAME, REACH_ID, CSI, CSI_FF) |> 
   data.frame()
 return(dout)
@@ -146,7 +148,7 @@ saveRDS(scenario_res, "inst/other/scenario_res_current.rds")
 # Now with free-flowing river points.  RIV ORD 1 to 4. 
 # Cropped to basins from Norris et. al. 2019.
 # Here 3 versions - modelkey pess, BAU, optimistic.
-scenario_ffr_res <- ffr_1a4_poun_points_3395 |> data.frame() |> 
+scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |> 
   #filter(subbasn == "Trombetas") |>
   mutate(Protected = if_else(All == 1, "yes", "no"), 
          Accessible = if_else(access_new == 0, "no", "yes"), 
@@ -169,7 +171,7 @@ scenario_ffr_res <- ffr_1a4_poun_points_3395 |> data.frame() |>
 test_join <- scenario_ffr_res |> 
   filter(is.na(lambda_mean)) |> nrow()
 
-saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr.rds")
+saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr1a5.rds")
 ```
 
 Make summaries for plotting.
