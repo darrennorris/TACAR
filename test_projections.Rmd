@@ -177,6 +177,10 @@ lambda_mean <- mean(model_sum$lambda) # 0.9432
 lambda_sd <- sd(model_sum$lambda) # 0.1506
 lambda_min <- min(model_sum$lambda) # 0.4659
 lambda_max <- max(model_sum$lambda) # 1.1539
+
+# Export for future use
+saveRDS(dout, "inst/other/dout.rds")
+
 ```
 
 #### Eggs to adult
@@ -223,7 +227,8 @@ nruns <- 50
 dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
 dt_stoch$arun <- rep(1:nruns, each = nrow(dt))
 # Approx 30 minutes. 1,212,000 rows. Projections quick. Summaries slow.
-dout_stoch <- plyr::ddply(dt_stoch[1:10, ], 
+# 10:57 - 12:40
+dout_stoch <- plyr::ddply(dt_stoch, 
                     c("arun", "species", "type", "first_year","akey"), 
                     .fun =  pop03_doproj_stoch)
 table(dout_stoch$model)
@@ -244,6 +249,8 @@ saveRDS(dout_stoch, "inst/other/dout_stoch.rds")
 
 #### Combine results.
 ```{r projection-join, eval=FALSE}
+dout <- readRDS("inst/other/dout.rds")
+dout_stoch <- readRDS("inst/other/dout_stoch.rds")
 # Combine data for plotting
 dout_all <- dplyr::bind_rows(dout |> dplyr::select(arun, model, type, first_year, 
                                                    akey, ayear, 
