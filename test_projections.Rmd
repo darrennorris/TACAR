@@ -223,16 +223,18 @@ nruns <- 50
 dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
 dt_stoch$arun <- rep(1:nruns, each = nrow(dt))
 # Approx 30 minutes. 1,212,000 rows. Projections quick. Summaries slow.
-dout_stoch <- plyr::ddply(dt_stoch[1000:1010, ], 
+dout_stoch <- plyr::ddply(dt_stoch[1:10, ], 
                     c("arun", "species", "type", "first_year","akey"), 
                     .fun =  pop03_doproj_stoch)
 table(dout_stoch$model)
 table(dout_stoch$type)
 model_sum_stoch <- dout_stoch |> 
-  group_by(species, type, model, first_year, lambda, 
+  group_by(species, type, model, first_year, lambda, lambda_q75,
            gen_time, gen_age_diff_med, gen_age_q75, 
-           life_exp_med, life_exp_adult_med) |> 
-  summarise(fem_t0 = max(fem_t0), 
+           life_exp_med, life_exp_adult_med, mat_prob_med, mat_prob_q75, 
+           eggs_to_adult_med, eggs_to_adult_q75) |> 
+  summarise(acount = n(), 
+            fem_t0 = max(fem_t0), 
             fem_min = min(fem),
               fem_max = max(fem)) |> 
   ungroup()

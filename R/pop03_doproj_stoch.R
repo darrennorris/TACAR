@@ -114,8 +114,13 @@ pop03_doproj_stoch <- function(x) {
      if(life_exp_stage[1] > 1){life_exp_stage[1] <- 1}
      life_exp <- sum(life_exp_stage) 
      life_exp_adult <- life_exp_stage[4]
+     # The probability of reaching reproductive maturity before death for an egg.
+     mp <- Rage::mature_prob(matU = x$mat_u, matR = x$mat_f)
+     ea <- 1/mp
+     # Results
      dfout <- data.frame(gen_age_diff = gen_age_diff, life_exp = life_exp, 
-                         life_exp_adult = life_exp_adult) 
+                         life_exp_adult = life_exp_adult, 
+                         mat_prob = mp, eggs_to_adult = ea) 
      dfout
    }
    # Apply to each matrix
@@ -266,6 +271,49 @@ pop03_doproj_stoch <- function(x) {
    spr_04_life_exp_adult_q25 <- as.numeric(spr_04_life_exp_adult_quant["25%"])
    spr_04_life_exp_adult_q75 <- as.numeric(spr_04_life_exp_adult_quant["75%"])
    
+   # Maturity
+   spr_01_mat_prob_med <- median(as.numeric(spr_01_rage$mat_prob))
+   spr_01_mat_prob_quant <- quantile(as.numeric(spr_01_rage$mat_prob), probs = seq(0, 1, 0.25), 
+                                     na.rm = TRUE)
+   spr_01_mat_prob_q25 <- as.numeric(spr_01_mat_prob_quant["25%"])
+   spr_01_mat_prob_q75 <- as.numeric(spr_01_mat_prob_quant["75%"])
+   spr_01_eggs_to_adult_med <- median(as.numeric(spr_01_rage$eggs_to_adult))
+   spr_01_eggs_to_adult_quant <- quantile(as.numeric(spr_01_rage$eggs_to_adult), probs = seq(0, 1, 0.25), 
+                                           na.rm = TRUE)
+   spr_01_eggs_to_adult_q25 <- as.numeric(spr_01_eggs_to_adult_quant["25%"])
+   spr_01_eggs_to_adult_q75 <- as.numeric(spr_01_eggs_to_adult_quant["75%"])
+   spr_02_mat_prob_med <- median(as.numeric(spr_02_rage$mat_prob))
+   spr_02_mat_prob_quant <- quantile(as.numeric(spr_02_rage$mat_prob), probs = seq(0, 1, 0.25), 
+                                     na.rm = TRUE)
+   spr_02_mat_prob_q25 <- as.numeric(spr_02_mat_prob_quant["25%"])
+   spr_02_mat_prob_q75 <- as.numeric(spr_02_mat_prob_quant["75%"])
+   spr_02_eggs_to_adult_med <- median(as.numeric(spr_02_rage$eggs_to_adult))
+   spr_02_eggs_to_adult_quant <- quantile(as.numeric(spr_02_rage$eggs_to_adult), probs = seq(0, 1, 0.25), 
+                                           na.rm = TRUE)
+   spr_02_eggs_to_adult_q25 <- as.numeric(spr_02_eggs_to_adult_quant["25%"])
+   spr_02_eggs_to_adult_q75 <- as.numeric(spr_02_eggs_to_adult_quant["75%"]) 
+   spr_03_mat_prob_med <- median(as.numeric(spr_03_rage$mat_prob))
+   spr_03_mat_prob_quant <- quantile(as.numeric(spr_03_rage$mat_prob), probs = seq(0, 1, 0.25), 
+                                     na.rm = TRUE)
+   spr_03_mat_prob_q25 <- as.numeric(spr_03_mat_prob_quant["25%"])
+   spr_03_mat_prob_q75 <- as.numeric(spr_03_mat_prob_quant["75%"])
+   spr_03_eggs_to_adult_med <- median(as.numeric(spr_03_rage$eggs_to_adult))
+   spr_03_eggs_to_adult_quant <- quantile(as.numeric(spr_03_rage$eggs_to_adult), probs = seq(0, 1, 0.25), 
+                                           na.rm = TRUE)
+   spr_03_eggs_to_adult_q25 <- as.numeric(spr_03_eggs_to_adult_quant["25%"])
+   spr_03_eggs_to_adult_q75 <- as.numeric(spr_03_eggs_to_adult_quant["75%"])
+   
+   spr_04_mat_prob_med <- median(as.numeric(spr_04_rage$mat_prob))
+   spr_04_mat_prob_quant <- quantile(as.numeric(spr_04_rage$mat_prob), probs = seq(0, 1, 0.25), 
+                                     na.rm = TRUE)
+   spr_04_mat_prob_q25 <- as.numeric(spr_04_mat_prob_quant["25%"])
+   spr_04_mat_prob_q75 <- as.numeric(spr_04_mat_prob_quant["75%"])
+   spr_04_eggs_to_adult_med <- median(as.numeric(spr_04_rage$eggs_to_adult))
+   spr_04_eggs_to_adult_quant <- quantile(as.numeric(spr_04_rage$eggs_to_adult), probs = seq(0, 1, 0.25), 
+                                           na.rm = TRUE)
+   spr_04_eggs_to_adult_q25 <- as.numeric(spr_04_eggs_to_adult_quant["25%"])
+   spr_04_eggs_to_adult_q75 <- as.numeric(spr_04_eggs_to_adult_quant["75%"])
+   
    # data.frame to return
    dfpop <- rbind(data.frame(model = "Stochastic uniform",  
                              lambda = spr_01_boot_mean,
@@ -286,7 +334,13 @@ pop03_doproj_stoch <- function(x) {
                              life_exp_q75 = spr_01_life_exp_q75, 
                              life_exp_adult_med = spr_01_life_exp_adult_med, 
                              life_exp_adult_q25 = spr_01_life_exp_adult_q25, 
-                             life_exp_adult_q75 = spr_01_life_exp_adult_q75,
+                             life_exp_adult_q75 = spr_01_life_exp_adult_q75, 
+                             mat_prob_med = spr_01_mat_prob_med, 
+                             mat_prob_q25 = spr_01_mat_prob_q25, 
+                             mat_prob_q75 = spr_01_mat_prob_q75, 
+                             eggs_to_adult_med = spr_01_eggs_to_adult_med, 
+                             eggs_to_adult_q25 = spr_01_eggs_to_adult_q25, 
+                             eggs_to_adult_q75 = spr_01_eggs_to_adult_q75,
                              ayear = 0:ttime,
                        egghatch = popdemo::vec(spr_01)[,1], 
                        j_early = popdemo::vec(spr_01)[,2], 
@@ -313,7 +367,13 @@ pop03_doproj_stoch <- function(x) {
                            life_exp_q75 = spr_02_life_exp_q75, 
                            life_exp_adult_med = spr_02_life_exp_adult_med, 
                            life_exp_adult_q25 = spr_02_life_exp_adult_q25, 
-                           life_exp_adult_q75 = spr_02_life_exp_adult_q75,
+                           life_exp_adult_q75 = spr_02_life_exp_adult_q75, 
+                           mat_prob_med = spr_02_mat_prob_med, 
+                           mat_prob_q25 = spr_02_mat_prob_q25, 
+                           mat_prob_q75 = spr_02_mat_prob_q75, 
+                           eggs_to_adult_med = spr_02_eggs_to_adult_med, 
+                           eggs_to_adult_q25 = spr_02_eggs_to_adult_q25, 
+                           eggs_to_adult_q75 = spr_02_eggs_to_adult_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_02)[,1], 
                            j_early = popdemo::vec(spr_02)[,2], 
@@ -340,7 +400,13 @@ pop03_doproj_stoch <- function(x) {
                            life_exp_q75 = spr_03_life_exp_q75, 
                            life_exp_adult_med = spr_03_life_exp_adult_med, 
                            life_exp_adult_q25 = spr_03_life_exp_adult_q25, 
-                           life_exp_adult_q75 = spr_03_life_exp_adult_q75,
+                           life_exp_adult_q75 = spr_03_life_exp_adult_q75, 
+                           mat_prob_med = spr_03_mat_prob_med, 
+                           mat_prob_q25 = spr_03_mat_prob_q25, 
+                           mat_prob_q75 = spr_03_mat_prob_q75, 
+                           eggs_to_adult_med = spr_03_eggs_to_adult_med, 
+                           eggs_to_adult_q25 = spr_03_eggs_to_adult_q25, 
+                           eggs_to_adult_q75 = spr_03_eggs_to_adult_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_03)[,1], 
                            j_early = popdemo::vec(spr_03)[,2], 
@@ -367,7 +433,13 @@ pop03_doproj_stoch <- function(x) {
                            life_exp_q75 = spr_04_life_exp_q75, 
                            life_exp_adult_med = spr_04_life_exp_adult_med, 
                            life_exp_adult_q25 = spr_04_life_exp_adult_q25, 
-                           life_exp_adult_q75 = spr_04_life_exp_adult_q75,
+                           life_exp_adult_q75 = spr_04_life_exp_adult_q75, 
+                           mat_prob_med = spr_04_mat_prob_med, 
+                           mat_prob_q25 = spr_04_mat_prob_q25, 
+                           mat_prob_q75 = spr_04_mat_prob_q75, 
+                           eggs_to_adult_med = spr_04_eggs_to_adult_med, 
+                           eggs_to_adult_q25 = spr_04_eggs_to_adult_q25, 
+                           eggs_to_adult_q75 = spr_04_eggs_to_adult_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_04)[,1], 
                            j_early = popdemo::vec(spr_04)[,2], 
