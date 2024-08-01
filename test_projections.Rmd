@@ -52,9 +52,8 @@ slice_head(dt, n = 3)  |>
   kableExtra::kable_styling(full_width = F,  latex_options = "hold_position")
 ```
 
-The rows can be easily converted for use in a stage-based matrix population model. 
-The first row becomes the following stage-based matrix, where columns reflect 
-the stage and rows what to the stage at time + 1.
+Each row can be easily converted for use in a stage-based matrix population model. 
+The following code shows how the first row becomes a stage-based matrix.
 ```{r mpm-example}
 stage_names <- c("a1", "a2", "a3", "a4",
                    "b1", "b2", "b3", "b4",
@@ -93,7 +92,8 @@ stageInfo <- list(
   ))
 # Simple full A matrix
 l_pop_mat <- list(mpm = pop_mat)
-x <- cdb_build_cdb(mat_a = l_pop_mat, metadata = meta)
+x <- cdb_build_cdb(mat_a = l_pop_mat, metadata = meta, stages = stageInfo)
+
 # Seperate into U, F, C
 mat_u1 <- rbind(
   c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
@@ -124,6 +124,7 @@ my_comadre <- cdb_build_cdb(
 )
 
 matA(my_comadre)
+matA(x)
 matU(my_comadre)
 matF(my_comadre)
 matC(my_comadre)
@@ -138,11 +139,15 @@ gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]]) # 17.15
 # the average parent-offspring age difference # 16.22
 gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "age_diff")
 # expected age at reproduction for a cohort 5.69
-gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "cohort")
+Rage::gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "cohort")
+
+Rage::life_expect_mean(matU = matU(my_comadre)[[1]], start = 1)
+sum(Rage::life_expect_mean(matU(my_comadre)[[1]], start = NULL))
 ```
 Plot the life cycle diagram.
 ```{r plot-lifecycle}
-plot_life_cycle(matA = matA(my_comadre)[[1]])
+plot_life_cycle(matA = matA(my_comadre)[[1]], 
+                stages = c("eggs/hatchling", "juvenile-early", "juvenile-late", "adult"))
 ```
 
 
@@ -161,7 +166,8 @@ dout$arun <- 1
 
 # Model summaries
 model_sum <- dout |> 
-  group_by(species, type, first_year, lambda, gen_time) |> 
+  group_by(species, type, first_year, lambda, 
+           gen_time, gen_age_diff, life_exp, life_exp_adult, mat_prob, eggs_to_adult) |> 
   summarise(fem_t0 = max(fem_t0), 
             fem_min = min(fem),
               fem_max = max(fem)) |> 
@@ -176,6 +182,16 @@ lambda_max <- max(model_sum$lambda) # 1.1539
 #### Eggs to adult
 Using survival values from base model.
 ```{r eggs-adult}
+# The probability of reaching reproductive maturity before death for an egg. 
+# Expressed as proportion (0 - 1)
+# # 0.008000029 # 0.8%
+mp_poun <- mature_prob(matU = matU(my_comadre)[[1]], matR = matF(my_comadre)[[1]])
+
+# To produce one reproductive adult need 125 eggs.
+1/mp_poun # 125
+# 7 years for a female to lay sufficient eggs 
+ceiling(125 / 20)
+
 t0 <- 1000 # number of eggs
 n_t1 <- t0 * 0.2       # 200
 n_t2 <- n_t1 * 0.333333 # 66.6
@@ -207,11 +223,19 @@ nruns <- 50
 dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
 dt_stoch$arun <- rep(1:nruns, each = nrow(dt))
 # Approx 30 minutes. 1,212,000 rows. Projections quick. Summaries slow.
-dout_stoch <- plyr::ddply(dt_stoch, 
+dout_stoch <- plyr::ddply(dt_stoch[1000:1010, ], 
                     c("arun", "species", "type", "first_year","akey"), 
                     .fun =  pop03_doproj_stoch)
 table(dout_stoch$model)
 table(dout_stoch$type)
+model_sum_stoch <- dout_stoch |> 
+  group_by(species, type, model, first_year, lambda, 
+           gen_time, gen_age_diff_med, gen_age_q75, 
+           life_exp_med, life_exp_adult_med) |> 
+  summarise(fem_t0 = max(fem_t0), 
+            fem_min = min(fem),
+              fem_max = max(fem)) |> 
+  ungroup()
 # Export for future use
 saveRDS(dout_stoch, "inst/other/dout_stoch.rds")
 ```
@@ -234,8 +258,9 @@ dout_all <- dplyr::bind_rows(dout |> dplyr::select(arun, model, type, first_year
                                             fem, fem_t0, fem_diff, change50_flag, 
                                             change30_flag,
                                             double_flag))
-# Limit adult female number to maximum (10 x original).
-dout_all[which(dout_all$fem > (nf * 10)), 'fem' ] <- (nf * 10)
+# Limit adult female number to maximum (20% above original for baseline).
+ceiling_threshold <- nf + (nf * 0.2)
+dout_all[which(dout_all$fem > ceiling_threshold), 'fem' ] <- ceiling_threshold
 # Factors in right order
 dout_all$modelf <- 1
 dout_all[which(dout_all$model=="Stochastic uniform") , 'modelf'] <- 2
@@ -245,7 +270,7 @@ dout_all[which(dout_all$model=="Stochastic bad x4") , 'modelf'] <- 5
 dout_all$modelf <- as.factor(dout_all$modelf)
 levels(dout_all$modelf) <- c("Deterministic", "Stochastic uniform", 
                           "Stochastic equal", "Stochastic bad x2", 
-                          "Stochastic worst x4")
+                          "Stochastic bad x4")
 unique(dout_all$modelf)
 table(dout_all$modelf)
 dout_all$typef <- 1

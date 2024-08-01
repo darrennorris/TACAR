@@ -17,7 +17,7 @@
 #' 
 
 pop03_doproj <- function(x) {
-  pop_n <-  x$adultF_n * c(11.1, 4, 2, 1) 
+  # make population matrix
   stage_names <- c("a1", "a2", "a3", "a4",
                    "b1", "b2", "b3", "b4",
                    "c1", "c2", "c3", "c4",
@@ -26,6 +26,24 @@ pop03_doproj <- function(x) {
   pop_mat <- matrix(vpop, byrow = TRUE, ncol=4)
   dimnames(pop_mat) <- list(c("a", "b", "c", "d"),
                             c(1,2,3,4))
+  # Seperate into U (survival/transitions) and F (fecundity)
+  mat_u <-  rbind(
+      c(x[1, 'a1'], x[1, 'a2'], x[1, 'a3'], 0),
+      c(x[1, 'b1'], x[1, 'b2'], x[1, 'b3'], x[1, 'b4']),
+      c(x[1, 'c1'], x[1, 'c2'], x[1, 'c3'], x[1, 'c4']),
+      c(x[1, 'd1'], x[1, 'd2'], x[1, 'd3'], x[1, 'd4'])
+  )
+  mat_f <- rbind(
+    c(0.0, 0.0, 0.0, x[1, 'a4']),
+    c(0.0, 0.0, 0.0, 0.0),
+    c(0.0, 0.0, 0.0, 0.0), 
+    c(0.0, 0.0, 0.0, 0.0)
+  )
+  
+  # stable stage structure
+  pop_ss <- popdemo::eigs(pop_mat, "ss")
+  # stable stage population numbers corresponding to number of females
+  pop_n <-  x$adultF_n * (pop_ss * (1/pop_ss[4])) 
   # project PPM 
   ttime <- 100
   pr_pop <- popdemo::project(pop_mat, vector = pop_n, time = ttime)
@@ -42,12 +60,27 @@ pop03_doproj <- function(x) {
   plambda <- popbio::lambda(pop_mat)
   flag_ergo <- popdemo::isErgodic(pop_mat)
   flag_irre <- popdemo::isIrreducible(pop_mat)
-  gen_time <- popbio::generation.time(pop_mat)
-  # rep_val_f <- popdemo::eigs(pop_mat, "rv")[4] # reproductive value
+  gen_time <- popbio::generation.time(pop_mat) 
+  # The average parent-offspring age difference.
+  gen_age_diff <- Rage::gen_time(matU = mat_u, matR = mat_f, method = "age_diff")
+  # Life expectancy (time to death)
+  life_exp_stage <- Rage::life_expect_mean(matU = mat_u, start = NULL)
+  if(life_exp_stage[1] > 1){life_exp_stage[1] <- 1}
+  life_exp <- sum(life_exp_stage) 
+  life_exp_adult <- life_exp_stage[4]
+  # The probability of reaching reproductive maturity before death for an egg.
+  mp <- Rage::mature_prob(matU = mat_u, matR = mat_f)
+  ea <- 1/mp
+
   # make dataframe 
   dfout <- data.frame(model = "Deterministic",
                       lambda = plambda, 
-                      gen_time = gen_time,
+                      gen_time = gen_time, 
+                      gen_age_diff = gen_age_diff, 
+                      life_exp = life_exp, 
+                      life_exp_adult = life_exp_adult,
+                      mat_prob = mp, 
+                      eggs_to_adult = ea,
                       ergodic = flag_ergo,
                       irred = flag_irre,
                       ayear = Time.intervals, 

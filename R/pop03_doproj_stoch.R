@@ -7,7 +7,7 @@
 #'
 #' @details This function applies stochastic population projection moodels. 
 #' 
-#' @return Creates data.frame with projection results.
+#' @return Creates a data.frame with projection results.
 #' @export
 #'
 #' @examples
@@ -17,15 +17,15 @@
 #' 
 
 pop03_doproj_stoch <- function(x) {
-  pop_n <-  x$adultF_n * c(11.1, 4, 2, 1) 
+  # make population matrix
   stage_names <- c("a1", "a2", "a3", "a4",
                    "b1", "b2", "b3", "b4",
                    "c1", "c2", "c3", "c4",
                    "d1", "d2", "d3", "d4")
   stoch_stage_names <- "b1"
   year_val <- x[ , stoch_stage_names]
-  bad_year_thresh <- 0.1
-  good_year_thresh <- 0.2
+  #bad_year_thresh <- 0.1
+  #good_year_thresh <- 0.2
  din <-  x[1 , stage_names] 
  # make vector of stochastic values
  vb1 <- c(0.0001, 0.1, rep(year_val, 8))
@@ -45,13 +45,16 @@ pop03_doproj_stoch <- function(x) {
  
   # Make list 
    matlist <- plyr::alply(dfstoch , .margins = 1, .fun = makemat)
- 
+  
+   # Projection time and population vector
+   pop_n <-  x$adultF_n * c(11.1, 4, 2, 1) 
+   ttime <- 100  
+   
    # Scenarios
    # Default, the projection selects each matrix with an equal 
    # probability at each time interval.
    # Bad years at 2/5 = 0.4 chance of being chosen
    #set.seed(c(1,2,3,4))
-   ttime <- 100
    # Uniform - random
    spr_01 <- popdemo::project(matlist, vector = pop_n, Aseq = "unif", time = ttime)
    # Bad and good years have equal probability
@@ -70,12 +73,28 @@ pop03_doproj_stoch <- function(x) {
                       (1-p4)/8, (1-p4)/8, (1-p4)/8, (1-p4)/8, (1-p4)/8), 10), 10, 10)
    spr_04 <- popdemo::project(matlist, vector= pop_n, Aseq = m4, time = ttime)
    
-   # lambda for stochastic projections
-   # list of matrices used for projection years 
+   # Stochastic projection matrices
+   # List of matrices used in stochastic projection years 
    spr_01_lmat <- popdemo::mat(spr_01)[popdemo::Aseq(spr_01)]
    spr_02_lmat <- popdemo::mat(spr_02)[popdemo::Aseq(spr_02)]
    spr_03_lmat <- popdemo::mat(spr_03)[popdemo::Aseq(spr_03)]
    spr_04_lmat <- popdemo::mat(spr_04)[popdemo::Aseq(spr_04)]
+   # Now split into survival and reproduction
+   split_mat <- function(x){ 
+     mat_u <- x
+     mat_u[1, 4] <- 0
+     mat_f <- x 
+     mat_f[mat_f > 0] <- 0
+     mat_f[1, 4] <- x[1, 4]
+     mats <- list(mat_u = mat_u, mat_f = mat_f)
+     return(mats)
+   }
+   spr_01_lmat_u_f <- lapply(unname(spr_01_lmat), split_mat)
+   spr_02_lmat_u_f <- lapply(unname(spr_02_lmat), split_mat)
+   spr_03_lmat_u_f <- lapply(unname(spr_03_lmat), split_mat)
+   spr_04_lmat_u_f <- lapply(unname(spr_04_lmat), split_mat)
+   
+   # Demographic and life histroy traits from matrices
    # lambda values
    spr_01_lambda_vals <- unlist(lapply(spr_01_lmat, popdemo::eigs, what = "lambda"))
    spr_02_lambda_vals <- unlist(lapply(spr_02_lmat, popdemo::eigs, what = "lambda"))
@@ -85,9 +104,28 @@ pop03_doproj_stoch <- function(x) {
    spr_01_gen_vals <- unlist(lapply(spr_01_lmat, popbio::generation.time)) 
    spr_02_gen_vals <- unlist(lapply(spr_02_lmat, popbio::generation.time)) 
    spr_03_gen_vals <- unlist(lapply(spr_03_lmat, popbio::generation.time)) 
-   spr_04_gen_vals <- unlist(lapply(spr_04_lmat, popbio::generation.time))
+   spr_04_gen_vals <- unlist(lapply(spr_04_lmat, popbio::generation.time)) 
+   
+   # Wrapper around Rage functions.
+   my_rage <- function(x){ 
+     gen_age_diff <- Rage::gen_time(matU = x$mat_u, x$mat_f, method = "age_diff") 
+     # Life expectancy (time to death)
+     life_exp_stage <- Rage::life_expect_mean(matU = x$mat_u, start = NULL)
+     if(life_exp_stage[1] > 1){life_exp_stage[1] <- 1}
+     life_exp <- sum(life_exp_stage) 
+     life_exp_adult <- life_exp_stage[4]
+     dfout <- data.frame(gen_age_diff = gen_age_diff, life_exp = life_exp, 
+                         life_exp_adult = life_exp_adult) 
+     dfout
+   }
+   # Apply to each matrix
+   spr_01_rage <- plyr::ldply(spr_01_lmat_u_f, my_rage)
+   spr_02_rage <- plyr::ldply(spr_02_lmat_u_f, my_rage)
+   spr_03_rage <- plyr::ldply(spr_03_lmat_u_f, my_rage)
+   spr_04_rage <- plyr::ldply(spr_04_lmat_u_f, my_rage)
 
-   # summaries, as.numeric to remove names which generates warning
+   # summaries
+   #as.numeric to remove names which generates warning
    spr_01_boot <- Hmisc::smean.cl.boot(spr_01_lambda_vals)
    spr_01_boot_mean <- as.numeric(spr_01_boot["Mean"])
    spr_01_boot_lcl <- as.numeric(spr_01_boot["Lower"])
@@ -161,6 +199,73 @@ pop03_doproj_stoch <- function(x) {
                                 na.rm = TRUE)
    spr_04_gen_q25 <- as.numeric(spr_04_gen_quant["25%"])
    spr_04_gen_q75 <- as.numeric(spr_04_gen_quant["75%"])
+   
+   # Generation time based on age difference. Get some huge values for
+   # 2% cases when population is strongly declining.
+   spr_01_gen_age_diff_med <- median(as.numeric(spr_01_rage$gen_age_diff))
+   spr_01_gen_age_quant <- quantile(as.numeric(spr_01_rage$gen_age_diff), probs = seq(0, 1, 0.25), 
+                                na.rm = TRUE)
+   spr_01_gen_age_q25 <- as.numeric(spr_01_gen_age_quant["25%"])
+   spr_01_gen_age_q75 <- as.numeric(spr_01_gen_age_quant["75%"])
+   spr_02_gen_age_diff_med <- median(as.numeric(spr_02_rage$gen_age_diff))
+   spr_02_gen_age_quant <- quantile(as.numeric(spr_02_rage$gen_age_diff), probs = seq(0, 1, 0.25), 
+                                    na.rm = TRUE)
+   spr_02_gen_age_q25 <- as.numeric(spr_02_gen_age_quant["25%"])
+   spr_02_gen_age_q75 <- as.numeric(spr_02_gen_age_quant["75%"])
+   spr_03_gen_age_diff_med <- median(as.numeric(spr_03_rage$gen_age_diff))
+   spr_03_gen_age_quant <- quantile(as.numeric(spr_03_rage$gen_age_diff), probs = seq(0, 1, 0.25), 
+                                    na.rm = TRUE)
+   spr_03_gen_age_q25 <- as.numeric(spr_03_gen_age_quant["25%"])
+   spr_03_gen_age_q75 <- as.numeric(spr_03_gen_age_quant["75%"])
+   spr_04_gen_age_diff_med <- median(as.numeric(spr_01_rage$gen_age_diff))
+   spr_04_gen_age_quant <- quantile(as.numeric(spr_01_rage$gen_age_diff), probs = seq(0, 1, 0.25), 
+                                    na.rm = TRUE)
+   spr_04_gen_age_q25 <- as.numeric(spr_04_gen_age_quant["25%"])
+   spr_04_gen_age_q75 <- as.numeric(spr_04_gen_age_quant["75%"])
+   
+   # Life expectancy
+   spr_01_life_exp_med <- median(as.numeric(spr_01_rage$life_exp))
+   spr_01_life_exp_quant <- quantile(as.numeric(spr_01_rage$life_exp), probs = seq(0, 1, 0.25), 
+                                    na.rm = TRUE)
+   spr_01_life_exp_q25 <- as.numeric(spr_01_life_exp_quant["25%"])
+   spr_01_life_exp_q75 <- as.numeric(spr_01_life_exp_quant["75%"])
+   spr_01_life_exp_adult_med <- median(as.numeric(spr_01_rage$life_exp_adult))
+   spr_01_life_exp_adult_quant <- quantile(as.numeric(spr_01_rage$life_exp_adult), probs = seq(0, 1, 0.25), 
+                                     na.rm = TRUE)
+   spr_01_life_exp_adult_q25 <- as.numeric(spr_01_life_exp_adult_quant["25%"])
+   spr_01_life_exp_adult_q75 <- as.numeric(spr_01_life_exp_adult_quant["75%"])
+   spr_02_life_exp_med <- median(as.numeric(spr_02_rage$life_exp))
+   spr_02_life_exp_quant <- quantile(as.numeric(spr_02_rage$life_exp), probs = seq(0, 1, 0.25), 
+                                     na.rm = TRUE)
+   spr_02_life_exp_q25 <- as.numeric(spr_02_life_exp_quant["25%"])
+   spr_02_life_exp_q75 <- as.numeric(spr_02_life_exp_quant["75%"])
+   spr_02_life_exp_adult_med <- median(as.numeric(spr_02_rage$life_exp_adult))
+   spr_02_life_exp_adult_quant <- quantile(as.numeric(spr_02_rage$life_exp_adult), probs = seq(0, 1, 0.25), 
+                                           na.rm = TRUE)
+   spr_02_life_exp_adult_q25 <- as.numeric(spr_02_life_exp_adult_quant["25%"])
+   spr_02_life_exp_adult_q75 <- as.numeric(spr_02_life_exp_adult_quant["75%"]) 
+   spr_03_life_exp_med <- median(as.numeric(spr_03_rage$life_exp))
+   spr_03_life_exp_quant <- quantile(as.numeric(spr_03_rage$life_exp), probs = seq(0, 1, 0.25), 
+                                     na.rm = TRUE)
+   spr_03_life_exp_q25 <- as.numeric(spr_03_life_exp_quant["25%"])
+   spr_03_life_exp_q75 <- as.numeric(spr_03_life_exp_quant["75%"])
+   spr_03_life_exp_adult_med <- median(as.numeric(spr_03_rage$life_exp_adult))
+   spr_03_life_exp_adult_quant <- quantile(as.numeric(spr_03_rage$life_exp_adult), probs = seq(0, 1, 0.25), 
+                                           na.rm = TRUE)
+   spr_03_life_exp_adult_q25 <- as.numeric(spr_03_life_exp_adult_quant["25%"])
+   spr_03_life_exp_adult_q75 <- as.numeric(spr_03_life_exp_adult_quant["75%"])
+   
+   spr_04_life_exp_med <- median(as.numeric(spr_04_rage$life_exp))
+   spr_04_life_exp_quant <- quantile(as.numeric(spr_04_rage$life_exp), probs = seq(0, 1, 0.25), 
+                                     na.rm = TRUE)
+   spr_04_life_exp_q25 <- as.numeric(spr_04_life_exp_quant["25%"])
+   spr_04_life_exp_q75 <- as.numeric(spr_04_life_exp_quant["75%"])
+   spr_04_life_exp_adult_med <- median(as.numeric(spr_04_rage$life_exp_adult))
+   spr_04_life_exp_adult_quant <- quantile(as.numeric(spr_04_rage$life_exp_adult), probs = seq(0, 1, 0.25), 
+                                           na.rm = TRUE)
+   spr_04_life_exp_adult_q25 <- as.numeric(spr_04_life_exp_adult_quant["25%"])
+   spr_04_life_exp_adult_q75 <- as.numeric(spr_04_life_exp_adult_quant["75%"])
+   
    # data.frame to return
    dfpop <- rbind(data.frame(model = "Stochastic uniform",  
                              lambda = spr_01_boot_mean,
@@ -172,7 +277,16 @@ pop03_doproj_stoch <- function(x) {
                              gen_time = spr_01_gen_boot_mean, 
                              gen_sd = spr_01_gen_sd, 
                              gen_q25 = spr_01_gen_q25, 
-                             gen_q75 = spr_01_gen_q75,
+                             gen_q75 = spr_01_gen_q75, 
+                             gen_age_diff_med = spr_01_gen_age_diff_med, 
+                             gen_age_q25 = spr_01_gen_age_q25, 
+                             gen_age_q75 = spr_01_gen_age_q75, 
+                             life_exp_med = spr_01_life_exp_med, 
+                             life_exp_q25 = spr_01_life_exp_q25, 
+                             life_exp_q75 = spr_01_life_exp_q75, 
+                             life_exp_adult_med = spr_01_life_exp_adult_med, 
+                             life_exp_adult_q25 = spr_01_life_exp_adult_q25, 
+                             life_exp_adult_q75 = spr_01_life_exp_adult_q75,
                              ayear = 0:ttime,
                        egghatch = popdemo::vec(spr_01)[,1], 
                        j_early = popdemo::vec(spr_01)[,2], 
@@ -190,7 +304,16 @@ pop03_doproj_stoch <- function(x) {
                            gen_time = spr_02_gen_boot_mean, 
                            gen_sd = spr_02_gen_sd, 
                            gen_q25 = spr_02_gen_q25, 
-                           gen_q75 = spr_02_gen_q75,
+                           gen_q75 = spr_02_gen_q75, 
+                           gen_age_diff_med = spr_02_gen_age_diff_med, 
+                           gen_age_q25 = spr_02_gen_age_q25, 
+                           gen_age_q75 = spr_02_gen_age_q75, 
+                           life_exp_med = spr_02_life_exp_med, 
+                           life_exp_q25 = spr_02_life_exp_q25, 
+                           life_exp_q75 = spr_02_life_exp_q75, 
+                           life_exp_adult_med = spr_02_life_exp_adult_med, 
+                           life_exp_adult_q25 = spr_02_life_exp_adult_q25, 
+                           life_exp_adult_q75 = spr_02_life_exp_adult_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_02)[,1], 
                            j_early = popdemo::vec(spr_02)[,2], 
@@ -208,7 +331,16 @@ pop03_doproj_stoch <- function(x) {
                            gen_time = spr_03_gen_boot_mean, 
                            gen_sd = spr_03_gen_sd, 
                            gen_q25 = spr_03_gen_q25, 
-                           gen_q75 = spr_03_gen_q75,
+                           gen_q75 = spr_03_gen_q75, 
+                           gen_age_diff_med = spr_03_gen_age_diff_med, 
+                           gen_age_q25 = spr_03_gen_age_q25, 
+                           gen_age_q75 = spr_03_gen_age_q75, 
+                           life_exp_med = spr_03_life_exp_med, 
+                           life_exp_q25 = spr_03_life_exp_q25, 
+                           life_exp_q75 = spr_03_life_exp_q75, 
+                           life_exp_adult_med = spr_03_life_exp_adult_med, 
+                           life_exp_adult_q25 = spr_03_life_exp_adult_q25, 
+                           life_exp_adult_q75 = spr_03_life_exp_adult_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_03)[,1], 
                            j_early = popdemo::vec(spr_03)[,2], 
@@ -226,7 +358,16 @@ pop03_doproj_stoch <- function(x) {
                            gen_time = spr_04_gen_boot_mean, 
                            gen_sd = spr_04_gen_sd, 
                            gen_q25 = spr_04_gen_q25, 
-                           gen_q75 = spr_04_gen_q75,
+                           gen_q75 = spr_04_gen_q75, 
+                           gen_age_diff_med = spr_04_gen_age_diff_med, 
+                           gen_age_q25 = spr_04_gen_age_q25, 
+                           gen_age_q75 = spr_04_gen_age_q75, 
+                           life_exp_med = spr_04_life_exp_med, 
+                           life_exp_q25 = spr_04_life_exp_q25, 
+                           life_exp_q75 = spr_04_life_exp_q75, 
+                           life_exp_adult_med = spr_04_life_exp_adult_med, 
+                           life_exp_adult_q25 = spr_04_life_exp_adult_q25, 
+                           life_exp_adult_q75 = spr_04_life_exp_adult_q75,
                            ayear = 0:ttime, 
                            egghatch = popdemo::vec(spr_04)[,1], 
                            j_early = popdemo::vec(spr_04)[,2], 
