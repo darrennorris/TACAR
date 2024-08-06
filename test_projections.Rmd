@@ -16,8 +16,23 @@ knitr::opts_chunk$set(echo = TRUE)
  - Determine Green Status
  - Evaluate uncertainty/sensitivity
 
+## Organization
+Split into three parts: 
 
-## Packages
+ - Projection parameters  
+ Loads data frame with population parameters and explores the 
+ structure of stage-based matrix models. 
+ 
+ - Projection models    
+ Run deterministic and stochastic projections, combine results and export 
+ for future use. 
+ 
+ - Model lookup    
+ Summarise projection models and export for future use in scenario modelling.
+
+## Projections
+
+### Packages & functions
 ```{r load-packages, warning=FALSE, message=FALSE}
 library(plyr)
 library(tidyverse)
@@ -34,7 +49,7 @@ source('R/pop03_doproj.R')
 source('R/pop03_doproj_stoch.R')
 ```
 
-## Projections
+
 ### Projection parameters. 
 
 Each row holds a unique set of parameters for a matrix population model.
@@ -44,6 +59,7 @@ This reflects diverse recovery (conservation action) and extinction (threat) sce
 dt <- pop01_param_poun()
 nf <- 10
 dt$adultF_n <- nf
+ceiling_threshold <- nf + (nf * 0.2)
 ```
 
 The first few rows should look like this....
@@ -275,7 +291,6 @@ dout_all <- dplyr::bind_rows(dout |> dplyr::select(arun, model, type, first_year
 summary(dout_all$fem)
 #    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 #       0        0        1     1389       11 16560701
-ceiling_threshold <- nf + (nf * 0.2)
 dout_all[which(dout_all$fem > ceiling_threshold), 'fem' ] <- ceiling_threshold
 # summary(dout_all$fem)
 #     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
@@ -341,7 +356,6 @@ Functional when population lower quartile is 10 times base level.
 dout_all <- readRDS("inst/other/dout_all.rds")
 # 101 years, 5 model types (deterministic with 6060, stochastic with 6060 * 50), 
 # 6 harvest levels, 10 first year levels
-
 # Make unique model ID. boot mean is same as mean (at least to 6 decimal places)
 # 300 projection models.
 model_ref <- dout_all |>
@@ -416,6 +430,7 @@ model_ref <- dout_all |>
 # Estimates of generation time for summary.
 # Bienvenu and Legendre (2015) https://doi.org/10.1086%2F681104 - 
 # defined as the mean age of mothers at birth.
+# IUCN definition - is the mean age at which a cohort of individuals produce offspring.
 gen_mean <- model_ref |> 
   filter(lambda_q75 >= 1, first_year < 0.5) |> pull(gen_age_mean) |> mean()
 gen_median <- model_ref |> 
@@ -526,21 +541,30 @@ model_lookup |>
 ```
 
 
-Plots
+## Plots
+
+### Compare lambda.
 ```{r plot-lambda, eval=FALSE}
 mean_values <- model_ref |> 
   group_by(typef) |> 
-  summarise(mean_l = mean(lambda_mean))
-
+  summarise(l_mean = mean(lambda_mean), 
+            l_lcl = Hmisc::smean.cl.boot(lambda_mean)["Lower"], 
+            l_ucl = Hmisc::smean.cl.boot(lambda_mean)["Upper"], 
+            )
 
 fig_model_lambda <- model_ref |> 
   ggplot(aes(x = first_year, y = lambda_mean, colour = modelf)) + 
-  geom_hline(data = mean_values, aes(yintercept = mean_l), 
-             colour = "blue", linewidth = 0.8,
+  geom_hline(data = mean_values, aes(yintercept = l_mean), 
+             colour = "black", linewidth = 0.6,
+             linetype = "dashed") + 
+    geom_hline(data = mean_values, aes(yintercept = l_lcl), 
+             colour = "grey", linewidth = 0.6,
+             linetype = "dashed") + 
+      geom_hline(data = mean_values, aes(yintercept = l_ucl), 
+             colour = "grey", linewidth = 0.6,
              linetype = "dashed") + 
   geom_hline(yintercept = 1, 
-             colour = "magenta", linewidth = 0.8,
-             linetype = "dashed") + 
+             colour = "magenta", linewidth = 0.4) + 
   geom_point() + 
   stat_smooth(se = FALSE) + 
   scale_x_continuous("first year survival and graduation", 
@@ -565,14 +589,15 @@ knitr::include_graphics(path = "inst/other/fig_unifilis_lambda.png")
 ```
 
 
-Projections over time.
+### Compare number of adult females
 ```{r plot-projections, eval=FALSE}
 fig_proj <- dout_all |> 
   ggplot(aes(x = ayear, y = fem, colour = modelf)) + 
   geom_point(size=0.1, alpha=0.2) + 
   stat_smooth(se = FALSE) + 
   scale_colour_viridis_d("model") + 
-  scale_y_continuous(limits = c(0, (nf * 10))) +
+  scale_y_continuous(limits = c(0, ceiling_threshold), 
+                     breaks =  seq(2, 12, by = 2)) +
   labs(y="Reproductive females",
        x="Time (years)",
        ) +
