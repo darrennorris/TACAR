@@ -53,7 +53,7 @@ above (value = 1) the threshold of 95%.
 
 Updated for Amazon to 92% 2023 - https://doi.org/10.1111/csp2.12853.
 
-```{r load-river}
+```{r load-river, eval=FALSE}
 # Free flowing rivers for unifilis.
 pounf <- "C:\\Users\\user\\Documents\\IUCN_redgreen\\IUCN_greenstatus\\analysis\\vector\\poun_presence.gpkg"
 basins_ffr_3395 <- read_sf(pounf, layer = "basins_ffr") |> st_transform(3395)
@@ -148,21 +148,27 @@ saveRDS(scenario_res, "inst/other/scenario_res_current.rds")
 # Now with free-flowing river points.  RIV ORD 1 to 5. 
 # Cropped to basins from Norris et. al. 2019.
 # Here 3 versions - modelkey pess, BAU, optimistic.
+### 1060311 rows 6/8/2024
 scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |> 
   #filter(subbasn == "Trombetas") |>
   mutate(Protected = if_else(All == 1, "yes", "no"), 
+         Protected_cat = case_when(Indigenous == 1 ~ "TI", 
+                                   Strict == 1 ~ "SP", 
+                                   myuse == 1 ~ "SU", 
+                                   .default = "no"
+                                   ), 
          Accessible = if_else(access_new == 0, "no", "yes"), 
-         Free.flowing = if_else(CSI >= 0.92, "yes", "no")
+         Free_flowing = if_else(CSI >= 0.92, "yes", "no")
          ) |> left_join( 
            actions |> 
-  filter(Podocnemis.modelling.scenario == "Protection", 
-         flag_ff == "CSI_FF") |> 
+  filter(Podocnemis.modelling.scenario == "Protection") |> 
   pivot_longer(cols = starts_with("modelkey"), names_to = "model_name", 
                values_to = "modelkey") |> 
   left_join(model_lookup, by = join_by(modelkey == modelkey) 
             ), 
-  by = c("Protected" = "Protected", "Accessible" = "Accessible", 
-         "Free.flowing" = "Free.flowing"), 
+  by = c("Protected" = "Protected", "Protected_cat" = "Protected_cat", 
+         "Accessible" = "Accessible", 
+         "Free_flowing" = "Free_flowing"), 
   relationship = "many-to-many"
            ) |> 
   filter(!is.na(lambda_mean)) |> # where points do not overlap new basins
