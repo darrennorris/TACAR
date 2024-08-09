@@ -176,7 +176,7 @@ scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |>
 # should be zero rows if join worked. 
 test_join <- scenario_ffr_res |> 
   filter(is.na(lambda_mean)) |> nrow()
-
+# This file is used in testmap. 1060311 rows 6/8/2024.
 saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr1a5.rds")
 ```
 
