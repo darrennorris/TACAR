@@ -34,3 +34,5 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 TACAR.Rproj
+.Rproj.user
+docs
