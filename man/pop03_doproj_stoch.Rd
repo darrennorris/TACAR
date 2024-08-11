@@ -2,7 +2,7 @@
 % Please edit documentation in R/pop03_doproj_stoch.R
 \name{pop03_doproj_stoch}
 \alias{pop03_doproj_stoch}
-\title{Create data.frame with projection results.}
+\title{Create data.frame with stochastic projection results.}
 \usage{
 pop03_doproj_stoch(x)
 }

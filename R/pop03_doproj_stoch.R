@@ -1,4 +1,4 @@
-#' @title Create data.frame with projection results.
+#' @title Create data.frame with stochastic projection results.
 #'
 #' @description Creates data.frame with projection results for use in subsequent
 #' population projection function ("PopProj.R").

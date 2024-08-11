@@ -2,7 +2,7 @@
 % Please edit documentation in R/pop03_doproj.R
 \name{pop03_doproj}
 \alias{pop03_doproj}
-\title{Create data.frame with projection results.}
+\title{Create data.frame with deterministic projection results.}
 \usage{
 pop03_doproj(x)
 }
