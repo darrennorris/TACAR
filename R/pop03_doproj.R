@@ -1,20 +1,23 @@
 #' @title Create data.frame with projection results.
-#' 
+#'
 #' @description Creates data.frame with projection results for use in subsequent
-#' population projection function ("PopProj.R"). 
+#' population projection function ("PopProj.R").
 #'
 #' @param x data.frame created by "PopPrep.R".
 #'
-#' @details This function applies a deterministic population projection moodel. 
-#' 
+#' @details This function applies a deterministic population projection moodel.
+#'
 #' @return Creates data.frame with projection results.
+#'
+#' @importFrom stats median quantile sd
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #' dfproj_vals <- pop03_doproj()
 #' }
-#' 
+#'
 
 pop03_doproj <- function(x) {
   # make population matrix
@@ -36,18 +39,18 @@ pop03_doproj <- function(x) {
   mat_f <- rbind(
     c(0.0, 0.0, 0.0, x[1, 'a4']),
     c(0.0, 0.0, 0.0, 0.0),
-    c(0.0, 0.0, 0.0, 0.0), 
+    c(0.0, 0.0, 0.0, 0.0),
     c(0.0, 0.0, 0.0, 0.0)
   )
-  
+
   # stable stage structure
   pop_ss <- popdemo::eigs(pop_mat, "ss")
   # stable stage population numbers corresponding to number of females
-  pop_n <-  x$adultF_n * (pop_ss * (1/pop_ss[4])) 
-  # project PPM 
+  pop_n <-  x$adultF_n * (pop_ss * (1/pop_ss[4]))
+  # project PPM
   ttime <- 100
   pr_pop <- popdemo::project(pop_mat, vector = pop_n, time = ttime)
-  
+
   # data for plotting
   len <- length(pr_pop)
   Time.intervals <- 0:(len - 1)
@@ -60,30 +63,30 @@ pop03_doproj <- function(x) {
   plambda <- popbio::lambda(pop_mat)
   flag_ergo <- popdemo::isErgodic(pop_mat)
   flag_irre <- popdemo::isIrreducible(pop_mat)
-  gen_time <- popbio::generation.time(pop_mat) 
+  gen_time <- popbio::generation.time(pop_mat)
   # The average parent-offspring age difference.
   gen_age_diff <- Rage::gen_time(matU = mat_u, matR = mat_f, method = "age_diff")
   # Life expectancy (time to death)
   life_exp_stage <- Rage::life_expect_mean(matU = mat_u, start = NULL)
   if(life_exp_stage[1] > 1){life_exp_stage[1] <- 1}
-  life_exp <- sum(life_exp_stage) 
+  life_exp <- sum(life_exp_stage)
   life_exp_adult <- life_exp_stage[4]
   # The probability of reaching reproductive maturity before death for an egg.
   mp <- Rage::mature_prob(matU = mat_u, matR = mat_f)
   ea <- 1/mp
 
-  # make dataframe 
+  # make dataframe
   dfout <- data.frame(model = "Deterministic",
-                      lambda = plambda, 
-                      gen_time = gen_time, 
-                      gen_age_diff = gen_age_diff, 
-                      life_exp = life_exp, 
+                      lambda = plambda,
+                      gen_time = gen_time,
+                      gen_age_diff = gen_age_diff,
+                      life_exp = life_exp,
                       life_exp_adult = life_exp_adult,
-                      mat_prob = mp, 
+                      mat_prob = mp,
                       eggs_to_adult = ea,
                       ergodic = flag_ergo,
                       irred = flag_irre,
-                      ayear = Time.intervals, 
+                      ayear = Time.intervals,
                       individuals = all_inds,
                       ss_egghatchling = round(as.numeric(popbio::stable.stage(pop_mat)[1]),3),
                       ss_earlyjuven = round(as.numeric(popbio::stable.stage(pop_mat)[2]),3),
