@@ -1,0 +1,469 @@
+---
+title: "Matrix population model projections"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Matrix-population-model-projections}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Organization
+Split into three parts: 
+
+ - Projection parameters  
+ Loads data frame with population parameters and explores the 
+ structure of stage-based matrix models. 
+ 
+ - Projection models    
+ Run deterministic and stochastic projections, combine results and export 
+ for future use. 
+ 
+ - Model lookup    
+ Summarise projection models and export for future use in scenario modelling.
+
+## Projections
+
+### Packages & functions
+```{r load-packages, warning=FALSE, message=FALSE}
+library(plyr)
+library(dplyr)
+library(popdemo)
+library(popbio)
+library(Rcompadre)
+library(Rage)
+library(TACAR)
+```
+
+### Projection parameters. 
+
+Each row holds a unique set of parameters for a matrix population model.
+This reflects diverse recovery (conservation action) and extinction (threat) scenarios.
+
+```{r projection-params}
+dt <- pop01_param_poun()
+nf <- 10
+dt$adultF_n <- nf
+ceiling_threshold <- nf + (nf * 0.2)
+```
+
+The first few rows should look like this....
+```{r show-parameters, echo=FALSE, warning=FALSE, message=FALSE}
+mydigits <- c(NA, NA, 1, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 0, 0 ,0, 2, 2, NA)
+dplyr::slice_head(dt, n = 3)  |> 
+  kableExtra::kbl(digits = mydigits) |>
+  kableExtra::kable_styling(full_width = F,  latex_options = "hold_position")
+```
+
+Each row can be easily converted for use in a stage-based matrix population model. 
+The following code shows how the third row becomes a stage-based matrix.
+```{r mpm-example}
+stage_names <- c("a1", "a2", "a3", "a4",
+                   "b1", "b2", "b3", "b4",
+                   "c1", "c2", "c3", "c4",
+                   "d1", "d2", "d3", "d4")
+vpop <- unlist(dt[3 , stage_names])
+pop_mat <- matrix(vpop, byrow = TRUE, ncol=4)
+dimnames(pop_mat) <- list(c("a", "b", "c", "d"),
+                            c( "a", "b", "c", "d"))
+
+```
+
+The matrix should look like this:
+```{r print-matrix, echo=FALSE}
+
+knitr::kable(format(pop_mat, scientific=F), digits = 4) |> 
+  kableExtra::column_spec(1, bold = TRUE) |>
+  kableExtra::kable_styling(full_width = F,  latex_options = "hold_position")
+```
+
+
+This matrix includes information of population growth and survival and reproduction.
+
+See https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html
+
+We can show the different matrix components converting to the structure recommended by ...
+```{r rcompadre-example, warning=FALSE, message=FALSE}
+meta <- data.frame(idNum = 3, 
+                   SpeciesAccepted = dt[3 , 'species'],
+                   type = dt[3 , 'type'], 
+                   first_year = dt[3 , 'first_year']) 
+stageInfo <- list(
+  data.frame(
+    MatrixClassOrganized = rep("active", 4),
+    MatrixClassAuthor = c("eggs/hatchling", "juvenile-early", "juvenile-late", "adult")
+  ))
+# Simple full A matrix
+l_pop_mat <- list(mpm = pop_mat)
+x <- Rcompadre::cdb_build_cdb(mat_a = l_pop_mat, metadata = meta, stages = stageInfo)
+
+# Seperate into U (growth/survival), F (sexual reproduction), C (clonal reproduction)
+mat_u1 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], dt[3, 'd4'])
+)
+mat_f1 <- rbind(
+  c(0.0, 0.0, 0.0, dt[3, 'a4']),
+  c(0.0, 0.0, 0.0, 0.0),
+  c(0.0, 0.0, 0.0, 0.0), 
+  c(0.0, 0.0, 0.0, 0.0)
+)
+mat_c1 <- rbind(
+  c(0.0, 0.0, 0.0, 0.0),
+  c(0.0, 0.0, 0.0, 0.0),
+  c(0.0, 0.0, 0.0, 0.0), 
+  c(0.0, 0.0, 0.0, 0.0)
+)
+l_u <- list(m_u = mat_u1)
+l_f <- list(m_f = mat_f1)
+l_c <- list(m_c = mat_c1)
+
+my_comadre <- Rcompadre::cdb_build_cdb(
+  mat_u = l_u, mat_f = l_f, mat_c = l_c,
+  metadata = meta, 
+  stages = stageInfo
+)
+
+```
+
+Now we have built the matrix we can obtain many useful summaries using
+Rage (https://jonesor.github.io/Rage/).
+
+We can get life history metrics including generation time and 
+life expectancy.
+```{r gen-time}
+# the time required for a population to 
+# increase by a factor of R0 (the net reproductive rate)
+Rage::gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]]) # 17.15
+# the average parent-offspring age difference # 16.22
+Rage::gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "age_diff")
+# expected age at reproduction for a cohort 5.69
+Rage::gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "cohort")
+
+Rage::life_expect_mean(matU = matU(my_comadre)[[1]], start = 1)
+sum(Rage::life_expect_mean(matU(my_comadre)[[1]], start = NULL))
+```
+
+We can also plot the life cycle diagram.
+```{r plot-lifecycle}
+Rage::plot_life_cycle(matA = matA(my_comadre)[[1]], 
+                stages = c("eggs/hatchling", "juvenile-early", "juvenile-late", "adult"))
+```
+
+
+### Projection models.
+
+#### Deterministic models
+
+```{r projection-determ, eval=FALSE}
+# project
+dout <- plyr::ddply(dt, 
+                    c("species", "type", "first_year","akey"), .fun =  pop03_doproj)
+dout$arun <- 1
+
+# Model summaries
+model_sum <- dout |> 
+  group_by(species, type, first_year, lambda, 
+           gen_time, gen_age_diff, life_exp, life_exp_adult, mat_prob, eggs_to_adult) |> 
+  summarise(fem_t0 = max(fem_t0), 
+            fem_min = min(fem),
+              fem_max = max(fem)) |> 
+  ungroup()
+lambda_n <- length(unique(model_sum$lambda)) # 50
+lambda_mean <- mean(model_sum$lambda) # 0.9432
+lambda_sd <- sd(model_sum$lambda) # 0.1506
+lambda_min <- min(model_sum$lambda) # 0.4659
+lambda_max <- max(model_sum$lambda) # 1.1539
+
+# Export for future use
+saveRDS(dout, "inst/other/dout.rds")
+
+```
+
+
+
+#### Stochastic models
+
+```{r projection-stoch, eval=FALSE}
+# Stochastic
+#data frame with runs for processing
+#nruns <- 100 # 100 gives same pattern as 50
+nruns <- 50
+dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
+dt_stoch$arun <- rep(1:nruns, each = nrow(dt))
+# Approx 90 minutes. 1,212,000 rows. Projections quick. Summaries slow.
+# 11:32 - 13:14
+dout_stoch <- plyr::ddply(dt_stoch, 
+                    c("arun", "species", "type", "first_year","akey"), 
+                    .fun =  pop03_doproj_stoch)
+table(dout_stoch$model)
+table(dout_stoch$type)
+model_sum_stoch <- dout_stoch |> 
+  group_by(species, type, model, first_year, lambda, lambda_q75,
+           gen_time, gen_age_diff_med, gen_age_q75, 
+           life_exp_med, life_exp_adult_med, mat_prob_med, mat_prob_q75, 
+           eggs_to_adult_med, eggs_to_adult_q75) |> 
+  summarise(acount = n(), 
+            fem_t0 = max(fem_t0), 
+            fem_min = min(fem),
+              fem_max = max(fem)) |> 
+  ungroup()
+# Export for future use
+saveRDS(dout_stoch, "inst/other/dout_stoch.rds")
+```
+
+#### Combine results.
+```{r projection-join, eval=FALSE}
+dout <- readRDS("inst/other/dout.rds")
+dout_stoch <- readRDS("inst/other/dout_stoch.rds")
+# Combine data for plotting
+dout_all <- dplyr::bind_rows(dout |> dplyr::select(arun, model, type, first_year, 
+                                                   akey, ayear, 
+                                                   lambda, gen_time, gen_age_diff, 
+                                                   life_exp, life_exp_adult, 
+                                                   mat_prob, eggs_to_adult,
+                                            fem, fem_t0, fem_diff, change50_flag, 
+                                            change30_flag,
+                                            double_flag) |> 
+                               dplyr::mutate(lambda_lcl = NA, lambda_ucl = NA, 
+                                             lambda_sd = NA,  gen_sd = NA), 
+                             dout_stoch |> dplyr::select(arun, model, type, first_year, 
+                                                         akey, ayear, 
+                                                         lambda, lambda_lcl, lambda_ucl, 
+                                                         lambda_sd, gen_time, gen_sd, 
+                                                         gen_age_diff, 
+                                                   life_exp, life_exp_adult, 
+                                                   mat_prob, eggs_to_adult,
+                                            fem, fem_t0, fem_diff, change50_flag, 
+                                            change30_flag,
+                                            double_flag))
+# Limit adult female number to maximum (20% above original for baseline).
+summary(dout_all$fem)
+#    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+#       0        0        1     1389       11 16560701
+dout_all[which(dout_all$fem > ceiling_threshold), 'fem' ] <- ceiling_threshold
+# summary(dout_all$fem)
+#     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+# 0.000000  0.005763  1.485889  4.522590 11.240127 12.000000 
+ 
+# Factors in right order
+dout_all$modelf <- 1
+dout_all[which(dout_all$model=="Stochastic uniform") , 'modelf'] <- 2
+dout_all[which(dout_all$model=="Stochastic equal") , 'modelf'] <- 3
+dout_all[which(dout_all$model=="Stochastic bad x2") , 'modelf'] <- 4
+dout_all[which(dout_all$model=="Stochastic bad x4") , 'modelf'] <- 5
+dout_all$modelf <- as.factor(dout_all$modelf)
+levels(dout_all$modelf) <- c("Deterministic", "Stochastic uniform", 
+                          "Stochastic equal", "Stochastic bad x2", 
+                          "Stochastic bad x4")
+unique(dout_all$modelf)
+table(dout_all$modelf)
+dout_all$typef <- 1
+dout_all[which(dout_all$type=="female-hunt 2.5%") , 'typef'] <- 2
+dout_all[which(dout_all$type=="female-hunt 5%") , 'typef'] <- 3
+dout_all[which(dout_all$type=="female-hunt 10%") , 'typef'] <- 4
+dout_all[which(dout_all$type=="female-hunt 25%") , 'typef'] <- 5
+dout_all[which(dout_all$type=="female-hunt 50%") , 'typef'] <- 6
+dout_all$typef <- as.factor(dout_all$typef)
+levels(dout_all$typef) <- c("base", "female-hunt 2.5%", 
+                            "female-hunt 5%",
+                          "female-hunt 10%", "female-hunt 25%", 
+                          "female-hunt 50%")
+table(dout_all$typef)
+# first year survival
+dout_all$first_yearf <- as.factor(dout_all$first_year)
+fylev <- paste("first-year\nsurvival\n", seq(0, 0.9, by = 0.1), sep = "")
+levels(dout_all$first_yearf) <- fylev
+# Export for future use. 17/6/2024 - 1,218,060 rows 21 columns.
+saveRDS(dout_all, "inst/other/dout_all.rds")
+
+```
+
+### Model lookup
+
+Model summaries to link with scenarios. Summaries across stochastic runs 
+for each model.
+
+- Red List guidelines p38    
+For example, upper and lower quartiles of the projected magnitude of 
+the future reduction (i.e., reductions with 25% and 75% probability) 
+may be considered to represent a plausible range of projected reduction
+
+- Green Status Presence    
+Present when population is at least 1 as measured by lower quartile population.
+
+- Green Status Viability    
+Viable when not declining: lower quartile of lambda >= 1. 
+A species is considered viable in a spatial unit if application of 
+the Regional Red List Guidelines to the population in the spatial unit 
+would result in a categorization of ‘Least Concern’ OR 
+‘Near Threatened and Not Declining’.
+
+- Green Status Functional    
+Functional when population lower quartile is 10 times base level.
+```{r model-summaries, warning=FALSE, message=FALSE, eval=FALSE}
+# load data. 2 August 2024 with 1218060 rows and 21 columns
+dout_all <- readRDS("inst/other/dout_all.rds")
+# 101 years, 5 model types (deterministic with 6060, stochastic with 6060 * 50), 
+# 6 harvest levels, 10 first year levels
+# Make unique model ID. boot mean is same as mean (at least to 6 decimal places)
+# 300 projection models.
+model_ref <- dout_all |>
+  group_by(akey, modelf, typef, first_year, arun, lambda, gen_time, 
+           gen_age_diff, life_exp, life_exp_adult, eggs_to_adult) |> 
+  summarise(yc = length(unique(ayear))) |> 
+  ungroup() |> 
+  group_by(akey, modelf, typef, first_year) |>
+  summarise(count_runs = length(unique(arun)), 
+            count_years = min(yc),
+            lambda_mean = mean(lambda), 
+            lambda_min = min(lambda), 
+            lambda_max = max(lambda), 
+            lambda_sd = sd(lambda),
+            lambda_boot_lcl = Hmisc::smean.cl.boot(lambda)["Lower"],
+            lambda_boot_ucl = Hmisc::smean.cl.boot(lambda)["Upper"], 
+            lambda_q25 = quantile(lambda, probs = 0.25, na.rm = TRUE),
+            lambda_q75 = quantile(lambda, probs = 0.75, na.rm = TRUE), 
+            gen_mean = mean(gen_time), 
+            gen_med = median(gen_time),
+            gen_min = min(gen_time), 
+            gen_max = max(gen_time), 
+            gen_sd = sd(gen_time),
+            gen_boot_lcl = Hmisc::smean.cl.boot(gen_time)["Lower"],
+            gen_boot_ucl = Hmisc::smean.cl.boot(gen_time)["Upper"], 
+            gen_q25 = quantile(gen_time, probs = 0.25, na.rm = TRUE),
+            gen_q75 = quantile(gen_time, probs = 0.75, na.rm = TRUE), 
+            gen_age_mean = mean(gen_age_diff), 
+            gen_age_med = median(gen_age_diff),
+            gen_age_min = min(gen_age_diff), 
+            gen_age_max = max(gen_age_diff), 
+            gen_age_sd = sd(gen_age_diff),
+            gen_age_boot_lcl = Hmisc::smean.cl.boot(gen_age_diff)["Lower"],
+            gen_age_boot_ucl = Hmisc::smean.cl.boot(gen_age_diff)["Upper"], 
+            gen_age_q25 = quantile(gen_age_diff, probs = 0.25, na.rm = TRUE),
+            gen_age_q75 = quantile(gen_age_diff, probs = 0.75, na.rm = TRUE), 
+            life_exp_mean = mean(life_exp), 
+            life_exp_med = median(life_exp),
+            life_exp_min = min(life_exp), 
+            life_exp_max = max(life_exp), 
+            life_exp_sd = sd(life_exp),
+            life_exp_boot_lcl = Hmisc::smean.cl.boot(life_exp)["Lower"],
+            life_exp_boot_ucl = Hmisc::smean.cl.boot(life_exp)["Upper"], 
+            life_exp_q25 = quantile(life_exp, probs = 0.25, na.rm = TRUE),
+            life_exp_q75 = quantile(life_exp, probs = 0.75, na.rm = TRUE), 
+            life_exp_adult_mean = mean(life_exp_adult), 
+            life_exp_adult_med = median(life_exp_adult),
+            life_exp_adult_min = min(life_exp_adult), 
+            life_exp_adult_max = max(life_exp_adult), 
+            life_exp_adult_sd = sd(life_exp_adult),
+            life_exp_adult_boot_lcl = Hmisc::smean.cl.boot(life_exp_adult)["Lower"],
+            life_exp_adult_boot_ucl = Hmisc::smean.cl.boot(life_exp_adult)["Upper"], 
+            life_exp_adult_q25 = quantile(life_exp_adult, probs = 0.25, na.rm = TRUE),
+            life_exp_adult_q75 = quantile(life_exp_adult, probs = 0.75, na.rm = TRUE),
+            eggs_to_adult_mean = mean(eggs_to_adult), 
+            eggs_to_adult_med = median(eggs_to_adult),
+            eggs_to_adult_min = min(eggs_to_adult), 
+            eggs_to_adult_max = max(eggs_to_adult), 
+            eggs_to_adult_sd = sd(eggs_to_adult),
+            eggs_to_adult_boot_lcl = Hmisc::smean.cl.boot(eggs_to_adult)["Lower"],
+            eggs_to_adult_boot_ucl = Hmisc::smean.cl.boot(eggs_to_adult)["Upper"], 
+            eggs_to_adult_q25 = quantile(eggs_to_adult, probs = 0.25, na.rm = TRUE),
+            eggs_to_adult_q75 = quantile(eggs_to_adult, probs = 0.75, na.rm = TRUE)
+            
+            ) |> 
+  ungroup() |> 
+  arrange(typef, first_year, modelf) |>
+  mutate(modelid = paste(akey, as.numeric(modelf), sep = "_"), 
+         modelkey = row_number()) |> 
+  relocate(modelkey, modelid)
+
+# Estimates of generation time for summary.
+# Bienvenu and Legendre (2015) https://doi.org/10.1086%2F681104 - 
+# defined as the mean age of mothers at birth.
+# IUCN definition - is the mean age at which a cohort of individuals produce offspring.
+gen_mean <- model_ref |> 
+  filter(lambda_q75 >= 1, first_year < 0.5) |> pull(gen_age_mean) |> mean()
+gen_median <- model_ref |> 
+  filter(lambda_q75 >= 1, first_year < 0.5) |> pull(gen_age_mean) |> median()
+gen_q25 <- model_ref |> 
+  filter(lambda_q75 >= 1, first_year < 0.5) |> pull(gen_age_mean) |> 
+  quantile(probs = 0.25)
+gen_q75 <- model_ref |> 
+  filter(lambda_q75 >= 1, first_year < 0.5) |> pull(gen_age_mean) |> 
+  quantile(probs = 0.75)
+gen_3 <- gen_mean * 3
+gen_3_q25 <- gen_q25 * 3
+gen_3_q75 <- gen_q75 * 3
+
+# Add population changes.
+model_ref2 <- model_ref |> left_join(dout_all |>
+  filter(ayear %in% c(ceiling(gen_3), ceiling(gen_3_q25), ceiling(gen_3_q75), 100)) |> 
+  group_by(akey, modelf, typef, first_year, ayear, arun) |> 
+  summarise(fem_t0 = mean(fem_t0), 
+            femnew = mean(fem),
+            femnew_diff = mean(fem_diff)
+  ) |> 
+    ungroup() |> 
+  group_by(akey, modelf, typef, first_year, ayear) |> 
+  summarise(fem_t0 = mean(fem_t0), 
+            fem = mean(femnew),
+            fem_sd = sd(femnew, na.rm = TRUE), 
+            fem_q25 = quantile(femnew, probs = 0.25, na.rm = TRUE),
+            fem_q75 = quantile(femnew, probs = 0.75, na.rm = TRUE),
+            fem_diff = mean(femnew_diff), 
+            fem_diff_sd = sd(femnew_diff, na.rm = TRUE), 
+            fem_diff_q25 = quantile(femnew_diff, probs = 0.25, na.rm = TRUE),
+            fem_diff_q75 = quantile(femnew_diff, probs = 0.75, na.rm = TRUE)) |> 
+  ungroup() |> 
+    mutate(ayear = paste("t", ayear, sep="")) |>
+  pivot_wider(names_from = ayear, 
+               values_from = c(fem, fem_sd, fem_q25, fem_q75, fem_diff, 
+                               fem_diff_sd, fem_diff_q25, fem_diff_q75)) |> 
+  arrange(typef, first_year, modelf)
+)
+
+# Add time to change by 50% and 30% 
+model_ref3 <- model_ref2 |> 
+  left_join(dout_all |> 
+  filter(change50_flag == 1) |>
+ group_by(akey, modelf, typef, first_year, arun, 
+          change50_flag) |>
+  summarise(acount = n(), 
+            change50_yf = min(ayear), 
+            change50_yl = max(ayear)) |> 
+  ungroup() |> 
+  group_by(akey, modelf, typef, first_year) |> 
+  summarise(change50_ymean = floor(mean(change50_yf)), 
+            change50_ysd = sd(change50_yf), 
+            change50_yq25 = floor(quantile(change50_yf, probs = 0.25, na.rm = TRUE)),
+            change50_yq75 = floor(quantile(change50_yf, probs = 0.75, na.rm = TRUE))) |> 
+   ungroup()
+) |> left_join(dout_all |> 
+  filter(change30_flag == 1) |>
+ group_by(akey, modelf, typef, first_year, arun, 
+          change30_flag) |>
+  summarise(acount = n(), 
+            change30_yf = min(ayear), 
+            change30_yl = max(ayear)) |> 
+  ungroup() |> 
+  group_by(akey, modelf, typef, first_year) |> 
+  summarise(change30_ymean = floor(mean(change30_yf)), 
+            change30_ysd = sd(change30_yf), 
+            change30_yq25 = floor(quantile(change30_yf, probs = 0.25, na.rm = TRUE)),
+            change30_yq75 = floor(quantile(change30_yf, probs = 0.75, na.rm = TRUE))) |> 
+   ungroup()
+)
+
+# Export for future use
+saveRDS(model_ref3, "inst/other/model_lookup.rds") 
+write.csv2(model_ref3, "inst/other/model_lookup.csv", row.names = FALSE) 
+
+```

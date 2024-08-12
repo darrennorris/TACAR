@@ -34,3 +34,16 @@ problem:
 library(TACAR)
 ## basic example code 
 ```
+
+Package developed and built using the following guides:
+
+- Fan Wang:
+  <https://fanwangecon.github.io/PkgTestR/articles/ffv_pkgdown_github.html>
+  and
+
+- Emil Hvitfeldt:
+  <https://emilhvitfeldt.com/post/2018-09-02-usethis-workflow-for-package-development/>
+  and
+
+- Saskia O:
+  <https://www.marinedatascience.co/blog/2020/01/09/checklist-for-r-package-re-submissions-on-cran/>

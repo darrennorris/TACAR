@@ -36,3 +36,4 @@ rsconnect/
 TACAR.Rproj
 .Rproj.user
 docs
+inst/doc

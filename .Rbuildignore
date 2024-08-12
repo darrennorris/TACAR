@@ -6,3 +6,10 @@
 ^pkgdown$
 ^LICENSE\.md$
 ^README\.Rmd$
+[.]tif$
+[.]gri$
+[.]shp$
+[.]dbf$
+[.]prj$
+[.]shx$
+^inst/vector/poun_river_points\.gpkg$
