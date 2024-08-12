@@ -68,11 +68,21 @@
 <div class="section level2">
 <h2 id="organization">Organization<a class="anchor" aria-label="anchor" href="#organization"></a>
 </h2>
-<p>Split into three parts:</p>
+<p>Split into two parts:</p>
 <ul>
-<li><p>Projection parameters<br>
+<li><p>Projections<br>
+This …..</p></li>
+<li><p>Scenario integration<br>
+This ………..</p></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="projections">Projections<a class="anchor" aria-label="anchor" href="#projections"></a>
+</h2>
+<p>Section objectives - Projection parameters<br>
 Loads data frame with population parameters and explores the structure
-of stage-based matrix models.</p></li>
+of stage-based matrix models.</p>
+<ul>
 <li><p>Projection models<br>
 Run deterministic and stochastic projections, combine results and export
 for future use.</p></li>
@@ -80,12 +90,8 @@ for future use.</p></li>
 Summarise projection models and export for future use in scenario
 modelling.</p></li>
 </ul>
-</div>
-<div class="section level2">
-<h2 id="projections">Projections<a class="anchor" aria-label="anchor" href="#projections"></a>
-</h2>
 <div class="section level3">
-<h3 id="packages-functions">Packages &amp; functions<a class="anchor" aria-label="anchor" href="#packages-functions"></a>
+<h3 id="packages">Packages<a class="anchor" aria-label="anchor" href="#packages"></a>
 </h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://had.co.nz/plyr" class="external-link">plyr</a></span><span class="op">)</span></span>
@@ -94,7 +100,8 @@ modelling.</p></li>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popbio</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rcompadre" class="external-link">Rcompadre</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rage" class="external-link">Rage</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://darrennorris.github.io/TACAR/">TACAR</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://darrennorris.github.io/TACAR/">TACAR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="projection-parameters-">Projection parameters.<a class="anchor" aria-label="anchor" href="#projection-parameters-"></a>
@@ -854,6 +861,84 @@ level.</p></li>
 <span><span class="co"># Export for future use</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">model_ref3</span>, <span class="st">"inst/other/model_lookup.rds"</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv2</a></span><span class="op">(</span><span class="va">model_ref3</span>, <span class="st">"inst/other/model_lookup.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="scenario-integration">Scenario integration<a class="anchor" aria-label="anchor" href="#scenario-integration"></a>
+</h2>
+<div class="section level3">
+<h3 id="section-objective">Section objective<a class="anchor" aria-label="anchor" href="#section-objective"></a>
+</h3>
+<p>Integrate point locations and population projections.</p>
+<p>Specifically:</p>
+<ul>
+<li>Join point scenarios with population projections.</li>
+<li>Generate data used for summaries.</li>
+<li>Make summaries.</li>
+<li>Create results for presentation.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="join-with-scenarios">Join with scenarios<a class="anchor" aria-label="anchor" href="#join-with-scenarios"></a>
+</h3>
+<p>Load projection model lookup table.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># point data</span></span>
+<span><span class="co"># load points made previously in prep_river_points.Rmd. RIVORD 1 to 5. </span></span>
+<span><span class="co"># Cropped to basins from Norris et. al. 2019.</span></span>
+<span><span class="va">ffr_1a5_poun_points_3395</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span>dsn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"vector/poun_river_points_v2.gpkg"</span>, package<span class="op">=</span><span class="st">"TACAR"</span><span class="op">)</span>,</span>
+<span>                                    layer <span class="op">=</span> <span class="st">"ffr_1a5_poun_points_3395"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Reading layer `ffr_1a5_poun_points_3395' from data source </span></span>
+<span><span class="co">#&gt;   `/home/runner/work/_temp/Library/TACAR/vector/poun_river_points_v2.gpkg' </span></span>
+<span><span class="co">#&gt;   using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 353437 features and 46 fields</span></span>
+<span><span class="co">#&gt; Geometry type: POINT</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -8839379 ymin: -2162255 xmax: -4738776 ymax: 1094857</span></span>
+<span><span class="co">#&gt; Projected CRS: WGS 84 / World Mercator</span></span>
+<span><span class="co"># projections and scenarios</span></span>
+<span><span class="co"># model_lookup has results from 300 population projection models created previously</span></span>
+<span><span class="va">model_lookup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"other/model_lookup.rds"</span>, package <span class="op">=</span> <span class="st">"TACAR"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># actions has scenarios with link to points and associated projection models</span></span>
+<span><span class="va">actions</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_excel</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"other/Podocnemis_conservation_actions.xlsx"</span>, package <span class="op">=</span> <span class="st">"TACAR"</span><span class="op">)</span>, </span>
+<span>                      sheet <span class="op">=</span> <span class="st">"scenario_parameters"</span>, .name_repair <span class="op">=</span> <span class="st">"universal"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; New names:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Podocnemis modelling scenario` -&gt; `Podocnemis.modelling.scenario`</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `Population perturbation parameter changes (BAU).` -&gt;</span></span>
+<span><span class="co">#&gt;   `Population.perturbation.parameter.changes..BAU..`</span></span></code></pre></div>
+<p>Now join.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Here 3 versions - modelkey pess, BAU, optimistic.</span></span>
+<span><span class="co">### 1060311 rows 6/8/2024</span></span>
+<span><span class="va">scenario_ffr_res</span> <span class="op">&lt;-</span> <span class="va">ffr_1a5_poun_points_3395</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="co">#filter(subbasn == "Trombetas") |&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Protected <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">All</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span><span class="op">)</span>, </span>
+<span>         Protected_cat <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">Indigenous</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"TI"</span>, </span>
+<span>                                   <span class="va">Strict</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"SP"</span>, </span>
+<span>                                   <span class="va">myuse</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"SU"</span>, </span>
+<span>                                   .default <span class="op">=</span> <span class="st">"no"</span></span>
+<span>                                   <span class="op">)</span>, </span>
+<span>         Accessible <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">access_new</span> <span class="op">==</span> <span class="fl">0</span>, <span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span>, </span>
+<span>         Free_flowing <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">CSI</span> <span class="op">&gt;=</span> <span class="fl">0.92</span>, <span class="st">"yes"</span>, <span class="st">"no"</span><span class="op">)</span></span>
+<span>         <span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span> </span>
+<span>           <span class="va">actions</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Podocnemis.modelling.scenario</span> <span class="op">==</span> <span class="st">"Protection"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"modelkey"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"model_name"</span>, </span>
+<span>               values_to <span class="op">=</span> <span class="st">"modelkey"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">model_lookup</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">modelkey</span> <span class="op">==</span> <span class="va">modelkey</span><span class="op">)</span> </span>
+<span>            <span class="op">)</span>, </span>
+<span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Protected"</span> <span class="op">=</span> <span class="st">"Protected"</span>, <span class="st">"Protected_cat"</span> <span class="op">=</span> <span class="st">"Protected_cat"</span>, </span>
+<span>         <span class="st">"Accessible"</span> <span class="op">=</span> <span class="st">"Accessible"</span>, </span>
+<span>         <span class="st">"Free_flowing"</span> <span class="op">=</span> <span class="st">"Free_flowing"</span><span class="op">)</span>, </span>
+<span>  relationship <span class="op">=</span> <span class="st">"many-to-many"</span></span>
+<span>           <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lambda_mean</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># where points do not overlap new basins</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>flag_b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">BASIN_NAME</span>, <span class="va">subbasin</span>, sep<span class="op">=</span><span class="st">"_"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># should be zero rows if join worked. </span></span>
+<span><span class="va">test_join</span> <span class="op">&lt;-</span> <span class="va">scenario_ffr_res</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lambda_mean</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># This file is used in testmap. 1060311 rows 6/8/2024.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span>, <span class="st">"inst/other/scenario_res_ffr1a5.rds"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
