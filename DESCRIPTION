@@ -21,6 +21,8 @@ Suggests:
     knitr, 
     kableExtra,
     dplyr, 
-    Rcompadre,
-    rmarkdown
+    Rcompadre, 
+    readxl,
+    rmarkdown, 
+    sf
 VignetteBuilder: knitr

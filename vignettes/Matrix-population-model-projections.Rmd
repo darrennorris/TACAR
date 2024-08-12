@@ -15,8 +15,18 @@ knitr::opts_chunk$set(
 ```
 
 ## Organization
-Split into three parts: 
+Split into two parts: 
 
+ - Projections    
+ This .....
+ 
+ - Scenario integration    
+ This ...........
+
+
+## Projections
+
+Section objectives
  - Projection parameters  
  Loads data frame with population parameters and explores the 
  structure of stage-based matrix models. 
@@ -27,10 +37,8 @@ Split into three parts:
  
  - Model lookup    
  Summarise projection models and export for future use in scenario modelling.
-
-## Projections
-
-### Packages & functions
+ 
+### Packages
 ```{r load-packages, warning=FALSE, message=FALSE}
 library(plyr)
 library(dplyr)
@@ -39,6 +47,7 @@ library(popbio)
 library(Rcompadre)
 library(Rage)
 library(TACAR)
+library(readxl)
 ```
 
 ### Projection parameters. 
@@ -466,4 +475,70 @@ model_ref3 <- model_ref2 |>
 saveRDS(model_ref3, "inst/other/model_lookup.rds") 
 write.csv2(model_ref3, "inst/other/model_lookup.csv", row.names = FALSE) 
 
+```
+
+## Scenario integration
+
+### Section objective
+Integrate point locations and population projections.
+
+Specifically: 
+
+- Join point scenarios with population projections.
+- Generate data used for summaries. 
+- Make summaries.
+- Create results for presentation.
+
+### Join with scenarios
+
+Load projection model lookup table.
+```{r load-lookup-data}
+# point data
+# load points made previously in prep_river_points.Rmd. RIVORD 1 to 5. 
+# Cropped to basins from Norris et. al. 2019.
+ffr_1a5_poun_points_3395 <- sf::st_read(dsn = system.file("vector/poun_river_points_v2.gpkg", package="TACAR"),
+                                    layer = "ffr_1a5_poun_points_3395")
+# projections and scenarios
+# model_lookup has results from 300 population projection models created previously
+model_lookup <- readRDS(system.file("other/model_lookup.rds", package = "TACAR"))
+# actions has scenarios with link to points and associated projection models
+actions <- readxl::read_excel(system.file("other/Podocnemis_conservation_actions.xlsx", package = "TACAR"), 
+                      sheet = "scenario_parameters", .name_repair = "universal")
+
+```
+
+
+Now join.
+```{r join-scenarios, eval=FALSE}
+# Here 3 versions - modelkey pess, BAU, optimistic.
+### 1060311 rows 6/8/2024
+scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |> 
+  #filter(subbasn == "Trombetas") |>
+  mutate(Protected = if_else(All == 1, "yes", "no"), 
+         Protected_cat = case_when(Indigenous == 1 ~ "TI", 
+                                   Strict == 1 ~ "SP", 
+                                   myuse == 1 ~ "SU", 
+                                   .default = "no"
+                                   ), 
+         Accessible = if_else(access_new == 0, "no", "yes"), 
+         Free_flowing = if_else(CSI >= 0.92, "yes", "no")
+         ) |> left_join( 
+           actions |> 
+  filter(Podocnemis.modelling.scenario == "Protection") |> 
+  pivot_longer(cols = starts_with("modelkey"), names_to = "model_name", 
+               values_to = "modelkey") |> 
+  left_join(model_lookup, by = join_by(modelkey == modelkey) 
+            ), 
+  by = c("Protected" = "Protected", "Protected_cat" = "Protected_cat", 
+         "Accessible" = "Accessible", 
+         "Free_flowing" = "Free_flowing"), 
+  relationship = "many-to-many"
+           ) |> 
+  filter(!is.na(lambda_mean)) |> # where points do not overlap new basins
+  mutate(flag_b = paste(BASIN_NAME, subbasin, sep="_"))
+# should be zero rows if join worked. 
+test_join <- scenario_ffr_res |> 
+  filter(is.na(lambda_mean)) |> nrow()
+# This file is used in testmap. 1060311 rows 6/8/2024.
+saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr1a5.rds")
 ```
