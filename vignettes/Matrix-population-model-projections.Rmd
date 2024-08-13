@@ -645,9 +645,10 @@ invisible(dev.off())
 ```
 
 Check plot.
-```{r check-plot}
+```{r check-plot, echo=FALSE}
 fig_basin_country <- system.file("other/fig_basin_country_summary.png", 
                                  package = "TACAR")
-fig_basin_country
+knitr::include_graphics(path = fig_basin_country)
+
 ```
 
