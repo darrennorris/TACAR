@@ -48,6 +48,7 @@ library(Rcompadre)
 library(Rage)
 library(TACAR)
 library(readxl)
+library(ggplot2)
 ```
 
 ### Projection parameters. 
@@ -501,7 +502,7 @@ ffr_1a5_poun_points_3395 <- sf::st_read(dsn = system.file("vector/poun_river_poi
 # projections and scenarios
 # model_lookup has results from 300 population projection models created previously
 model_lookup <- readRDS(system.file("other/model_lookup.rds", package = "TACAR"))
-# actions has scenarios with link to points and associated projection models
+# actions has scenarios with link to river points and associated projection models
 actions <- readxl::read_excel(system.file("other/Podocnemis_conservation_actions.xlsx", package = "TACAR"), 
                       sheet = "scenario_parameters", .name_repair = "universal")
 
@@ -542,3 +543,111 @@ test_join <- scenario_ffr_res |>
 # This file is used in testmap. 1060311 rows 6/8/2024.
 saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr1a5.rds")
 ```
+
+## Results
+
+Load data.
+```{r load-results}
+fin <- system.file("other/scenario_res_ffr1a5.rds", package = "TACAR")
+scenario_ffr_res <- readRDS(fin)
+# scale value range
+diff_min <- min(scenario_ffr_res$fem_diff_t45, na.rm = TRUE)
+diff_max <- max(scenario_ffr_res$fem_diff_t45, na.rm = TRUE)
+# Test with smaller subset.
+df <- scenario_ffr_res |> 
+  dplyr::filter(COUNTRY == "French Guiana")
+```
+
+
+```{r make-frequency}
+# Unique groups
+df |>
+dplyr::group_by(COUNTRY, BASIN_NAME, subbasin, 
+                reach_id_point,
+         model_name, modelkey, modelid, typef) |> 
+  dplyr::summarise(acount = dplyr::n()) |> 
+  dplyr::arrange(dplyr::desc(acount))
+# Make factors
+df$model_namef <- factor(df$model_name)
+levels(df$model_namef)
+df$model_namef <- relevel(df$model_namef, ref = "modelkey_pessimistic")
+df$modelidf <- factor(df$modelid)
+# Frequency distribution of points among scenarios
+df |> 
+  dplyr::mutate(modelidf = forcats::fct_reorder(modelidf, lambda_mean)) |>
+  dplyr::group_by(modelkey, modelidf, model_namef) |> 
+  dplyr::tally() |>
+  tidyr::pivot_wider(names_from = model_namef, 
+                     values_from = n, values_fill = 0)
+```
+
+Make summary of population changes.
+```{r make-pop-change}
+df_country_basin <- df |> 
+  #dplyr::filter(BASIN_NAME == "Coastal North") |> # track why have 1 Coastal South
+  dplyr::mutate(modelidf = forcats::fct_reorder(modelidf, lambda_mean), 
+                basin_country = paste(BASIN_NAME, COUNTRY, sep ="\n")) |> 
+  dplyr::group_by(basin_country, COUNTRY, BASIN_NAME, 
+                  model_namef) |> 
+  dplyr::summarise(acount = dplyr::n(), 
+                   tot_t0 = sum(fem_t0),
+                   diff_t35 = (sum(fem_t35) - sum(fem_t0)) / sum(fem_t0),
+                   diff_t41 = (sum(fem_t41) - sum(fem_t0)) / sum(fem_t0), 
+                   diff_t45 = (sum(fem_t45) - sum(fem_t0)) / sum(fem_t0) 
+  ) |> dplyr::ungroup() |> 
+  dplyr::filter(acount > 21) |>
+  tidyr::pivot_longer(cols = starts_with("diff_"), names_to = "gen_t3", 
+                      values_to = "fem_diff")
+# make sure to avoid these
+# |> 
+#  filter(length_river > 21) |> 
+ # droplevels() |>
+```
+
+Now plot.
+```{r plot-country-basins, eval=FALSE}
+# Define function to calculate IQR at given quantiles
+iqr = function(z, lower = 0.25, upper = 0.75) {
+  data.frame(
+    y = median(z),
+    ymin = quantile(z, lower),
+    ymax = quantile(z, upper)
+  )
+}
+
+stat_sum_df <- function(fun, geom="crossbar", ...) {
+  stat_summary(fun.data = fun, colour = "black", geom = geom, width = 0.2, ...)
+}
+
+# Plot points summarised with standard IQR
+fig_basin_country <- ggplot2::ggplot(data = df_country_basin, 
+                mapping = aes(x = basin_country, y = fem_diff)) + 
+  #stat_summary(fun.data = iqr) 
+  stat_sum_df("iqr") + 
+  geom_jitter(aes(shape = gen_t3, colour = model_namef), 
+              width = 0.02, height = 0) + 
+  scale_y_continuous(limits = c(diff_min, diff_max)) + 
+  scale_shape(name="3\ngenerations",
+                         breaks=c("diff_t35", "diff_t41", "diff_t45"),
+                         labels=c("35 Y", "41 Y", "45 Y")) + 
+  scale_colour_viridis_d(name="model\nscenarios",
+                         breaks=c("modelkey_pessimistic", "modelkey_BAU", "modelkey_optimistic"),
+                         labels=c("pessimistic", "BAU", "optimistic")) + 
+  labs(y = "Population change", x = "") + 
+  theme(legend.position = "bottom")
+
+# Export for future use
+png(file = "inst/other/fig_basin_country_summary.png", bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 11, units = "in", res=600)
+fig_basin_country
+invisible(dev.off())
+```
+
+Check plot.
+```{r check-plot}
+fig_basin_country <- system.file("other/fig_basin_country_summary.png", 
+                                 package = "TACAR")
+fig_basin_country
+```
+
