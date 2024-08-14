@@ -650,7 +650,7 @@ invisible(dev.off())
 ```
 
 Check plot.
-```{r fig-check-plot, echo=FALSE, fig.width="80%", fig.height="80%"}
+```{r fig-check-plot, echo=FALSE, out.width="80%", out.height="80%"}
 knitr::include_graphics("fig_basin_country_summary.png") 
 ```
 
