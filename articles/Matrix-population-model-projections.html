@@ -1100,7 +1100,16 @@ level.</p></li>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>length_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="va">acount</span> <span class="op">/</span> <span class="fl">1000</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"K km"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'basin_country', 'COUNTRY', 'BASIN_NAME'.</span></span>
-<span><span class="co">#&gt; You can override using the `.groups` argument.</span></span></code></pre></div>
+<span><span class="co">#&gt; You can override using the `.groups` argument.</span></span>
+<span></span>
+<span><span class="co"># </span></span>
+<span><span class="va">river_totkm</span> <span class="op">&lt;-</span> <span class="va">river_tot</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">acount</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span><span class="va">river_amazon_brazil</span> <span class="op">&lt;-</span>   <span class="va">river_tot</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">COUNTRY</span> <span class="op">==</span> <span class="st">"Brazil"</span>, <span class="va">BASIN_NAME</span> <span class="op">==</span> <span class="st">"Amazon"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">acount</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span><span class="va">river_amazon_brazil_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="op">(</span><span class="va">river_amazon_brazil</span> <span class="op">/</span> <span class="va">river_totkm</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p>Now plot.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define function to calculate IQR at given quantiles</span></span>
@@ -1149,8 +1158,23 @@ level.</p></li>
 <span>    width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">8</span>, units <span class="op">=</span> <span class="st">"in"</span>, res<span class="op">=</span><span class="fl">600</span><span class="op">)</span></span>
 <span><span class="va">fig_basin_country</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Check plot.
-<img src="fig_basin_country_summary.png" width="80%" height="80%"></p>
+<p>Check plot.</p>
+<p><img src="fig_basin_country_summary.png" width="80%" height="80%"></p>
+<p>The shaded shapes in the above figure show predicted population
+changes for each basin-country combination. The labels to the right show
+river lengths in thousands of kilometers (e.g. “26.1” is 26,100
+kilometers). The vertical dashed line shows the overall mean value, and
+the verticle grey shaded area is the interquartile range (IQR). As the
+basin-country combinations cover different areas, calculations of mean
+and IQR are obtained using estimates weighted by the river length. A
+population change of “-0.5” is 50% loss.</p>
+<p>The Amazon Basin in Brazil represents the largest proportion of
+rivers (51.1%). Considering the spatial variation in both threats and
+population genetics, it would probably be useful to include the Amazon
+Basin seperated into major basins (Madeira, Negro, etc). But the
+summaries presented here provide a general overview and enable robust
+assessment of the results. Additionally, the overall patterns do not
+change if the Amazon basin is seperated further.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
