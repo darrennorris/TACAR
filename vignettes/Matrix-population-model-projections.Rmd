@@ -651,7 +651,13 @@ png(file = "man/figures/fig_basin_country_summary.png", bg = "transparent",
     width = 9, height = 11, units = "in", res=600)
 fig_basin_country
 invisible(dev.off())
-# below does not work as needs function #> ! object 'iqr' of mode 'function' was not found
+#
+png(file = "vignettes/fig_basin_country_summary.png", bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 11, units = "in", res=600)
+fig_basin_country
+invisible(dev.off())
+# 
 saveRDS(fig_basin_country, "inst/other/fig_basin_country_summary.rds")
 ```
 
@@ -665,10 +671,13 @@ iqr = function(z, lower = 0.25, upper = 0.75) {
     ymax = quantile(z, upper)
   )
 }
+#below works
+#fig_basin_country <- readRDS(system.file("other/fig_basin_country_summary.rds", 
+#                                         package = "TACAR"))
+#fig_basin_country
 
-fig_basin_country <- readRDS(system.file("other/fig_basin_country_summary.rds", 
-                                         package = "TACAR"))
-fig_basin_country
+# No cant find file
 #knitr::include_graphics('man/figures/fig_basin_country_summary.png') 
+knitr::include_graphics("fig_basin_country_summary.png") 
 ```
 
