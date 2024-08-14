@@ -18,13 +18,16 @@ knitr::opts_chunk$set(
 Split into three parts: 
 
  - Projections    
- This .....
+ This section includes code and process to calculate deterministic 
+ and stochastic population projections using stage-based 
+ Matrix Population Models.
  
  - Scenario integration    
- This ...........
+ This section integrates the population projections across spatially 
+ explicit model scenarios.
 
  - Results    
- This ...........
+ Develop graphics to clearly communicate the results obtained.
 
 ## Projections
 
@@ -147,7 +150,7 @@ my_comadre <- Rcompadre::cdb_build_cdb(
 ```
 
 Now we have built the matrix we can obtain many useful summaries using
-Rage (https://jonesor.github.io/Rage/).
+functions in the package Rage (https://jonesor.github.io/Rage/).
 
 We can get life history metrics including generation time and 
 life expectancy.
@@ -490,7 +493,7 @@ Specifically:
 - Join point scenarios with population projections.
 - Generate data used for summaries. 
 - Make summaries.
-- Create results for presentation.
+- Create results.
 
 ### Join with scenarios
 
@@ -513,7 +516,8 @@ actions <- readxl::read_excel(system.file("other/Podocnemis_conservation_actions
 
 Now join.
 ```{r join-scenarios, eval=FALSE}
-# Here 3 versions - modelkey pess, BAU, optimistic.
+# Here with 3 scenarios for each river point:-
+# modelkey pessimistic, BAU, optimistic.
 ### 1060311 rows 6/8/2024
 scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |> 
   #filter(subbasn == "Trombetas") |>
@@ -548,10 +552,17 @@ saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr1a5.rds")
 
 ## Results
 
-Load data.
+### Section objective
+Effectively communicate the results obtained.
+
+### Load and summarise data.
 ```{r load-results}
 fin <- system.file("other/scenario_res_ffr1a5.rds", package = "TACAR")
 scenario_ffr_res <- readRDS(fin)
+```
+
+Make factors and other useful values.
+```{r make-useful}
 # Make factors
 scenario_ffr_res$model_namef <- factor(scenario_ffr_res$model_name)
 #levels(scenario_ffr_res$model_namef)
@@ -560,22 +571,23 @@ scenario_ffr_res$modelidf <- factor(scenario_ffr_res$modelid)
 # scale value range
 diff_min <- min(scenario_ffr_res$fem_diff_t45, na.rm = TRUE)
 diff_max <- max(scenario_ffr_res$fem_diff_t45, na.rm = TRUE)
-# Test with smaller subset.
-df <- scenario_ffr_res |> 
-  dplyr::filter(COUNTRY == "French Guiana")
+
 ```
 
 
+A little test.
 ```{r make-frequency}
+# Test with smaller subset.
+df <- scenario_ffr_res |> 
+  dplyr::filter(COUNTRY == "French Guiana")
 # Unique groups
 df |>
-dplyr::group_by(COUNTRY, BASIN_NAME, subbasin, 
-                reach_id_point,
+dplyr::group_by(COUNTRY, BASIN_NAME, reach_id_point,
          model_name, modelkey, modelid, typef) |> 
   dplyr::summarise(acount = dplyr::n()) |> 
   dplyr::arrange(dplyr::desc(acount))
 
-# Frequency distribution of points among scenarios
+# Frequency distribution of river points among scenarios.
 df |> 
   dplyr::mutate(modelidf = forcats::fct_reorder(modelidf, lambda_mean)) |>
   dplyr::group_by(modelkey, modelidf, model_namef) |> 
@@ -584,11 +596,10 @@ df |>
                      values_from = n, values_fill = 0)
 ```
 
-```{r randomized-iqr, eval=FALSE}
+```{r randomized-iqr, eval=FALSE, echo=FALSE}
 # Not used. This gives range but is very narrow
 df_long <- scenario_ffr_res |>
-dplyr::select(COUNTRY, BASIN_NAME, subbasin, 
-                reach_id_point,
+dplyr::select(COUNTRY, BASIN_NAME, reach_id_point,
          model_name, modelkey, modelid, typef, 
          fem_t0, fem_t35, fem_t41, fem_t45) |>
   tidyr::pivot_longer(cols = c(fem_t35, fem_t41, fem_t45), 
@@ -634,8 +645,8 @@ pop_change_q75 <- quantile(res_random, probs =0.75)
 ```
 
 
-Make summary of population changes.
-```{r make-pop-change}
+Summarise population changes.
+```{r make-pop-change, message=FALSE, warning=FALSE}
 df_country_basin <- scenario_ffr_res |> 
   #dplyr::filter(BASIN_NAME == "Coastal North") |> # track why have 1 Coastal South
   dplyr::mutate(modelidf = forcats::fct_reorder(modelidf, lambda_mean), 
@@ -690,7 +701,11 @@ river_amazon_brazil_prop <- round(((river_amazon_brazil / river_totkm) * 100), 1
 
 ```
 
-Now plot.
+### Plot the results.
+Compare population changes across basin-country combinations.
+The code below makes a figure with population change on the x-axis 
+and basin-country combination on the y-axis. This avoids sqashing 
+long names if the basin-country combinations were on the x-axis.
 ```{r plot-country-basins, eval=FALSE}
 # Define function to calculate IQR at given quantiles
 iqr = function(z, lower = 0.25, upper = 0.75) {
@@ -750,12 +765,12 @@ knitr::include_graphics("fig_basin_country_summary.png")
 The shaded shapes in the above figure show predicted population changes 
 for each basin-country combination. 
 The labels to the right show river lengths in thousands of 
-kilometers (e.g. "26.1" is 26,100 kilometers).
+kilometers (e.g. "22.2 K km" is 22,200 kilometers).
 The vertical dashed line shows the overall mean value, and the verticle grey 
 shaded area is the interquartile range (IQR - 25% and 75% quantiles). 
-As the basin-country combinations cover different areas, 
-calculations of overall mean and IQR are obtained using estimates 
-weighted by the river length.
+As the basin-country combinations cover different sized areas, 
+estimates of overall mean and IQR are obtained using  
+calculations weighted by the river length.
 A population change of "-0.5" is 50% loss. 
 
 Horizontal black crossbars show the median and interquartile range of 
