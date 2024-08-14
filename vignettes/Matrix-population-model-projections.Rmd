@@ -678,7 +678,16 @@ river_tot <- df_country_basin |>
   dplyr::summarise(atmp = dplyr::n()) |> 
   dplyr::ungroup() |> 
   dplyr::mutate(length_label = paste(round((acount / 1000), 1), "K km"))
-  
+
+# 
+river_totkm <- river_tot |> 
+  dplyr::pull(acount) |> sum() 
+river_amazon_brazil <-   river_tot |>
+  dplyr::filter(COUNTRY == "Brazil", BASIN_NAME == "Amazon") |> 
+  droplevels() |> 
+  dplyr::pull(acount) |> sum() 
+river_amazon_brazil_prop <- round(((river_amazon_brazil / river_totkm) * 100), 1)
+
 ```
 
 Now plot.
@@ -733,7 +742,25 @@ invisible(dev.off())
 ```
 
 Check plot.
+
 ```{r fig-check-plot, echo=FALSE, out.width="80%", out.height="80%"}
 knitr::include_graphics("fig_basin_country_summary.png") 
 ```
 
+The shaded shapes in the above figure show predicted population changes 
+for each basin-country combination. 
+The labels to the right show river lengths in thousands of 
+kilometers (e.g. "26.1" is 26,100 kilometers).
+The vertical dashed line shows the overall mean value, and the verticle grey 
+shaded area is the interquartile range (IQR). As the basin-country combinations 
+cover different areas, calculations of mean and 
+IQR are obtained using estimates weighted by the river length.
+A population change of "-0.5" is 50% loss. 
+
+The Amazon Basin in Brazil represents the largest proportion of 
+rivers (`r river_amazon_brazil_prop`%). Considering the spatial variation 
+in both threats and population genetics, it would probably be useful to 
+include the Amazon Basin seperated into major basins (Madeira, Negro, etc). 
+But the summaries presented here provide a general overview and enable 
+robust assessment of the results. Additionally, the overall patterns do not 
+change if the Amazon basin is seperated further.
