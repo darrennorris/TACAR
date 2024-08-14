@@ -554,7 +554,7 @@ fin <- system.file("other/scenario_res_ffr1a5.rds", package = "TACAR")
 scenario_ffr_res <- readRDS(fin)
 # Make factors
 scenario_ffr_res$model_namef <- factor(scenario_ffr_res$model_name)
-levels(scenario_ffr_res$model_namef)
+#levels(scenario_ffr_res$model_namef)
 scenario_ffr_res$model_namef <- relevel(scenario_ffr_res$model_namef, ref = "modelkey_pessimistic")
 scenario_ffr_res$modelidf <- factor(scenario_ffr_res$modelid)
 # scale value range
@@ -584,6 +584,56 @@ df |>
                      values_from = n, values_fill = 0)
 ```
 
+```{r randomized-iqr, eval=FALSE}
+# Not used. This gives range but is very narrow
+df_long <- scenario_ffr_res |>
+dplyr::select(COUNTRY, BASIN_NAME, subbasin, 
+                reach_id_point,
+         model_name, modelkey, modelid, typef, 
+         fem_t0, fem_t35, fem_t41, fem_t45) |>
+  tidyr::pivot_longer(cols = c(fem_t35, fem_t41, fem_t45), 
+                      names_to = "gen_t3", 
+                      values_to = "fem_tot")
+
+# Randomized resample to get quantile distribution.
+# Sample Function
+resample_and_calculate_change <- function(df, sample_percent = NA, 
+                                          sample_size = NA, 
+                                          col1, col2) {
+  # sample
+  if(!is.na(sample_size)){ 
+    sampled_df <- df |> 
+    dplyr::slice_sample(n = sample_size, replace = TRUE) 
+    }else{
+  sampled_df <- df |> 
+    dplyr::slice_sample(prop = (sample_percent / 100)) 
+    }
+  # calculate change
+  tot_tstart <- sum(sampled_df[ , col1]) 
+  tot_tend <- floor(sum(sampled_df[ , col2])) 
+  pop_change <- (tot_tend - tot_tstart) / tot_tstart
+  return(pop_change)
+}
+
+set.seed(123)  # For reproducibility
+# 1000 and 10000 give very similar result
+res_random <- replicate(1000, 
+                      resample_and_calculate_change(df = df_long, 
+                                                    sample_percent = 1, 
+                                                      col1 = "fem_t0", 
+                                                    col2 = "fem_tot")) 
+# -0.5060417
+pop_change_mean <- mean(res_random)
+# -0.5061052
+pop_change_median <- median(res_random)
+# -0.5077871 
+pop_change_q25 <- quantile(res_random, probs =0.25)
+# -0.504105
+pop_change_q75 <- quantile(res_random, probs =0.75)
+
+```
+
+
 Make summary of population changes.
 ```{r make-pop-change}
 df_country_basin <- scenario_ffr_res |> 
@@ -601,10 +651,34 @@ df_country_basin <- scenario_ffr_res |>
   dplyr::filter(acount > 21) |>
   tidyr::pivot_longer(cols = starts_with("diff_"), names_to = "gen_t3", 
                       values_to = "fem_diff")
+# Make weights
+df_country_basin$wt <- df_country_basin$acount / sum(df_country_basin$acount)
 # make sure to avoid these
 # |> 
 #  filter(length_river > 21) |> 
  # droplevels() |>
+
+# Now get interquartile range for all.
+ df_iqr <- data.frame(
+    y = median(df_country_basin$fem_diff),
+    ymin = quantile(df_country_basin$fem_diff, probs = 0.25),
+    ymax = quantile(df_country_basin$fem_diff, probs = 0.75)
+  )
+# Weighted interqantile range
+mean_wt <- Hmisc::wtd.mean(x = df_country_basin$fem_diff, 
+                              w = df_country_basin$acount)
+iqr_wt_25 <- Hmisc::wtd.quantile(x = df_country_basin$fem_diff, 
+                              w = df_country_basin$acount, probs = 0.25)
+iqr_wt_75 <- Hmisc::wtd.quantile(x = df_country_basin$fem_diff, 
+                              w = df_country_basin$acount, probs = 0.75)
+
+# Total river lengths
+river_tot <- df_country_basin |> 
+  dplyr::group_by(basin_country, COUNTRY, BASIN_NAME, acount) |> 
+  dplyr::summarise(atmp = dplyr::n()) |> 
+  dplyr::ungroup() |> 
+  dplyr::mutate(length_label = paste(round((acount / 1000), 1), "K km"))
+  
 ```
 
 Now plot.
@@ -626,10 +700,18 @@ stat_sum_df <- function(fun, geom="crossbar", ...) {
 fig_basin_country <- ggplot2::ggplot(data = df_country_basin, 
                 mapping = aes(x = basin_country, y = fem_diff)) + 
   #stat_summary(fun.data = iqr) 
+  geom_hline(yintercept = 0, colour = "black") +
+  annotate(xmin=-Inf, xmax=Inf, 
+           ymin = iqr_wt_25, ymax = iqr_wt_75,
+            fill="grey80", geom = 'rect', alpha=0.4) + 
+  geom_hline(yintercept = mean_wt, colour = "black", 
+             linetype = "dashed") +
   stat_sum_df("iqr") + 
   geom_jitter(aes(shape = gen_t3, colour = model_namef), 
               width = 0.1, height = 0) + 
   scale_y_continuous(limits = c(diff_min, diff_max)) + 
+  geom_label(data = river_tot, 
+             aes(x = basin_country, y = 0.2, label = length_label)) +
   coord_flip() +
   scale_shape(name="three\ngenerations",
                          breaks=c("diff_t35", "diff_t41", "diff_t45"),
@@ -638,6 +720,7 @@ fig_basin_country <- ggplot2::ggplot(data = df_country_basin,
                          breaks=c("modelkey_pessimistic", "modelkey_BAU", "modelkey_optimistic"),
                          labels=c("pessimistic", "BAU", "optimistic")) + 
   labs(y = "Population change", x = "") + 
+  theme_bw() +
   theme(legend.position = "bottom")
 
 # Export for future use
