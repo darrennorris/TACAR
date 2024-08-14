@@ -6,7 +6,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 resource_files:
-  - inst/other/fig_basin_country_summary.png
+  - '..man/figures/fig_basin_country_summary.png'
 ---
 
 ```{r, include = FALSE}
@@ -646,14 +646,17 @@ png(file = "inst/other/fig_basin_country_summary.png", bg = "transparent",
     width = 9, height = 11, units = "in", res=600)
 fig_basin_country
 invisible(dev.off())
+png(file = "man/figures/fig_basin_country_summary.png", bg = "transparent", 
+    type = c("cairo"), 
+    width = 9, height = 11, units = "in", res=600)
+fig_basin_country
+invisible(dev.off())
+# below does not work as needs function #> ! object 'iqr' of mode 'function' was not found
 saveRDS(fig_basin_country, "inst/other/fig_basin_country_summary.rds")
 ```
 
 Check plot.
-```{r check-plot, echo=FALSE}
-
-fig_basin_country <- readRDS(system.file("other/fig_basin_country_summary.rds", 
-                                         package = "TACAR"))
-fig_basin_country
+```{r fig-check-plot, echo=FALSE}
+knitr::include_graphics('..man/figures/fig_basin_country_summary.png') 
 ```
 
