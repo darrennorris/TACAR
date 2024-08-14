@@ -71,11 +71,14 @@
 <p>Split into three parts:</p>
 <ul>
 <li><p>Projections<br>
-This …..</p></li>
+This section includes code and process to calculate deterministic and
+stochastic population projections using stage-based Matrix Population
+Models.</p></li>
 <li><p>Scenario integration<br>
-This ………..</p></li>
+This section integrates the population projections across spatially
+explicit model scenarios.</p></li>
 <li><p>Results<br>
-This ………..</p></li>
+Develop graphics to clearly communicate the results obtained.</p></li>
 </ul>
 </div>
 <div class="section level2">
@@ -531,7 +534,7 @@ structure recommended by …</p>
 <span>  stages <span class="op">=</span> <span class="va">stageInfo</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Now we have built the matrix we can obtain many useful summaries
-using Rage (<a href="https://jonesor.github.io/Rage/" class="external-link uri">https://jonesor.github.io/Rage/</a>).</p>
+using functions in the package Rage (<a href="https://jonesor.github.io/Rage/" class="external-link uri">https://jonesor.github.io/Rage/</a>).</p>
 <p>We can get life history metrics including generation time and life
 expectancy.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -878,7 +881,7 @@ level.</p></li>
 <li>Join point scenarios with population projections.</li>
 <li>Generate data used for summaries.</li>
 <li>Make summaries.</li>
-<li>Create results for presentation.</li>
+<li>Create results.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -911,7 +914,8 @@ level.</p></li>
 <span><span class="co">#&gt;   `Population.perturbation.parameter.changes..BAU..`</span></span></code></pre></div>
 <p>Now join.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Here 3 versions - modelkey pess, BAU, optimistic.</span></span>
+<code class="sourceCode R"><span><span class="co"># Here with 3 scenarios for each river point:-</span></span>
+<span><span class="co"># modelkey pessimistic, BAU, optimistic.</span></span>
 <span><span class="co">### 1060311 rows 6/8/2024</span></span>
 <span><span class="va">scenario_ffr_res</span> <span class="op">&lt;-</span> <span class="va">ffr_1a5_poun_points_3395</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="co">#filter(subbasn == "Trombetas") |&gt;</span></span>
@@ -947,51 +951,59 @@ level.</p></li>
 <div class="section level2">
 <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
 </h2>
-<p>Load data.</p>
+<div class="section level3">
+<h3 id="section-objective-1">Section objective<a class="anchor" aria-label="anchor" href="#section-objective-1"></a>
+</h3>
+<p>Effectively communicate the results obtained.</p>
+</div>
+<div class="section level3">
+<h3 id="load-and-summarise-data-">Load and summarise data.<a class="anchor" aria-label="anchor" href="#load-and-summarise-data-"></a>
+</h3>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"other/scenario_res_ffr1a5.rds"</span>, package <span class="op">=</span> <span class="st">"TACAR"</span><span class="op">)</span></span>
-<span><span class="va">scenario_ffr_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">fin</span><span class="op">)</span></span>
-<span><span class="co"># Make factors</span></span>
+<span><span class="va">scenario_ffr_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">fin</span><span class="op">)</span></span></code></pre></div>
+<p>Make factors and other useful values.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Make factors</span></span>
 <span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">model_namef</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">model_name</span><span class="op">)</span></span>
 <span><span class="co">#levels(scenario_ffr_res$model_namef)</span></span>
 <span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">model_namef</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/relevel.html" class="external-link">relevel</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">model_namef</span>, ref <span class="op">=</span> <span class="st">"modelkey_pessimistic"</span><span class="op">)</span></span>
 <span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">modelidf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">modelid</span><span class="op">)</span></span>
 <span><span class="co"># scale value range</span></span>
 <span><span class="va">diff_min</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">fem_diff_t45</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">diff_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">fem_diff_t45</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co"># Test with smaller subset.</span></span>
+<span><span class="va">diff_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span><span class="op">$</span><span class="va">fem_diff_t45</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>A little test.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Test with smaller subset.</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">scenario_ffr_res</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">COUNTRY</span> <span class="op">==</span> <span class="st">"French Guiana"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Unique groups</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">COUNTRY</span> <span class="op">==</span> <span class="st">"French Guiana"</span><span class="op">)</span></span>
+<span><span class="co"># Unique groups</span></span>
 <span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">COUNTRY</span>, <span class="va">BASIN_NAME</span>, <span class="va">subbasin</span>, </span>
-<span>                <span class="va">reach_id_point</span>,</span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">COUNTRY</span>, <span class="va">BASIN_NAME</span>, <span class="va">reach_id_point</span>,</span>
 <span>         <span class="va">model_name</span>, <span class="va">modelkey</span>, <span class="va">modelid</span>, <span class="va">typef</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>acount <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">acount</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'COUNTRY', 'BASIN_NAME', 'subbasin',</span></span>
-<span><span class="co">#&gt; 'reach_id_point', 'model_name', 'modelkey', 'modelid'. You can override using</span></span>
-<span><span class="co">#&gt; the `.groups` argument.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9,894 × 9</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   COUNTRY, BASIN_NAME, subbasin, reach_id_point, model_name,</span></span></span>
-<span><span class="co"><span style="color: #949494;">#&gt; #   modelkey, modelid [9,894]</span></span></span>
-<span><span class="co">#&gt;    COUNTRY  BASIN_NAME subbasin reach_id_point model_name modelkey modelid typef</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> French … Coastal N… Coastal… 60154000_1     modelkey_…      112 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> French … Coastal N… Coastal… 60154000_1     modelkey_…       62 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> French … Coastal N… Coastal… 60154000_1     modelkey_…      107 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> French … Coastal N… Coastal… 60154000_2     modelkey_…      112 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> French … Coastal N… Coastal… 60154000_2     modelkey_…       62 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> French … Coastal N… Coastal… 60154000_2     modelkey_…      107 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> French … Coastal N… Coastal… 60154920_1     modelkey_…      107 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> French … Coastal N… Coastal… 60154920_1     modelkey_…      112 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> French … Coastal N… Coastal… 60154920_1     modelkey_…      157 poun_f… fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> French … Coastal N… Coastal… 60154920_2     modelkey_…      112 poun_f… fema…</span></span>
+<span><span class="co">#&gt; `summarise()` has grouped output by 'COUNTRY', 'BASIN_NAME', 'reach_id_point',</span></span>
+<span><span class="co">#&gt; 'model_name', 'modelkey', 'modelid'. You can override using the `.groups`</span></span>
+<span><span class="co">#&gt; argument.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9,894 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   COUNTRY, BASIN_NAME, reach_id_point, model_name, modelkey, modelid</span></span></span>
+<span><span class="co"><span style="color: #949494;">#&gt; #   [9,894]</span></span></span>
+<span><span class="co">#&gt;    COUNTRY    BASIN_NAME reach_id_point model_name modelkey modelid typef acount</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> French Gu… Coastal N… 60111852_1     modelkey_…      112 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> French Gu… Coastal N… 60111852_1     modelkey_…       62 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> French Gu… Coastal N… 60111852_1     modelkey_…      107 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> French Gu… Coastal N… 60111852_2     modelkey_…      112 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> French Gu… Coastal N… 60111852_2     modelkey_…       62 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> French Gu… Coastal N… 60111852_2     modelkey_…      107 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> French Gu… Coastal N… 60111852_3     modelkey_…      112 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> French Gu… Coastal N… 60111852_3     modelkey_…       62 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> French Gu… Coastal N… 60111852_3     modelkey_…      107 poun_f… fema…      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> French Gu… Coastal N… 60111852_4     modelkey_…      112 poun_f… fema…      1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9,884 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: acount &lt;int&gt;</span></span></span>
 <span></span>
-<span><span class="co"># Frequency distribution of points among scenarios</span></span>
+<span><span class="co"># Frequency distribution of river points among scenarios.</span></span>
 <span><span class="va">df</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>modelidf <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html" class="external-link">fct_reorder</a></span><span class="op">(</span><span class="va">modelidf</span>, <span class="va">lambda_mean</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">modelkey</span>, <span class="va">modelidf</span>, <span class="va">model_namef</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1007,53 +1019,7 @@ level.</p></li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      107 poun_female-hu…                  799         <span style="text-decoration: underline;">1</span>283                   0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      112 poun_female-hu…                    0          765                <span style="text-decoration: underline;">1</span>283</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      157 poun_female-hu…                 <span style="text-decoration: underline;">1</span>283            0                   0</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Not used. This gives range but is very narrow</span></span>
-<span><span class="va">df_long</span> <span class="op">&lt;-</span> <span class="va">scenario_ffr_res</span> <span class="op">|&gt;</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">COUNTRY</span>, <span class="va">BASIN_NAME</span>, <span class="va">subbasin</span>, </span>
-<span>                <span class="va">reach_id_point</span>,</span>
-<span>         <span class="va">model_name</span>, <span class="va">modelkey</span>, <span class="va">modelid</span>, <span class="va">typef</span>, </span>
-<span>         <span class="va">fem_t0</span>, <span class="va">fem_t35</span>, <span class="va">fem_t41</span>, <span class="va">fem_t45</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">fem_t35</span>, <span class="va">fem_t41</span>, <span class="va">fem_t45</span><span class="op">)</span>, </span>
-<span>                      names_to <span class="op">=</span> <span class="st">"gen_t3"</span>, </span>
-<span>                      values_to <span class="op">=</span> <span class="st">"fem_tot"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Randomized resample to get quantile distribution.</span></span>
-<span><span class="co"># Sample Function</span></span>
-<span><span class="va">resample_and_calculate_change</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>, <span class="va">sample_percent</span> <span class="op">=</span> <span class="cn">NA</span>, </span>
-<span>                                          <span class="va">sample_size</span> <span class="op">=</span> <span class="cn">NA</span>, </span>
-<span>                                          <span class="va">col1</span>, <span class="va">col2</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># sample</span></span>
-<span>  <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sample_size</span><span class="op">)</span><span class="op">)</span><span class="op">{</span> </span>
-<span>    <span class="va">sampled_df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">sample_size</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
-<span>    <span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
-<span>  <span class="va">sampled_df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="op">(</span><span class="va">sample_percent</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span> </span>
-<span>    <span class="op">}</span></span>
-<span>  <span class="co"># calculate change</span></span>
-<span>  <span class="va">tot_tstart</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">sampled_df</span><span class="op">[</span> , <span class="va">col1</span><span class="op">]</span><span class="op">)</span> </span>
-<span>  <span class="va">tot_tend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">sampled_df</span><span class="op">[</span> , <span class="va">col2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> </span>
-<span>  <span class="va">pop_change</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">tot_tend</span> <span class="op">-</span> <span class="va">tot_tstart</span><span class="op">)</span> <span class="op">/</span> <span class="va">tot_tstart</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">pop_change</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>  <span class="co"># For reproducibility</span></span>
-<span><span class="co"># 1000 and 10000 give very similar result</span></span>
-<span><span class="va">res_random</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">1000</span>, </span>
-<span>                      <span class="fu">resample_and_calculate_change</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_long</span>, </span>
-<span>                                                    sample_percent <span class="op">=</span> <span class="fl">1</span>, </span>
-<span>                                                      col1 <span class="op">=</span> <span class="st">"fem_t0"</span>, </span>
-<span>                                                    col2 <span class="op">=</span> <span class="st">"fem_tot"</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="co"># -0.5060417</span></span>
-<span><span class="va">pop_change_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">res_random</span><span class="op">)</span></span>
-<span><span class="co"># -0.5061052</span></span>
-<span><span class="va">pop_change_median</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">res_random</span><span class="op">)</span></span>
-<span><span class="co"># -0.5077871 </span></span>
-<span><span class="va">pop_change_q25</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">res_random</span>, probs <span class="op">=</span><span class="fl">0.25</span><span class="op">)</span></span>
-<span><span class="co"># -0.504105</span></span>
-<span><span class="va">pop_change_q75</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">res_random</span>, probs <span class="op">=</span><span class="fl">0.75</span><span class="op">)</span></span></code></pre></div>
-<p>Make summary of population changes.</p>
+<p>Summarise population changes.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_country_basin</span> <span class="op">&lt;-</span> <span class="va">scenario_ffr_res</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="co">#dplyr::filter(BASIN_NAME == "Coastal North") |&gt; # track why have 1 Coastal South</span></span>
@@ -1070,8 +1036,6 @@ level.</p></li>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">acount</span> <span class="op">&gt;</span> <span class="fl">21</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"diff_"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"gen_t3"</span>, </span>
 <span>                      values_to <span class="op">=</span> <span class="st">"fem_diff"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'basin_country', 'COUNTRY', 'BASIN_NAME'.</span></span>
-<span><span class="co">#&gt; You can override using the `.groups` argument.</span></span>
 <span><span class="co"># Make weights</span></span>
 <span><span class="va">df_country_basin</span><span class="op">$</span><span class="va">wt</span> <span class="op">&lt;-</span> <span class="va">df_country_basin</span><span class="op">$</span><span class="va">acount</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">df_country_basin</span><span class="op">$</span><span class="va">acount</span><span class="op">)</span></span>
 <span><span class="co"># make sure to avoid these</span></span>
@@ -1099,8 +1063,6 @@ level.</p></li>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>atmp <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>length_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="va">acount</span> <span class="op">/</span> <span class="fl">1000</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"K km"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'basin_country', 'COUNTRY', 'BASIN_NAME'.</span></span>
-<span><span class="co">#&gt; You can override using the `.groups` argument.</span></span>
 <span></span>
 <span><span class="co"># </span></span>
 <span><span class="va">river_totkm</span> <span class="op">&lt;-</span> <span class="va">river_tot</span> <span class="op">|&gt;</span> </span>
@@ -1110,7 +1072,14 @@ level.</p></li>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">acount</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span><span class="va">river_amazon_brazil_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="op">(</span><span class="va">river_amazon_brazil</span> <span class="op">/</span> <span class="va">river_totkm</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p>Now plot.</p>
+</div>
+<div class="section level3">
+<h3 id="plot-the-results-">Plot the results.<a class="anchor" aria-label="anchor" href="#plot-the-results-"></a>
+</h3>
+<p>Compare population changes across basin-country combinations. The
+code below makes a figure with population change on the x-axis and
+basin-country combination on the y-axis. This avoids sqashing long names
+if the basin-country combinations were on the x-axis.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define function to calculate IQR at given quantiles</span></span>
 <span><span class="va">iqr</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">z</span>, <span class="va">lower</span> <span class="op">=</span> <span class="fl">0.25</span>, <span class="va">upper</span> <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1162,13 +1131,13 @@ level.</p></li>
 <p><img src="fig_basin_country_summary.png" width="80%" height="80%"></p>
 <p>The shaded shapes in the above figure show predicted population
 changes for each basin-country combination. The labels to the right show
-river lengths in thousands of kilometers (e.g. “26.1” is 26,100
+river lengths in thousands of kilometers (e.g. “22.2 K km” is 22,200
 kilometers). The vertical dashed line shows the overall mean value, and
 the verticle grey shaded area is the interquartile range (IQR - 25% and
-75% quantiles). As the basin-country combinations cover different areas,
-calculations of overall mean and IQR are obtained using estimates
-weighted by the river length. A population change of “-0.5” is 50%
-loss.</p>
+75% quantiles). As the basin-country combinations cover different sized
+areas, estimates of overall mean and IQR are obtained using<br>
+calculations weighted by the river length. A population change of “-0.5”
+is 50% loss.</p>
 <p>Horizontal black crossbars show the median and interquartile range of
 projection scenarios within each basin-country combination. These
 scenarios represent the impact of threats (e.g. hunting) across three
@@ -1191,6 +1160,7 @@ Basin seperated into major basins (Madeira, Negro, etc). But the
 summaries presented here provide a general overview and enable robust
 assessment of the results. Additionally, the overall patterns do not
 change if the Amazon basin is seperated further.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
