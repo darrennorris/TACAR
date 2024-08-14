@@ -12,8 +12,12 @@ Amazonian River Turtles.
 TACAR: (Tortugas de la Amazonia: Comunidades y Análisis en R /
 Tartarugas da Amazônia: Comunidades e Análise em R).
 
-Updated and extended version of
-[cmartr](https://github.com/darrennorris/cmartr)….
+- Updated and extended version of
+  [cmartr](https://github.com/darrennorris/cmartr).
+
+- This package provides a repository for the data, R code and workflow
+  used to evaluate threats and recovery options for Amazonian River
+  Turtles.
 
 ## Installation
 

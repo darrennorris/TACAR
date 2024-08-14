@@ -18,8 +18,8 @@ knitr::opts_chunk$set(
 Split into three parts: 
 
  - Projections    
- This section includes code and process to calculate deterministic 
- and stochastic population projections using stage-based 
+ This section includes code and workflow used to calculate deterministic 
+ and stochastic population projections with stage-based 
  Matrix Population Models.
  
  - Scenario integration    
