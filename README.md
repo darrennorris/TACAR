@@ -47,3 +47,8 @@ Package developed and built using the following guides:
 
 - Saskia O:
   <https://www.marinedatascience.co/blog/2020/01/09/checklist-for-r-package-re-submissions-on-cran/>
+
+A very handy example to follow:
+
+- quincunx package:
+  <https://github.com/maialab/quincunx/blob/master/vignettes/pgs-construction-process.Rmd>

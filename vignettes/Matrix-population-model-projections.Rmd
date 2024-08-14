@@ -6,7 +6,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 resource_files:
-  - '..man/figures/fig_basin_country_summary.png'
+  - 'man/figures/fig_basin_country_summary.png'
 ---
 
 ```{r, include = FALSE}
@@ -657,6 +657,18 @@ saveRDS(fig_basin_country, "inst/other/fig_basin_country_summary.rds")
 
 Check plot.
 ```{r fig-check-plot, echo=FALSE}
-knitr::include_graphics('..man/figures/fig_basin_country_summary.png') 
+# Define function to calculate IQR at given quantiles
+iqr = function(z, lower = 0.25, upper = 0.75) {
+  data.frame(
+    y = median(z),
+    ymin = quantile(z, lower),
+    ymax = quantile(z, upper)
+  )
+}
+
+fig_basin_country <- readRDS(system.file("other/fig_basin_country_summary.rds", 
+                                         package = "TACAR"))
+fig_basin_country
+#knitr::include_graphics('man/figures/fig_basin_country_summary.png') 
 ```
 
