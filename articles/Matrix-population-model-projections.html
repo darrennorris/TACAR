@@ -1145,7 +1145,7 @@ level.</p></li>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_shape.html" class="external-link">scale_shape</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">"three\ngenerations"</span>,</span>
 <span>                         breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"diff_t35"</span>, <span class="st">"diff_t41"</span>, <span class="st">"diff_t45"</span><span class="op">)</span>,</span>
 <span>                         labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"35 Y"</span>, <span class="st">"41 Y"</span>, <span class="st">"45 Y"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">"model\nscenarios"</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">"threat-impact\nscenario"</span>,</span>
 <span>                         breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"modelkey_pessimistic"</span>, <span class="st">"modelkey_BAU"</span>, <span class="st">"modelkey_optimistic"</span><span class="op">)</span>,</span>
 <span>                         labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pessimistic"</span>, <span class="st">"BAU"</span>, <span class="st">"optimistic"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Population change"</span>, x <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1164,10 +1164,26 @@ level.</p></li>
 changes for each basin-country combination. The labels to the right show
 river lengths in thousands of kilometers (e.g. “26.1” is 26,100
 kilometers). The vertical dashed line shows the overall mean value, and
-the verticle grey shaded area is the interquartile range (IQR). As the
-basin-country combinations cover different areas, calculations of mean
-and IQR are obtained using estimates weighted by the river length. A
-population change of “-0.5” is 50% loss.</p>
+the verticle grey shaded area is the interquartile range (IQR - 25% and
+75% quantiles). As the basin-country combinations cover different areas,
+calculations of overall mean and IQR are obtained using estimates
+weighted by the river length. A population change of “-0.5” is 50%
+loss.</p>
+<p>Horizontal black crossbars show the median and interquartile range of
+projection scenarios within each basin-country combination. These
+scenarios represent the impact of threats (e.g. hunting) across three
+generations. The impact of threats ranges from most severe
+(“pessimistic”), Business-as-usual (“BAU”), to least severe
+(“optimistic”). Generation length was estimated from stage-based matrix
+population models, and results include scenario results from mean (41
+year), and the interquartile range (35 and 45 year, 25% and 75% quantile
+values respectively). Generation length follows the IUCN definition:
+“Generation length is the average age of parents of the current cohort
+(i.e., newborn individuals in the population). Generation length
+therefore reflects the turnover rate of breeding individuals in a
+population….. Where generation length varies under threat, such as the
+exploitation of fishes, the more natural, i.e. pre-disturbance,
+generation length should be used.” (IUCN 2001, 2012).</p>
 <p>The Amazon Basin in Brazil represents the largest proportion of
 rivers (51.1%). Considering the spatial variation in both threats and
 population genetics, it would probably be useful to include the Amazon
@@ -1175,6 +1191,16 @@ Basin seperated into major basins (Madeira, Negro, etc). But the
 summaries presented here provide a general overview and enable robust
 assessment of the results. Additionally, the overall patterns do not
 change if the Amazon basin is seperated further.</p>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<p>IUCN. 2001. IUCN Red List Categories and Criteria: Version 3.1. IUCN
+Species Survival Commission. IUCN, Gland, Switzerland and Cambridge,
+U.K.</p>
+<p>IUCN. 2012. IUCN Red List Categories and Criteria: Version 3.1.
+Second edition. IUCN, Gland, Switzerland and Cambridge, UK. Available at
+www.iucnredlist.org/technical-documents/categories-and-criteria</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
