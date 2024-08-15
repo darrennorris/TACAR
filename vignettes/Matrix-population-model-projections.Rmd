@@ -48,6 +48,8 @@ Split into three parts:
 ```{r load-packages, warning=FALSE, message=FALSE}
 library(plyr)
 library(dplyr)
+library(tidyr)
+library(forcats)
 library(popdemo)
 library(popbio)
 library(Rcompadre)
@@ -55,6 +57,7 @@ library(Rage)
 library(TACAR)
 library(readxl)
 library(ggplot2)
+library(sf)
 ```
 
 ### Projection parameters. 
@@ -100,11 +103,16 @@ knitr::kable(format(pop_mat, scientific=F), digits = 4) |>
 ```
 
 
-This matrix includes information of population growth and survival and reproduction.
+This matrix includes information of population growth, survival and reproduction.
 
 See https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html
 
-We can show the different matrix components converting to the structure recommended by ...
+We can show the different matrix components (growth, survival and reproduction) 
+by converting to the structure recommended by [COM(P)ADRE](https://compadre-db.org/). 
+COM(P)ADRE is a global scale online repository for matrix population 
+models (MPMs) and metadata on plants, animals, bacteria, viruses, algae, 
+and fungi. There are two R packages developed specifically to
+work with these MPMs: [Rcompadre](https://jonesor.github.io/Rcompadre/index.html) and [Rage](https://jonesor.github.io/Rage/).
 ```{r rcompadre-example, warning=FALSE, message=FALSE}
 meta <- data.frame(idNum = 3, 
                    SpeciesAccepted = dt[3 , 'species'],
@@ -308,6 +316,9 @@ saveRDS(dout_all, "inst/other/dout_all.rds")
 Model summaries to link with scenarios. Summaries across stochastic runs 
 for each model.
 
+The scenarios are used to help inform IUCN Red List  and 
+Green Status assessments.
+
 - Red List guidelines p38    
 For example, upper and lower quartiles of the projected magnitude of 
 the future reduction (i.e., reductions with 25% and 75% probability) 
@@ -325,6 +336,8 @@ would result in a categorization of ‘Least Concern’ OR
 
 - Green Status Functional    
 Functional when population lower quartile is 10 times base level.
+
+The code below adds projection results to each of the matrix population models.
 ```{r model-summaries, warning=FALSE, message=FALSE, eval=FALSE}
 # load data. 14 August 2024 with 1218060 rows and 26 columns
 dout_all <- readRDS("inst/other/dout_all.rds")
@@ -491,14 +504,13 @@ Integrate point locations and population projections.
 
 Specifically: 
 
-- Join point scenarios with population projections.
+- Join points with scenarios and population projections.
 - Generate data used for summaries. 
 - Make summaries.
-- Create results.
 
 ### Join with scenarios
 
-Load projection model lookup table.
+Load data: points, projection model lookup table and scenarios.
 ```{r load-lookup-data}
 # point data
 # load points made previously in prep_river_points.Rmd. RIVORD 1 to 5. 
@@ -817,3 +829,10 @@ Cambridge, U.K.
 IUCN. 2012. IUCN Red List Categories and Criteria: Version 3.1. 
 Second edition. IUCN, Gland, Switzerland and Cambridge, UK. 
 Available at www.iucnredlist.org/technical-documents/categories-and-criteria
+
+Jones OR, Barks P, Stott IM, James TD, Levin SC, Petry WK, Capdevila P, 
+Che-Castaldo J, Jackson J, Römer G, Schuette C, Thomas CC, 
+Salguero-Gómez R (2022). Rcompadre and Rage - two R packages to 
+facilitate the use of the COMPADRE and COMADRE databases and 
+calculation of life history traits from matrix population models.
+Methods in Ecology and Evolution, 13, 770-781. doi:10.1111/2041-210X.13792.
