@@ -909,7 +909,8 @@ level.</p></li>
 <span><span class="co"># projections and scenarios</span></span>
 <span><span class="co"># model_lookup has results from 300 population projection models created previously</span></span>
 <span><span class="va">model_lookup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"other/model_lookup.rds"</span>, package <span class="op">=</span> <span class="st">"TACAR"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># actions has scenarios with link to river points and associated projection models</span></span>
+<span><span class="co"># actions has scenarios for IUCN Red List and Green Status evaluations, </span></span>
+<span><span class="co"># with link to river points and associated projection models</span></span>
 <span><span class="va">actions</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_excel</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"other/Podocnemis_conservation_actions.xlsx"</span>, package <span class="op">=</span> <span class="st">"TACAR"</span><span class="op">)</span>, </span>
 <span>                      sheet <span class="op">=</span> <span class="st">"scenario_parameters"</span>, .name_repair <span class="op">=</span> <span class="st">"universal"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; New names:</span></span>
@@ -934,7 +935,7 @@ level.</p></li>
 <span>         <span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span> </span>
 <span>           <span class="va">actions</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Podocnemis.modelling.scenario</span> <span class="op">==</span> <span class="st">"Protection"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"modelkey"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"model_name"</span>, </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"modelkey"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"model_name"</span>, </span>
 <span>               values_to <span class="op">=</span> <span class="st">"modelkey"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">model_lookup</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">modelkey</span> <span class="op">==</span> <span class="va">modelkey</span><span class="op">)</span> </span>
 <span>            <span class="op">)</span>, </span>
@@ -948,7 +949,7 @@ level.</p></li>
 <span><span class="co"># should be zero rows if join worked. </span></span>
 <span><span class="va">test_join</span> <span class="op">&lt;-</span> <span class="va">scenario_ffr_res</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lambda_mean</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co"># This file is used in testmap. 1060311 rows 6/8/2024.</span></span>
+<span><span class="co"># This file is used in testmap. 1060311 rows 15/8/2024.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span>, <span class="st">"inst/other/scenario_res_ffr1a5.rds"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -1140,7 +1141,7 @@ along the x-axis.</li>
 <p><img src="fig_basin_country_summary.png" width="80%" height="80%"></p>
 <ul>
 <li>Within 3 generations, the adult female population is predicted to
-decline by 50.6% in the future (25 and 75% quantile range: 64.5 - 34.8 %
+decline by 50.6% in the future (25 and 75% quantile range: 64.7 - 34.4 %
 decline).</li>
 </ul>
 <p>In the above figure a population change of “-0.5” is 50% loss. The
