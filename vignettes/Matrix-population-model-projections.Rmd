@@ -508,7 +508,8 @@ ffr_1a5_poun_points_3395 <- sf::st_read(dsn = system.file("vector/poun_river_poi
 # projections and scenarios
 # model_lookup has results from 300 population projection models created previously
 model_lookup <- readRDS(system.file("other/model_lookup.rds", package = "TACAR"))
-# actions has scenarios with link to river points and associated projection models
+# actions has scenarios for IUCN Red List and Green Status evaluations, 
+# with link to river points and associated projection models
 actions <- readxl::read_excel(system.file("other/Podocnemis_conservation_actions.xlsx", package = "TACAR"), 
                       sheet = "scenario_parameters", .name_repair = "universal")
 
@@ -533,7 +534,7 @@ scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |>
          ) |> left_join( 
            actions |> 
   filter(Podocnemis.modelling.scenario == "Protection") |> 
-  pivot_longer(cols = starts_with("modelkey"), names_to = "model_name", 
+  tidyr::pivot_longer(cols = starts_with("modelkey"), names_to = "model_name", 
                values_to = "modelkey") |> 
   left_join(model_lookup, by = join_by(modelkey == modelkey) 
             ), 
@@ -547,7 +548,7 @@ scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |>
 # should be zero rows if join worked. 
 test_join <- scenario_ffr_res |> 
   filter(is.na(lambda_mean)) |> nrow()
-# This file is used in testmap. 1060311 rows 6/8/2024.
+# This file is used in testmap. 1060311 rows 15/8/2024.
 saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr1a5.rds")
 ```
 
