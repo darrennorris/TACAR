@@ -502,6 +502,8 @@ scale online repository for matrix population models (MPMs) and metadata
 on plants, animals, bacteria, viruses, algae, and fungi. There are two R
 packages developed specifically to work with these MPMs: <a href="https://jonesor.github.io/Rcompadre/index.html" class="external-link">Rcompadre</a> and
 <a href="https://jonesor.github.io/Rage/" class="external-link">Rage</a>.</p>
+<p>The code below creates a compadre database object from the matrix at
+line 3 of the data.frame created by the function “pop01_param_poun”.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>idNum <span class="op">=</span> <span class="fl">3</span>, </span>
 <span>                   SpeciesAccepted <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="fl">3</span> , <span class="st">'species'</span><span class="op">]</span>,</span>
@@ -544,10 +546,10 @@ packages developed specifically to work with these MPMs: <a href="https://joneso
 <span>  metadata <span class="op">=</span> <span class="va">meta</span>, </span>
 <span>  stages <span class="op">=</span> <span class="va">stageInfo</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Now we have built the matrix we can obtain many useful summaries
-using functions in the package Rage (<a href="https://jonesor.github.io/Rage/" class="external-link uri">https://jonesor.github.io/Rage/</a>).</p>
-<p>We can get life history metrics including generation time and life
-expectancy.</p>
+<p>Now we have seperated into the growth/survival and reproduciton
+matrixes we can obtain many useful summaries of age related life histroy
+traits using functions in the package Rage (<a href="https://jonesor.github.io/Rage/" class="external-link uri">https://jonesor.github.io/Rage/</a>).</p>
+<p>The code below provides generation time and life expectancy.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the time required for a population to </span></span>
 <span><span class="co"># increase by a factor of R0 (the net reproductive rate)</span></span>
