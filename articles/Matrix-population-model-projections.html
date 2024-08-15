@@ -501,9 +501,11 @@ reproduction) by converting to the structure recommended by <a href="https://com
 scale online repository for matrix population models (MPMs) and metadata
 on plants, animals, bacteria, viruses, algae, and fungi. There are two R
 packages developed specifically to work with these MPMs: <a href="https://jonesor.github.io/Rcompadre/index.html" class="external-link">Rcompadre</a> and
-<a href="https://jonesor.github.io/Rage/" class="external-link">Rage</a>.</p>
+<a href="https://jonesor.github.io/Rage/" class="external-link">Rage</a> (Jones et. al. 2022,
+<a href="https://doi.org/10.1111/2041-210X.13792" class="external-link uri">https://doi.org/10.1111/2041-210X.13792</a>).</p>
 <p>The code below creates a compadre database object from the matrix at
-line 3 of the data.frame created by the function “pop01_param_poun”.</p>
+line 3 of the data.frame created earlier by the function
+“pop01_param_poun”.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>idNum <span class="op">=</span> <span class="fl">3</span>, </span>
 <span>                   SpeciesAccepted <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="fl">3</span> , <span class="st">'species'</span><span class="op">]</span>,</span>
@@ -546,10 +548,11 @@ line 3 of the data.frame created by the function “pop01_param_poun”.</p>
 <span>  metadata <span class="op">=</span> <span class="va">meta</span>, </span>
 <span>  stages <span class="op">=</span> <span class="va">stageInfo</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Now we have seperated into the growth/survival and reproduciton
-matrixes we can obtain many useful summaries of age related life histroy
-traits using functions in the package Rage (<a href="https://jonesor.github.io/Rage/" class="external-link uri">https://jonesor.github.io/Rage/</a>).</p>
-<p>The code below provides generation time and life expectancy.</p>
+<p>Now we have the growth/survival and reproduciton matrixes, we can
+obtain many useful age related life history traits using functions in
+the package Rage (<a href="https://jonesor.github.io/Rage/" class="external-link uri">https://jonesor.github.io/Rage/</a>).</p>
+<p>The code below provides examples of generation time and life
+expectancy.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the time required for a population to </span></span>
 <span><span class="co"># increase by a factor of R0 (the net reproductive rate)</span></span>
@@ -564,6 +567,7 @@ traits using functions in the package Rage (<a href="https://jonesor.github.io/R
 <span></span>
 <span><span class="fu">Rage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rage/man/life_expect.html" class="external-link">life_expect_mean</a></span><span class="op">(</span>matU <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Rcompadre/man/CompadreMatrixMethods.html" class="external-link">matU</a></span><span class="op">(</span><span class="va">my_comadre</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, start <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.484286</span></span>
+<span><span class="co"># Add life expectancies of all stages to get overall longevity - 21.87 years</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">Rage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rage/man/life_expect.html" class="external-link">life_expect_mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Rcompadre/man/CompadreMatrixMethods.html" class="external-link">matU</a></span><span class="op">(</span><span class="va">my_comadre</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, start <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 21.87715</span></span></code></pre></div>
 <p>We can also plot the life cycle diagram.</p>
@@ -1082,8 +1086,7 @@ population models.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>atmp <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>length_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="va">acount</span> <span class="op">/</span> <span class="fl">1000</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"K km"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># </span></span>
+<span><span class="co"># How much does the Brazilian Amazon represent? Pull values.</span></span>
 <span><span class="va">river_totkm</span> <span class="op">&lt;-</span> <span class="va">river_tot</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">acount</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span><span class="va">river_amazon_brazil</span> <span class="op">&lt;-</span>   <span class="va">river_tot</span> <span class="op">|&gt;</span></span>
@@ -1093,8 +1096,29 @@ population models.</p>
 <span><span class="va">river_amazon_brazil_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="op">(</span><span class="va">river_amazon_brazil</span> <span class="op">/</span> <span class="va">river_totkm</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="plot-the-results-">Plot the results.<a class="anchor" aria-label="anchor" href="#plot-the-results-"></a>
+<h3 id="results-1">Results<a class="anchor" aria-label="anchor" href="#results-1"></a>
 </h3>
+<ul>
+<li><p>Within 3 generations, the adult female population is predicted to
+decline by 50.6% in the future (25 and 75% quantile range: 64.7 - 34.4 %
+decline).</p></li>
+<li>
+<p>This is a conservative (best-case) estimate.<br>
+Endangered (A3bd), is threfore a precautionary IUCN Red List
+assessment.</p>
+<ul>
+<li>Important threats are not included (e.g. land use change).</li>
+<li>Losses are potentially buffered by an overly generous 20% limit to
+increases in unaccesible populations.</li>
+<li>Population projections use the earliest likely breeding age.</li>
+<li>Hunting of females was limited to 10% per year in the most
+pessimistic scenarios.</li>
+</ul>
+</li>
+</ul>
+<div class="section level4">
+<h4 id="plot-to-check">Plot to check<a class="anchor" aria-label="anchor" href="#plot-to-check"></a>
+</h4>
 <ul>
 <li>Compare population changes across basin-country combinations.<br>
 The code below makes a figure with population change on the x-axis and
@@ -1151,11 +1175,6 @@ along the x-axis.</li>
 <span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Check plot.</p>
 <p><img src="fig_basin_country_summary.png" width="80%" height="80%"></p>
-<ul>
-<li>Within 3 generations, the adult female population is predicted to
-decline by 50.6% in the future (25 and 75% quantile range: 64.7 - 34.4 %
-decline).</li>
-</ul>
 <p>In the above figure a population change of “-0.5” is 50% loss. The
 shaded shapes show predicted population changes for each basin-country
 combination. The labels to the right show river lengths in thousands of
@@ -1187,6 +1206,7 @@ Basin seperated into major basins (Madeira, Negro, etc). But the
 summaries presented here provide a general overview and enable robust
 assessment of the results. Additionally, the overall patterns do not
 change if the Amazon basin is seperated further.</p>
+</div>
 </div>
 </div>
 <div class="section level2">
