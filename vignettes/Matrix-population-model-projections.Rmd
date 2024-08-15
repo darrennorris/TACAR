@@ -31,7 +31,8 @@ Split into three parts:
 
 ## Projections
 
-Section objectives
+### Section objectives
+
  - Projection parameters  
  Loads data frame with population parameters and explores the 
  structure of stage-based matrix models. 
@@ -214,8 +215,8 @@ saveRDS(dout, "inst/other/dout.rds")
 nruns <- 50
 dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
 dt_stoch$arun <- rep(1:nruns, each = nrow(dt))
-# Approx 90 minutes. 1,212,000 rows. Projections quick. Summaries slow.
-# 11:32 - 13:14
+# Approx 90 - 120 minutes. 1,212,000 rows. Projections quick. Summaries slow.
+# 19:41 - 21:42
 dout_stoch <- plyr::ddply(dt_stoch, 
                     c("arun", "species", "type", "first_year","akey"), 
                     .fun =  pop03_doproj_stoch)
@@ -325,7 +326,7 @@ would result in a categorization of ‘Least Concern’ OR
 - Green Status Functional    
 Functional when population lower quartile is 10 times base level.
 ```{r model-summaries, warning=FALSE, message=FALSE, eval=FALSE}
-# load data. 2 August 2024 with 1218060 rows and 21 columns
+# load data. 14 August 2024 with 1218060 rows and 26 columns
 dout_all <- readRDS("inst/other/dout_all.rds")
 # 101 years, 5 model types (deterministic with 6060, stochastic with 6060 * 50), 
 # 6 harvest levels, 10 first year levels
@@ -439,7 +440,7 @@ model_ref2 <- model_ref |> left_join(dout_all |>
             fem_diff_q75 = quantile(femnew_diff, probs = 0.75, na.rm = TRUE)) |> 
   ungroup() |> 
     mutate(ayear = paste("t", ayear, sep="")) |>
-  pivot_wider(names_from = ayear, 
+  tidyr::pivot_wider(names_from = ayear, 
                values_from = c(fem, fem_sd, fem_q25, fem_q75, fem_diff, 
                                fem_diff_sd, fem_diff_q25, fem_diff_q75)) |> 
   arrange(typef, first_year, modelf)
@@ -682,7 +683,9 @@ iqr_wt_25 <- Hmisc::wtd.quantile(x = df_country_basin$fem_diff,
                               w = df_country_basin$acount, probs = 0.25)
 iqr_wt_75 <- Hmisc::wtd.quantile(x = df_country_basin$fem_diff, 
                               w = df_country_basin$acount, probs = 0.75)
-
+change_value <- round(abs(mean_wt) * 100, 1)
+change_q25 <- round(abs(iqr_wt_25) * 100, 1)
+change_q75 <- round(abs(iqr_wt_75) * 100, 1)
 # Total river lengths
 river_tot <- df_country_basin |> 
   dplyr::group_by(basin_country, COUNTRY, BASIN_NAME, acount) |> 
@@ -702,10 +705,12 @@ river_amazon_brazil_prop <- round(((river_amazon_brazil / river_totkm) * 100), 1
 ```
 
 ### Plot the results.
-Compare population changes across basin-country combinations.
-The code below makes a figure with population change on the x-axis 
+
+ - Compare population changes across basin-country combinations.    
+ The code below makes a figure with population change on the x-axis 
 and basin-country combination on the y-axis. This avoids sqashing 
-long names if the basin-country combinations were on the x-axis.
+long names, which would happen if the basin-country combinations were 
+plotted along the x-axis.
 ```{r plot-country-basins, eval=FALSE}
 # Define function to calculate IQR at given quantiles
 iqr = function(z, lower = 0.25, upper = 0.75) {
@@ -762,25 +767,30 @@ Check plot.
 knitr::include_graphics("fig_basin_country_summary.png") 
 ```
 
-The shaded shapes in the above figure show predicted population changes 
-for each basin-country combination. 
+ - Within 3 generations, the adult female population is predicted 
+to decline by `r change_value`% in the future (25 and 75% quantile 
+range: `r change_q25` - `r change_q75` % decline).
+
+In the above figure a population change of "-0.5" is 50% loss.
+The shaded shapes show predicted population changes for each basin-country 
+combination. 
 The labels to the right show river lengths in thousands of 
 kilometers (e.g. "22.2 K km" is 22,200 kilometers).
 The vertical dashed line shows the overall mean value, and the verticle grey 
-shaded area is the interquartile range (IQR - 25% and 75% quantiles). 
+shaded area is the interquartile range (IQR - 25% and 75% quantile values). 
 As the basin-country combinations cover different sized areas, 
-estimates of overall mean and IQR are obtained using  
-calculations weighted by the river length.
-A population change of "-0.5" is 50% loss. 
+estimates of overall mean and IQR are obtained using calculations 
+weighted by the river length.
 
-Horizontal black crossbars show the median and interquartile range of 
-projection scenarios within each basin-country combination. These scenarios 
-represent the impact of threats (e.g. hunting) across three generations.
-The impact of threats ranges from most severe ("pessimistic"), 
-Business-as-usual ("BAU"), to least severe ("optimistic").
-Generation length was estimated from stage-based matrix population models, 
-and results include scenario results from mean (41 year), and the 
-interquartile range (35 and 45 year, 25% and 75% quantile values respectively).
+Within each basin-country combination, the horizontal black crossbars 
+show the median and interquartile range of projection scenarios. 
+These scenarios represent the impact of threats (e.g. hunting) across 
+three generations. The impact of threats ranges from most severe 
+("pessimistic"), Business-as-usual ("BAU"), to least severe ("optimistic").
+Generation length was estimated from stage-based matrix population models. 
+The scenario results include the mean (41 year), and the 
+interquartile range of generation length estimates (35 and 45 year, 
+25% and 75% quantile values respectively).
 Generation length follows the IUCN definition: 
 “Generation length is the average age of parents of the current cohort 
 (i.e., newborn individuals in the population). 
