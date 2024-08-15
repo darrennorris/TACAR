@@ -113,6 +113,9 @@ COM(P)ADRE is a global scale online repository for matrix population
 models (MPMs) and metadata on plants, animals, bacteria, viruses, algae, 
 and fungi. There are two R packages developed specifically to
 work with these MPMs: [Rcompadre](https://jonesor.github.io/Rcompadre/index.html) and [Rage](https://jonesor.github.io/Rage/).
+
+The code below creates a compadre database object from the matrix at line 
+3 of the data.frame created by the function "pop01_param_poun".
 ```{r rcompadre-example, warning=FALSE, message=FALSE}
 meta <- data.frame(idNum = 3, 
                    SpeciesAccepted = dt[3 , 'species'],
@@ -158,11 +161,11 @@ my_comadre <- Rcompadre::cdb_build_cdb(
 
 ```
 
-Now we have built the matrix we can obtain many useful summaries using
-functions in the package Rage (https://jonesor.github.io/Rage/).
+Now we have seperated into the growth/survival and reproduciton matrixes 
+we can obtain many useful summaries of age related life histroy 
+traits using functions in the package Rage (https://jonesor.github.io/Rage/).
 
-We can get life history metrics including generation time and 
-life expectancy.
+The code below provides generation time and life expectancy.
 ```{r gen-time}
 # the time required for a population to 
 # increase by a factor of R0 (the net reproductive rate)
