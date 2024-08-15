@@ -720,7 +720,7 @@ river_amazon_brazil_prop <- round(((river_amazon_brazil / river_totkm) * 100), 1
 
 ```
 
-### Results
+### Findings
 
  - Within 3 generations, the adult female population is predicted 
 to decline by `r change_value`% in the future (25 and 75% quantile 
@@ -736,6 +736,9 @@ range: `r change_q25` - `r change_q75` % decline).
  
 #### Plot to check
  - Compare population changes across basin-country combinations.    
+ Presenting the results visually can fascilitate a more detailed 
+ understanding of the patterns in the results.
+
  The code below makes a figure with population change on the x-axis 
 and basin-country combination on the y-axis. This avoids sqashing 
 long names, which would happen if the basin-country combinations were 
@@ -812,11 +815,12 @@ show the median and interquartile range of projection scenarios.
 These scenarios represent the impact of threats (e.g. hunting) across 
 three generations. The impact of threats ranges from most severe 
 ("pessimistic"), Business-as-usual ("BAU"), to least severe ("optimistic").
-Generation length was estimated from stage-based matrix population models. 
+Generation length was estimated from stage-based matrix population 
+models (Bienvenu & Legendre, 2015). 
 The scenario results include the mean (41 year), and the 
-interquartile range of generation length estimates (35 and 45 year, 
+interquartile range of three generations (35 and 45 year, 
 25% and 75% quantile values respectively).
-Generation length follows the IUCN definition: 
+Generation length estimation follows the IUCN definition: 
 “Generation length is the average age of parents of the current cohort 
 (i.e., newborn individuals in the population). 
 Generation length therefore reflects the turnover rate of breeding 
@@ -834,6 +838,10 @@ robust assessment of the results. Additionally, the overall patterns do not
 change if the Amazon basin is seperated further.
 
 ## References
+Bienvenu F, Legendre S. 2015. A new approach to the generation time in 
+matrix population models. The American Naturalist. 185(6):834-43. 
+https://doi.org/10.1086/681104.
+
 IUCN. 2001. IUCN Red List Categories and Criteria: Version 3.1. 
 IUCN Species Survival Commission. IUCN, Gland, Switzerland and 
 Cambridge, U.K.
@@ -844,7 +852,7 @@ Available at www.iucnredlist.org/technical-documents/categories-and-criteria
 
 Jones OR, Barks P, Stott IM, James TD, Levin SC, Petry WK, Capdevila P, 
 Che-Castaldo J, Jackson J, Römer G, Schuette C, Thomas CC, 
-Salguero-Gómez R (2022). Rcompadre and Rage - two R packages to 
+Salguero-Gómez R. 2022. Rcompadre and Rage - two R packages to 
 facilitate the use of the COMPADRE and COMADRE databases and 
 calculation of life history traits from matrix population models.
 Methods in Ecology and Evolution, 13, 770-781. doi:10.1111/2041-210X.13792.
