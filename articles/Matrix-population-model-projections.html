@@ -1096,7 +1096,7 @@ population models.</p>
 <span><span class="va">river_amazon_brazil_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="op">(</span><span class="va">river_amazon_brazil</span> <span class="op">/</span> <span class="va">river_totkm</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="results-1">Results<a class="anchor" aria-label="anchor" href="#results-1"></a>
+<h3 id="findings">Findings<a class="anchor" aria-label="anchor" href="#findings"></a>
 </h3>
 <ul>
 <li><p>Within 3 generations, the adult female population is predicted to
@@ -1121,11 +1121,13 @@ pessimistic scenarios.</li>
 </h4>
 <ul>
 <li>Compare population changes across basin-country combinations.<br>
-The code below makes a figure with population change on the x-axis and
-basin-country combination on the y-axis. This avoids sqashing long
-names, which would happen if the basin-country combinations were plotted
-along the x-axis.</li>
+Presenting the results visually can fascilitate a more detailed
+understanding of the patterns in the results.</li>
 </ul>
+<p>The code below makes a figure with population change on the x-axis
+and basin-country combination on the y-axis. This avoids sqashing long
+names, which would happen if the basin-country combinations were plotted
+along the x-axis.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define function to calculate IQR at given quantiles</span></span>
 <span><span class="va">iqr</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">z</span>, <span class="va">lower</span> <span class="op">=</span> <span class="fl">0.25</span>, <span class="va">upper</span> <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1190,15 +1192,16 @@ scenarios represent the impact of threats (e.g. hunting) across three
 generations. The impact of threats ranges from most severe
 (“pessimistic”), Business-as-usual (“BAU”), to least severe
 (“optimistic”). Generation length was estimated from stage-based matrix
-population models. The scenario results include the mean (41 year), and
-the interquartile range of generation length estimates (35 and 45 year,
-25% and 75% quantile values respectively). Generation length follows the
-IUCN definition: “Generation length is the average age of parents of the
-current cohort (i.e., newborn individuals in the population). Generation
-length therefore reflects the turnover rate of breeding individuals in a
-population….. Where generation length varies under threat, such as the
-exploitation of fishes, the more natural, i.e. pre-disturbance,
-generation length should be used.” (IUCN 2001, 2012).</p>
+population models (Bienvenu &amp; Legendre, 2015). The scenario results
+include the mean (41 year), and the interquartile range of three
+generations (35 and 45 year, 25% and 75% quantile values respectively).
+Generation length estimation follows the IUCN definition: “Generation
+length is the average age of parents of the current cohort (i.e.,
+newborn individuals in the population). Generation length therefore
+reflects the turnover rate of breeding individuals in a population…..
+Where generation length varies under threat, such as the exploitation of
+fishes, the more natural, i.e. pre-disturbance, generation length should
+be used.” (IUCN 2001, 2012).</p>
 <p>The Amazon Basin in Brazil represents the largest proportion of
 rivers (51.1%). Considering the spatial variation in both threats and
 population genetics, it would probably be useful to include the Amazon
@@ -1212,6 +1215,8 @@ change if the Amazon basin is seperated further.</p>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
+<p>Bienvenu F, Legendre S. 2015. A new approach to the generation time
+in matrix population models. The American Naturalist. 185(6):834-43. <a href="https://doi.org/10.1086/681104" class="external-link uri">https://doi.org/10.1086/681104</a>.</p>
 <p>IUCN. 2001. IUCN Red List Categories and Criteria: Version 3.1. IUCN
 Species Survival Commission. IUCN, Gland, Switzerland and Cambridge,
 U.K.</p>
@@ -1220,7 +1225,7 @@ Second edition. IUCN, Gland, Switzerland and Cambridge, UK. Available at
 www.iucnredlist.org/technical-documents/categories-and-criteria</p>
 <p>Jones OR, Barks P, Stott IM, James TD, Levin SC, Petry WK, Capdevila
 P, Che-Castaldo J, Jackson J, Römer G, Schuette C, Thomas CC,
-Salguero-Gómez R (2022). Rcompadre and Rage - two R packages to
+Salguero-Gómez R. 2022. Rcompadre and Rage - two R packages to
 facilitate the use of the COMPADRE and COMADRE databases and calculation
 of life history traits from matrix population models. Methods in Ecology
 and Evolution, 13, 770-781. <a href="doi:10.1111/2041-210X.13792" class="uri">doi:10.1111/2041-210X.13792</a>.</p>
