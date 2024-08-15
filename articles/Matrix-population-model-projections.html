@@ -105,13 +105,16 @@ modelling.</p></li>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://had.co.nz/plyr" class="external-link">plyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://forcats.tidyverse.org/" class="external-link">forcats</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popbio</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rcompadre" class="external-link">Rcompadre</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rage" class="external-link">Rage</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://darrennorris.github.io/TACAR/">TACAR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="projection-parameters-">Projection parameters.<a class="anchor" aria-label="anchor" href="#projection-parameters-"></a>
@@ -490,11 +493,15 @@ d
 </tr>
 </tbody>
 </table>
-<p>This matrix includes information of population growth and survival
-and reproduction.</p>
+<p>This matrix includes information of population growth, survival and
+reproduction.</p>
 <p>See <a href="https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html" class="external-link uri">https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html</a></p>
-<p>We can show the different matrix components converting to the
-structure recommended by …</p>
+<p>We can show the different matrix components (growth, survival and
+reproduction) by converting to the structure recommended by <a href="https://compadre-db.org/" class="external-link">COM(P)ADRE</a>. COM(P)ADRE is a global
+scale online repository for matrix population models (MPMs) and metadata
+on plants, animals, bacteria, viruses, algae, and fungi. There are two R
+packages developed specifically to work with these MPMs: <a href="https://jonesor.github.io/Rcompadre/index.html" class="external-link">Rcompadre</a> and
+<a href="https://jonesor.github.io/Rage/" class="external-link">Rage</a>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>idNum <span class="op">=</span> <span class="fl">3</span>, </span>
 <span>                   SpeciesAccepted <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="fl">3</span> , <span class="st">'species'</span><span class="op">]</span>,</span>
@@ -696,6 +703,8 @@ expectancy.</p>
 </h3>
 <p>Model summaries to link with scenarios. Summaries across stochastic
 runs for each model.</p>
+<p>The scenarios are used to help inform IUCN Red List and Green Status
+assessments.</p>
 <ul>
 <li><p>Red List guidelines p38<br>
 For example, upper and lower quartiles of the projected magnitude of the
@@ -715,6 +724,8 @@ Declining’.</p></li>
 Functional when population lower quartile is 10 times base
 level.</p></li>
 </ul>
+<p>The code below adds projection results to each of the matrix
+population models.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load data. 14 August 2024 with 1218060 rows and 26 columns</span></span>
 <span><span class="va">dout_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"inst/other/dout_all.rds"</span><span class="op">)</span></span>
@@ -882,16 +893,15 @@ level.</p></li>
 <p>Integrate point locations and population projections.</p>
 <p>Specifically:</p>
 <ul>
-<li>Join point scenarios with population projections.</li>
+<li>Join points with scenarios and population projections.</li>
 <li>Generate data used for summaries.</li>
 <li>Make summaries.</li>
-<li>Create results.</li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="join-with-scenarios">Join with scenarios<a class="anchor" aria-label="anchor" href="#join-with-scenarios"></a>
 </h3>
-<p>Load projection model lookup table.</p>
+<p>Load data: points, projection model lookup table and scenarios.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># point data</span></span>
 <span><span class="co"># load points made previously in prep_river_points.Rmd. RIVORD 1 to 5. </span></span>
@@ -1186,6 +1196,12 @@ U.K.</p>
 <p>IUCN. 2012. IUCN Red List Categories and Criteria: Version 3.1.
 Second edition. IUCN, Gland, Switzerland and Cambridge, UK. Available at
 www.iucnredlist.org/technical-documents/categories-and-criteria</p>
+<p>Jones OR, Barks P, Stott IM, James TD, Levin SC, Petry WK, Capdevila
+P, Che-Castaldo J, Jackson J, Römer G, Schuette C, Thomas CC,
+Salguero-Gómez R (2022). Rcompadre and Rage - two R packages to
+facilitate the use of the COMPADRE and COMADRE databases and calculation
+of life history traits from matrix population models. Methods in Ecology
+and Evolution, 13, 770-781. <a href="doi:10.1111/2041-210X.13792" class="uri">doi:10.1111/2041-210X.13792</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
