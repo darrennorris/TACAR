@@ -112,10 +112,11 @@ by converting to the structure recommended by [COM(P)ADRE](https://compadre-db.o
 COM(P)ADRE is a global scale online repository for matrix population 
 models (MPMs) and metadata on plants, animals, bacteria, viruses, algae, 
 and fungi. There are two R packages developed specifically to
-work with these MPMs: [Rcompadre](https://jonesor.github.io/Rcompadre/index.html) and [Rage](https://jonesor.github.io/Rage/).
+work with these MPMs: [Rcompadre](https://jonesor.github.io/Rcompadre/index.html) 
+and [Rage](https://jonesor.github.io/Rage/) (Jones et. al. 2022, https://doi.org/10.1111/2041-210X.13792).
 
 The code below creates a compadre database object from the matrix at line 
-3 of the data.frame created by the function "pop01_param_poun".
+3 of the data.frame created earlier by the function "pop01_param_poun".
 ```{r rcompadre-example, warning=FALSE, message=FALSE}
 meta <- data.frame(idNum = 3, 
                    SpeciesAccepted = dt[3 , 'species'],
@@ -161,11 +162,11 @@ my_comadre <- Rcompadre::cdb_build_cdb(
 
 ```
 
-Now we have seperated into the growth/survival and reproduciton matrixes 
-we can obtain many useful summaries of age related life histroy 
+Now we have the growth/survival and reproduciton matrixes, 
+we can obtain many useful age related life history 
 traits using functions in the package Rage (https://jonesor.github.io/Rage/).
 
-The code below provides generation time and life expectancy.
+The code below provides examples of generation time and life expectancy.
 ```{r gen-time}
 # the time required for a population to 
 # increase by a factor of R0 (the net reproductive rate)
@@ -176,6 +177,7 @@ Rage::gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "ag
 Rage::gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "cohort")
 
 Rage::life_expect_mean(matU = matU(my_comadre)[[1]], start = 1)
+# Add life expectancies of all stages to get overall longevity - 21.87 years
 sum(Rage::life_expect_mean(matU(my_comadre)[[1]], start = NULL))
 ```
 
@@ -214,7 +216,6 @@ lambda_max <- max(model_sum$lambda) # 1.1539
 saveRDS(dout, "inst/other/dout.rds")
 
 ```
-
 
 
 #### Stochastic models
@@ -708,8 +709,7 @@ river_tot <- df_country_basin |>
   dplyr::summarise(atmp = dplyr::n()) |> 
   dplyr::ungroup() |> 
   dplyr::mutate(length_label = paste(round((acount / 1000), 1), "K km"))
-
-# 
+# How much does the Brazilian Amazon represent? Pull values.
 river_totkm <- river_tot |> 
   dplyr::pull(acount) |> sum() 
 river_amazon_brazil <-   river_tot |>
@@ -720,8 +720,21 @@ river_amazon_brazil_prop <- round(((river_amazon_brazil / river_totkm) * 100), 1
 
 ```
 
-### Plot the results.
+### Results
 
+ - Within 3 generations, the adult female population is predicted 
+to decline by `r change_value`% in the future (25 and 75% quantile 
+range: `r change_q25` - `r change_q75` % decline).
+
+ - This is a conservative (best-case) estimate.    
+ Endangered (A3bd), is threfore a precautionary IUCN Red List assessment.    
+      - Important threats are not included (e.g. land use change). 
+      - Losses are potentially buffered by an overly generous 20% limit to increases in unaccesible populations.
+      - Population projections use the earliest likely breeding age. 
+      - Hunting of females was limited to 10% per year in the most pessimistic scenarios.
+ 
+ 
+#### Plot to check
  - Compare population changes across basin-country combinations.    
  The code below makes a figure with population change on the x-axis 
 and basin-country combination on the y-axis. This avoids sqashing 
@@ -782,10 +795,6 @@ Check plot.
 ```{r fig-check-plot, echo=FALSE, out.width="80%", out.height="80%"}
 knitr::include_graphics("fig_basin_country_summary.png") 
 ```
-
- - Within 3 generations, the adult female population is predicted 
-to decline by `r change_value`% in the future (25 and 75% quantile 
-range: `r change_q25` - `r change_q75` % decline).
 
 In the above figure a population change of "-0.5" is 50% loss.
 The shaded shapes show predicted population changes for each basin-country 
