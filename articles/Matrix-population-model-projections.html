@@ -84,10 +84,13 @@ Develop graphics to clearly communicate the results obtained.</p></li>
 <div class="section level2">
 <h2 id="projections">Projections<a class="anchor" aria-label="anchor" href="#projections"></a>
 </h2>
-<p>Section objectives - Projection parameters<br>
-Loads data frame with population parameters and explores the structure
-of stage-based matrix models.</p>
+<div class="section level3">
+<h3 id="section-objectives">Section objectives<a class="anchor" aria-label="anchor" href="#section-objectives"></a>
+</h3>
 <ul>
+<li><p>Projection parameters<br>
+Loads data frame with population parameters and explores the structure
+of stage-based matrix models.</p></li>
 <li><p>Projection models<br>
 Run deterministic and stochastic projections, combine results and export
 for future use.</p></li>
@@ -95,6 +98,7 @@ for future use.</p></li>
 Summarise projection models and export for future use in scenario
 modelling.</p></li>
 </ul>
+</div>
 <div class="section level3">
 <h3 id="packages">Packages<a class="anchor" aria-label="anchor" href="#packages"></a>
 </h3>
@@ -599,8 +603,8 @@ expectancy.</p>
 <span><span class="va">nruns</span> <span class="op">&lt;-</span> <span class="fl">50</span></span>
 <span><span class="va">dt_stoch</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span><span class="op">)</span>, <span class="va">nruns</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="va">dt_stoch</span><span class="op">$</span><span class="va">arun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nruns</span>, each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># Approx 90 minutes. 1,212,000 rows. Projections quick. Summaries slow.</span></span>
-<span><span class="co"># 11:32 - 13:14</span></span>
+<span><span class="co"># Approx 90 - 120 minutes. 1,212,000 rows. Projections quick. Summaries slow.</span></span>
+<span><span class="co"># 19:41 - 21:42</span></span>
 <span><span class="va">dout_stoch</span> <span class="op">&lt;-</span> <span class="fu">plyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyr/man/ddply.html" class="external-link">ddply</a></span><span class="op">(</span><span class="va">dt_stoch</span>, </span>
 <span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"arun"</span>, <span class="st">"species"</span>, <span class="st">"type"</span>, <span class="st">"first_year"</span>,<span class="st">"akey"</span><span class="op">)</span>, </span>
 <span>                    .fun <span class="op">=</span>  <span class="va">pop03_doproj_stoch</span><span class="op">)</span></span>
@@ -712,7 +716,7 @@ Functional when population lower quartile is 10 times base
 level.</p></li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># load data. 2 August 2024 with 1218060 rows and 21 columns</span></span>
+<code class="sourceCode R"><span><span class="co"># load data. 14 August 2024 with 1218060 rows and 26 columns</span></span>
 <span><span class="va">dout_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"inst/other/dout_all.rds"</span><span class="op">)</span></span>
 <span><span class="co"># 101 years, 5 model types (deterministic with 6060, stochastic with 6060 * 50), </span></span>
 <span><span class="co"># 6 harvest levels, 10 first year levels</span></span>
@@ -826,7 +830,7 @@ level.</p></li>
 <span>            fem_diff_q75 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">femnew_diff</span>, probs <span class="op">=</span> <span class="fl">0.75</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ayear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"t"</span>, <span class="va">ayear</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">ayear</span>, </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">ayear</span>, </span>
 <span>               values_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">fem</span>, <span class="va">fem_sd</span>, <span class="va">fem_q25</span>, <span class="va">fem_q75</span>, <span class="va">fem_diff</span>, </span>
 <span>                               <span class="va">fem_diff_sd</span>, <span class="va">fem_diff_q25</span>, <span class="va">fem_diff_q75</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">typef</span>, <span class="va">first_year</span>, <span class="va">modelf</span><span class="op">)</span></span>
@@ -1056,7 +1060,9 @@ level.</p></li>
 <span>                              w <span class="op">=</span> <span class="va">df_country_basin</span><span class="op">$</span><span class="va">acount</span>, probs <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
 <span><span class="va">iqr_wt_75</span> <span class="op">&lt;-</span> <span class="fu">Hmisc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Hmisc/man/wtd.stats.html" class="external-link">wtd.quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">df_country_basin</span><span class="op">$</span><span class="va">fem_diff</span>, </span>
 <span>                              w <span class="op">=</span> <span class="va">df_country_basin</span><span class="op">$</span><span class="va">acount</span>, probs <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span>
-<span></span>
+<span><span class="va">change_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">mean_wt</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">change_q25</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">iqr_wt_25</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">change_q75</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">iqr_wt_75</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co"># Total river lengths</span></span>
 <span><span class="va">river_tot</span> <span class="op">&lt;-</span> <span class="va">df_country_basin</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">basin_country</span>, <span class="va">COUNTRY</span>, <span class="va">BASIN_NAME</span>, <span class="va">acount</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1076,10 +1082,13 @@ level.</p></li>
 <div class="section level3">
 <h3 id="plot-the-results-">Plot the results.<a class="anchor" aria-label="anchor" href="#plot-the-results-"></a>
 </h3>
-<p>Compare population changes across basin-country combinations. The
-code below makes a figure with population change on the x-axis and
-basin-country combination on the y-axis. This avoids sqashing long names
-if the basin-country combinations were on the x-axis.</p>
+<ul>
+<li>Compare population changes across basin-country combinations.<br>
+The code below makes a figure with population change on the x-axis and
+basin-country combination on the y-axis. This avoids sqashing long
+names, which would happen if the basin-country combinations were plotted
+along the x-axis.</li>
+</ul>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define function to calculate IQR at given quantiles</span></span>
 <span><span class="va">iqr</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">z</span>, <span class="va">lower</span> <span class="op">=</span> <span class="fl">0.25</span>, <span class="va">upper</span> <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1129,27 +1138,32 @@ if the basin-country combinations were on the x-axis.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Check plot.</p>
 <p><img src="fig_basin_country_summary.png" width="80%" height="80%"></p>
-<p>The shaded shapes in the above figure show predicted population
-changes for each basin-country combination. The labels to the right show
-river lengths in thousands of kilometers (e.g. “22.2 K km” is 22,200
-kilometers). The vertical dashed line shows the overall mean value, and
-the verticle grey shaded area is the interquartile range (IQR - 25% and
-75% quantiles). As the basin-country combinations cover different sized
-areas, estimates of overall mean and IQR are obtained using<br>
-calculations weighted by the river length. A population change of “-0.5”
-is 50% loss.</p>
-<p>Horizontal black crossbars show the median and interquartile range of
-projection scenarios within each basin-country combination. These
+<ul>
+<li>Within 3 generations, the adult female population is predicted to
+decline by 50.6% in the future (25 and 75% quantile range: 64.5 - 34.8 %
+decline).</li>
+</ul>
+<p>In the above figure a population change of “-0.5” is 50% loss. The
+shaded shapes show predicted population changes for each basin-country
+combination. The labels to the right show river lengths in thousands of
+kilometers (e.g. “22.2 K km” is 22,200 kilometers). The vertical dashed
+line shows the overall mean value, and the verticle grey shaded area is
+the interquartile range (IQR - 25% and 75% quantile values). As the
+basin-country combinations cover different sized areas, estimates of
+overall mean and IQR are obtained using calculations weighted by the
+river length.</p>
+<p>Within each basin-country combination, the horizontal black crossbars
+show the median and interquartile range of projection scenarios. These
 scenarios represent the impact of threats (e.g. hunting) across three
 generations. The impact of threats ranges from most severe
 (“pessimistic”), Business-as-usual (“BAU”), to least severe
 (“optimistic”). Generation length was estimated from stage-based matrix
-population models, and results include scenario results from mean (41
-year), and the interquartile range (35 and 45 year, 25% and 75% quantile
-values respectively). Generation length follows the IUCN definition:
-“Generation length is the average age of parents of the current cohort
-(i.e., newborn individuals in the population). Generation length
-therefore reflects the turnover rate of breeding individuals in a
+population models. The scenario results include the mean (41 year), and
+the interquartile range of generation length estimates (35 and 45 year,
+25% and 75% quantile values respectively). Generation length follows the
+IUCN definition: “Generation length is the average age of parents of the
+current cohort (i.e., newborn individuals in the population). Generation
+length therefore reflects the turnover rate of breeding individuals in a
 population….. Where generation length varies under threat, such as the
 exploitation of fishes, the more natural, i.e. pre-disturbance,
 generation length should be used.” (IUCN 2001, 2012).</p>
