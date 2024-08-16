@@ -317,16 +317,15 @@ saveRDS(dout_all, "inst/other/dout_all.rds")
 
 ### Model lookup
 
-Model summaries to link with scenarios. Summaries across stochastic runs 
-for each model.
-
-The scenarios are used to help inform IUCN Red List  and 
+Derive model summaries to link with scenarios. 
+The scenarios are used to help inform IUCN Red List and 
 Green Status assessments.
 
-- Red List guidelines p38    
-For example, upper and lower quartiles of the projected magnitude of 
+- Red List guidelines    
+"For example, upper and lower quartiles of the projected magnitude of 
 the future reduction (i.e., reductions with 25% and 75% probability) 
-may be considered to represent a plausible range of projected reduction
+may be considered to represent a plausible range of projected reduction." 
+(IUCN, 2024 - section 4.5.2, p38).
 
 - Green Status Presence    
 Present when population is at least 1 as measured by lower quartile population.
@@ -849,6 +848,10 @@ Cambridge, U.K.
 IUCN. 2012. IUCN Red List Categories and Criteria: Version 3.1. 
 Second edition. IUCN, Gland, Switzerland and Cambridge, UK. 
 Available at www.iucnredlist.org/technical-documents/categories-and-criteria
+
+IUCN. 2024. Guidelines for Using the IUCN Red List Categories and Criteria. 
+Version 16. Prepared by the Standards and Petitions Committee. 
+Downloadable from https://www.iucnredlist.org/documents/RedListGuidelines.pdf.
 
 Jones OR, Barks P, Stott IM, James TD, Levin SC, Petry WK, Capdevila P, 
 Che-Castaldo J, Jackson J, Römer G, Schuette C, Thomas CC, 
