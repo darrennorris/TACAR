@@ -409,11 +409,13 @@ stage-based matrix.</p>
 <span>                   <span class="st">"d1"</span>, <span class="st">"d2"</span>, <span class="st">"d3"</span>, <span class="st">"d4"</span><span class="op">)</span></span>
 <span><span class="va">vpop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">dt</span><span class="op">[</span><span class="fl">3</span> , <span class="va">stage_names</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">pop_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="va">vpop</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>, ncol<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"4"</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_1"</span>, <span class="st">"_2"</span>, <span class="st">"_3"</span>, <span class="st">"_4"</span><span class="op">)</span>,</span>
 <span>                            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 The matrix should look like this:
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:left;">
 a
 </th>
@@ -430,6 +432,9 @@ d
 <tbody>
 <tr>
 <td style="text-align:left;font-weight: bold;">
+_1
+</td>
+<td style="text-align:left;">
 0.000000
 </td>
 <td style="text-align:left;">
@@ -444,6 +449,9 @@ d
 </tr>
 <tr>
 <td style="text-align:left;font-weight: bold;">
+_2
+</td>
+<td style="text-align:left;">
 0.200000
 </td>
 <td style="text-align:left;">
@@ -458,6 +466,9 @@ d
 </tr>
 <tr>
 <td style="text-align:left;font-weight: bold;">
+_3
+</td>
+<td style="text-align:left;">
 0.000000
 </td>
 <td style="text-align:left;">
@@ -472,6 +483,9 @@ d
 </tr>
 <tr>
 <td style="text-align:left;font-weight: bold;">
+_4
+</td>
+<td style="text-align:left;">
 0.000000
 </td>
 <td style="text-align:left;">
