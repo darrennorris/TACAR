@@ -1,0 +1,185 @@
+---
+title: "Population change map"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Interactive-map}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+<!-- Google Translate widget -->
+<div id="google_translate_element" style="float: right;"></div>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'ar,bn,pt,en,nl,es,fr,de,it,iw,hi,ja,ko,zh-CN'}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+```{r setup, echo=FALSE}
+library(TACAR)
+```
+
+
+```{r load-packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(leaflet)
+library(leafem)
+library(Hmisc)
+library(sf)
+library(knitr)
+library(kableExtra)
+library(htmltools) 
+library(patchwork)
+```
+
+```{r main-result, echo=FALSE}
+tot_t0 <- sum(points_bau_ffr$fem_t0)
+tot_t35 <- floor(sum(points_bau_ffr$fem_t35))
+pop_change_35 <- (tot_t35 - tot_t0) / tot_t0 
+change_value <- round(abs(pop_change_35) * 100, 1)
+
+# quantile wont work as there are few distinct values.
+# hist(points_bau_ffr$fem_diff_t35)
+#pop_change_35_q25 <- quantile(points_bau_ffr$fem_diff_t35, probs =0.25)
+#pop_change_35_q75 <- quantile(points_bau_ffr$fem_diff_t35, probs =0.75)
+
+# 100 years
+tot_t100 <- floor(sum(points_bau_ffr$fem_t100))
+pop_change_100 <- (tot_t100 - tot_t0) / tot_t0 
+change_value_100 <- round(abs(pop_change_100) * 100, 1)
+
+
+# Randomized resample to get quantile distribution.
+# Sample Function
+resample_and_calculate_change <- function(df, sample_percent = NA, 
+                                          sample_size = NA, 
+                                          col1, col2) {
+  # sample
+  if(!is.na(sample_size)){ 
+    sampled_df <- df |> 
+    dplyr::slice_sample(n = sample_size, replace = TRUE) 
+    }else{
+  sampled_df <- df |> 
+    dplyr::slice_sample(prop = (sample_percent / 100)) 
+    }
+  # calculate change
+  tot_tstart <- sum(sampled_df[ , col1]) 
+  tot_tend <- floor(sum(sampled_df[ , col2])) 
+  pop_change <- (tot_tend - tot_tstart) / tot_tstart
+  return(pop_change)
+}
+
+# 3 generations - 35 year is shortest (25 percentile of matrix model mother to cohort ages).
+set.seed(123)  # For reproducibility
+results_35 <- replicate(10000, resample_and_calculate_change(df = points_bau_ffr, sample_size = 1000, 
+                                                      col1 = "fem_t0", col2 = "fem_t35")) 
+pop_change_35_q25 <- quantile(results_35, probs =0.25)
+pop_change_35_q75 <- quantile(results_35, probs =0.75)
+q25_t35 <- round(abs(pop_change_35_q25) * 100, 1)
+q75_t35 <- round(abs(pop_change_35_q75) * 100, 1)
+
+# 100 years
+results_100 <- replicate(10000, resample_and_calculate_change(df = points_bau_ffr, 
+                                                              sample_size = 1000, 
+                                                      col1 = "fem_t0", col2 = "fem_t100")) 
+pop_change_100_q25 <- quantile(results_100, probs =0.25)
+pop_change_100_q75 <- quantile(results_100, probs =0.75)
+q25_t100 <- round(abs(pop_change_100_q25) * 100, 1)
+q75_t100 <- round(abs(pop_change_100_q75) * 100, 1)
+
+```
+
+Use the interactive map below to check population changes. Zoom in to see 
+where *Podocnemis unifilis* is Endangered based on IUCN Red List criteria - A3bd.
+
+- Overall *Podocnemis unifilis* is Endangered ("Em perigo" / "En peligro") 
+based on future population size reduction criteria - A3bd.    
+Within 3 generations (35 years) the adult female population is predicted 
+to decline by `r change_value`% in the future (25 and 75% quantile 
+range: `r q25_t35` - `r q75_t35` % decline). Within 100 years the adult 
+female population is predicted to decline by `r change_value_100`%.
+
+## Map
+If you find any errors (e.g. points where *Podocnemis unifilis* does not occur, 
+points where species is "Endangered" but populations are increasing etc) 
+please raise an issue at: https://github.com/darrennorris/testmap/issues . 
+
+```{r make-map-ffr, echo=FALSE, message=FALSE, warning=FALSE}
+points_bau4326 <- sf::st_as_sf(points_bau_ffr_map, crs = 3395) |> 
+  st_transform(4326) 
+levels(points_bau4326$flag_50_35y) <- c("No", "Yes")
+points_bau4326_low <- points_bau4326
+# label to plot with circle
+points_bau4326_low$label <- paste("Prot = ", points_bau4326_low$Protected, 
+                                  "Acc = ", points_bau4326_low$Accessible, 
+                                  "Free = ", points_bau4326_low$Free_flowing)
+# colour palette
+leaf_pal <- colorFactor(
+  palette = c("#7274C1", "#A3720E"), 
+  domain = points_bau4326$flag_50_35y
+)
+
+mypal <- c("#7274C1", "#A3720E")
+
+# interactive map. Options added to make panning smoother....
+leaflet::leaflet(points_bau4326_low, 
+                 options = leafletOptions(preferCanvas = TRUE)) |> 
+  addTiles(options = tileOptions(
+  updateWhenZooming = FALSE,      # map won't update tiles until zoom is done
+  updateWhenIdle = TRUE)) |> 
+  addCircles(color = ~leaf_pal(flag_50_35y), 
+             popup = ~htmlEscape(label),
+             group = "points_bau4326_low"
+) |>  
+  addCircleMarkers(color = ~leaf_pal(flag_50_35y), 
+             stroke = FALSE, fillOpacity = 0.4, 
+clusterOptions = markerClusterOptions(), 
+group = "points_bau4326"
+) |> 
+  addLegend("bottomright", pal = leaf_pal, title="Endangered",
+            values = ~flag_50_35y,
+            group = "en_legend") |> 
+  groupOptions("points_bau4326", zoomLevels = 1:7) |> 
+  groupOptions("points_bau4326_low", zoomLevels = 8:15) |> 
+  groupOptions("en_legend", zoomLevels = 8:15) |> 
+  addScaleBar() |> 
+  leafem::addMouseCoordinates()
+  
+```
+
+ - When you zoom in you will see shaded points.    
+ The points are brown where populations are predicted to decline by 50% 
+or more within 3 generations (35 years). Brown points therefore represent 
+rivers where the species is Endangered ("Em perigo" / "En peligro"), 
+following the IUCN Red List population size reduction criteria - A3bd 
+(https://www.iucnredlist.org/about/faqs).
+
+ - The points follow rivers mapped by remote sensing. 
+This standardized global scale mapping comes from 
+Grill et al 2019, Free-flowing Rivers: https://doi.org/10.1038/s41586-019-1111-9. 
+The points are locations along rivers selected to represent where 
+*Podocnemis unifilis* females are likely to nest and that are likely 
+to be accessible to people by boat. To facilitate online viewing the mapped 
+points are a subset at intervals of approximately 10 kilometers. 
+
+ - Due to the number of points, the map can become slow to respond when you zoom in.    
+ Zoom out to a level showing fewer points and you can pan around the map 
+to find the area of interest. Then zoom in again to check the coloured points.
+
+## Methods
+The analysis is developed here: https://github.com/darrennorris/TACAR, 
+The methods used are an extension of [Norris et. al. 2019](https://doi.org/10.1016/j.biocon.2019.02.022) that includes:
+
+- Stochastic population projections. 
+- Future impacts to populations caused by human acessibility (hunting) and actions that reduce river connectivity.

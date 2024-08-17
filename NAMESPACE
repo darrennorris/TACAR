@@ -3,6 +3,7 @@
 export(pop01_param_poun)
 export(pop03_doproj)
 export(pop03_doproj_stoch)
+importFrom(sf,st_as_sf)
 importFrom(stats,median)
 importFrom(stats,quantile)
 importFrom(stats,sd)

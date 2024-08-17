@@ -13,3 +13,4 @@
 [.]prj$
 [.]shx$
 ^inst/vector/poun_river_points\.gpkg$
+^data-raw$

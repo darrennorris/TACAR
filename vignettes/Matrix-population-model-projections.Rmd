@@ -607,7 +607,7 @@ saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr1a5.rds")
 ## Results
 
 ### Section objective
-Effectively communicate the results obtained.
+Present key findings from the analysis.
 
 ### Load and summarise data.
 ```{r load-results}
@@ -765,7 +765,7 @@ range: `r change_q25` - `r change_q75` % decline).
  - This is a conservative (best-case) estimate.    
  Endangered (A3bd), is threfore a precautionary IUCN Red List assessment.    
       - Important threats are not included (e.g. land use change). 
-      - Losses are potentially buffered by an overly generous 20% limit to increases in unaccesible populations.
+      - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible populations.
       - Population projections use the earliest likely breeding age. 
       - Hunting of females was limited to 10% per year in the most pessimistic scenarios.
  
