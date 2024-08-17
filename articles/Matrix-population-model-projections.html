@@ -124,8 +124,11 @@ model. This reflects diverse recovery (conservation action) and
 extinction (threat) scenarios.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pop01_param_poun.html">pop01_param_poun</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Population size constant.</span></span>
 <span><span class="va">nf</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">dt</span><span class="op">$</span><span class="va">adultF_n</span> <span class="op">&lt;-</span> <span class="va">nf</span></span>
+<span><span class="co"># No data on density dependence for any South American freshwater turtles.</span></span>
+<span><span class="co"># Here include a generous 20% ceiling on maximum populatioin increase.</span></span>
 <span><span class="va">ceiling_threshold</span> <span class="op">&lt;-</span> <span class="va">nf</span> <span class="op">+</span> <span class="op">(</span><span class="va">nf</span> <span class="op">*</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
 The first few rows should look like this….
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -504,7 +507,7 @@ packages developed specifically to work with these MPMs: <a href="https://joneso
 <a href="https://jonesor.github.io/Rage/" class="external-link">Rage</a> (Jones et. al. 2022,
 <a href="https://doi.org/10.1111/2041-210X.13792" class="external-link uri">https://doi.org/10.1111/2041-210X.13792</a>).</p>
 <p>The code below creates a compadre database object from the matrix at
-line 3 of the data.frame created earlier by the function
+line 3 of the data.frame “dt”, created earlier by the function
 “pop01_param_poun”.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>idNum <span class="op">=</span> <span class="fl">3</span>, </span>
@@ -580,9 +583,21 @@ expectancy.</p>
 <div class="section level3">
 <h3 id="projection-models-">Projection models.<a class="anchor" aria-label="anchor" href="#projection-models-"></a>
 </h3>
+<p>Here stage-based matrix population models are run using functions
+available in packages <a href="https://doi.org/10.18637/jss.v022.i11" class="external-link">popbio</a>, <a href="https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html" class="external-link">popdemo</a>
+and <a href="https://jonesor.github.io/Rage/" class="external-link">Rage</a>. A series of life
+history metrics are then calculated from the matrix population models
+using functions available in Rage (Jones et. al. 2022).</p>
 <div class="section level4">
 <h4 id="deterministic-models">Deterministic models<a class="anchor" aria-label="anchor" href="#deterministic-models"></a>
 </h4>
+<p>Deterministic models have no density-dependence and the population
+matrix is constant (i.e., vital rates do not change overtime (timestep
+to timestep)). Below the function “pop03_doproj” calculates
+deterministic projections and summaries for the population matrixes
+stored in the data.frame “dt”, created previously with the function
+“pop01_param_poun” (see Norris et. al. 2019 for full details and
+justification of the life stages used).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># project</span></span>
 <span><span class="va">dout</span> <span class="op">&lt;-</span> <span class="fu">plyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyr/man/ddply.html" class="external-link">ddply</a></span><span class="op">(</span><span class="va">dt</span>, </span>
@@ -609,6 +624,19 @@ expectancy.</p>
 <div class="section level4">
 <h4 id="stochastic-models">Stochastic models<a class="anchor" aria-label="anchor" href="#stochastic-models"></a>
 </h4>
+<p>Stochastic matrix population models use matrices to represent
+population dynamics, with the key feature of incorporating randomness or
+variability in vital rates (e.g. survival). This randomness reflects the
+inherent uncertainty and fluctuations in real-world systems, making
+these models more realistic than their deterministic counterparts. Here
+matrix switching is used to reflect changes in yearling survival over
+time.<br>
+The matrix changes randomly at each iteration of the model to
+incorporate random environmental and/or demographic variation. In the
+code below, the function “pop03_doproj_stoch” calculates stochastic
+projections and summaries for the population matrixes stored in the
+data.frame “dt”, created previously with the function
+“pop01_param_poun”.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Stochastic</span></span>
 <span><span class="co">#data frame with runs for processing</span></span>
@@ -616,7 +644,8 @@ expectancy.</p>
 <span><span class="va">nruns</span> <span class="op">&lt;-</span> <span class="fl">50</span></span>
 <span><span class="va">dt_stoch</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span><span class="op">)</span>, <span class="va">nruns</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="va">dt_stoch</span><span class="op">$</span><span class="va">arun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nruns</span>, each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># Approx 90 - 120 minutes. 1,212,000 rows. Projections quick. Summaries slow.</span></span>
+<span><span class="co"># Approx 90 - 120 minutes. 1,212,000 rows. </span></span>
+<span><span class="co"># Projections quick. Summaries across stochastic matrices slow.</span></span>
 <span><span class="co"># 19:41 - 21:42</span></span>
 <span><span class="va">dout_stoch</span> <span class="op">&lt;-</span> <span class="fu">plyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyr/man/ddply.html" class="external-link">ddply</a></span><span class="op">(</span><span class="va">dt_stoch</span>, </span>
 <span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"arun"</span>, <span class="st">"species"</span>, <span class="st">"type"</span>, <span class="st">"first_year"</span>,<span class="st">"akey"</span><span class="op">)</span>, </span>
@@ -894,10 +923,12 @@ population models.</p>
 <div class="section level3">
 <h3 id="section-objective">Section objective<a class="anchor" aria-label="anchor" href="#section-objective"></a>
 </h3>
-<p>Integrate point locations and population projections.</p>
+<p>Integrate point locations and population projections with
+conservation management scenarios.</p>
 <p>Specifically:</p>
 <ul>
-<li>Join points with scenarios and population projections.</li>
+<li>Join points with conservation management scenarios and population
+projections.</li>
 <li>Generate data used for summaries.</li>
 <li>Make summaries.</li>
 </ul>
@@ -1230,6 +1261,16 @@ Salguero-Gómez R. 2022. Rcompadre and Rage - two R packages to
 facilitate the use of the COMPADRE and COMADRE databases and calculation
 of life history traits from matrix population models. Methods in Ecology
 and Evolution, 13, 770-781. <a href="doi:10.1111/2041-210X.13792" class="uri">doi:10.1111/2041-210X.13792</a>.</p>
+<p>Norris D, Peres CA, Michalski F, Gibbs JP. 2019. Prospects for
+freshwater turtle population recovery are catalyzed by pan-Amazonian
+community-based management. Biological Conservation. 233:51-60. <a href="https://doi.org/10.1016/j.biocon.2019.02.022" class="external-link uri">https://doi.org/10.1016/j.biocon.2019.02.022</a></p>
+<p>Stott, I. popdemo vignette: <a href="https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html" class="external-link uri">https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html</a></p>
+<p>Stott, I., Hodgson, D.J. and Townley, S. 2012. popdemo: an R package
+for population demography using projection matrix analysis. Methods in
+Ecology and Evolution, 3: 797-802. <a href="https://doi.org/10.1111/j.2041-210X.2012.00222.x" class="external-link uri">https://doi.org/10.1111/j.2041-210X.2012.00222.x</a></p>
+<p>Stubben, C., &amp; Milligan, B. 2007. Estimating and Analyzing
+Demographic Models Using the popbio Package in R. Journal of Statistical
+Software, 22(11), 1–23. <a href="https://doi.org/10.18637/jss.v022.i11" class="external-link uri">https://doi.org/10.18637/jss.v022.i11</a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
