@@ -76,10 +76,31 @@ and stochastic population projections with stage-based Matrix Population
 Models.</p></li>
 <li><p>Scenario integration<br>
 This section integrates the population projections across spatially
-explicit model scenarios.</p></li>
+explicit conservation management scenarios.</p></li>
 <li><p>Results<br>
-Develop graphics to clearly communicate the results obtained.</p></li>
+Key findings and graphics to clearly communicate the results
+obtained.</p></li>
 </ul>
+</div>
+<div class="section level2">
+<h2 id="packages">Packages<a class="anchor" aria-label="anchor" href="#packages"></a>
+</h2>
+<p>The following packages are necessary for the workflow to integrate
+differrent data types, run projections and produce results:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://had.co.nz/plyr" class="external-link">plyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://forcats.tidyverse.org/" class="external-link">forcats</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hbiostat.org/R/Hmisc/" class="external-link">Hmisc</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popbio</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rcompadre" class="external-link">Rcompadre</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rage" class="external-link">Rage</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://darrennorris.github.io/TACAR/">TACAR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="projections">Projections<a class="anchor" aria-label="anchor" href="#projections"></a>
@@ -100,23 +121,6 @@ modelling.</p></li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="packages">Packages<a class="anchor" aria-label="anchor" href="#packages"></a>
-</h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://had.co.nz/plyr" class="external-link">plyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://forcats.tidyverse.org/" class="external-link">forcats</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popbio</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rcompadre" class="external-link">Rcompadre</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rage" class="external-link">Rage</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://darrennorris.github.io/TACAR/">TACAR</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
 <h3 id="projection-parameters-">Projection parameters.<a class="anchor" aria-label="anchor" href="#projection-parameters-"></a>
 </h3>
 <p>Each row holds a unique set of parameters for a matrix population
@@ -128,7 +132,7 @@ extinction (threat) scenarios.</p>
 <span><span class="va">nf</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">dt</span><span class="op">$</span><span class="va">adultF_n</span> <span class="op">&lt;-</span> <span class="va">nf</span></span>
 <span><span class="co"># No data on density dependence for any South American freshwater turtles.</span></span>
-<span><span class="co"># Here include a generous 20% ceiling on maximum populatioin increase.</span></span>
+<span><span class="co"># Here include a generous 20% ceiling on maximum population increase.</span></span>
 <span><span class="va">ceiling_threshold</span> <span class="op">&lt;-</span> <span class="va">nf</span> <span class="op">+</span> <span class="op">(</span><span class="va">nf</span> <span class="op">*</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
 The first few rows should look like this….
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -405,13 +409,11 @@ stage-based matrix.</p>
 <span>                   <span class="st">"d1"</span>, <span class="st">"d2"</span>, <span class="st">"d3"</span>, <span class="st">"d4"</span><span class="op">)</span></span>
 <span><span class="va">vpop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">dt</span><span class="op">[</span><span class="fl">3</span> , <span class="va">stage_names</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">pop_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="va">vpop</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>, ncol<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"4"</span><span class="op">)</span>,</span>
 <span>                            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 The matrix should look like this:
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
-<th style="text-align:left;">
-</th>
 <th style="text-align:left;">
 a
 </th>
@@ -428,9 +430,6 @@ d
 <tbody>
 <tr>
 <td style="text-align:left;font-weight: bold;">
-a
-</td>
-<td style="text-align:left;">
 0.000000
 </td>
 <td style="text-align:left;">
@@ -445,9 +444,6 @@ a
 </tr>
 <tr>
 <td style="text-align:left;font-weight: bold;">
-b
-</td>
-<td style="text-align:left;">
 0.200000
 </td>
 <td style="text-align:left;">
@@ -462,9 +458,6 @@ b
 </tr>
 <tr>
 <td style="text-align:left;font-weight: bold;">
-c
-</td>
-<td style="text-align:left;">
 0.000000
 </td>
 <td style="text-align:left;">
@@ -479,9 +472,6 @@ c
 </tr>
 <tr>
 <td style="text-align:left;font-weight: bold;">
-d
-</td>
-<td style="text-align:left;">
 0.000000
 </td>
 <td style="text-align:left;">
@@ -498,14 +488,14 @@ d
 </table>
 <p>This matrix includes information of population growth, survival and
 reproduction.</p>
-<p>See <a href="https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html" class="external-link uri">https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html</a></p>
 <p>We can show the different matrix components (growth, survival and
 reproduction) by converting to the structure recommended by <a href="https://compadre-db.org/" class="external-link">COM(P)ADRE</a>. COM(P)ADRE is a global
 scale online repository for matrix population models (MPMs) and metadata
 on plants, animals, bacteria, viruses, algae, and fungi. There are two R
 packages developed specifically to work with these MPMs: <a href="https://jonesor.github.io/Rcompadre/index.html" class="external-link">Rcompadre</a> and
 <a href="https://jonesor.github.io/Rage/" class="external-link">Rage</a> (Jones et. al. 2022,
-<a href="https://doi.org/10.1111/2041-210X.13792" class="external-link uri">https://doi.org/10.1111/2041-210X.13792</a>).</p>
+<a href="https://doi.org/10.1111/2041-210X.13792" class="external-link uri">https://doi.org/10.1111/2041-210X.13792</a>). For more
+details see: <a href="https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html" class="external-link uri">https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html</a></p>
 <p>The code below creates a compadre database object from the matrix at
 line 3 of the data.frame “dt”, created earlier by the function
 “pop01_param_poun”.</p>
@@ -736,8 +726,9 @@ data.frame “dt”, created previously with the function
 <div class="section level3">
 <h3 id="model-lookup">Model lookup<a class="anchor" aria-label="anchor" href="#model-lookup"></a>
 </h3>
-<p>Derive model summaries to link with scenarios. The scenarios are used
-to help inform IUCN Red List and Green Status assessments.</p>
+<p>Derive model summaries to link with conservation management
+scenarios. The conservation management scenarios are used to help inform
+IUCN Red List and Green Status assessments.</p>
 <ul>
 <li><p>Red List guidelines<br>
 “For example, upper and lower quartiles of the projected magnitude of
