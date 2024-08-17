@@ -24,10 +24,30 @@ Split into three parts:
  
  - Scenario integration    
  This section integrates the population projections across spatially 
- explicit model scenarios.
+ explicit conservation management scenarios.
 
  - Results    
- Develop graphics to clearly communicate the results obtained.
+ Key findings and graphics to clearly communicate the results obtained.
+
+## Packages
+The following packages are necessary for the workflow to integrate 
+differrent data types, run projections and produce results:
+```{r load-packages, warning=FALSE, message=FALSE}
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(forcats)
+library(Hmisc)
+library(popdemo)
+library(popbio)
+library(Rcompadre)
+library(Rage)
+library(TACAR)
+library(readxl)
+library(ggplot2)
+library(sf)
+```
+
 
 ## Projections
 
@@ -44,21 +64,6 @@ Split into three parts:
  - Model lookup    
  Summarise projection models and export for future use in scenario modelling.
  
-### Packages
-```{r load-packages, warning=FALSE, message=FALSE}
-library(plyr)
-library(dplyr)
-library(tidyr)
-library(forcats)
-library(popdemo)
-library(popbio)
-library(Rcompadre)
-library(Rage)
-library(TACAR)
-library(readxl)
-library(ggplot2)
-library(sf)
-```
 
 ### Projection parameters. 
 
@@ -71,7 +76,7 @@ dt <- pop01_param_poun()
 nf <- 10
 dt$adultF_n <- nf
 # No data on density dependence for any South American freshwater turtles.
-# Here include a generous 20% ceiling on maximum populatioin increase.
+# Here include a generous 20% ceiling on maximum population increase.
 ceiling_threshold <- nf + (nf * 0.2)
 ```
 
@@ -92,7 +97,7 @@ stage_names <- c("a1", "a2", "a3", "a4",
                    "d1", "d2", "d3", "d4")
 vpop <- unlist(dt[3 , stage_names])
 pop_mat <- matrix(vpop, byrow = TRUE, ncol=4)
-dimnames(pop_mat) <- list(c("a", "b", "c", "d"),
+dimnames(pop_mat) <- list(c("1", "2", "3", "4"),
                             c( "a", "b", "c", "d"))
 
 ```
@@ -108,8 +113,6 @@ knitr::kable(format(pop_mat, scientific=F), digits = 4) |>
 
 This matrix includes information of population growth, survival and reproduction.
 
-See https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html
-
 We can show the different matrix components (growth, survival and reproduction) 
 by converting to the structure recommended by [COM(P)ADRE](https://compadre-db.org/). 
 COM(P)ADRE is a global scale online repository for matrix population 
@@ -117,6 +120,8 @@ models (MPMs) and metadata on plants, animals, bacteria, viruses, algae,
 and fungi. There are two R packages developed specifically to
 work with these MPMs: [Rcompadre](https://jonesor.github.io/Rcompadre/index.html) 
 and [Rage](https://jonesor.github.io/Rage/) (Jones et. al. 2022, https://doi.org/10.1111/2041-210X.13792).
+For more details see: 
+https://cran.r-project.org/web/packages/Rage/vignettes/a01_GettingStarted.html
 
 The code below creates a compadre database object from the matrix at line 
 3 of the data.frame "dt", created earlier by the function "pop01_param_poun".
@@ -347,9 +352,9 @@ saveRDS(dout_all, "inst/other/dout_all.rds")
 
 ### Model lookup
 
-Derive model summaries to link with scenarios. 
-The scenarios are used to help inform IUCN Red List and 
-Green Status assessments.
+Derive model summaries to link with conservation management scenarios. 
+The conservation management scenarios are used to help inform 
+IUCN Red List and Green Status assessments.
 
 - Red List guidelines    
 "For example, upper and lower quartiles of the projected magnitude of 
