@@ -67,8 +67,11 @@ This reflects diverse recovery (conservation action) and extinction (threat) sce
 
 ```{r projection-params}
 dt <- pop01_param_poun()
+# Population size constant.
 nf <- 10
 dt$adultF_n <- nf
+# No data on density dependence for any South American freshwater turtles.
+# Here include a generous 20% ceiling on maximum populatioin increase.
 ceiling_threshold <- nf + (nf * 0.2)
 ```
 
@@ -116,7 +119,7 @@ work with these MPMs: [Rcompadre](https://jonesor.github.io/Rcompadre/index.html
 and [Rage](https://jonesor.github.io/Rage/) (Jones et. al. 2022, https://doi.org/10.1111/2041-210X.13792).
 
 The code below creates a compadre database object from the matrix at line 
-3 of the data.frame created earlier by the function "pop01_param_poun".
+3 of the data.frame "dt", created earlier by the function "pop01_param_poun".
 ```{r rcompadre-example, warning=FALSE, message=FALSE}
 meta <- data.frame(idNum = 3, 
                    SpeciesAccepted = dt[3 , 'species'],
@@ -190,8 +193,21 @@ Rage::plot_life_cycle(matA = matA(my_comadre)[[1]],
 
 ### Projection models.
 
+Here stage-based matrix population models are run using functions 
+available in packages [popbio](https://doi.org/10.18637/jss.v022.i11), [popdemo](https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html) and [Rage](https://jonesor.github.io/Rage/). 
+A series of life history metrics are then calculated from the 
+matrix population models using functions available in 
+Rage (Jones et. al. 2022).
+
 #### Deterministic models
 
+Deterministic models have no density-dependence and 
+the population matrix is constant (i.e., vital rates do not change 
+overtime (timestep to timestep)). Below the function "pop03_doproj" 
+calculates deterministic projections and summaries for the 
+population matrixes stored in the data.frame "dt", created previously 
+with the function "pop01_param_poun" (see Norris et. al. 2019 
+for full details and justification of the life stages used).
 ```{r projection-determ, eval=FALSE}
 # project
 dout <- plyr::ddply(dt, 
@@ -220,6 +236,19 @@ saveRDS(dout, "inst/other/dout.rds")
 
 #### Stochastic models
 
+Stochastic matrix population models use matrices to represent population 
+dynamics, with the key feature of incorporating randomness or variability 
+in vital rates (e.g. survival). This randomness reflects the inherent 
+uncertainty and fluctuations in real-world systems, making these models 
+more realistic than their deterministic counterparts. Here matrix 
+switching is used to reflect changes in yearling survival over time.  
+The matrix changes randomly at each iteration of the model to 
+incorporate random environmental and/or demographic variation. 
+In the code below, the function "pop03_doproj_stoch" calculates 
+stochastic projections and summaries for the population matrixes stored 
+in the data.frame "dt", created previously with the function 
+"pop01_param_poun".
+
 ```{r projection-stoch, eval=FALSE}
 # Stochastic
 #data frame with runs for processing
@@ -227,7 +256,8 @@ saveRDS(dout, "inst/other/dout.rds")
 nruns <- 50
 dt_stoch <- dt[rep(seq_len(nrow(dt)), nruns), ]
 dt_stoch$arun <- rep(1:nruns, each = nrow(dt))
-# Approx 90 - 120 minutes. 1,212,000 rows. Projections quick. Summaries slow.
+# Approx 90 - 120 minutes. 1,212,000 rows. 
+# Projections quick. Summaries across stochastic matrices slow.
 # 19:41 - 21:42
 dout_stoch <- plyr::ddply(dt_stoch, 
                     c("arun", "species", "type", "first_year","akey"), 
@@ -503,11 +533,13 @@ write.csv2(model_ref3, "inst/other/model_lookup.csv", row.names = FALSE)
 ## Scenario integration
 
 ### Section objective
-Integrate point locations and population projections.
+Integrate point locations and population projections with conservation 
+management scenarios.
 
 Specifically: 
 
-- Join points with scenarios and population projections.
+- Join points with conservation management scenarios and 
+population projections.
 - Generate data used for summaries. 
 - Make summaries.
 
@@ -859,3 +891,21 @@ Salguero-Gómez R. 2022. Rcompadre and Rage - two R packages to
 facilitate the use of the COMPADRE and COMADRE databases and 
 calculation of life history traits from matrix population models.
 Methods in Ecology and Evolution, 13, 770-781. doi:10.1111/2041-210X.13792.
+
+Norris D, Peres CA, Michalski F, Gibbs JP. 2019.
+Prospects for freshwater turtle population recovery are catalyzed 
+by pan-Amazonian community-based management. 
+Biological Conservation. 233:51-60.
+https://doi.org/10.1016/j.biocon.2019.02.022
+
+Stott, I. popdemo vignette: https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html
+
+Stott, I., Hodgson, D.J. and Townley, S. 2012.
+popdemo: an R package for population demography using projection matrix 
+analysis. 
+Methods in Ecology and Evolution, 3: 797-802. https://doi.org/10.1111/j.2041-210X.2012.00222.x
+
+Stubben, C., & Milligan, B. 2007. 
+Estimating and Analyzing Demographic Models Using the popbio Package in R. 
+Journal of Statistical Software, 22(11), 1–23. 
+https://doi.org/10.18637/jss.v022.i11
