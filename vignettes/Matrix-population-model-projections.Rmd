@@ -97,7 +97,7 @@ stage_names <- c("a1", "a2", "a3", "a4",
                    "d1", "d2", "d3", "d4")
 vpop <- unlist(dt[3 , stage_names])
 pop_mat <- matrix(vpop, byrow = TRUE, ncol=4)
-dimnames(pop_mat) <- list(c("1", "2", "3", "4"),
+dimnames(pop_mat) <- list(c("_1", "_2", "_3", "_4"),
                             c( "a", "b", "c", "d"))
 
 ```
