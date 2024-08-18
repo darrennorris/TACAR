@@ -32,7 +32,6 @@ evaluate threats and recovery options for Amazonian River Turtles.
  - This package is accompanied by articles that present:    
        - An interactive map to visualize locations where populations are Endangered:
        https://darrennorris.github.io/TACAR/articles/Interactive-map.html 
-       
        - Workflow, R code, analises and main findings:
        https://darrennorris.github.io/TACAR/articles/Matrix-population-model-projections.html
 

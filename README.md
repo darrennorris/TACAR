@@ -26,10 +26,9 @@ Tartarugas da Amazônia: Comunidades e Análise em R).
 - This package is accompanied by articles that present:  
   - An interactive map to visualize locations where populations are
   Endangered:
-  <https://darrennorris.github.io/TACAR/articles/Interactive-map.html>
-
-      - Workflow, R code, analises and main findings:
-      https://darrennorris.github.io/TACAR/articles/Matrix-population-model-projections.html
+  <https://darrennorris.github.io/TACAR/articles/Interactive-map.html> -
+  Workflow, R code, analises and main findings:
+  <https://darrennorris.github.io/TACAR/articles/Matrix-population-model-projections.html>
 
 ## Installation
 
