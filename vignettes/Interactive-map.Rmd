@@ -157,7 +157,7 @@ points are a subset at intervals of approximately 10 kilometers.
  If this happens, zoom out to a level showing fewer points and you can pan around the map 
 to find the area of interest. Then zoom in again to check the coloured points.
 
- - This is a conservative (best-case) estimate.    
+ - The population reductions are conservative (best-case) estimates.    
  Endangered (A3bd), is threfore a precautionary IUCN Red List assessment.    
       - Important threats are not included (e.g. land use change Zalles et. al. 2021). 
       - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible populations.
@@ -166,7 +166,10 @@ to find the area of interest. Then zoom in again to check the coloured points.
       - Hunting accessibility was limited to a distance of 50 km. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017).
 
 ## Methods
-The analysis is developed here: https://github.com/darrennorris/TACAR, 
+The analysis is developed here: https://github.com/darrennorris/TACAR. 
+The workflow, data and associated R code is available here: 
+https://darrennorris.github.io/TACAR/articles/Matrix-population-model-projections.html
+
 The methods used are an extension of [Norris et. al. 2019](https://doi.org/10.1016/j.biocon.2019.02.022) that includes:
 
 - Stochastic population projections. 
