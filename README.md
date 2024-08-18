@@ -8,7 +8,6 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![pkgdown](https://github.com/darrennorris/TACAR/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/darrennorris/TACAR/actions/workflows/pkgdown.yaml)
-[![R-CMD-check](https://github.com/darrennorris/TACAR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/darrennorris/TACAR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of TACAR is to support the Community Based Mangement of
@@ -17,12 +16,12 @@ Amazonian River Turtles.
 TACAR: (Tortugas de la Amazonia: Comunidades y Análisis en R /
 Tartarugas da Amazônia: Comunidades e Análise em R).
 
-- Updated and extended version of
-  [cmartr](https://github.com/darrennorris/cmartr).
-
 - This package provides a repository for the data, R code and workflow
   used to evaluate threats and recovery options for Amazonian River
   Turtles.
+
+- This is an updated and extended version of
+  [cmartr](https://github.com/darrennorris/cmartr).
 
 ## Installation
 
@@ -57,7 +56,9 @@ Package developed and built using the following guides:
 - Saskia O:
   <https://www.marinedatascience.co/blog/2020/01/09/checklist-for-r-package-re-submissions-on-cran/>
 
-A very handy example to follow:
+Handy package examples to follow:
+
+- Rage package: <https://github.com/jonesor/Rage>
 
 - quincunx package:
   <https://github.com/maialab/quincunx/blob/master/vignettes/pgs-construction-process.Rmd>
