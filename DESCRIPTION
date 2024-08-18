@@ -17,7 +17,8 @@ Imports:
     plyr,
     popbio,
     popdemo,
-    Rage
+    Rage, 
+    sf
 Suggests: 
     knitr, 
     kableExtra,
@@ -31,8 +32,7 @@ Suggests:
     Rcompadre,
     patchwork,
     readxl,
-    rmarkdown, 
-    sf
+    rmarkdown
 VignetteBuilder: knitr
 LazyData: true
 LazyDataCompression: bzip2

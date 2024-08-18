@@ -113,7 +113,7 @@ female population is predicted to decline by `r change_value_100`%.
 ## Map
 If you find any errors (e.g. points where *Podocnemis unifilis* does not occur, 
 points where species is "Endangered" but populations are increasing etc) 
-please raise an issue at: https://github.com/darrennorris/testmap/issues . 
+please raise an issue at: https://github.com/darrennorris/TACAR/issues . 
 
 ```{r make-map-ffr, echo=FALSE, message=FALSE, warning=FALSE}
 points_bau4326 <- sf::st_as_sf(points_bau_ffr_map, crs = 3395) |> 
