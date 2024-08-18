@@ -43,7 +43,7 @@ library(htmltools)
 library(patchwork)
 ```
 
-```{r main-result, echo=FALSE}
+```{r main-result, echo=FALSE, message=FALSE, warning=FALSE}
 fin <- system.file("other/scenario_res_ffr1a5.rds", package = "TACAR")
 scenario_ffr_res <- readRDS(fin)
 # Make factors
