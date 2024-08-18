@@ -159,15 +159,67 @@ to find the area of interest. Then zoom in again to check the coloured points.
 
  - This is a conservative (best-case) estimate.    
  Endangered (A3bd), is threfore a precautionary IUCN Red List assessment.    
-      - Important threats are not included (e.g. land use change). 
+      - Important threats are not included (e.g. land use change Zalles et. al. 2021). 
       - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible populations.
       - Population projections use the earliest likely breeding age. 
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
-      - HUnting accessibility was limited to a distance of 50 km. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021).
- 
+      - Hunting accessibility was limited to a distance of 50 km. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017).
+
 ## Methods
 The analysis is developed here: https://github.com/darrennorris/TACAR, 
 The methods used are an extension of [Norris et. al. 2019](https://doi.org/10.1016/j.biocon.2019.02.022) that includes:
 
 - Stochastic population projections. 
 - Future impacts to populations caused by human acessibility (hunting) and actions that reduce river connectivity.
+
+## References
+Bienvenu F, Legendre S. 2015. A new approach to the generation time in 
+matrix population models. The American Naturalist. 185(6):834-43. 
+https://doi.org/10.1086/681104.
+
+Chaves, W.A., Valle, D., Tavares, A.S., Morcatty, T.Q. and Wilcove, D.S. 2021.
+Impacts of rural to urban migration, urbanization, and generational 
+change on consumption of wild animals in the Amazon. 
+Conservation Biology, 35: 1186-1197. https://doi.org/10.1111/cobi.13663
+
+IUCN. 2001. IUCN Red List Categories and Criteria: Version 3.1. 
+IUCN Species Survival Commission. IUCN, Gland, Switzerland and 
+Cambridge, U.K.
+
+IUCN. 2012. IUCN Red List Categories and Criteria: Version 3.1. 
+Second edition. IUCN, Gland, Switzerland and Cambridge, UK. 
+Available at www.iucnredlist.org/technical-documents/categories-and-criteria
+
+IUCN. 2024. Guidelines for Using the IUCN Red List Categories and Criteria. 
+Version 16. Prepared by the Standards and Petitions Committee. 
+Downloadable from https://www.iucnredlist.org/documents/RedListGuidelines.pdf.
+
+Jones OR, Barks P, Stott IM, James TD, Levin SC, Petry WK, Capdevila P, 
+Che-Castaldo J, Jackson J, Römer G, Schuette C, Thomas CC, 
+Salguero-Gómez R. 2022. Rcompadre and Rage - two R packages to 
+facilitate the use of the COMPADRE and COMADRE databases and 
+calculation of life history traits from matrix population models.
+Methods in Ecology and Evolution, 13, 770-781. doi:10.1111/2041-210X.13792.
+
+Norris D, Peres CA, Michalski F, Gibbs JP. 2019.
+Prospects for freshwater turtle population recovery are catalyzed 
+by pan-Amazonian community-based management. 
+Biological Conservation. 233:51-60.
+https://doi.org/10.1016/j.biocon.2019.02.022
+
+Stott, I. popdemo vignette: https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html
+
+Stott, I., Hodgson, D.J. and Townley, S. 2012.
+popdemo: an R package for population demography using projection matrix 
+analysis. 
+Methods in Ecology and Evolution, 3: 797-802. https://doi.org/10.1111/j.2041-210X.2012.00222.x
+
+Stubben, C., & Milligan, B. 2007. 
+Estimating and Analyzing Demographic Models Using the popbio Package in R. 
+Journal of Statistical Software, 22(11), 1–23. 
+https://doi.org/10.18637/jss.v022.i11
+
+Tregidgo, D. J., Barlow, J., Pompeu, P. S., de Almeida Rocha, M., & Parry, L. 2017. 
+Rainforest metropolis casts 1,000-km defaunation shadow. 
+Proceedings of the National Academy of Sciences, 114(32), 8655-8659.
+https://doi.org/10.1073/pnas.161449911
