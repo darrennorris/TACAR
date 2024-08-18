@@ -23,6 +23,13 @@ Tartarugas da Amazônia: Comunidades e Análise em R).
 - This is an updated and extended version of
   [cmartr](https://github.com/darrennorris/cmartr).
 
+- This package is accompanied by articles that present:  
+  - An interactive map to visualize locations where populations are
+  Endangered:
+  <https://darrennorris.github.io/TACAR/articles/Interactive-map.html> -
+  Workflow, R code, analises and main findings:
+  <https://darrennorris.github.io/TACAR/articles/Matrix-population-model-projections.html>
+
 ## Installation
 
 You can install the development version of TACAR from
