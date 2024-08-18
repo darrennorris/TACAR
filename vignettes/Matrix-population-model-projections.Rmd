@@ -246,7 +246,7 @@ dynamics, with the key feature of incorporating randomness or variability
 in vital rates (e.g. survival). This randomness reflects the inherent 
 uncertainty and fluctuations in real-world systems, making these models 
 more realistic than their deterministic counterparts. Here matrix 
-switching is used to reflect changes in yearling survival over time.  
+switching is used to reflect variation in yearling survival over time.  
 The matrix changes randomly at each iteration of the model to 
 incorporate random environmental and/or demographic variation. 
 In the code below, the function "pop03_doproj_stoch" calculates 
