@@ -42,7 +42,7 @@ devtools::install_github("darrennorris/TACAR")
 
 ## Example
 
-This will be a basic example which shows you how to solve a common
+This will be a basic example that shows you how to solve a common
 problem:
 
 ``` r
