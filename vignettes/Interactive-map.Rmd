@@ -223,3 +223,7 @@ Tregidgo, D. J., Barlow, J., Pompeu, P. S., de Almeida Rocha, M., & Parry, L. 20
 Rainforest metropolis casts 1,000-km defaunation shadow. 
 Proceedings of the National Academy of Sciences, 114(32), 8655-8659.
 https://doi.org/10.1073/pnas.161449911
+
+Zalles V, Hansen Matthew C, Potapov Peter V, Parker D, et al. 2021. 
+Rapid expansion of human impact on natural land in South America since 1985. 
+Science Advances, 7: eabg1620. https://doi.org/10.1126/sciadv.abg1620
