@@ -27,11 +27,11 @@ Split into three parts:
  explicit conservation management scenarios.
 
  - Results    
- Key findings and graphics to clearly communicate the results obtained.
+ Key findings and graphics of the results obtained.
 
 ## Packages
-The following packages are necessary for the workflow to integrate 
-differrent data types, run projections and produce results:
+The following packages are necessary to run the workflow, which integrates 
+differrent data types, runs matrix population projections and produces results:
 ```{r load-packages, warning=FALSE, message=FALSE}
 library(plyr)
 library(dplyr)
@@ -767,7 +767,8 @@ range: `r change_q25` - `r change_q75` % decline).
       - Important threats are not included (e.g. land use change). 
       - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible populations.
       - Population projections use the earliest likely breeding age. 
-      - Hunting of females was limited to 10% per year in the most pessimistic scenarios.
+      - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
+      - HUnting accessibility was limited to a distance of 50 km. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021).
  
  
 #### Plot to check
@@ -877,6 +878,11 @@ change if the Amazon basin is seperated further.
 Bienvenu F, Legendre S. 2015. A new approach to the generation time in 
 matrix population models. The American Naturalist. 185(6):834-43. 
 https://doi.org/10.1086/681104.
+
+Chaves, W.A., Valle, D., Tavares, A.S., Morcatty, T.Q. and Wilcove, D.S. 2021.
+Impacts of rural to urban migration, urbanization, and generational 
+change on consumption of wild animals in the Amazon. 
+Conservation Biology, 35: 1186-1197. https://doi.org/10.1111/cobi.13663
 
 IUCN. 2001. IUCN Red List Categories and Criteria: Version 3.1. 
 IUCN Species Survival Commission. IUCN, Gland, Switzerland and 
