@@ -1,8 +1,9 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://darrennorris.github.io/TACAR/404.html</loc></url>
 <url><loc>https://darrennorris.github.io/TACAR/LICENSE.html</loc></url>
-<url><loc>https://darrennorris.github.io/TACAR/articles/Interactive-map.html</loc></url>
-<url><loc>https://darrennorris.github.io/TACAR/articles/Matrix-population-model-projections.html</loc></url>
+<url><loc>https://darrennorris.github.io/TACAR/articles/a01_Interactive-map.html</loc></url>
+<url><loc>https://darrennorris.github.io/TACAR/articles/a02_Matrix-population-model-projections.html</loc></url>
+<url><loc>https://darrennorris.github.io/TACAR/articles/a03_prep_river_points.html</loc></url>
 <url><loc>https://darrennorris.github.io/TACAR/articles/index.html</loc></url>
 <url><loc>https://darrennorris.github.io/TACAR/authors.html</loc></url>
 <url><loc>https://darrennorris.github.io/TACAR/index.html</loc></url>

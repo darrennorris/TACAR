@@ -2,9 +2,10 @@ pandoc: 3.1.11
 pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  Interactive-map: Interactive-map.html
-  Matrix-population-model-projections: Matrix-population-model-projections.html
-last_built: 2024-08-18T22:43Z
+  a01_Interactive-map: a01_Interactive-map.html
+  a02_Matrix-population-model-projections: a02_Matrix-population-model-projections.html
+  a03_prep_river_points: a03_prep_river_points.html
+last_built: 2024-08-21T22:35Z
 urls:
   reference: https://darrennorris.github.io/TACAR/reference
   article: https://darrennorris.github.io/TACAR/articles
