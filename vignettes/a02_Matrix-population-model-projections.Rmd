@@ -75,7 +75,7 @@ dt <- pop01_param_poun()
 # Population size constant.
 nf <- 10
 dt$adultF_n <- nf
-# No data on density dependence for any South American freshwater turtles.
+# No data on density dependence for any South American freshwater turtle.
 # Here include a generous 20% ceiling on maximum population increase.
 ceiling_threshold <- nf + (nf * 0.2)
 ```
@@ -765,17 +765,17 @@ range: `r change_q25` - `r change_q75` % decline).
  - This is a conservative (best-case) estimate.    
  Endangered (A3bd), is threfore a precautionary IUCN Red List assessment.    
       - Important threats are not included (e.g. land use change Zalles et. al. 2021). 
-      - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible populations.
-      - Population projections use the earliest likely breeding age. 
+      - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible/unhunted populations.
+      - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019). 
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
-      - Hunting accessibility was limited to a distance of 50 km. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017).
+      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017). 
  
  
 #### Plot to check
  - Compare population changes across basin-country combinations.    
  Presenting the results visually can fascilitate a more detailed 
- understanding of the patterns in the results.
-
+ understanding of the patterns in the results. 
+ 
  The code below makes a figure with population change on the x-axis 
 and basin-country combination on the y-axis. This avoids sqashing 
 long names, which would happen if the basin-country combinations were 

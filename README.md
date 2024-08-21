@@ -26,14 +26,13 @@ Tartarugas da Amazônia: Comunidades e Análise em R).
 - This package is accompanied by articles that present:  
   - An interactive map to visualize locations where populations are
   Endangered:
-  <https://darrennorris.github.io/TACAR/articles/Interactive-map.html> -
-  Workflow, R code, analises and main findings:
+  <https://darrennorris.github.io/TACAR/articles/Interactive-map.html>  
+  - Workflow, R code, analises and main findings:
   <https://darrennorris.github.io/TACAR/articles/Matrix-population-model-projections.html>
 
 ## Installation
 
-You can install the development version of TACAR from
-[GitHub](https://github.com/) with:
+You can install TACAR from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -63,7 +62,7 @@ Package developed and built using the following guides:
 - Saskia O:
   <https://www.marinedatascience.co/blog/2020/01/09/checklist-for-r-package-re-submissions-on-cran/>
 
-Handy package examples to follow:
+Handy package examples:
 
 - Rage package: <https://github.com/jonesor/Rage>
 

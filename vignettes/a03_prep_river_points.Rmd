@@ -1,0 +1,195 @@
+---
+title: "Prepare river points"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Prepare river points}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r packages}
+library(TACAR)
+library(plyr)
+library(dplyr)
+library(sf)
+#library(terra)
+library(tidyselect)
+library(units)
+```
+
+## Make points
+
+### Make function.
+Function to make points for each REACH_ID.
+```{r point-function}
+# function to make points from Free-flowing River reaches
+river_points <- function(x){
+# Points by reach
+require(sf)
+require(dplyr)
+require(tidyselect)
+require(units)
+din <- x
+row.names(din) <- NULL
+crop.l <- sf::st_as_sf(din)
+geom_col_name <- attr(crop.l,"sf_column")
+tmpdf <- din |> dplyr::select(!tidyselect::all_of(geom_col_name))
+# crop.l <- reach_warn_sf
+crop.l <- sf::st_cast(sf::st_sfc(sf::st_geometry(crop.l)),"LINESTRING")
+crop.l <- sf::st_union(crop.l)
+myl <- as.numeric(units::set_units(sum(sf::st_length(crop.l)), km))
+crop.l <- sf::st_cast(sf::st_sfc(sf::st_geometry(crop.l)),"LINESTRING")
+
+# Sample line
+if(myl < 1){sf.r.segs <- sf::st_line_sample(crop.l, sample = 0) 
+} else {sf.r.segs <- sf::st_line_sample(crop.l, density = units::set_units(1, 1/km))}
+# Removes empty gemoetries, caused by sampling reaches with broken lines etc.
+sf.r.segs <-  sf.r.segs[(is.na(sf::st_dimension(sf.r.segs)) == FALSE ), ]
+rm(crop.l)
+
+# Make points
+sf.r.segsp <- sf::st_cast(sf::st_sfc(sf::st_geometry(sf.r.segs)),"POINT")
+sf.r.segsp <- sf.r.segsp[which(duplicated(st_coordinates(sf.r.segsp ))==FALSE)]
+rm(sf.r.segs)
+n_rows <- length(sf.r.segsp)
+tmpdf <- tmpdf |> dplyr::slice(rep(1:n(), each = n_rows))
+row.names(tmpdf) <- NULL
+# Return sf
+tmpsf <- sf::st_sf(tmpdf, geom = sf.r.segsp)
+rm(tmpdf)
+tmpsf$aid <- row.names(tmpsf)
+tmpsf$reach_id_point <- paste(tmpsf$REACH_ID, tmpsf$aid, sep="_")
+
+dfout <- tmpsf |> data.frame() 
+rm(tmpsf)
+return(dfout)
+}
+
+```
+
+### Process full data
+First make files holding free-flowing rivers and basins for future use.
+```{r select-ffr, eval=FALSE}
+# Crop to basins from Norris et. al. 2019.
+basin_in <- system.file("vector\\shape_basin\\amazon_orinoco.shp", 
+                        package = "TACAR")
+basins <- read_sf(basin_in)
+sf_use_s2(FALSE) # to avoid duplicate vertex error
+basins_clean <- st_union(st_buffer(basins, 0), by_feature = TRUE) |> 
+  group_by(BASIN_NAME, subbasin) |> 
+  summarise(area = min(Area_km2)) |> st_cast("MULTIPOLYGON")
+basins_clean$BASIN_FLAG <- as.numeric(as.factor(basins_clean$BASIN_NAME))
+basins_clean$SUBBASIN_FLAG <- as.numeric(as.factor(basins_clean$subbasin))
+basins_clean_3395 <- st_transform(basins_clean, crs=3395) |> 
+  select(!area)
+basin_bbox <- st_bbox(basins_clean)
+
+# Free-flowing rivers
+ffr_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\sa_FFR_river_v1\\sa_FFR_river_v1.shp"
+ffr <- read_sf(ffr_in) |> 
+  filter(RIV_ORD <= 5) |> filter(DIS_AV_CMS >= 15)
+ffr_1a5_poun_3395 <- st_crop(ffr, basin_bbox) |> st_transform(3395)
+# Add basins to rivers.
+ffr_1a5_poun_3395_basins <- sf::st_intersection(ffr_1a5_poun_3395, 
+                                                basins_clean_3395)
+
+plot(basins_clean_3395["BASIN_NAME"])
+
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_rivers_v2.gpkg"
+st_write(ffr_1a5_poun_3395_basins, dsn = outfile, 
+         layer = "ffr_1a5_poun_3395", layer_options = "SPATIAL_INDEX=NO", 
+         delete_layer = TRUE, append = TRUE)
+st_write(basins_clean_3395, dsn = outfile, 
+         layer = "basins_poun_3395", layer_options = "SPATIAL_INDEX=NO", 
+         delete_layer = TRUE, append = TRUE)
+
+```
+
+
+
+```{r make-points, eval=FALSE}
+# Test and see if can run Orinoco, South and North per basin. 
+# Then Amazon by subbasin. Maybe setup with parallel to go quicker.
+# 1) Load Free-flowing rivers made previously.
+infile <- system.file("vector\\poun_rivers_v2.gpkg", package = "TACAR")
+ffr_1a5_poun_3395 <- sf::st_read(infile, layer = "ffr_1a5_poun_3395")
+
+# With 1 to 4 overall length 160,208. Norris et al. 2019 was 215,975. 165 Access, 50 not.
+# 76% rivers accessible. 57.2% Accessible and unprotected.
+# 354070 km with 1 to 5.
+lenth_tot <- as.numeric(sum(st_length(ffr_1a5_poun_3395))) / 1000
+#Number of reaches by basin
+# table(ffr_1a4_poun_3395$BASIN_NAME)
+# Amazon    Coastal North  Coastal South   Orinoco 
+# 51871          3728           945          8476 
+table(ffr_1a5_poun_3395$BASIN_NAME)
+#      Amazon Coastal North Coastal South       Orinoco 
+#     111942          8833          2321         19440 
+ basin_river_lengths <- ffr_1a5_poun_3395 |> 
+   mutate(reach_length_km = as.numeric(units::set_units(sf::st_length(ffr_1a5_poun_3395), km))) |> 
+   data.frame() |>
+   group_by(BASIN_NAME) |> 
+   summarise(river_km = sum(reach_length_km)) |> 
+   ungroup()
+basin_river_lengths # with 1 to 4
+#  BASIN_NAME    river_km
+#1 Amazon         128771.
+#2 Coastal North    9198.
+#3 Coastal South    2515.
+#4 Orinoco         19724.
+basin_river_lengths
+#  BASIN_NAME    river_km
+# Amazon         280360.
+# Coastal North   21194.
+# Coastal South    6507.
+# Orinoco         46009.
+ # 2) Seperate basins. Makes testing and processing easier.
+# If you used parallel this would be much more efficient.
+# But the time it would take me to code parallel is actually longer than seperate process.
+df_ffr_1a5_poun_3395_south <- ffr_1a5_poun_3395 |> 
+  dplyr::filter(BASIN_NAME == "Coastal South") |> data.frame()
+df_ffr_1a5_poun_3395_north <- ffr_1a5_poun_3395 |> 
+  dplyr::filter(BASIN_NAME == "Coastal North") |> data.frame()
+df_ffr_1a5_poun_3395_orinoco <- ffr_1a5_poun_3395 |> 
+  dplyr::filter(BASIN_NAME == "Orinoco") |> data.frame()
+df_ffr_1a5_poun_3395_amazon <- ffr_1a5_poun_3395 |> 
+  dplyr::filter(BASIN_NAME == "Amazon") |> data.frame()
+# 3) River lines to points.
+# South. n = 2568 on 15/7/2024. 2515 km of RIV_ORD 1 to 4 rivers.
+# South. n = 6627 on 18/7/2024. 6507 km of RIV_ORD 1 to 5 rivers.
+dfpoints_south <- ddply(df_ffr_1a5_poun_3395_south, .(REACH_ID), 
+                        .fun = river_points)
+sf_points_south <- st_as_sf(dfpoints_south)
+mapview::mapview(sf_points_south)
+# North - warning number of items to replace is not a multiple of replacement length
+# reach_warn <- df_ffr_1a4_poun_3395_north[3632, "REACH_ID"]
+# reach_warn_sf <- df_ffr_1a4_poun_3395_north[3632, ] |> 
+#  st_as_sf()
+# mapview::mapview(reach_warn_sf)
+# Solved - caused by empty point geometry from sample of reach with broken lines.
+# North - warning row names were found from a short variable and have been discarded
+# cant find where this warning comes from........
+# North. n = 9442 on 15 July 2024. 9198 km of RIV_ORD 1 to 4 rivers.
+# North. n = 21746 on 18 July 2024. 21194 km of RIV_ORD 1 to 5 rivers.
+dfpoints_north <- ddply(df_ffr_1a5_poun_3395_north, .(REACH_ID), 
+                        .fun = river_points)
+# Orinoco. n = 20515 on 15 July 2024 19724 km of RIV_ORD 1 to 4 rivers.
+# Orinoco. n =  47730 on 18 July 2024 46009 km of RIV_ORD 1 to 5 rivers.
+dfpoints_orinoco <- ddply(df_ffr_1a5_poun_3395_orinoco, .(REACH_ID), 
+                        .fun = river_points)
+
+# Now Amazon. By subbasin to reduce memory demands....
+# 17:24 - 18:28ish. 132027 points. 128771 km on 15 July 2024.
+# 17:23 - 19:30ish. 287103 points. 280360 km on 18 July, FFR 1 to 5.
+dfpoints_amazon <- ddply(df_ffr_1a5_poun_3395_amazon, 
+                         .(SUBBASIN_FLAG, REACH_ID), 
+                        .fun = river_points)
+```
+

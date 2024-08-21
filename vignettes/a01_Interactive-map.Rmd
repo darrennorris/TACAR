@@ -160,10 +160,10 @@ to find the area of interest. Then zoom in again to check the coloured points.
  - The population reductions are conservative (best-case) estimates.    
  Endangered (A3bd), is threfore a precautionary IUCN Red List assessment.    
       - Important threats are not included (e.g. land use change Zalles et. al. 2021). 
-      - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible populations.
-      - Population projections use the earliest likely breeding age. 
+      - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible/unhunted populations.
+      - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019).
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
-      - Hunting accessibility was limited to a distance of 50 km. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017).
+      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017). 
 
 ## Methods
 The analysis is developed here: https://github.com/darrennorris/TACAR. 

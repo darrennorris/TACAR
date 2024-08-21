@@ -27,11 +27,13 @@ Suggests:
     htmltools,
     dplyr, 
     tidyr,
+    tidyselect,
     ggplot2, 
     forcats,
     Rcompadre,
     patchwork,
     readxl,
+    units,
     rmarkdown
 VignetteBuilder: knitr
 LazyData: true
