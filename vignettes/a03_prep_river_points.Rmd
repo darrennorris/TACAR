@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r packages}
+```{r packages, message=FALSE, warning=FALSE}
 library(TACAR)
 library(plyr)
 library(dplyr)
@@ -113,7 +113,7 @@ st_write(basins_clean_3395, dsn = outfile,
 ```
 
 
-
+Now convert river lines to points regularly spaced by approximately 1 kilometer.
 ```{r make-points, eval=FALSE}
 # Test and see if can run Orinoco, South and North per basin. 
 # Then Amazon by subbasin. Maybe setup with parallel to go quicker.
@@ -193,3 +193,88 @@ dfpoints_amazon <- ddply(df_ffr_1a5_poun_3395_amazon,
                         .fun = river_points)
 ```
 
+Tidy for export.
+```{r export-points, eval=FALSE}
+sf_res <- bind_rows(dfpoints_amazon, dfpoints_north, 
+                    dfpoints_orinoco, dfpoints_south) |> 
+  distinct() |> st_as_sf() 
+
+sf_res$x <- st_coordinates(sf_res)[, 1]
+sf_res$y <- st_coordinates(sf_res)[, 2]
+# Drop any within 10 meter radius?
+sf_res <- sf_res |> 
+  mutate(coord_text = paste(round(x, -2), round(y, -2), sep="_"))
+sf_res$dupe <- duplicated(sf_res$coord_text)
+# This remains close to original length. 
+# 160189 points, total river km = 160,208
+# 353637 points, total river km = 354,070.
+sf_res_out <- sf_res |> 
+  filter(!dupe, LENGTH_KM >= .5) |> st_as_sf()
+
+# Export for future use. Avoid GDAL spatial index warning.
+#outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+#st_write(sf_res_out, dsn = outfile, 
+#         layer = "ffr_1a4_poun_points_3395", 
+#         layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
+st_write(sf_res_out, dsn = outfile, 
+         layer = "ffr_1a5_poun_points_3395", 
+         layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+```
+
+## Accessibility and PAs
+
+Extract accessibility and PAs.
+```{r extract-raster, eval=FALSE}
+# From Norris et al. 2019.
+uain <- "inst/raster/uas.grd"
+uas <- rast(uain)
+newr <- c(rast("inst/raster/access_new.tif"), rast("inst/raster/cost_distance.tif"))
+uas_3395 <- project(uas, "epsg:3395")
+pe <- st_as_sf(extract(uas_3395, vect(ffr_1a5_poun_points_3395), bind = TRUE))
+pe |> data.frame() |> select(Indigenous, Dist..km.) |> summary()
+# check NAs. All  where rivers join oceans north east.
+rna <- pe |> filter(is.na(Indigenous)) |> select(REACH_ID)
+mapview::mapview(rna)
+pe <- pe |> filter(!is.na(Indigenous))
+pe <- st_as_sf(extract(newr, vect(pe), bind = TRUE))
+pe <- pe |> rename("myuse" = "Use")
+pe |> data.frame() |> select(access_new, cost_distance) |> summary() 
+# Keep size to less tham 100 MB
+pe <- pe |> filter(!is.na(access_new)) |> 
+  select(!c(OBJECTID, GOID, NOID, NUOID, NDOID, CON_ID, 
+            CONTINENT, x, y, coord_text, dupe, mask, aid))
+# Export for future use.
+# outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+#outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\poun_river_points.gpkg"
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
+st_write(pe, dsn = outfile, 
+         layer = "ffr_1a5_poun_points_3395", 
+         layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+```
+
+Check correlations.
+```{r check-correlations, eval=FALSE}
+# load points made previously.
+# infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
+# ffr_1a4_poun_points_3395 <- st_read(dsn = infile, 
+#                                    layer = "ffr_1a4_poun_points_3395")
+infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
+ffr_1a5_poun_points_3395 <- st_read(dsn = infile, 
+                                    layer = "ffr_1a5_poun_points_3395")
+ffr_1a5_poun_points_3395 |> 
+  data.frame() |> 
+  ggplot(aes(x = cost_distance, y = Dist..km.)) + 
+  geom_point() + stat_smooth(method = "lm") + 
+  coord_equal()
+# cor = 0.57, t = 280.11, df = 160167, p-value < 2.2e-16, with ffr_1a4
+# cor = 0.56, t = 406.59, df = 353435, p-value < 2.2e-16
+cor.test(ffr_1a5_poun_points_3395$cost_distance, ffr_1a5_poun_points_3395$Dist..km.)
+  
+```
+
+## HydroBasin codes
+
+Add HydroBasin levels 3, 4 and 5. These will also be used to generate flag to 
+exclude any basins where the species does not occur.
