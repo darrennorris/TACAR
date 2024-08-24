@@ -385,6 +385,5 @@ ffr_1a5_poun_points_hb_3395 |>
 sf::st_write(dsn = outfile, 
          layer = "ffr_1a5_poun_points_3395", 
          layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
-sf::st_layers(outfile)
 ```
 
