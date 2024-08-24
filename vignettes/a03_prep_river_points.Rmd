@@ -257,7 +257,7 @@ st_write(pe, dsn = outfile,
 ```
 
 
-```{r check-correlations, eval=FALSE}
+```{r check-correlations, eval=FALSE, echo=FALSE}
 # Check correlations.
 # load points made previously.
 # infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
@@ -310,6 +310,8 @@ poun_bbox_3395 <- sf::st_bbox(ffr_1a5_poun_3395)
 hydrobasin_l3_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev03_v1c.shp"
 hydrobasin_l4_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev04_v1c.shp"
 hydrobasin_l5_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev05_v1c.shp"
+hydrobasin_l6_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev06_v1c.shp"
+
 # load files
 hydrobasins_l3 <- sf::read_sf(hydrobasin_l3_in) |> sf::st_transform(crs=3395) |> 
   sf::st_make_valid() |> sf::st_cast("MULTIPOLYGON") |> 
@@ -320,7 +322,9 @@ hydrobasins_l4 <- sf::read_sf(hydrobasin_l4_in) |> sf::st_transform(crs=3395) |>
 hydrobasins_l5 <- sf::read_sf(hydrobasin_l5_in) |> sf::st_transform(crs=3395) |> 
   sf::st_make_valid() |> sf::st_cast("MULTIPOLYGON") |> 
   sf::st_crop(poun_bbox_3395)
-
+hydrobasins_l6 <- sf::read_sf(hydrobasin_l6_in) |> sf::st_transform(crs=3395) |> 
+  sf::st_make_valid() |> sf::st_cast("MULTIPOLYGON") |> 
+  sf::st_crop(poun_bbox_3395)
 # Points
 infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
 ffr_1a5_poun_points_3395 <- sf::st_read(dsn = infile, 
@@ -369,21 +373,67 @@ ffr_1a5_poun_3395_hb_l5 <- sf::st_intersection(ffr_1a5_poun_points_3395 |>
                                                                "PFAF_ID_l5" = "PFAF_ID", 
                                                                "SUB_AREA_l5" = "SUB_AREA")) |>
   data.frame() |> dplyr::select(!tidyselect::all_of(geocol))
-
+ffr_1a5_poun_3395_hb_l6 <- sf::st_intersection(ffr_1a5_poun_points_3395 |> 
+                                                 dplyr::select(REACH_ID, reach_id_point, 
+                                                        BASIN_FLAG, SUBBASIN_FLAG), 
+                                                hydrobasins_l6 |> 
+                                                 dplyr::select(HYBAS_ID, PFAF_ID, SUB_AREA)) |> 
+                                                 dplyr::rename(c("HYBAS_ID_l6" = "HYBAS_ID", 
+                                                               "PFAF_ID_l6" = "PFAF_ID", 
+                                                               "SUB_AREA_l6" = "SUB_AREA")) |>
+  data.frame() |> dplyr::select(!tidyselect::all_of(geocol))
 points_hydrobasin <- ffr_1a5_poun_3395_hb_l3 |> 
   dplyr::left_join(ffr_1a5_poun_3395_hb_l4) |> 
-  dplyr::left_join(ffr_1a5_poun_3395_hb_l5)
+  dplyr::left_join(ffr_1a5_poun_3395_hb_l5) 
 
 # Now join back with points
 ffr_1a5_poun_points_hb_3395 <- ffr_1a5_poun_points_3395 |> 
   dplyr::left_join(points_hydrobasin)
 # Export for future use.
-outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
+#outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
 # remove some columns to keep filesize below 100 MB.
+#ffr_1a5_poun_points_hb_3395 |> 
+#  dplyr::select(!c(UPLAND_SKM, BB_LEN_KM, BB_OCEAN)) |>
+#sf::st_write(dsn = outfile, 
+#         layer = "ffr_1a5_poun_points_3395", 
+#         layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+
+# Need to add HydroBasin level 6.
+# Export as seperate gpkg to remain within file size limit
+# Join back with points
+ffr_1a5_poun_points_hb_3395 <- ffr_1a5_poun_points_3395 |> 
+  dplyr::left_join(ffr_1a5_poun_3395_hb_l6)
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_hb_v1.gpkg"
+# Retain only columns needed to join
 ffr_1a5_poun_points_hb_3395 |> 
-  dplyr::select(!c(UPLAND_SKM, BB_LEN_KM, BB_OCEAN)) |>
+  dplyr::select(REACH_ID, BASIN_FLAG, SUBBASIN_FLAG, reach_id_point, 
+                HYBAS_ID_l3, PFAF_ID_l3, SUB_AREA_l3, 
+                HYBAS_ID_l4, PFAF_ID_l4, SUB_AREA_l4, 
+                HYBAS_ID_l5, PFAF_ID_l5, SUB_AREA_l5, 
+                HYBAS_ID_l6, PFAF_ID_l6, SUB_AREA_l6,
+                geom) |>
 sf::st_write(dsn = outfile, 
-         layer = "ffr_1a5_poun_points_3395", 
+         layer = "ffr_1a5_poun_points_hb_3395", 
          layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+```
+
+Now add column that flags basins that should be excluded.
+```{r exclude-basin-flag, eval=FALSE}
+infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_hb_v1.gpkg"
+ffr_1a5_poun_points_hb_3395 <- sf::st_read(dsn = infile, 
+                                    layer = "ffr_1a5_poun_points_hb_3395")
+# Exclude level 6 basins from French Guiana, indicted by Benoit
+# https://github.com/darrennorris/TACAR/issues/1
+exclude_French_Guiana_l6 <- c(6060005530, 6060005540, 6060005660)
+ffr_1a5_poun_points_hb_3395$flag_exclude <- ifelse(ffr_1a5_poun_points_hb_3395$HYBAS_ID_l6 %in% exclude_French_Guiana_l6, 1, 0)
+# Export for future use
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_hb_v1.gpkg"
+sf::st_write(ffr_1a5_poun_points_hb_3395, dsn = outfile, 
+         layer = "ffr_1a5_poun_points_hb_3395", 
+         layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+# Check. All ok.
+acheck <- ffr_1a5_poun_points_hb_3395 |> 
+  dplyr::filter(flag_exclude == 1)
+mapview::mapview(acheck)
 ```
 
