@@ -450,15 +450,28 @@ format).</p>
 <span><span class="co"># https://github.com/darrennorris/TACAR/issues/1</span></span>
 <span><span class="va">exclude_French_Guiana_l6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6060005530</span>, <span class="fl">6060005540</span>, <span class="fl">6060005660</span><span class="op">)</span></span>
 <span><span class="va">ffr_1a5_poun_points_hb_3395</span><span class="op">$</span><span class="va">flag_exclude</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">ffr_1a5_poun_points_hb_3395</span><span class="op">$</span><span class="va">HYBAS_ID_l6</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">exclude_French_Guiana_l6</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co"># Check. All ok.</span></span>
+<span><span class="va">acheck</span> <span class="op">&lt;-</span> <span class="va">ffr_1a5_poun_points_hb_3395</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">flag_exclude</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu">mapview</span><span class="fu">::</span><span class="fu">mapview</span><span class="op">(</span><span class="va">acheck</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Export for future use</span></span>
 <span><span class="va">outfile</span> <span class="op">&lt;-</span> <span class="st">"C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_hb_v1.gpkg"</span></span>
 <span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">st_write</a></span><span class="op">(</span><span class="va">ffr_1a5_poun_points_hb_3395</span>, dsn <span class="op">=</span> <span class="va">outfile</span>, </span>
 <span>         layer <span class="op">=</span> <span class="st">"ffr_1a5_poun_points_hb_3395"</span>, </span>
-<span>         layer_options <span class="op">=</span> <span class="st">"SPATIAL_INDEX=NO"</span>, delete_layer <span class="op">=</span> <span class="cn">TRUE</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co"># Check. All ok.</span></span>
-<span><span class="va">acheck</span> <span class="op">&lt;-</span> <span class="va">ffr_1a5_poun_points_hb_3395</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">flag_exclude</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu">mapview</span><span class="fu">::</span><span class="fu">mapview</span><span class="op">(</span><span class="va">acheck</span><span class="op">)</span></span></code></pre></div>
+<span>         layer_options <span class="op">=</span> <span class="st">"SPATIAL_INDEX=NO"</span>, delete_layer <span class="op">=</span> <span class="cn">TRUE</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="to-do">To do<a class="anchor" aria-label="anchor" href="#to-do"></a>
+</h2>
+<ul>
+<li><p>Make flag_exclude more informative.<br>
+Include additional codes to identify why excluded (never present,
+extirpated, no nesting areas etc).</p></li>
+<li><p>Include additional flags.<br>
+Flags to show 1) where there are conservation actions, 2) evidence of
+population recovery.</p></li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

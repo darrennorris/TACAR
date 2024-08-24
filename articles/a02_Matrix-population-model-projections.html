@@ -94,6 +94,7 @@ produces results:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://had.co.nz/plyr" class="external-link">plyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyselect.r-lib.org" class="external-link">tidyselect</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://forcats.tidyverse.org/" class="external-link">forcats</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hbiostat.org/R/Hmisc/" class="external-link">Hmisc</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span>
@@ -959,6 +960,27 @@ projections.</li>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -8839379 ymin: -2162255 xmax: -4738776 ymax: 1094857</span></span>
 <span><span class="co">#&gt; Projected CRS: WGS 84 / World Mercator</span></span>
+<span><span class="co">#HydroBasin codes made previously in prep_river_points.Rmd.</span></span>
+<span><span class="va">ffr_1a5_poun_points_hb_3395</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span>dsn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"vector/poun_river_points_hb_v1.gpkg"</span>, package<span class="op">=</span><span class="st">"TACAR"</span><span class="op">)</span>,</span>
+<span>                                    layer <span class="op">=</span> <span class="st">"ffr_1a5_poun_points_hb_3395"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Reading layer `ffr_1a5_poun_points_hb_3395' from data source </span></span>
+<span><span class="co">#&gt;   `/home/runner/work/_temp/Library/TACAR/vector/poun_river_points_hb_v1.gpkg' </span></span>
+<span><span class="co">#&gt;   using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 353437 features and 17 fields</span></span>
+<span><span class="co">#&gt; Geometry type: POINT</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -8839379 ymin: -2162255 xmax: -4738776 ymax: 1094857</span></span>
+<span><span class="co">#&gt; Projected CRS: WGS 84 / World Mercator</span></span>
+<span><span class="co"># quicker joining just data.</span></span>
+<span><span class="co">#geom column name</span></span>
+<span><span class="va">geocol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">ffr_1a5_poun_points_hb_3395</span>,<span class="st">"sf_column"</span><span class="op">)</span></span>
+<span><span class="co"># join</span></span>
+<span><span class="va">ffr_1a5_poun_points_3395</span> <span class="op">&lt;-</span> <span class="va">ffr_1a5_poun_points_3395</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">ffr_1a5_poun_points_hb_3395</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>              <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">geocol</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(REACH_ID, BASIN_FLAG, SUBBASIN_FLAG, reach_id_point,</span></span>
+<span><span class="co">#&gt; HYBAS_ID_l3, PFAF_ID_l3, SUB_AREA_l3, HYBAS_ID_l4, PFAF_ID_l4, SUB_AREA_l4,</span></span>
+<span><span class="co">#&gt; HYBAS_ID_l5, PFAF_ID_l5, SUB_AREA_l5)`</span></span>
 <span><span class="co"># projections and scenarios</span></span>
 <span><span class="co"># model_lookup has results from 300 population projection models created previously</span></span>
 <span><span class="va">model_lookup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"other/model_lookup.rds"</span>, package <span class="op">=</span> <span class="st">"TACAR"</span><span class="op">)</span><span class="op">)</span></span>
@@ -1002,7 +1024,7 @@ projections.</li>
 <span><span class="co"># should be zero rows if join worked. </span></span>
 <span><span class="va">test_join</span> <span class="op">&lt;-</span> <span class="va">scenario_ffr_res</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lambda_mean</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co"># This file is used in testmap. 1060311 rows 15/8/2024.</span></span>
+<span><span class="co"># This file is used in testmap. 1060311 rows, 169 columns 24/8/2024.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">scenario_ffr_res</span>, <span class="st">"inst/other/scenario_res_ffr1a5.rds"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -1081,6 +1103,7 @@ projections.</li>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_country_basin</span> <span class="op">&lt;-</span> <span class="va">scenario_ffr_res</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="co">#dplyr::filter(BASIN_NAME == "Coastal North") |&gt; # track why have 1 Coastal South</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">flag_exclude</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>modelidf <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html" class="external-link">fct_reorder</a></span><span class="op">(</span><span class="va">modelidf</span>, <span class="va">lambda_mean</span><span class="op">)</span>, </span>
 <span>                basin_country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">BASIN_NAME</span>, <span class="va">COUNTRY</span>, sep <span class="op">=</span><span class="st">"\n"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">basin_country</span>, <span class="va">COUNTRY</span>, <span class="va">BASIN_NAME</span>, </span>
@@ -1094,8 +1117,8 @@ projections.</li>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">acount</span> <span class="op">&gt;</span> <span class="fl">21</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"diff_"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"gen_t3"</span>, </span>
 <span>                      values_to <span class="op">=</span> <span class="st">"fem_diff"</span><span class="op">)</span></span>
-<span><span class="co"># Make weights</span></span>
-<span><span class="va">df_country_basin</span><span class="op">$</span><span class="va">wt</span> <span class="op">&lt;-</span> <span class="va">df_country_basin</span><span class="op">$</span><span class="va">acount</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">df_country_basin</span><span class="op">$</span><span class="va">acount</span><span class="op">)</span></span>
+<span><span class="co"># Make weights. Below does not help.</span></span>
+<span><span class="co">#df_country_basin$wt &lt;- df_country_basin$acount / sum(df_country_basin$acount)</span></span>
 <span><span class="co"># make sure to avoid these</span></span>
 <span><span class="co"># |&gt; </span></span>
 <span><span class="co">#  filter(length_river &gt; 21) |&gt; </span></span>
@@ -1247,7 +1270,7 @@ Where generation length varies under threat, such as the exploitation of
 fishes, the more natural, i.e. pre-disturbance, generation length should
 be used.” (IUCN 2001, 2012).</p>
 <p>The Amazon Basin in Brazil represents the largest proportion of
-rivers (51.1%). Considering the spatial variation in both threats and
+rivers (51.2%). Considering the spatial variation in both threats and
 population genetics, it would probably be useful to include the Amazon
 Basin seperated into major basins (Madeira, Negro, etc). But the
 summaries presented here provide a general overview and enable robust
