@@ -54,6 +54,7 @@ scenario_ffr_res$modelidf <- factor(scenario_ffr_res$modelid)
 
 df_country_basin <- scenario_ffr_res |> 
   #dplyr::filter(BASIN_NAME == "Coastal North") |> # track why have 1 Coastal South
+  filter(model_name == "modelkey_BAU", flag_exclude == 0) |>
   dplyr::mutate(modelidf = forcats::fct_reorder(modelidf, lambda_mean), 
                 basin_country = paste(BASIN_NAME, COUNTRY, sep ="\n")) |> 
   dplyr::group_by(basin_country, COUNTRY, BASIN_NAME, 
