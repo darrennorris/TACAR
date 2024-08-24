@@ -96,6 +96,8 @@ ffr_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\sa_FFR_
 ffr <- read_sf(ffr_in) |> 
   filter(RIV_ORD <= 5) |> filter(DIS_AV_CMS >= 15)
 ffr_1a5_poun_3395 <- st_crop(ffr, basin_bbox) |> st_transform(3395)
+# with duplicate REACH_ID.... ????
+length(unique(ffr_1a5_poun_3395$REACH_ID))
 # Add basins to rivers.
 ffr_1a5_poun_3395_basins <- sf::st_intersection(ffr_1a5_poun_3395, 
                                                 basins_clean_3395)
@@ -254,8 +256,9 @@ st_write(pe, dsn = outfile,
          layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
 ```
 
-Check correlations.
+
 ```{r check-correlations, eval=FALSE}
+# Check correlations.
 # load points made previously.
 # infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points.gpkg"
 # ffr_1a4_poun_points_3395 <- st_read(dsn = infile, 
@@ -276,5 +279,112 @@ cor.test(ffr_1a5_poun_points_3395$cost_distance, ffr_1a5_poun_points_3395$Dist..
 
 ## HydroBasin codes
 
-Add HydroBasin levels 3, 4 and 5. These will also be used to generate flag to 
-exclude any basins where the species does not occur.
+Add HydroBasin levels 3, 4 and 5. These will also be used to generate 
+a flag to exclude any basins where the species does not occur.
+
+HYBAS_ID
+Unique basin identifier. The code consists of 10 digits:
+• First 1 digit represents the region: 1 = Africa; 2 = Europe; 3 = Siberia; 4 = Asia;
+5 = Australia; 6 = South America; 7 = North America; 8 = Arctic (North
+America); 9 = Greenland
+• Next 2 digits define the Pfafstetter level (01-12). The value ‘00’ is used for the
+‘Level 0’ layer that contains all original sub-basins and all Pfafstetter codes (at
+all levels); ‘Level 0’ only exists in the standard format of HydroBASINS
+(without lakes).
+• Next 6 digits represent a unique identifier within the HydroSHEDS network;
+values larger than 900,000 represent lakes and only occur in the customized
+format (with lakes)
+• Last 1 digit indicates the side of a sub-basin in relation to the river network (0 =
+noSide; 1 = Left; 2 = Right). Sides are only defined for the customized format
+(with lakes).
+
+Pfaf_id
+The Pfafstetter code. For general description see literature (e.g., Verdin and Verdin
+1999). The Pfafstetter code uses as many digits as the level it represents. This field
+can be used to cluster or subdivide sub-basins into nested regions. This field is only
+available for levels 1-12 (i.e. not for the ‘Level 0’ layer of the standard format).
+```{r join-hydrobasins, eval=FALSE}
+# bbox to reduce processing time
+poun_bbox_3395 <- sf::st_bbox(ffr_1a5_poun_3395)
+# HydroBasin files
+hydrobasin_l3_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev03_v1c.shp"
+hydrobasin_l4_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev04_v1c.shp"
+hydrobasin_l5_in <- "C:\\Users\\user\\Documents\\Articles\\gis_layers\\hydro_data\\hybas_sa_lev01-12_v1c\\hybas_sa_lev05_v1c.shp"
+# load files
+hydrobasins_l3 <- sf::read_sf(hydrobasin_l3_in) |> sf::st_transform(crs=3395) |> 
+  sf::st_make_valid() |> sf::st_cast("MULTIPOLYGON") |> 
+  sf::st_crop(poun_bbox_3395)
+hydrobasins_l4 <- sf::read_sf(hydrobasin_l4_in) |> sf::st_transform(crs=3395) |> 
+  sf::st_make_valid() |> sf::st_cast("MULTIPOLYGON") |> 
+  sf::st_crop(poun_bbox_3395)
+hydrobasins_l5 <- sf::read_sf(hydrobasin_l5_in) |> sf::st_transform(crs=3395) |> 
+  sf::st_make_valid() |> sf::st_cast("MULTIPOLYGON") |> 
+  sf::st_crop(poun_bbox_3395)
+
+# Points
+infile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
+ffr_1a5_poun_points_3395 <- sf::st_read(dsn = infile, 
+                                    layer = "ffr_1a5_poun_points_3395")
+# appears to be 114 duplicates
+ffr_1a5_poun_points_3395 |> data.frame() |>
+  dplyr::group_by(reach_id_point) |> 
+  dplyr::summarise(acount = dplyr::n()) |> 
+  dplyr::filter(acount > 1) |> 
+  dplyr::arrange(desc(acount))
+# check duplicates. Here from French Guiana, same reach id in Coastal North and South
+ffr_1a5_poun_points_3395 |> data.frame() |>
+  dplyr::filter(reach_id_point == "60158665_1")
+# Here duplicate REACH_ID, both from Amazon, different subbasins - 
+# Amazon floodplain and Minor Amazon tribs Pacaj\xe1
+ffr_1a5_poun_points_3395 |> data.frame() |>
+  dplyr::filter(reach_id_point == "60500077_1")
+# Add HydroBasins to rivers. 19:26 - 19:46
+#geom column name
+geocol <- attr(ffr_1a5_poun_points_3395,"sf_column")
+
+ffr_1a5_poun_3395_hb_l3 <- sf::st_intersection(ffr_1a5_poun_points_3395 |> 
+                                                 dplyr::select(REACH_ID, reach_id_point, 
+                                                        BASIN_FLAG, SUBBASIN_FLAG), 
+                                                hydrobasins_l3 |> 
+                                                 dplyr::select(HYBAS_ID, PFAF_ID, SUB_AREA) |> 
+                                                 dplyr::rename(c("HYBAS_ID_l3" = "HYBAS_ID", 
+                                                               "PFAF_ID_l3" = "PFAF_ID", 
+                                                               "SUB_AREA_l3" = "SUB_AREA"))) |>
+  data.frame() |> dplyr::select(!tidyselect::all_of(geocol))
+ffr_1a5_poun_3395_hb_l4 <- sf::st_intersection(ffr_1a5_poun_points_3395 |> 
+                                                 dplyr::select(REACH_ID, reach_id_point, 
+                                                        BASIN_FLAG, SUBBASIN_FLAG), 
+                                                hydrobasins_l4 |> 
+                                                 dplyr::select(HYBAS_ID, PFAF_ID, SUB_AREA)|> 
+                                                 dplyr::rename(c("HYBAS_ID_l4" = "HYBAS_ID", 
+                                                               "PFAF_ID_l4" = "PFAF_ID", 
+                                                               "SUB_AREA_l4" = "SUB_AREA"))) |>
+  data.frame() |> dplyr::select(!tidyselect::all_of(geocol))
+ffr_1a5_poun_3395_hb_l5 <- sf::st_intersection(ffr_1a5_poun_points_3395 |> 
+                                                 dplyr::select(REACH_ID, reach_id_point, 
+                                                        BASIN_FLAG, SUBBASIN_FLAG), 
+                                                hydrobasins_l5 |> 
+                                                 dplyr::select(HYBAS_ID, PFAF_ID, SUB_AREA)) |> 
+                                                 dplyr::rename(c("HYBAS_ID_l5" = "HYBAS_ID", 
+                                                               "PFAF_ID_l5" = "PFAF_ID", 
+                                                               "SUB_AREA_l5" = "SUB_AREA")) |>
+  data.frame() |> dplyr::select(!tidyselect::all_of(geocol))
+
+points_hydrobasin <- ffr_1a5_poun_3395_hb_l3 |> 
+  dplyr::left_join(ffr_1a5_poun_3395_hb_l4) |> 
+  dplyr::left_join(ffr_1a5_poun_3395_hb_l5)
+
+# Now join back with points
+ffr_1a5_poun_points_hb_3395 <- ffr_1a5_poun_points_3395 |> 
+  dplyr::left_join(points_hydrobasin)
+# Export for future use.
+outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_v2.gpkg"
+# remove some columns to keep filesize below 100 MB.
+ffr_1a5_poun_points_hb_3395 |> 
+  dplyr::select(!c(UPLAND_SKM, BB_LEN_KM, BB_OCEAN)) |>
+sf::st_write(dsn = outfile, 
+         layer = "ffr_1a5_poun_points_3395", 
+         layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
+sf::st_layers(outfile)
+```
+
