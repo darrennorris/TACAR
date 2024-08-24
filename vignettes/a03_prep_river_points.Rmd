@@ -426,14 +426,25 @@ ffr_1a5_poun_points_hb_3395 <- sf::st_read(dsn = infile,
 # https://github.com/darrennorris/TACAR/issues/1
 exclude_French_Guiana_l6 <- c(6060005530, 6060005540, 6060005660)
 ffr_1a5_poun_points_hb_3395$flag_exclude <- ifelse(ffr_1a5_poun_points_hb_3395$HYBAS_ID_l6 %in% exclude_French_Guiana_l6, 1, 0)
+# Check. All ok.
+acheck <- ffr_1a5_poun_points_hb_3395 |> 
+  dplyr::filter(flag_exclude == 1)
+mapview::mapview(acheck)
+
 # Export for future use
 outfile <- "C:\\Users\\user\\Documents\\Articles\\2024_Norris_Greenstatus\\TACAR\\inst\\vector\\poun_river_points_hb_v1.gpkg"
 sf::st_write(ffr_1a5_poun_points_hb_3395, dsn = outfile, 
          layer = "ffr_1a5_poun_points_hb_3395", 
          layer_options = "SPATIAL_INDEX=NO", delete_layer = TRUE, append = TRUE)
-# Check. All ok.
-acheck <- ffr_1a5_poun_points_hb_3395 |> 
-  dplyr::filter(flag_exclude == 1)
-mapview::mapview(acheck)
+
 ```
 
+## To do
+
+ - Make flag_exclude more informative.    
+ Include additional codes to identify why excluded (never present, 
+ extirpated, no nesting areas etc).
+ 
+ - Include additional flags.    
+ Flags to show 1) where there are conservation actions, 2) evidence of 
+ population recovery.

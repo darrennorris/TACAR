@@ -36,6 +36,7 @@ differrent data types, runs matrix population projections and produces results:
 library(plyr)
 library(dplyr)
 library(tidyr)
+library(tidyselect)
 library(forcats)
 library(Hmisc)
 library(popdemo)
@@ -557,6 +558,16 @@ Load data: points, projection model lookup table and scenarios.
 # Cropped to basins from Norris et. al. 2019.
 ffr_1a5_poun_points_3395 <- sf::st_read(dsn = system.file("vector/poun_river_points_v2.gpkg", package="TACAR"),
                                     layer = "ffr_1a5_poun_points_3395")
+#HydroBasin codes made previously in prep_river_points.Rmd.
+ffr_1a5_poun_points_hb_3395 <- sf::st_read(dsn = system.file("vector/poun_river_points_hb_v1.gpkg", package="TACAR"),
+                                    layer = "ffr_1a5_poun_points_hb_3395")
+# quicker joining just data.
+#geom column name
+geocol <- attr(ffr_1a5_poun_points_hb_3395,"sf_column")
+# join
+ffr_1a5_poun_points_3395 <- ffr_1a5_poun_points_3395 |> 
+  left_join(ffr_1a5_poun_points_hb_3395 |> data.frame() |> 
+              dplyr::select(!tidyselect::all_of(geocol)))
 # projections and scenarios
 # model_lookup has results from 300 population projection models created previously
 model_lookup <- readRDS(system.file("other/model_lookup.rds", package = "TACAR"))
@@ -600,7 +611,7 @@ scenario_ffr_res <- ffr_1a5_poun_points_3395 |> data.frame() |>
 # should be zero rows if join worked. 
 test_join <- scenario_ffr_res |> 
   filter(is.na(lambda_mean)) |> nrow()
-# This file is used in testmap. 1060311 rows 15/8/2024.
+# This file is used in testmap. 1060311 rows, 169 columns 24/8/2024.
 saveRDS(scenario_ffr_res, "inst/other/scenario_res_ffr1a5.rds")
 ```
 
@@ -703,6 +714,7 @@ Summarise population changes.
 ```{r make-pop-change, message=FALSE, warning=FALSE}
 df_country_basin <- scenario_ffr_res |> 
   #dplyr::filter(BASIN_NAME == "Coastal North") |> # track why have 1 Coastal South
+  dplyr::filter(flag_exclude == 0) |>
   dplyr::mutate(modelidf = forcats::fct_reorder(modelidf, lambda_mean), 
                 basin_country = paste(BASIN_NAME, COUNTRY, sep ="\n")) |> 
   dplyr::group_by(basin_country, COUNTRY, BASIN_NAME, 
@@ -716,8 +728,8 @@ df_country_basin <- scenario_ffr_res |>
   dplyr::filter(acount > 21) |>
   tidyr::pivot_longer(cols = starts_with("diff_"), names_to = "gen_t3", 
                       values_to = "fem_diff")
-# Make weights
-df_country_basin$wt <- df_country_basin$acount / sum(df_country_basin$acount)
+# Make weights. Below does not help.
+#df_country_basin$wt <- df_country_basin$acount / sum(df_country_basin$acount)
 # make sure to avoid these
 # |> 
 #  filter(length_river > 21) |> 
