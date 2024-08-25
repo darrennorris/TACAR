@@ -80,6 +80,21 @@ change_value <- round(abs(mean_wt) * 100, 1)
 change_q25 <- round(abs(iqr_wt_25) * 100, 1)
 change_q75 <- round(abs(iqr_wt_75) * 100, 1)
 
+# Total river lengths
+river_tot <- df_country_basin |> 
+  dplyr::group_by(basin_country, COUNTRY, BASIN_NAME, acount) |> 
+  dplyr::summarise(atmp = dplyr::n()) |> 
+  dplyr::ungroup() |> 
+  dplyr::mutate(length_label = paste(round((acount / 1000), 1), "K km"))
+# How much does the Brazilian Amazon represent? Pull values.
+river_totkm <- river_tot |> 
+  dplyr::pull(acount) |> sum() 
+river_amazon_brazil <-   river_tot |>
+  dplyr::filter(COUNTRY == "Brazil", BASIN_NAME == "Amazon") |> 
+  droplevels() |> 
+  dplyr::pull(acount) |> sum() 
+river_amazon_brazil_prop <- round(((river_amazon_brazil / river_totkm) * 100), 1)
+
 ```
 
 Use the interactive map below to check population changes. Zoom in to see 
