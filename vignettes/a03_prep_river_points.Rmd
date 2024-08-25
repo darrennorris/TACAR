@@ -279,7 +279,7 @@ cor.test(ffr_1a5_poun_points_3395$cost_distance, ffr_1a5_poun_points_3395$Dist..
 
 ## HydroBasin codes
 
-Add HydroBasin levels 3, 4 and 5. These will also be used to generate 
+Add HydroBasin levels 3, 4, 5 and 6. These will also be used to generate 
 a flag to exclude any basins where the species does not occur.
 
 HYBAS_ID

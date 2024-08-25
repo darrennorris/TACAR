@@ -54,7 +54,7 @@ scenario_ffr_res$modelidf <- factor(scenario_ffr_res$modelid)
 
 df_country_basin <- scenario_ffr_res |> 
   #dplyr::filter(BASIN_NAME == "Coastal North") |> # track why have 1 Coastal South
-  filter(model_name == "modelkey_BAU", flag_exclude == 0) |>
+  dplyr::filter(flag_exclude == 0) |>
   dplyr::mutate(modelidf = forcats::fct_reorder(modelidf, lambda_mean), 
                 basin_country = paste(BASIN_NAME, COUNTRY, sep ="\n")) |> 
   dplyr::group_by(basin_country, COUNTRY, BASIN_NAME, 
@@ -144,7 +144,10 @@ group = "points_bau4326"
 or more within 3 generations (35 years). Brown points therefore represent 
 rivers where the species is Endangered ("Em perigo" / "En peligro"), 
 following the IUCN Red List population size reduction criteria - A3bd 
-(https://www.iucnredlist.org/about/faqs).
+(https://www.iucnredlist.org/about/faqs). The values presented are from 
+the "Business-as-Usual" (BAU) scenario. For a comparison among 
+pessimistic, BAU and optimistic scenarios see the Basin-Country comparison 
+figure below.
 
  - The points follow rivers mapped by remote sensing. 
 This standardized global scale mapping comes from 
@@ -165,6 +168,55 @@ to find the area of interest. Then zoom in again to check the coloured points.
       - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019).
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
       - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017). 
+
+## Basin-country comparison
+
+Here a graphical comparison of the projected population changes 
+among basin-country combinations helps to provide a more detailed 
+assessment.
+```{r fig-bc-compare, echo=FALSE, out.width="80%", out.height="80%"}
+knitr::include_graphics("fig_basin_country_summary.png") 
+```
+
+In the above figure a population change of "-0.5" is 50% loss.
+The shaded shapes show predicted population changes for each basin-country 
+combination. 
+The labels to the right show river lengths in thousands of 
+kilometers (e.g. "22.2 K km" is 22,200 kilometers).
+The vertical dashed line shows the overall mean value, and the verticle grey 
+shaded area is the interquartile range (IQR - 25% and 75% quantile values). 
+As the basin-country combinations cover different sized areas, 
+estimates of overall mean and IQR are obtained using calculations 
+weighted by the river length.
+
+Within each basin-country combination, the horizontal black crossbars 
+show the median and interquartile range of projection scenarios. 
+These scenarios represent the impact of threats (e.g. hunting) across 
+three generations. The impact of threats ranges from most severe 
+("pessimistic"), Business-as-usual ("BAU"), to least severe ("optimistic").
+Generation length was estimated from stage-based matrix population 
+models (Bienvenu & Legendre, 2015). 
+The scenario results include the mean (41 year), and the 
+interquartile range of three generations (35 and 45 year, 
+25% and 75% quantile values respectively).
+Generation length estimation follows the IUCN definition: 
+“Generation length is the average age of parents of the current cohort 
+(i.e., newborn individuals in the population). 
+Generation length therefore reflects the turnover rate of breeding 
+individuals in a population..... Where generation 
+length varies under threat, such as the exploitation of fishes, the 
+more natural, i.e. pre-disturbance, generation length should be used.” 
+(IUCN 2001, 2012).
+
+The Amazon Basin in Brazil represents the largest proportion of 
+rivers (`r river_amazon_brazil_prop`%). Considering the spatial variation 
+in both threats and population genetics, it would probably be useful to 
+include the Amazon Basin seperated into major basins (e.g. HYdroBasin level 
+4 - Madeira, Negro, etc). 
+But the summaries presented here provide a general overview and enable 
+robust assessment of the results. Additionally, the overall patterns do not 
+change if the Amazon basin is seperated further.
+
 
 ## Methods
 The analysis is developed here: https://github.com/darrennorris/TACAR. 
