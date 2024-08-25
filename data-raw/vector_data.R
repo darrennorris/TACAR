@@ -13,6 +13,7 @@ inpoints <- readRDS(mypath)
 nf <- 10
 ceiling_threshold <- nf + (nf * 0.2)
 # keep only columns needed for plotting
+# 352463 rows, 19 columns 25/8/2024
 points_bau_ffr <- inpoints |>
   filter(model_name == "modelkey_BAU", flag_exclude == 0) |>
   mutate(flag_50_35y = factor(if_else(fem_diff_t35 <= -0.5, 1, 0))) |>

@@ -636,7 +636,6 @@ scenario_ffr_res$modelidf <- factor(scenario_ffr_res$modelid)
 # scale value range
 diff_min <- min(scenario_ffr_res$fem_diff_t45, na.rm = TRUE)
 diff_max <- max(scenario_ffr_res$fem_diff_t45, na.rm = TRUE)
-
 ```
 
 
