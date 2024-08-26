@@ -236,7 +236,7 @@ change if the Amazon basin is seperated further.
 ## Methods
 The analysis is developed here: https://github.com/darrennorris/TACAR. 
 The workflow, data and associated R code is available here: 
-https://darrennorris.github.io/TACAR/articles/Matrix-population-model-projections.html
+https://darrennorris.github.io/TACAR/articles/a02_Matrix-population-model-projections.html
 
 The methods used are an extension of [Norris et. al. 2019](https://doi.org/10.1016/j.biocon.2019.02.022) that includes:
 
