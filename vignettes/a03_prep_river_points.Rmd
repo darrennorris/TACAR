@@ -279,8 +279,22 @@ cor.test(ffr_1a5_poun_points_3395$cost_distance, ffr_1a5_poun_points_3395$Dist..
 
 ## HydroBasin codes
 
-Add HydroBasin levels 3, 4, 5 and 6. These will also be used to generate 
+Add HydroBasin levels 3, 4, 5, 6, 7 and 8. These will also be used to generate 
 a flag to exclude any basins where the species does not occur.
+
+IUCN Mapping standareds for freshwater species: 
+https://nc.iucnredlist.org/redlist/content/attachment_files/Freshwater_Mapping_Protocol.pdf
+
+p2:
+"The standard HydroBASINS resolution level used by IUCN is level 8".
+
+Section - Different resolutions of sub-basins for range-restricted 
+and widespread species
+
+p6:
+"Level 5 sub-basins may be more suitable for mapping very widespread species."
+
+### Hydrobasin code definitions
 
 HYBAS_ID
 Unique basin identifier. The code consists of 10 digits:
