@@ -308,9 +308,19 @@ kilometer.</p>
 <div class="section level2">
 <h2 id="hydrobasin-codes">HydroBasin codes<a class="anchor" aria-label="anchor" href="#hydrobasin-codes"></a>
 </h2>
-<p>Add HydroBasin levels 3, 4, 5 and 6. These will also be used to
+<p>Add HydroBasin levels 3, 4, 5, 6, 7 and 8. These will also be used to
 generate a flag to exclude any basins where the species does not
 occur.</p>
+<p>IUCN Mapping standareds for freshwater species: <a href="https://nc.iucnredlist.org/redlist/content/attachment_files/Freshwater_Mapping_Protocol.pdf" class="external-link uri">https://nc.iucnredlist.org/redlist/content/attachment_files/Freshwater_Mapping_Protocol.pdf</a></p>
+<p>p2: “The standard HydroBASINS resolution level used by IUCN is level
+8”.</p>
+<p>Section - Different resolutions of sub-basins for range-restricted
+and widespread species</p>
+<p>p6: “Level 5 sub-basins may be more suitable for mapping very
+widespread species.”</p>
+<div class="section level3">
+<h3 id="hydrobasin-code-definitions">Hydrobasin code definitions<a class="anchor" aria-label="anchor" href="#hydrobasin-code-definitions"></a>
+</h3>
 <p>HYBAS_ID Unique basin identifier. The code consists of 10 digits: •
 First 1 digit represents the region: 1 = Africa; 2 = Europe; 3 =
 Siberia; 4 = Asia; 5 = Australia; 6 = South America; 7 = North America;
@@ -461,6 +471,7 @@ format).</p>
 <span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">st_write</a></span><span class="op">(</span><span class="va">ffr_1a5_poun_points_hb_3395</span>, dsn <span class="op">=</span> <span class="va">outfile</span>, </span>
 <span>         layer <span class="op">=</span> <span class="st">"ffr_1a5_poun_points_hb_3395"</span>, </span>
 <span>         layer_options <span class="op">=</span> <span class="st">"SPATIAL_INDEX=NO"</span>, delete_layer <span class="op">=</span> <span class="cn">TRUE</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="to-do">To do<a class="anchor" aria-label="anchor" href="#to-do"></a>
