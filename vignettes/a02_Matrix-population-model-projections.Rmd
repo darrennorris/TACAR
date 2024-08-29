@@ -187,8 +187,167 @@ Rage::gen_time(matU = matU(my_comadre)[[1]], matF(my_comadre)[[1]], method = "co
 
 Rage::life_expect_mean(matU = matU(my_comadre)[[1]], start = 1)
 # Add life expectancies of all stages to get overall longevity - 21.87 years
-sum(Rage::life_expect_mean(matU(my_comadre)[[1]], start = NULL))
+sum(Rage::life_expect_mean(Rcompadre::matU(my_comadre)[[1]], start = NULL))
+
 ```
+
+```{r adult-survival, eval=FALSE, echo=FALSE}
+# Logevity ranges between 20 to 70 years.
+# Adult survival ranges between 0.9215 - 0.98153
+
+# Anecdotal evidence suggests they can live up to 70 years 
+# (Ricklefs 2010; Myhrvold et al. 2015; AnAGe 2023 - 
+#online webserver https://genomics.senescence.info/species/index.html). 
+# In captivity, individuals have been reported to live from 23.4 to 32.91
+# years (Snider and Bowler 1992; Slavens and Slavens; Ricklefs 2010). 
+# Using Iverson’s (in press) regression equation of longevity 
+# [L = 2.741*(age at maturity) + 37.926] and the range of values for 
+# female age at first reproduction (5 - 9 years), 
+# the mean L was estimated at 57.11 years and to range between 51.63 
+# and 62.60 years, which is relatively close to the anecdotal evidence.
+
+# 20 year
+mat_u_20y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.9215)
+)
+sum(Rage::life_expect_mean(matU = mat_u_20y, start = NULL))
+
+# 30 year
+mat_u_30y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.95244)
+)
+# Survival for population that lives less. 31.56 years
+mat_u_30y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.9551627)
+)
+sum(Rage::life_expect_mean(matU = mat_u_30y, start = NULL))
+# Survival for population that lives longer. 32.8 years
+mat_u_30y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.9571827)
+)
+sum(Rage::life_expect_mean(matU = mat_u_30y, start = NULL))
+
+# 50 year
+mat_u_50y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.97339)
+)
+
+sum(Rage::life_expect_mean(matU = mat_u_50y, start = NULL))
+
+# Mean 57.11 year
+mat_u_57y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.976987)
+)
+sum(Rage::life_expect_mean(matU = mat_u_57y, start = NULL))
+
+# Range
+# 51.63 years
+mat_u_51y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.974304)
+)
+sum(Rage::life_expect_mean(matU = mat_u_51y, start = NULL))
+
+
+# 62.60 years
+mat_u_62y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.97917)
+)
+sum(Rage::life_expect_mean(matU = mat_u_62y, start = NULL))
+
+# 70
+mat_u_70y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.98153)
+)
+sum(Rage::life_expect_mean(matU = mat_u_70y, start = NULL))
+
+# Play with beta distribution
+# Define the objective function to minimize the difference between desired and actual mean
+objective_function <- function(params) {
+  alpha <- params[1]
+  beta <- params[2]
+  mean_survival <- alpha / (alpha + beta)
+  abs(mean_survival - 0.95244) # Minimize the difference between desired and actual mean
+}
+
+# Set initial parameter values and constraints.
+# Here with more to left of mean i.e. lower longevity.
+initial_params <- c(20, 40) # Initial guess for alpha and beta
+lower_bounds <- c(1, 1) # Ensure alpha and beta are positive
+upper_bounds <- c(Inf, Inf)
+
+# Optimize to find suitable alpha and beta
+optimization_result <- optim(initial_params, objective_function, 
+                             lower = lower_bounds, upper = upper_bounds, 
+                             method = "L-BFGS-B")
+
+# Extract optimized alpha and beta
+alpha_optimized <- optimization_result$par[1]
+beta_optimized <- optimization_result$par[2]
+
+# Generate random survival values using the optimized parameters
+survival_values <- rbeta(1000, alpha_optimized, beta_optimized)
+
+# Keep survival values within the desired range
+all_within_range <- survival_values[survival_values >= 0.9215 & survival_values <= 0.98153]
+mean(all_within_range) #[1] 0.9558801
+#Plot
+ hist(all_within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
+  curve(dbeta(x, alpha_optimized, beta_optimized), add = TRUE, col = "red") 
+  
+# Set initial parameter values and constraints.
+# Here with more to right of mean i.e. greater longevity.
+initial_params <- c(40, 20) # Initial guess for alpha and beta
+lower_bounds <- c(1, 1) # Ensure alpha and beta are positive
+upper_bounds <- c(Inf, Inf)
+
+# Optimize to find suitable alpha and beta
+optimization_result <- optim(initial_params, objective_function, 
+                             lower = lower_bounds, upper = upper_bounds, 
+                             method = "L-BFGS-B")
+
+# Extract optimized alpha and beta
+alpha_optimized <- optimization_result$par[1]
+beta_optimized <- optimization_result$par[2]
+
+# Generate random survival values using the optimized parameters
+survival_values <- rbeta(1000, alpha_optimized, beta_optimized)
+
+# Keep survival values within the desired range
+all_within_range <- survival_values[survival_values >= 0.9215 & survival_values <= 0.98153]
+mean(all_within_range) # 0.95718
+#Plot
+ hist(all_within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
+  curve(dbeta(x, alpha_optimized, beta_optimized), add = TRUE, col = "red") 
+
+```
+
 
 We can also plot the life cycle diagram.
 ```{r plot-lifecycle}

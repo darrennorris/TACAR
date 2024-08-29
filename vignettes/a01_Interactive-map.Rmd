@@ -214,7 +214,8 @@ models (Bienvenu & Legendre, 2015).
 The scenario results include the mean (41 year), and the 
 interquartile range of three generations (35 and 45 year, 
 25% and 75% quantile values respectively).
-Generation length estimation follows the IUCN definition: 
+Generation length was estimated using the Matrix Projection Models 
+(Bienvenu & Legendre 2015). The estimates follow the IUCN definition: 
 “Generation length is the average age of parents of the current cohort 
 (i.e., newborn individuals in the population). 
 Generation length therefore reflects the turnover rate of breeding 
@@ -233,7 +234,26 @@ robust assessment of the results. Additionally, the overall patterns do not
 change if the Amazon basin is seperated further.
 
 
+ - The estimates are conservative (best-case) due to the modelling 
+ assumptions listed below.    
+ Endangered (A3bd), is threfore a precautionary IUCN Red List assessment.    
+      - Important threats are not included (e.g. land use change Zalles et. al. 2021). 
+      - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible/unhunted populations.
+      - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019). 
+      - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
+      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. 
+      This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017). 
+
+
 ## Methods
+To understand the likely future changes in population numbers 
+spatially explicit population projection scenarios were developed 
+using stage-based Matrix Population Models.  
+Due to a lack of representative and robust evidence on species distribution, 
+abundance and the scale and impact of threats, such scenario based 
+modelling provides a useful and informative global scale assessment for 
+this widespread species.
+
 The analysis is developed here: https://github.com/darrennorris/TACAR. 
 The workflow, data and associated R code is available here: 
 https://darrennorris.github.io/TACAR/articles/a02_Matrix-population-model-projections.html
@@ -241,7 +261,12 @@ https://darrennorris.github.io/TACAR/articles/a02_Matrix-population-model-projec
 The methods used are an extension of [Norris et. al. 2019](https://doi.org/10.1016/j.biocon.2019.02.022) that includes:
 
 - Stochastic population projections. 
-- Future impacts to populations caused by human acessibility (hunting) and actions that reduce river connectivity.
+- Future impacts to populations caused by human acessibility (hunting).
+
+## To do
+
+ - Add impacts of actions that reduce river connectivity.
+
 
 ## References
 Bienvenu F, Legendre S. 2015. A new approach to the generation time in 
