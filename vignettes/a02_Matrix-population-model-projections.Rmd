@@ -346,6 +346,31 @@ mean(all_within_range) # 0.95718
  hist(all_within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
   curve(dbeta(x, alpha_optimized, beta_optimized), add = TRUE, col = "red") 
 
+# Set initial parameter values and constraints.
+# Here with symmetric.
+initial_params <- c(200, 200) # Initial guess for alpha and beta
+lower_bounds <- c(1, 1) # Ensure alpha and beta are positive
+upper_bounds <- c(Inf, Inf)
+
+# Optimize to find suitable alpha and beta
+optimization_result <- optim(initial_params, objective_function, 
+                             lower = lower_bounds, upper = upper_bounds, 
+                             method = "L-BFGS-B")
+
+# Extract optimized alpha and beta
+alpha_optimized <- optimization_result$par[1]
+beta_optimized <- optimization_result$par[2]
+
+# Generate random survival values using the optimized parameters
+survival_values <- rbeta(1000, alpha_optimized, beta_optimized)
+
+# Keep survival values within the desired range
+all_within_range <- survival_values[survival_values >= 0.9215 & survival_values <= 0.98153]
+mean(all_within_range) # 0.956946
+#Plot
+ hist(all_within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
+  curve(dbeta(x, alpha_optimized, beta_optimized), add = TRUE, col = "red") 
+
 ```
 
 
