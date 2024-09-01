@@ -27,7 +27,7 @@ make_half_normal(
 \item{optimize_sigma}{Logical. Optimize sigma value selection. Default TRUE.}
 }
 \value{
-Creates a vector with survival values.
+Creates a data.frame with survival values following the half-normal distribution.
 }
 \description{
 Half-normal distribution around known survival values.
