@@ -447,38 +447,52 @@ make_half_normal_test <- function(survival_mean = NA, survival_min = NA,
   if (optimize_sigma) {
     # Objective function to minimize the difference between desired and actual mean
     objective_function <- function(sigma) {
-      survival_values <- rhnorm(n_samples, sigma)
-      survival_values_rescaled <- (survival_values - min(survival_values)) /
-        (max(survival_values) - min(survival_values)) * (survival_max - survival_min) + survival_min
-      survival_values_truncated <- pmax(survival_min, pmin(survival_values_rescaled, survival_max))
-      abs(mean(survival_values_truncated) - mean_survival_ajusted)
+      hn <- extraDistr::rhnorm(n_samples, sigma)
+      sv <- scales::rescale(hn, to = c(survival_min, survival_max))
+      abs(mean(sv, na.rm = TRUE) - mean_survival_ajusted)
     }
 
     # Optimize to find the best sigma
     if (is.na(sigma_start)) {
-      sigma_start <- sqrt(pi/2) / qhnorm(mean_survival_ajusted, lower.tail = FALSE) # Initial guess if not provided
+      sigma_start <- sqrt(pi/2) / extraDistr::qhnorm(mean_survival_ajusted, lower.tail = FALSE) # Initial guess if not provided
     }
     # Set reasonable finite bounds for sigma based on the desired mean and range
     lower_bound_sigma <- 0.01 # Small positive value to avoid zero
     upper_bound_sigma <- 10 * sigma_start # Allow for a wide range of exploration
-    optimization_result <- optim(sigma_start, objective_function, 
-                                 method = "Brent", 
+    optimization_result <- optim(sigma_start, objective_function,
+                                 method = "Brent",
                                  lower = lower_bound_sigma, upper = upper_bound_sigma)
     sigma <- optimization_result$par
   } else {
-    # Use the provided sigma or the default estimation if not provided
-    sigma <- ifelse(is.na(sigma_start), sqrt(pi/2) / qhnorm(mean_survival_ajusted, lower.tail = FALSE), sigma_start)
+    # Without optimizing, use the provided sigma or the default estimation if not provided
+    sigma <- ifelse(is.na(sigma_start), sqrt(pi/2) / extraDistr::qhnorm(mean_survival_ajusted, lower.tail = FALSE), sigma_start)
   }
 
   # Generate half-normal samples
-  survival_values <- extraDistr::rhnorm(n_samples, sigma)
+  hn_values <- extraDistr::rhnorm(n_samples, sigma)
 
-  # Rescale and truncate to ensure values are within the desired range
-  survival_values_rescaled <- (survival_values - min(survival_values)) /
-    (max(survival_values) - min(survival_values)) * (survival_max - survival_min) + survival_min
-  survival_values_truncated <- pmax(survival_min, pmin(survival_values_rescaled, survival_max))
-
-  return(survival_values_truncated)
+  # Rescale survival values within the desired range
+  survival_values <- scales::rescale(hn_values, to = c(survival_min, survival_max))
+# sample_mean <- mean(all_within_range, na.rm = FALSE)
+ # mean_diff_prop <- (survival_mean - sample_mean) / survival_mean
+  #if (mean_diff_prop > 0.005) { 
+  #  warning("Half-normal mean differs from desired mean. Shifting values.")
+  #  mean_diff <- survival_mean - sample_mean
+  #  all_within_range <- all_within_range + mean_diff
+  #  all_within_range <- all_within_range[all_within_range >= survival_min & all_within_range <= survival_max]
+    #add_n <- length(survival_values) - length(all_within_range)
+    #to_add <- seq(from = survival_min, to = min(all_within_range, na.rm = TRUE), 
+    #    length.out = add_n)
+    #new_vals <- sample(to_add, add_n, replace = TRUE)
+    #all_within_range <- c(all_within_range, new_vals)
+  #  }
+  # Create output dataframe with original values
+  # Make sure vectors have equal length.
+  sq_range <- seq(max(length(hn_values), length(survival_values)))
+  dfout <- data.frame(hn_values = hn_values, 
+                      survival_values = survival_values[sq_range]
+                      )
+  return(dfout)
 }
 
 # Generate survival values
@@ -489,10 +503,11 @@ survival_values_hn <- make_half_normal_test(survival_mean = 0.95244,
                                       optimize_sigma = TRUE
                                       )
 # Plot the distribution
-hist(survival_values_hn, probability = TRUE, 
+hist(survival_values_hn$survival_values, probability = TRUE, 
      main = "Distribution of Adult Survival (Half-Normal)", 
      xlab = "Survival Probability")
- mean(survival_values_hn)
+ mean(survival_values_hn$survival_values, na.rm = TRUE)
+ summary(survival_values_hn$survival_values)
 ```
 
 

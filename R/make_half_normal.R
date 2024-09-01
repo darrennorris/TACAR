@@ -3,9 +3,9 @@
 #' @param survival_mean Numeric value. Mean desired survival.
 #' @param survival_min Numeric value. Minimum survival.
 #' @param survival_max Numeric value. Maximum survival.
-#' @param n_samples Number of sample required. Default 1000.
+#' @param n_samples Number of samples. Default 1000.
 #' @param sigma_start Positive valued scale parameter.
-#' @param optimize_sigma Logical. Optimize sigma value selection.
+#' @param optimize_sigma Logical. Optimize sigma value selection. Default TRUE.
 #'
 #' @return Creates a vector with survival values.
 #' @importFrom extraDistr qhnorm rhnorm
@@ -42,16 +42,16 @@ make_half_normal <- function(survival_mean = NA, survival_min = NA,
   if (optimize_sigma) {
     # Objective function to minimize the difference between desired and actual mean
     objective_function <- function(sigma) {
-      survival_values <- rhnorm(n_samples, sigma)
-      survival_values_rescaled <- (survival_values - min(survival_values)) /
-        (max(survival_values) - min(survival_values)) * (survival_max - survival_min) + survival_min
-      survival_values_truncated <- pmax(survival_min, pmin(survival_values_rescaled, survival_max))
-      abs(mean(survival_values_truncated) - mean_survival_ajusted)
+      hn <- extraDistr::rhnorm(n_samples, sigma)
+      # rescale half-normal to desired range
+      sv <- scales::rescale(hn, to = c(survival_min, survival_max))
+      # minimize difference
+      abs(mean(sv, na.rm = TRUE) - mean_survival_ajusted)
     }
 
     # Optimize to find the best sigma
     if (is.na(sigma_start)) {
-      sigma_start <- sqrt(pi/2) / qhnorm(mean_survival_ajusted, lower.tail = FALSE) # Initial guess if not provided
+      sigma_start <- sqrt(pi/2) / extraDistr::qhnorm(mean_survival_ajusted, lower.tail = FALSE) # Initial guess if not provided
     }
     # Set reasonable finite bounds for sigma based on the desired mean and range
     lower_bound_sigma <- 0.01 # Small positive value to avoid zero
@@ -61,15 +61,21 @@ make_half_normal <- function(survival_mean = NA, survival_min = NA,
                                  lower = lower_bound_sigma, upper = upper_bound_sigma)
     sigma <- optimization_result$par
   } else {
-    # Use the provided sigma or the default estimation if not provided
-    sigma <- ifelse(is.na(sigma_start), sqrt(pi/2) / qhnorm(mean_survival_ajusted, lower.tail = FALSE), sigma_start)
+    # Without optimizing, use the provided sigma or the default estimation if not provided
+    sigma <- ifelse(is.na(sigma_start), sqrt(pi/2) / extraDistr::qhnorm(mean_survival_ajusted, lower.tail = FALSE), sigma_start)
   }
 
   # Generate half-normal samples
-  survival_values <- extraDistr::rhnorm(n_samples, sigma)
+  hn_values <- extraDistr::rhnorm(n_samples, sigma)
 
-  # Rescale survival values to fit within the range
-  within_range_rescaled <- scales::rescale(survival_values, to = c(survival_min, survival_max))
+  # Rescale survival values within the desired range
+  survival_values <- scales::rescale(hn_values, to = c(survival_min, survival_max))
 
-  return(within_range_rescaled)
+  # Create output dataframe with original values
+  # Make sure vectors have equal length.
+  sq_range <- seq(max(length(hn_values), length(survival_values)))
+  dfout <- data.frame(hn_values = hn_values,
+                      survival_values = survival_values[sq_range]
+  )
+  return(dfout)
 }
