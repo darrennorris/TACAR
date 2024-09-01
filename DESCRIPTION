@@ -18,6 +18,8 @@ Imports:
     popbio,
     popdemo,
     Rage, 
+    scales,
+    extraDistr,
     sf
 Suggests: 
     knitr, 

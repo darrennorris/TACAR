@@ -289,50 +289,6 @@ sum(Rage::life_expect_mean(matU = mat_u_70y, start = NULL))
 
 # Play with beta distribution
 # Define the objective function to minimize the difference between desired and actual mean
-
-make_beta_test <- function(survival_mean = NA, survival_min = NA, 
-                      survival_max = NA, 
-                      alpha_start = NA, beta_start = NA
-                      ){
-# Set initial parameter values and constraints.
-# Initial guess for alpha and beta
-initial_params <- c(alpha_start, beta_start)
-# Ensure alpha and beta are positive
-lower_bounds <- c(1, 1)
-upper_bounds <- c(Inf, Inf)
-
-# Minimize the difference between desired and actual mean
-objective_function <- function(params) {
-  p_alpha <- params[1]
-  p_beta <- params[2]
-  mean_beta <- p_alpha / (p_alpha + p_beta)
-  # Minimize the difference between desired and actual mean
-  abs(mean_beta - survival_mean)
-}
-
-# Optimize to find suitable alpha and beta
-optimization_result <- optim(initial_params, objective_function, 
-                             lower = lower_bounds, upper = upper_bounds, 
-                             method = "L-BFGS-B")
-# Extract optimized alpha and beta
-alpha_optimized <- optimization_result$par[1]
-beta_optimized <- optimization_result$par[2]
-
-# Generate random survival values using the optimized parameters
-sv <- rbeta(1000, alpha_optimized, beta_optimized)
-# Keep survival values within the desired range
-all_within_range <- sv[sv >= survival_min & sv <= survival_max]
-# Return data.frame.
-# Make sure vectors have equal length.
-sq_range <- seq(max(length(sv), length(all_within_range)))
-sq_opti <- seq(max(length(sv), length(alpha_optimized)))
-dfout <- data.frame(survival_values = sv, 
-                    within_range = all_within_range[sq_range], 
-                    alpha = alpha_optimized[sq_opti], 
-                    beta = beta_optimized[sq_opti])
-return(dfout)
-}
-
 make_beta_test2 <- function(survival_mean = NA, survival_min = NA,
                       survival_max = NA,
                       alpha_start = 40, beta_start = 40
@@ -424,7 +380,7 @@ make_beta_test2 <- function(survival_mean = NA, survival_min = NA,
   return(dfout)
 }
 
-
+# Now test
 adult_survival_default <- make_beta_test2(survival_mean = 0.95244, 
                                       survival_min = 0.9215, 
                                       survival_max = 0.98153)
@@ -460,92 +416,83 @@ mean(adult_survival_right$within_range, na.rm = TRUE)
 hist(adult_survival_left, probability = TRUE, 
      main = "Distribution of Adult Survival", 
      xlab = "Survival Probability")
+#Plot
+hist(adult_survival_right$within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
+curve(dbeta(x, adult_survival_right$alpha[1], 
+              adult_survival_right$beta[1]), add = TRUE, col = "red") 
+hist(adult_survival_left$within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
+curve(dbeta(x, adult_survival_left$alpha[1], 
+              adult_survival_left$beta[1]), add = TRUE, col = "red")  
 
+# Now with half normal
+make_half_normal_test <- function(survival_mean = NA, survival_min = NA,
+                             survival_max = NA, n_samples = 1000,
+                             sigma_start = NA, optimize_sigma = TRUE) {
+  # Input validation
+  if (is.na(survival_mean) || is.na(survival_min) || is.na(survival_max)) {
+    stop("Please provide values for survival_mean, survival_min, and survival_max.")
+  }
+  if (survival_min >= survival_max || survival_mean < survival_min || survival_mean > survival_max) {
+    stop("Invalid input: survival_min must be less than survival_max, and survival_mean must be within this range.")
+  }
 
-# Set initial parameter values and constraints.
-# Here with more to left of mean i.e. lower longevity.
-# Minimize the difference between desired and actual mean
-objective_function <- function(params) {
-  p_alpha <- params[1]
-  p_beta <- params[2]
-  mean_beta <- p_alpha / (p_alpha + p_beta)
-  # Minimize the difference between desired and actual mean
-  abs(mean_beta - 0.95244)
+  mean_survival_ajusted <- survival_mean + (survival_mean * 0.05)
+  if (mean_survival_ajusted > 0.99){
+    mean_survival_ajusted <- 0.99
+  }
+  # Estimate sigma parameter of the half-normal distribution.
+  # This estimated sigma ensures that when we generate random samples
+  # from the half-normal distribution with this sigma, the mean of
+  # those samples will be close to the desired mean_survival.
+  if (optimize_sigma) {
+    # Objective function to minimize the difference between desired and actual mean
+    objective_function <- function(sigma) {
+      survival_values <- rhnorm(n_samples, sigma)
+      survival_values_rescaled <- (survival_values - min(survival_values)) /
+        (max(survival_values) - min(survival_values)) * (survival_max - survival_min) + survival_min
+      survival_values_truncated <- pmax(survival_min, pmin(survival_values_rescaled, survival_max))
+      abs(mean(survival_values_truncated) - mean_survival_ajusted)
+    }
+
+    # Optimize to find the best sigma
+    if (is.na(sigma_start)) {
+      sigma_start <- sqrt(pi/2) / qhnorm(mean_survival_ajusted, lower.tail = FALSE) # Initial guess if not provided
+    }
+    # Set reasonable finite bounds for sigma based on the desired mean and range
+    lower_bound_sigma <- 0.01 # Small positive value to avoid zero
+    upper_bound_sigma <- 10 * sigma_start # Allow for a wide range of exploration
+    optimization_result <- optim(sigma_start, objective_function, 
+                                 method = "Brent", 
+                                 lower = lower_bound_sigma, upper = upper_bound_sigma)
+    sigma <- optimization_result$par
+  } else {
+    # Use the provided sigma or the default estimation if not provided
+    sigma <- ifelse(is.na(sigma_start), sqrt(pi/2) / qhnorm(mean_survival_ajusted, lower.tail = FALSE), sigma_start)
+  }
+
+  # Generate half-normal samples
+  survival_values <- extraDistr::rhnorm(n_samples, sigma)
+
+  # Rescale and truncate to ensure values are within the desired range
+  survival_values_rescaled <- (survival_values - min(survival_values)) /
+    (max(survival_values) - min(survival_values)) * (survival_max - survival_min) + survival_min
+  survival_values_truncated <- pmax(survival_min, pmin(survival_values_rescaled, survival_max))
+
+  return(survival_values_truncated)
 }
-initial_params <- c(1, 5) # Initial guess for alpha and beta
-lower_bounds <- c(1, 1) # Ensure alpha and beta are positive
-upper_bounds <- c(Inf, Inf)
 
-# Optimize to find suitable alpha and beta
-optimization_result <- optim(par = initial_params, fn = objective_function, 
-                             lower = lower_bounds, upper = upper_bounds, 
-                             method = "L-BFGS-B", 
-                             control = list(maxit = 1000))
-
-# Extract optimized alpha and beta
-alpha_optimized <- optimization_result$par[1]
-beta_optimized <- optimization_result$par[2]
-
-# Generate random survival values using the optimized parameters
-survival_values <- rbeta(1000, alpha_optimized, beta_optimized)
-
-# Keep survival values within the desired range
-all_within_range <- survival_values[survival_values >= 0.9215 & survival_values <= 0.98153]
-mean(all_within_range) #[1] 0.9558801
-#Plot
- hist(all_within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
-  curve(dbeta(x, alpha_optimized, beta_optimized), add = TRUE, col = "red") 
-  
-# Set initial parameter values and constraints.
-# Here with more to right of mean i.e. greater longevity.
-initial_params <- c(40, 20) # Initial guess for alpha and beta
-lower_bounds <- c(1, 1) # Ensure alpha and beta are positive
-upper_bounds <- c(Inf, Inf)
-
-# Optimize to find suitable alpha and beta
-optimization_result <- optim(initial_params, objective_function, 
-                             lower = lower_bounds, upper = upper_bounds, 
-                             method = "L-BFGS-B")
-
-# Extract optimized alpha and beta
-alpha_optimized <- optimization_result$par[1]
-beta_optimized <- optimization_result$par[2]
-
-# Generate random survival values using the optimized parameters
-survival_values <- rbeta(1000, alpha_optimized, beta_optimized)
-
-# Keep survival values within the desired range
-all_within_range <- survival_values[survival_values >= 0.9215 & survival_values <= 0.98153]
-mean(all_within_range) # 0.95718
-#Plot
- hist(all_within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
-  curve(dbeta(x, alpha_optimized, beta_optimized), add = TRUE, col = "red") 
-
-# Set initial parameter values and constraints.
-# Here with symmetric.
-initial_params <- c(200, 200) # Initial guess for alpha and beta
-lower_bounds <- c(1, 1) # Ensure alpha and beta are positive
-upper_bounds <- c(Inf, Inf)
-
-# Optimize to find suitable alpha and beta
-optimization_result <- optim(initial_params, objective_function, 
-                             lower = lower_bounds, upper = upper_bounds, 
-                             method = "L-BFGS-B")
-
-# Extract optimized alpha and beta
-alpha_optimized <- optimization_result$par[1]
-beta_optimized <- optimization_result$par[2]
-
-# Generate random survival values using the optimized parameters
-survival_values <- rbeta(1000, alpha_optimized, beta_optimized)
-
-# Keep survival values within the desired range
-all_within_range <- survival_values[survival_values >= 0.9215 & survival_values <= 0.98153]
-mean(all_within_range) # 0.956946
-#Plot
- hist(all_within_range, probability = TRUE, main = "Distribution of Adult Survival", xlab = "Survival Probability")
-  curve(dbeta(x, alpha_optimized, beta_optimized), add = TRUE, col = "red") 
-
+# Generate survival values
+survival_values_hn <- make_half_normal_test(survival_mean = 0.95244, 
+                                      survival_min = 0.9215, 
+                                      survival_max = 0.98153, 
+                                      n_samples = 1000, 
+                                      optimize_sigma = TRUE
+                                      )
+# Plot the distribution
+hist(survival_values_hn, probability = TRUE, 
+     main = "Distribution of Adult Survival (Half-Normal)", 
+     xlab = "Survival Probability")
+ mean(survival_values_hn)
 ```
 
 
