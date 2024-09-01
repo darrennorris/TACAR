@@ -17,8 +17,8 @@
 #' survival_values_hn <- make_half_normal(survival_mean = 0.95244,
 #' survival_min = 0.9215,
 #' survival_max = 0.98153)
-#' hist(survival_values)
-#' mean(survival_values)
+#' hist(survival_values_hn$survival_values)
+#' mean(survival_values_hn$survival_values)
 #' }
 make_half_normal <- function(survival_mean = NA, survival_min = NA,
                              survival_max = NA, n_samples = 1000,
