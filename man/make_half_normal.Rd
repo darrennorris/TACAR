@@ -20,11 +20,11 @@ make_half_normal(
 
 \item{survival_max}{Numeric value. Maximum survival.}
 
-\item{n_samples}{Number of sample required. Default 1000.}
+\item{n_samples}{Number of samples. Default 1000.}
 
 \item{sigma_start}{Positive valued scale parameter.}
 
-\item{optimize_sigma}{Logical. Optimize sigma value selection.}
+\item{optimize_sigma}{Logical. Optimize sigma value selection. Default TRUE.}
 }
 \value{
 Creates a vector with survival values.
@@ -37,7 +37,7 @@ Half-normal distribution around known survival values.
 survival_values_hn <- make_half_normal(survival_mean = 0.95244,
 survival_min = 0.9215,
 survival_max = 0.98153)
-hist(survival_values)
-mean(survival_values)
+hist(survival_values_hn$survival_values)
+mean(survival_values_hn$survival_values)
 }
 }

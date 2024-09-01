@@ -47,6 +47,7 @@ library(TACAR)
 library(readxl)
 library(ggplot2)
 library(sf)
+library(mgcv)
 ```
 
 
@@ -72,7 +73,7 @@ Each row holds a unique set of parameters for a matrix population model.
 This reflects diverse recovery (conservation action) and extinction (threat) scenarios.
 
 ```{r projection-params}
-dt <- pop01_param_poun()
+dt <- TACAR::pop01_param_poun()
 # Population size constant.
 nf <- 10
 dt$adultF_n <- nf
@@ -206,6 +207,92 @@ sum(Rage::life_expect_mean(Rcompadre::matU(my_comadre)[[1]], start = NULL))
 # the mean L was estimated at 57.11 years and to range between 51.63 
 # and 62.60 years, which is relatively close to the anecdotal evidence.
 
+# Graph of survival and age...
+mat_u_92 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.92)
+)
+mat_u_93 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.93)
+)
+mat_u_94 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.94)
+)
+mat_u_95 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.95)
+)
+mat_u_96 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.96)
+)
+mat_u_97 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.97)
+)
+mat_u_98 <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.98)
+)
+life_expect_mean_92 <- sum(Rage::life_expect_mean(matU = mat_u_92, 
+                                                  start = NULL))
+life_expect_mean_93 <- sum(Rage::life_expect_mean(matU = mat_u_93, 
+                                                  start = NULL))
+life_expect_mean_94 <- sum(Rage::life_expect_mean(matU = mat_u_94, 
+                                                  start = NULL))
+life_expect_mean_95 <- sum(Rage::life_expect_mean(matU = mat_u_95, 
+                                                  start = NULL))
+life_expect_mean_96 <- sum(Rage::life_expect_mean(matU = mat_u_96, 
+                                                  start = NULL))
+life_expect_mean_97 <- sum(Rage::life_expect_mean(matU = mat_u_97, 
+                                                  start = NULL))
+life_expect_mean_98 <- sum(Rage::life_expect_mean(matU = mat_u_98, 
+                                                  start = NULL))
+
+le <- c(life_expect_mean_92, life_expect_mean_93, life_expect_mean_94, 
+        life_expect_mean_95, life_expect_mean_96, life_expect_mean_97, 
+        life_expect_mean_98)
+sv <- seq(0.92, 0.98, by = 0.01)
+
+survival_longevity <- data.frame(life_expect_mean = le, 
+                                 adult_survival = sv)
+
+g1 <- gam(life_expect_mean ~ s(adult_survival, k=3), 
+          method = "REML",
+          data = survival_longevity)
+plot(g1)
+gam.check(g1)
+summary(g1)
+dfnew <- data.frame(adult_survival = seq(0.92, 0.98, by = 0.001))
+preds <- mgcv::predict.gam(g1, dfnew, se.fit = TRUE)
+dfnew$life_expect_gam <- preds$fit
+dfnew$life_expect_gam_se <- preds$se
+dfnew$life_expect_gam_lci <- preds$fit - (preds$se * 1.96)
+dfnew$life_expect_gam_uci <- preds$fit + (preds$se * 1.96)
+# showing mean longevity from Iverson and corresponding adult survival.
+ggplot(survival_longevity, 
+       aes(x = adult_survival, y = life_expect_mean)) + 
+  geom_point() + 
+  geom_hline(aes(yintercept = 57.1)) + 
+  geom_vline(aes(xintercept = 0.9765)) +
+  stat_smooth()
+# Now for differernt years.
 # 20 year
 mat_u_20y <- rbind(
   c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),

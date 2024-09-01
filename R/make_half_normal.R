@@ -7,7 +7,7 @@
 #' @param sigma_start Positive valued scale parameter.
 #' @param optimize_sigma Logical. Optimize sigma value selection. Default TRUE.
 #'
-#' @return Creates a vector with survival values.
+#' @return Creates a data.frame with survival values following the half-normal distribution.
 #' @importFrom extraDistr qhnorm rhnorm
 #' @importFrom scales rescale
 #' @export
@@ -68,10 +68,10 @@ make_half_normal <- function(survival_mean = NA, survival_min = NA,
   # Generate half-normal samples
   hn_values <- extraDistr::rhnorm(n_samples, sigma)
 
-  # Rescale survival values within the desired range
+  # Rescale half-normal values within the desired range
   survival_values <- scales::rescale(hn_values, to = c(survival_min, survival_max))
 
-  # Create output dataframe with original values
+  # Create output dataframe with half-normal and survival values
   # Make sure vectors have equal length.
   sq_range <- seq(max(length(hn_values), length(survival_values)))
   dfout <- data.frame(hn_values = hn_values,
