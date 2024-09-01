@@ -71,7 +71,7 @@
 
 
 <dt id="arg-n-samples">n_samples<a class="anchor" aria-label="anchor" href="#arg-n-samples"></a></dt>
-<dd><p>Number of sample required. Default 1000.</p></dd>
+<dd><p>Number of samples. Default 1000.</p></dd>
 
 
 <dt id="arg-sigma-start">sigma_start<a class="anchor" aria-label="anchor" href="#arg-sigma-start"></a></dt>
@@ -79,7 +79,7 @@
 
 
 <dt id="arg-optimize-sigma">optimize_sigma<a class="anchor" aria-label="anchor" href="#arg-optimize-sigma"></a></dt>
-<dd><p>Logical. Optimize sigma value selection.</p></dd>
+<dd><p>Logical. Optimize sigma value selection. Default TRUE.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -93,8 +93,8 @@
 <span class="r-in"><span><span class="va">survival_values_hn</span> <span class="op">&lt;-</span> <span class="fu">make_half_normal</span><span class="op">(</span>survival_mean <span class="op">=</span> <span class="fl">0.95244</span>,</span></span>
 <span class="r-in"><span>survival_min <span class="op">=</span> <span class="fl">0.9215</span>,</span></span>
 <span class="r-in"><span>survival_max <span class="op">=</span> <span class="fl">0.98153</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">survival_values</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">survival_values</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">survival_values_hn</span><span class="op">$</span><span class="va">survival_values</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">survival_values_hn</span><span class="op">$</span><span class="va">survival_values</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
