@@ -169,12 +169,21 @@ This standardized global scale mapping comes from
 Grill et al 2019, Free-flowing Rivers: https://doi.org/10.1038/s41586-019-1111-9. 
 The points are locations along rivers selected to represent where 
 *Podocnemis unifilis* females are likely to nest and that are likely 
-to be accessible to people by boat. To facilitate online viewing the mapped 
-points are a subset at intervals of approximately 10 kilometers. 
+to be accessible to people by boat. Rivers were chosen within the 
+species extent of occurance that had average long-term discharge rates 
+equal to or greater than 15 cubic meters per second. This value 
+corresponds to rivers that are accessible with nesting areas in a 
+Brazilian study area with relatively small rivers 
+(Bárcenas‐García et. al. 2021). 
+To facilitate online viewing the mapped points are a subset at 
+intervals of approximately 10 kilometers. 
 
  - Due to the number of points, the map can become slow to respond when you zoom in.    
  If this happens, zoom out to a level showing fewer points and you can pan around the map 
-to find the area of interest. Then zoom in again to check the coloured points.
+to find the area of interest. Then zoom in again to check the individual
+points. Lower zoom levels show locations of grouped points, with numbers 
+and shaded coloring showing the number of individual point locations 
+in each group.
 
  - The population reductions are conservative (best-case) estimates.    
  Endangered (A3bd), is threfore a precautionary IUCN Red List assessment.    
@@ -246,7 +255,7 @@ change if the Amazon basin is seperated further.
 
 
 ## Methods
-To understand the likely future changes in population numbers 
+To understand the likely future changes in population numbers, 
 spatially explicit population projection scenarios were developed 
 using stage-based Matrix Population Models.  
 Due to a lack of representative and robust evidence on species distribution, 
@@ -269,6 +278,12 @@ The methods used are an extension of [Norris et. al. 2019](https://doi.org/10.10
 
 
 ## References
+Bárcenas‐García A, Michalski F, Gibbs JP, Norris D.2022.
+Amazonian run‐of‐river dam reservoir impacts underestimated:
+Evidence from a before–after control–impact study of freshwater turtle 
+nesting areas. Aquatic Conservation: Marine and Freshwater Ecosystems. 
+32(3):508-22. https://doi.org/10.1002/aqc.3775
+
 Bienvenu F, Legendre S. 2015. A new approach to the generation time in 
 matrix population models. The American Naturalist. 185(6):834-43. 
 https://doi.org/10.1086/681104.
