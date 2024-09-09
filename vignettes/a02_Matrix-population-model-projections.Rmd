@@ -1294,6 +1294,24 @@ But the summaries presented here provide a general overview and enable
 robust assessment of the results. Additionally, the overall patterns do not 
 change if the Amazon basin is seperated further.
 
+#### By country
+```{r summary-country}
+df_river_couuntry <- river_tot |> 
+  group_by(COUNTRY) |> 
+  summarise(river_km = sum(acount))
+  
+df_wtd_country <- df_country_basin |> 
+  group_by(COUNTRY) |> 
+  summarise(mean_wtd = Hmisc::wtd.mean(x = fem_diff, w = acount), 
+            iqr_wtd_25 = Hmisc::wtd.quantile(x = fem_diff, 
+                              w = acount, probs = 0.25), 
+            iqr_wtd_75 = Hmisc::wtd.quantile(x = fem_diff, 
+                              w = acount, probs = 0.75))
+
+df_wtd_country
+```
+
+
 ## References
 Bienvenu F, Legendre S. 2015. A new approach to the generation time in 
 matrix population models. The American Naturalist. 185(6):834-43. 

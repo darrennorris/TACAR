@@ -154,7 +154,7 @@ group = "points_bau4326"
   
 ```
 
- - When you zoom in you will see shaded points.    
+ - When you zoom in you will see individual points.    
  The points are brown where populations are predicted to decline by 50% 
 or more within 3 generations (35 years). Brown points therefore represent 
 rivers where the species is Endangered ("Em perigo" / "En peligro"), 
@@ -258,10 +258,10 @@ change if the Amazon basin is seperated further.
 To understand the likely future changes in population numbers, 
 spatially explicit population projection scenarios were developed 
 using stage-based Matrix Population Models.  
-Due to a lack of representative and robust evidence on species distribution, 
-abundance and the scale and impact of threats, such scenario based 
-modelling provides a useful and informative global scale assessment for 
-this widespread species.
+Such scenario based modelling provides a useful and informative global 
+scale assessment for this widespread species, which suffers from a lack 
+of representative and robust evidence on species distribution, 
+abundance and the scale and impact of threats.
 
 The analysis is developed here: https://github.com/darrennorris/TACAR. 
 The workflow, data and associated R code is available here: 
