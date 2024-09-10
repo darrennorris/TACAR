@@ -1295,6 +1295,12 @@ robust assessment of the results. Additionally, the overall patterns do not
 change if the Amazon basin is seperated further.
 
 #### By country
+
+The code below generates a summary by country using the same 
+data as the basin-country comparison. For each country 
+the mean and interquartile range is calculated, with 
+estimates weighted by the river length within each basin.
+
 ```{r summary-country}
 df_river_couuntry <- river_tot |> 
   group_by(COUNTRY) |> 
