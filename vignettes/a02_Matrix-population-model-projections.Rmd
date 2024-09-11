@@ -293,6 +293,15 @@ ggplot(survival_longevity,
   geom_vline(aes(xintercept = 0.9765)) +
   stat_smooth()
 # Now for differernt years.
+# 12.2 year (9 plus 3 nesting seasons)
+mat_u_10y <- rbind(
+  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
+  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
+  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
+  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.8415)
+)
+sum(Rage::life_expect_mean(matU = mat_u_10y, start = NULL))
+
 # 20 year
 mat_u_20y <- rbind(
   c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
@@ -1288,7 +1297,7 @@ more natural, i.e. pre-disturbance, generation length should be used.”
 The Amazon Basin in Brazil represents the largest proportion of 
 rivers (`r river_amazon_brazil_prop`%). Considering the spatial variation 
 in both threats and population genetics, it would probably be useful to 
-include the Amazon Basin seperated into major basins (e.g. HYdroBasin level 
+include the Amazon Basin seperated into major basins (e.g. HydroBasin level 
 4 - Madeira, Negro, etc). 
 But the summaries presented here provide a general overview and enable 
 robust assessment of the results. Additionally, the overall patterns do not 

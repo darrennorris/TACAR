@@ -17,3 +17,54 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(TACAR)
 ```
+
+Establish distribution of plausible adult survival values in the 
+following scenarios: 
+
+ - Unharvested, with and without recovery actions.
+ - Lightly harvested, with and without recovery actions.
+ - Intesively harvested, with and without recovery actions.
+ 
+ To be able to compare with and without recovery actions we need to 
+ include density dependence in the matrix projection models.
+ 
+ We use estimates of longevity to establish mean and range of annual 
+ adult female survival in each scenario.
+
+ - Unharvested,    
+ mean 57.1 years, range 20 to 70 years, beta distribution.
+ 
+ - Lightly harvested (less than 2.5% per year),    
+ mean 30 years, range 20 to 70 years, beta distribution.
+ 
+ - Intensively harvested (greater than 5% per year),    
+ mean 22 years, range 20 to 70 years, half-normal distribution.
+ 
+```{r survival-distributions}
+adult_survival <- TACAR::make_beta(survival_mean = 0.976987, 
+                                      survival_min = 0.9215, 
+                                      survival_max = 0.98153, 
+                                   alpha = 40, beta = 40
+                                   )
+hist(adult_survival$within_range)
+mean(adult_survival$within_range, na.rm = TRUE)
+
+adult_survival_hunt_low <- TACAR::make_beta(survival_mean = 0.95244, 
+                                      survival_min = 0.9215, 
+                                      survival_max = 0.98153, 
+                                   alpha = 400, beta = 400
+                                   )
+hist(adult_survival_hunt_low$within_range)
+mean(adult_survival_hunt_low$within_range, na.rm = TRUE)
+
+adult_survival_hunt_high <- TACAR::make_half_normal(survival_mean = 0.96,
+                                                    survival_min = 0.92, 
+                                                    survival_max = 0.97339)
+# Plot the distribution
+hist(adult_survival_hunt_high$survival_values, probability = TRUE)
+mean(adult_survival_hunt_high$survival_values, na.rm = TRUE)
+
+
+```
+ 
+
