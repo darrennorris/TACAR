@@ -69,6 +69,60 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://darrennorris.github.io/TACAR/">TACAR</a></span><span class="op">)</span></span></code></pre></div>
+<p>Establish distribution of plausible adult survival values in the
+following scenarios:</p>
+<ul>
+<li>Unharvested, with and without recovery actions.</li>
+<li>Lightly harvested, with and without recovery actions.</li>
+<li>Intesively harvested, with and without recovery actions.</li>
+</ul>
+<p>To be able to compare with and without recovery actions we need to
+include density dependence in the matrix projection models.</p>
+<p>We use estimates of longevity to establish mean and range of annual
+adult female survival in each scenario.</p>
+<ul>
+<li><p>Unharvested,<br>
+mean 57.1 years, range 20 to 70 years, beta distribution.</p></li>
+<li><p>Lightly harvested (less than 2.5% per year),<br>
+mean 30 years, range 20 to 70 years, beta distribution.</p></li>
+<li><p>Intensively harvested (greater than 5% per year),<br>
+mean 22 years, range 20 to 70 years, half-normal distribution.</p></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">adult_survival</span> <span class="op">&lt;-</span> <span class="fu">TACAR</span><span class="fu">::</span><span class="fu"><a href="../reference/make_beta.html">make_beta</a></span><span class="op">(</span>survival_mean <span class="op">=</span> <span class="fl">0.976987</span>, </span>
+<span>                                      survival_min <span class="op">=</span> <span class="fl">0.9215</span>, </span>
+<span>                                      survival_max <span class="op">=</span> <span class="fl">0.98153</span>, </span>
+<span>                                   alpha <span class="op">=</span> <span class="fl">40</span>, beta <span class="op">=</span> <span class="fl">40</span></span>
+<span>                                   <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in TACAR::make_beta(survival_mean = 0.976987, survival_min = 0.9215, :</span></span>
+<span><span class="co">#&gt; Less than 50% of survival values are within the desired range. Rescaling</span></span>
+<span><span class="co">#&gt; values.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">adult_survival</span><span class="op">$</span><span class="va">within_range</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/survival-distributions-1.png" width="700"></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">adult_survival</span><span class="op">$</span><span class="va">within_range</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.9720561</span></span>
+<span></span>
+<span><span class="va">adult_survival_hunt_low</span> <span class="op">&lt;-</span> <span class="fu">TACAR</span><span class="fu">::</span><span class="fu"><a href="../reference/make_beta.html">make_beta</a></span><span class="op">(</span>survival_mean <span class="op">=</span> <span class="fl">0.95244</span>, </span>
+<span>                                      survival_min <span class="op">=</span> <span class="fl">0.9215</span>, </span>
+<span>                                      survival_max <span class="op">=</span> <span class="fl">0.98153</span>, </span>
+<span>                                   alpha <span class="op">=</span> <span class="fl">400</span>, beta <span class="op">=</span> <span class="fl">400</span></span>
+<span>                                   <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">adult_survival_hunt_low</span><span class="op">$</span><span class="va">within_range</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/survival-distributions-2.png" width="700"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">adult_survival_hunt_low</span><span class="op">$</span><span class="va">within_range</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.9524175</span></span>
+<span></span>
+<span><span class="va">adult_survival_hunt_high</span> <span class="op">&lt;-</span> <span class="fu">TACAR</span><span class="fu">::</span><span class="fu"><a href="../reference/make_half_normal.html">make_half_normal</a></span><span class="op">(</span>survival_mean <span class="op">=</span> <span class="fl">0.96</span>,</span>
+<span>                                                    survival_min <span class="op">=</span> <span class="fl">0.92</span>, </span>
+<span>                                                    survival_max <span class="op">=</span> <span class="fl">0.97339</span><span class="op">)</span></span>
+<span><span class="co"># Plot the distribution</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">adult_survival_hunt_high</span><span class="op">$</span><span class="va">survival_values</span>, probability <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/survival-distributions-3.png" width="700"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">adult_survival_hunt_high</span><span class="op">$</span><span class="va">survival_values</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.932805</span></span></code></pre></div>
   </main>
 </div>
 
