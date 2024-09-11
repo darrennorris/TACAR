@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(TACAR)
+library(ggplot2)
 ```
 
 Establish distribution of plausible adult survival values in the 
@@ -29,7 +30,10 @@ following scenarios:
  include density dependence in the matrix projection models.
  
  We use estimates of longevity to establish mean and range of annual 
- adult female survival in each scenario.
+ adult female survival in populations for each scenario. 
+ This is then used to estimate the distribution  "today", 
+ before considering the effect of future actions (either positive e.g. 
+ recovery or negative e.g. continued harvest).
 
  - Unharvested,    
  mean 57.1 years, range 20 to 70 years, beta distribution.
@@ -46,7 +50,7 @@ adult_survival <- TACAR::make_beta(survival_mean = 0.976987,
                                       survival_max = 0.98153, 
                                    alpha = 40, beta = 40
                                    )
-hist(adult_survival$within_range)
+hist(adult_survival$within_range, probability = TRUE)
 mean(adult_survival$within_range, na.rm = TRUE)
 
 adult_survival_hunt_low <- TACAR::make_beta(survival_mean = 0.95244, 
@@ -54,7 +58,7 @@ adult_survival_hunt_low <- TACAR::make_beta(survival_mean = 0.95244,
                                       survival_max = 0.98153, 
                                    alpha = 400, beta = 400
                                    )
-hist(adult_survival_hunt_low$within_range)
+hist(adult_survival_hunt_low$within_range, probability = TRUE)
 mean(adult_survival_hunt_low$within_range, na.rm = TRUE)
 
 adult_survival_hunt_high <- TACAR::make_half_normal(survival_mean = 0.96,
@@ -64,7 +68,40 @@ adult_survival_hunt_high <- TACAR::make_half_normal(survival_mean = 0.96,
 hist(adult_survival_hunt_high$survival_values, probability = TRUE)
 mean(adult_survival_hunt_high$survival_values, na.rm = TRUE)
 
+```
+
+Compare the survival in populations under different hunting pressure.
+
+```{r plot-density, message=FALSE, warning=FALSE}
+df_survival <- rbind(
+data.frame(distribution = "beta", hunt_level = "a_none", 
+           female_survival = adult_survival$within_range),
+data.frame(distribution = "beta", hunt_level = "b_low", 
+           female_survival = adult_survival_hunt_low$within_range),
+data.frame(distribution = "beta", hunt_level = "c_high", 
+           female_survival = adult_survival_hunt_high$survival_values) 
+)
+df_survival$hunt_levelf <- factor(df_survival$hunt_level)
+levels(df_survival$hunt_levelf) <- c("none", "low", "high")
+
+# Plot
+mylabels <- c("0.92\n(19.7 Y)", "0.94\n(24.8 Y)", "0.96\n(34.8 Y)", 
+              "0.98\n(64.0 Y)")
+ggplot(data = df_survival, aes(x = female_survival, 
+                               group = hunt_levelf, fill = hunt_levelf)) + 
+  geom_density(alpha = 0.5, adjust = 2) + 
+  scale_fill_viridis_d("harvest") + 
+  scale_x_continuous(breaks = c(0.92, 0.94, 0.96, 0.98), 
+                     labels = mylabels) +
+  xlab("Female survival") +
+  ylab("Density")
 
 ```
- 
 
+The figure shows the distribtution of adult female survival in 
+populations under threee different scenarios. The x axis shows 
+survival values and associated life expectancy in parentheses.
+
+ 
+We can now use these distributions to explore how the populations are 
+likely to change in the future.
