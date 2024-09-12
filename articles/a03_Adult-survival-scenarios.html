@@ -70,11 +70,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://darrennorris.github.io/TACAR/">TACAR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Welcome to popdemo! This is version 1.3-0</span></span>
-<span><span class="co">#&gt; Use ?popdemo for an intro, or browseVignettes('popdemo') for vignettes</span></span>
-<span><span class="co">#&gt; Citation for popdemo is here: doi.org/10.1111/j.2041-210X.2012.00222.x</span></span>
-<span><span class="co">#&gt; Development and legacy versions are here: github.com/iainmstott/popdemo</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span></code></pre></div>
 <p>Establish distribution of plausible adult survival values in the
 following scenarios:</p>
 <ul>
@@ -90,11 +86,11 @@ used to estimate the distribution “today”, before considering the effect
 of future actions (either positive e.g.  recovery or negative
 e.g. continued harvest).</p>
 <ul>
-<li><p>Unharvested,<br>
+<li><p>Unharvested (“none”),<br>
 mean 57.1 years, range 20 to 70 years, beta distribution.</p></li>
-<li><p>Lightly harvested (less than 2.5% per year),<br>
+<li><p>Lightly harvested (“low” - less than 2.5% per year),<br>
 mean 30 years, range 20 to 70 years, beta distribution.</p></li>
-<li><p>Intensively harvested (greater than 5% per year),<br>
+<li><p>Intensively harvested (“high” - greater than 5% per year),<br>
 mean 22 years, range 20 to 70 years, half-normal distribution.</p></li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -164,8 +160,10 @@ values with overall life expectancy in parentheses.</p>
 <p>We can now use these distributions to explore how the populations are
 likely to change in the future. Here we follow the element selection
 example: <a href="https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html#72_Nonrandom_matrix_selection" class="external-link uri">https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html#72_Nonrandom_matrix_selection</a></p>
+<p>First run an example using the Intensively harvested population, with
+harvest continuing at 5% a year.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># get matrix</span></span>
+<code class="sourceCode R"><span><span class="co"># Get matrix</span></span>
 <span><span class="co"># projection parameters</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">TACAR</span><span class="fu">::</span><span class="fu"><a href="../reference/pop01_param_poun.html">pop01_param_poun</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Population size constant.</span></span>
@@ -196,11 +194,13 @@ example: <a href="https://cran.r-project.org/web/packages/popdemo/vignettes/popd
 <span><span class="va">ntimes</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
 <span><span class="va">pop_mat_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span>, <span class="va">ntimes</span><span class="op">)</span></span>
 <span><span class="co">#replace [d, 4] element of every matrix with new random number</span></span>
-<span><span class="va">a44</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">adult_survival_hunt_high</span><span class="op">$</span><span class="va">survival_values</span>, size <span class="op">=</span> <span class="va">ntimes</span><span class="op">)</span></span>
-<span><span class="co"># 5% harvest</span></span>
+<span><span class="va">a44</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">adult_survival_hunt_high</span><span class="op">$</span><span class="va">survival_values</span><span class="op">)</span>, </span>
+<span>              size <span class="op">=</span> <span class="va">ntimes</span><span class="op">)</span></span>
+<span><span class="co"># "Perturbation" of 5% harvest</span></span>
 <span><span class="va">a44</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">a44</span> <span class="op">-</span> <span class="op">(</span><span class="va">a44</span> <span class="op">*</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">pop_mat_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">A</span>, <span class="va">r</span><span class="op">)</span><span class="op">{</span><span class="va">A</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">r</span>; <span class="va">A</span><span class="op">}</span>, <span class="va">pop_mat_100</span>, <span class="va">a44</span>, </span>
 <span>                      SIMPLIFY <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co"># For deterministic</span></span>
 <span><span class="va">pop_mat_high</span> <span class="op">&lt;-</span> <span class="va">pop_mat</span></span>
 <span><span class="va">pop_mat_high</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">pop_mat</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">]</span> <span class="op">-</span> <span class="op">(</span><span class="va">pop_mat</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">]</span><span class="op">*</span><span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Project and plot</span></span>
@@ -208,7 +208,85 @@ example: <a href="https://cran.r-project.org/web/packages/popdemo/vignettes/popd
 <span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/Projection-plots.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">poun_high</span>, log <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="va">ntimes</span>, <span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/project.html" class="external-link">project</a></span><span class="op">(</span><span class="va">pop_mat_high</span>, <span class="va">pop_n</span>, time <span class="op">=</span> <span class="va">ntimes</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a03_Adult-survival-scenarios_files/figure-html/project-survival-1.png" width="700"></p>
-  </main>
+<p>With continued harvest and no conservation actions the population
+declines rapidly. We now repeat the process and compare future changes
+for the three different scenarios.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># No hunting</span></span>
+<span><span class="va">pop_mat_100_none</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span>, <span class="va">ntimes</span><span class="op">)</span></span>
+<span><span class="co">#replace [d, 4] element of every matrix with new random number</span></span>
+<span><span class="va">a44_none</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">adult_survival</span><span class="op">$</span><span class="va">within_range</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">ntimes</span><span class="op">)</span></span>
+<span><span class="co"># Update values</span></span>
+<span><span class="va">pop_mat_100_none</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">A</span>, <span class="va">r</span><span class="op">)</span><span class="op">{</span><span class="va">A</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">r</span>; <span class="va">A</span><span class="op">}</span>, </span>
+<span>                           <span class="va">pop_mat_100_none</span>, <span class="va">a44_none</span>, </span>
+<span>                      SIMPLIFY <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co"># Project</span></span>
+<span><span class="va">poun_none</span> <span class="op">&lt;-</span> <span class="fu">popdemo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/project.html" class="external-link">project</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
+<span>                              vector <span class="op">=</span> <span class="va">pop_n</span>, Aseq <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">ntimes</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Low hunting</span></span>
+<span><span class="va">pop_mat_100_low</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span>, <span class="va">ntimes</span><span class="op">)</span></span>
+<span><span class="co">#replace [d, 4] element of every matrix with new random number</span></span>
+<span><span class="va">a44_low</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">adult_survival_hunt_low</span><span class="op">$</span><span class="va">within_range</span><span class="op">)</span>, </span>
+<span>                  size <span class="op">=</span> <span class="va">ntimes</span><span class="op">)</span></span>
+<span><span class="co"># "Perturbation" of 2.5% harvest</span></span>
+<span><span class="va">a44_low</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">a44_low</span> <span class="op">-</span> <span class="op">(</span><span class="va">a44_low</span> <span class="op">*</span> <span class="fl">0.025</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># Update values</span></span>
+<span><span class="va">pop_mat_100_low</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html" class="external-link">mapply</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">A</span>, <span class="va">r</span><span class="op">)</span><span class="op">{</span><span class="va">A</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">r</span>; <span class="va">A</span><span class="op">}</span>, </span>
+<span>                           <span class="va">pop_mat_100_low</span>, <span class="va">a44_low</span>, </span>
+<span>                      SIMPLIFY <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co"># Project</span></span>
+<span><span class="va">poun_low</span> <span class="op">&lt;-</span> <span class="fu">popdemo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/project.html" class="external-link">project</a></span><span class="op">(</span><span class="va">pop_mat_100_low</span>, </span>
+<span>                              vector <span class="op">=</span> <span class="va">pop_n</span>, Aseq <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">ntimes</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Data for plotting-Adult females at each time point for each scenario.</span></span>
+<span><span class="va">len</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">poun_none</span><span class="op">)</span></span>
+<span><span class="va">Time.intervals</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">len</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">adult_fe_none</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">trunc</a></span><span class="op">(</span><span class="va">poun_none</span> <span class="op">*</span> <span class="op">(</span><span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/stable.stage.html" class="external-link">stable.stage</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">adult_fe_low</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">trunc</a></span><span class="op">(</span><span class="va">poun_low</span> <span class="op">*</span> <span class="op">(</span><span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/stable.stage.html" class="external-link">stable.stage</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">adult_fe_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">trunc</a></span><span class="op">(</span><span class="va">poun_high</span> <span class="op">*</span> <span class="op">(</span><span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/stable.stage.html" class="external-link">stable.stage</a></span><span class="op">(</span><span class="va">pop_mat</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_adult_female</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>year <span class="op">=</span> <span class="va">Time.intervals</span>, hunt_level <span class="op">=</span> <span class="st">"a_none"</span>, </span>
+<span>           females <span class="op">=</span> <span class="va">adult_fe_none</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>year <span class="op">=</span> <span class="va">Time.intervals</span>, hunt_level <span class="op">=</span> <span class="st">"b_low"</span>, </span>
+<span>           females <span class="op">=</span> <span class="va">adult_fe_low</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>year <span class="op">=</span> <span class="va">Time.intervals</span>, hunt_level <span class="op">=</span> <span class="st">"c_high"</span>, </span>
+<span>           females <span class="op">=</span> <span class="va">adult_fe_high</span><span class="op">)</span> </span>
+<span><span class="op">)</span></span>
+<span><span class="va">df_adult_female</span><span class="op">$</span><span class="va">hunt_levelf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df_adult_female</span><span class="op">$</span><span class="va">hunt_level</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">df_adult_female</span><span class="op">$</span><span class="va">hunt_levelf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_adult_female</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">females</span>, </span>
+<span>                                   group <span class="op">=</span> <span class="va">hunt_levelf</span>, </span>
+<span>                                   colour <span class="op">=</span> <span class="va">hunt_levelf</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span>se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>transform <span class="op">=</span> <span class="st">"log1p"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span><span class="st">"harvest"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `geom_smooth()` using method = 'loess' and formula = 'y ~ x'</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/compare-scenarios-1.png" width="700"></p>
+<p>The figure above shows that With no or little hunting the population
+numbers increase at such an unrealistic rate that we need to use a log
+scale to compare with the intensively harvested population. These models
+are useful but could be more realisitic.</p>
+<p>For example, to enable us to explore potential future impacts of
+conservation actions it is important to consider how density dependence
+will affect the survival and transient dynamics of recovering
+populations.</p>
+<p>As turtles are long lived species the populations are highly
+sensitive to adult survival rates. Within stage-based models this can be
+better explored by splitting adults into three stages:</p>
+<ul>
+<li><p>young adult,<br>
+with lower survival and fecundity due to smaller body sizes.</p></li>
+<li><p>mature adults,<br>
+with greatest survival and fecundity due to body sizes and general
+health.</p></li>
+<li><p>elderly adults,<br>
+with lower survival and fecundity due to senescence.</p></li>
+</ul></main>
 </div>
 
 
