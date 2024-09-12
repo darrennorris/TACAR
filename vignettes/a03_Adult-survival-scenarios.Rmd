@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(TACAR)
 library(ggplot2)
+library(popdemo)
 ```
 
 Establish distribution of plausible adult survival values in the 
@@ -100,8 +101,57 @@ ggplot(data = df_survival, aes(x = female_survival,
 
 The figure shows the distribtution of adult female survival in 
 populations under threee different scenarios. The x axis shows 
-survival values and associated life expectancy in parentheses.
+survival values with overall life expectancy in parentheses.
 
  
 We can now use these distributions to explore how the populations are 
-likely to change in the future.
+likely to change in the future. Here we follow the element selection 
+example: 
+https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html#72_Nonrandom_matrix_selection
+
+```{r project-survival}
+# get matrix
+# projection parameters
+dt <- TACAR::pop01_param_poun()
+# Population size constant.
+nf <- 10
+dt$adultF_n <- nf
+
+# No data on density dependence for any South American freshwater turtle.
+# Here include a generous 20% ceiling on maximum population increase 
+# in the case of harvested populations.
+ceiling_threshold_high <- ceiling(nf + (nf * 0.2))
+ceiling_threshold_low <- ceiling(nf + (nf * 0.1))
+ceiling_threshold_none <- ceiling(nf + (nf * 0.05))
+
+# Matrix from data.frame
+stage_names <- c("a1", "a2", "a3", "a4",
+                   "b1", "b2", "b3", "b4",
+                   "c1", "c2", "c3", "c4",
+                   "d1", "d2", "d3", "d4")
+vpop <- unlist(dt[3 , stage_names])
+pop_mat <- matrix(vpop, byrow = TRUE, ncol=4)
+dimnames(pop_mat) <- list(c("_1", "_2", "_3", "_4"),
+                            c( "a", "b", "c", "d"))
+  # stable stage structure
+  pop_ss <- popdemo::eigs(pop_mat, "ss")
+  # stable stage population numbers corresponding to number of females
+  pop_n <-  nf * (pop_ss * (1/pop_ss[4]))
+#create list of 100 matrices
+ntimes <- 100
+pop_mat_100 <- rep(list(pop_mat), ntimes)
+#replace [d, 4] element of every matrix with new random number
+a44 <- sample(adult_survival_hunt_high$survival_values, size = ntimes)
+# 5% harvest
+a44 <- (a44 - (a44 * 0.05))
+pop_mat_100 <- mapply(function(A, r){A[4, 4] <- r; A}, pop_mat_100, a44, 
+                      SIMPLIFY = FALSE)
+pop_mat_high <- pop_mat
+pop_mat_high[4, 4] <- (0.93 - (0.93*0.05))
+# Project and plot
+poun_high <- popdemo::project(pop_mat_100, vector = pop_n, Aseq = 1:ntimes)
+plot(poun_high, log = "y")
+lines(0:ntimes, project(pop_mat_high, pop_n, time = ntimes), lty = 3)
+```
+
+
