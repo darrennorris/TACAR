@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, warning=FALSE, message=FALSE}
 library(TACAR)
 library(ggplot2)
 library(popdemo)
@@ -36,13 +36,13 @@ following scenarios:
  before considering the effect of future actions (either positive e.g. 
  recovery or negative e.g. continued harvest).
 
- - Unharvested,    
+ - Unharvested ("none"),    
  mean 57.1 years, range 20 to 70 years, beta distribution.
  
- - Lightly harvested (less than 2.5% per year),    
+ - Lightly harvested ("low" - less than 2.5% per year),    
  mean 30 years, range 20 to 70 years, beta distribution.
  
- - Intensively harvested (greater than 5% per year),    
+ - Intensively harvested ("high" - greater than 5% per year),    
  mean 22 years, range 20 to 70 years, half-normal distribution.
  
 ```{r survival-distributions}
@@ -109,8 +109,10 @@ likely to change in the future. Here we follow the element selection
 example: 
 https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html#72_Nonrandom_matrix_selection
 
+First run an example using the Intensively harvested population, 
+with harvest continuing at 5% a year.
 ```{r project-survival}
-# get matrix
+# Get matrix
 # projection parameters
 dt <- TACAR::pop01_param_poun()
 # Population size constant.
@@ -141,11 +143,13 @@ dimnames(pop_mat) <- list(c("_1", "_2", "_3", "_4"),
 ntimes <- 100
 pop_mat_100 <- rep(list(pop_mat), ntimes)
 #replace [d, 4] element of every matrix with new random number
-a44 <- sample(adult_survival_hunt_high$survival_values, size = ntimes)
-# 5% harvest
+a44 <- sample(na.omit(adult_survival_hunt_high$survival_values), 
+              size = ntimes)
+# "Perturbation" of 5% harvest
 a44 <- (a44 - (a44 * 0.05))
 pop_mat_100 <- mapply(function(A, r){A[4, 4] <- r; A}, pop_mat_100, a44, 
                       SIMPLIFY = FALSE)
+# For deterministic
 pop_mat_high <- pop_mat
 pop_mat_high[4, 4] <- (pop_mat[4, 4] - (pop_mat[4, 4]*0.05))
 # Project and plot
@@ -154,4 +158,85 @@ plot(poun_high, log = "y")
 lines(0:ntimes, project(pop_mat_high, pop_n, time = ntimes), lty = 3)
 ```
 
+With continued harvest and no conservation actions the population 
+declines rapidly.
+We now repeat the process and compare future changes for the three 
+different scenarios.
+```{r compare-scenarios}
+# No hunting
+pop_mat_100_none <- rep(list(pop_mat), ntimes)
+#replace [d, 4] element of every matrix with new random number
+a44_none <- sample(na.omit(adult_survival$within_range), size = ntimes)
+# Update values
+pop_mat_100_none <- mapply(function(A, r){A[4, 4] <- r; A}, 
+                           pop_mat_100_none, a44_none, 
+                      SIMPLIFY = FALSE)
+# Project
+poun_none <- popdemo::project(pop_mat_100_none, 
+                              vector = pop_n, Aseq = 1:ntimes)
 
+# Low hunting
+pop_mat_100_low <- rep(list(pop_mat), ntimes)
+#replace [d, 4] element of every matrix with new random number
+a44_low <- sample(na.omit(adult_survival_hunt_low$within_range), 
+                  size = ntimes)
+# "Perturbation" of 2.5% harvest
+a44_low <- (a44_low - (a44_low * 0.025))
+# Update values
+pop_mat_100_low <- mapply(function(A, r){A[4, 4] <- r; A}, 
+                           pop_mat_100_low, a44_low, 
+                      SIMPLIFY = FALSE)
+# Project
+poun_low <- popdemo::project(pop_mat_100_low, 
+                              vector = pop_n, Aseq = 1:ntimes)
+
+# Data for plotting-Adult females at each time point for each scenario.
+len <- length(poun_none)
+Time.intervals <- 0:(len - 1)
+adult_fe_none <- as.integer(trunc(poun_none * (popbio::stable.stage(pop_mat)[4])))
+adult_fe_low <- as.integer(trunc(poun_low * (popbio::stable.stage(pop_mat)[4])))
+adult_fe_high <- as.integer(trunc(poun_high * (popbio::stable.stage(pop_mat)[4])))
+
+df_adult_female <- rbind(
+data.frame(year = Time.intervals, hunt_level = "a_none", 
+           females = adult_fe_none),
+data.frame(year = Time.intervals, hunt_level = "b_low", 
+           females = adult_fe_low),
+data.frame(year = Time.intervals, hunt_level = "c_high", 
+           females = adult_fe_high) 
+)
+df_adult_female$hunt_levelf <- factor(df_adult_female$hunt_level)
+levels(df_adult_female$hunt_levelf) <- c("none", "low", "high")
+
+# Plot
+ggplot(data = df_adult_female, aes(x = year, y = females, 
+                                   group = hunt_levelf, 
+                                   colour = hunt_levelf)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE) + 
+  scale_y_continuous(transform = "log1p") +
+  scale_colour_viridis_d("harvest")
+```
+
+The figure above shows that With no or little hunting the population 
+numbers increase at such an unrealistic rate that we need to use a 
+log scale to compare with the intensively harvested population. 
+These models are useful but could be more realisitic.
+
+For example, to enable us to explore potential future impacts of 
+conservation actions it is important to consider how density 
+dependence will affect the survival and transient dynamics of 
+recovering populations.
+
+As turtles are long lived species the populations are highly 
+sensitive to adult survival rates. Within stage-based 
+models this can be better explored by splitting adults into three stages:
+
+ - young adult,    
+ with lower survival and fecundity due to smaller body sizes.
+ 
+ - mature adults,    
+ with greatest survival and fecundity due to body sizes and general health.
+
+ - elderly adults,    
+ with lower survival and fecundity due to senescence.
