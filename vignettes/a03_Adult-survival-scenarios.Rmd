@@ -226,11 +226,14 @@ These models are useful but could be more realisitic.
 For example, to enable us to explore potential future impacts of 
 conservation actions it is important to consider how density 
 dependence will affect the survival and transient dynamics of 
-recovering populations.
+recovering populations. This will enable more robust estimation 
+of expected outomces and answer questions such as how long will 
+recovery take and how much will recovery cost?
 
-As turtles are long lived species the populations are highly 
+As turtles are long lived species, the populations are highly 
 sensitive to adult survival rates. Within stage-based 
-models this can be better explored by splitting adults into three stages:
+matrix models this can be better explored by splitting adults 
+into three stages:
 
  - young adult,    
  with lower survival and fecundity due to smaller body sizes.
@@ -240,3 +243,18 @@ models this can be better explored by splitting adults into three stages:
 
  - elderly adults,    
  with lower survival and fecundity due to senescence.
+ 
+ There is no data available for *Podocnemis unifilis* on differences in 
+ survival/fecundity with age of adult females. So here we use 
+ data from other turtle species with similar life history and 
+ demographic characteristics. This includes *Podocenmis expansa* - 
+ where survival of different adult stages has been documented 
+ (Mogollones et. al. 2010).
+
+
+## References
+
+Mogollones SC, Rodríguez DJ, Hernández O, Barreto GR. 2010.    
+A demographic study of the arrau turtle (Podocnemis expansa) 
+in the Middle Orinoco River, Venezuela. 
+Chelonian Conservation and Biology. 2010 Jun 1;9(1):79-89.
