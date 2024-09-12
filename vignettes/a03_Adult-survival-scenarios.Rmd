@@ -147,7 +147,7 @@ a44 <- (a44 - (a44 * 0.05))
 pop_mat_100 <- mapply(function(A, r){A[4, 4] <- r; A}, pop_mat_100, a44, 
                       SIMPLIFY = FALSE)
 pop_mat_high <- pop_mat
-pop_mat_high[4, 4] <- (0.93 - (0.93*0.05))
+pop_mat_high[4, 4] <- (pop_mat[4, 4] - (pop_mat[4, 4]*0.05))
 # Project and plot
 poun_high <- popdemo::project(pop_mat_100, vector = pop_n, Aseq = 1:ntimes)
 plot(poun_high, log = "y")
