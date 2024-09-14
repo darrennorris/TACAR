@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 library(TACAR)
 library(ggplot2)
 library(popdemo)
+library(popbio)
+library(Rcompadre)
 ```
 
 Establish distribution of plausible adult survival values in the 
@@ -218,10 +220,10 @@ ggplot(data = df_adult_female, aes(x = year, y = females,
   scale_colour_viridis_d("harvest")
 ```
 
-The figure above shows that With no or little hunting the population 
+These models are useful but could be more realisitic.
+The figure above shows that with no or little hunting the population 
 numbers increase at such an unrealistic rate that we need to use a 
 log scale to compare with the intensively harvested population. 
-These models are useful but could be more realisitic.
 
 For example, to enable us to explore potential future impacts of 
 conservation actions it is important to consider how density 
@@ -249,7 +251,27 @@ into three stages:
  data from other turtle species with similar life history and 
  demographic characteristics. This includes *Podocenmis expansa* - 
  where survival of different adult stages has been documented 
- (Mogollones et. al. 2010).
+ (Mogollones et. al. 2010). The Matrix Population Model developed in 
+ this study and others are freely available from the COMADRE database 
+ (https://compadre-db.org/Data/Comadre). Here we use COMADRE version 
+ 4.23.3.1 created on 24 March 2023.
+ 
+```{r load-campadre}
+
+dbfile <- system.file("other\\COMADRE_v.4.23.3.1.RData", package = "TACAR")
+load(dbfile)
+comadre <- Rcompadre::as_cdb(comadre)
+
+# data for turtles and tortoises
+# A COM(P)ADRE database ('CompadreDB') object with 18 SPECIES and 89 MATRICES.
+ comadre_test <- subset(comadre, Order == "Testudines")
+# A COM(P)ADRE database ('CompadreDB') object with 2 SPECIES and 2 MATRICES.
+comadre_podoc <- subset(comadre, Family == "Podocnemididae")
+```
+ 
+ 
+
+
 
 
 ## References
