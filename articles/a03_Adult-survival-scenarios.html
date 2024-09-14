@@ -70,7 +70,9 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://darrennorris.github.io/TACAR/">TACAR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popdemo</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">popbio</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonesor/Rcompadre" class="external-link">Rcompadre</a></span><span class="op">)</span></span></code></pre></div>
 <p>Establish distribution of plausible adult survival values in the
 following scenarios:</p>
 <ul>
@@ -267,10 +269,10 @@ for the three different scenarios.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_d</a></span><span class="op">(</span><span class="st">"harvest"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `geom_smooth()` using method = 'loess' and formula = 'y ~ x'</span></span></code></pre></div>
 <p><img src="a03_Adult-survival-scenarios_files/figure-html/compare-scenarios-1.png" width="700"></p>
-<p>The figure above shows that With no or little hunting the population
-numbers increase at such an unrealistic rate that we need to use a log
-scale to compare with the intensively harvested population. These models
-are useful but could be more realisitic.</p>
+<p>These models are useful but could be more realisitic. The figure
+above shows that with no or little hunting the population numbers
+increase at such an unrealistic rate that we need to use a log scale to
+compare with the intensively harvested population.</p>
 <p>For example, to enable us to explore potential future impacts of
 conservation actions it is important to consider how density dependence
 will affect the survival and transient dynamics of recovering
@@ -294,7 +296,20 @@ differences in survival/fecundity with age of adult females. So here we
 use data from other turtle species with similar life history and
 demographic characteristics. This includes <em>Podocenmis expansa</em> -
 where survival of different adult stages has been documented (Mogollones
-et. al. 2010).</p>
+et. al. 2010). The Matrix Population Model developed in this study and
+others are freely available from the COMADRE database (<a href="https://compadre-db.org/Data/Comadre" class="external-link uri">https://compadre-db.org/Data/Comadre</a>). Here we use
+COMADRE version 4.23.3.1 created on 24 March 2023.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">dbfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"other\\COMADRE_v.4.23.3.1.RData"</span>, package <span class="op">=</span> <span class="st">"TACAR"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">dbfile</span><span class="op">)</span></span>
+<span><span class="va">comadre</span> <span class="op">&lt;-</span> <span class="fu">Rcompadre</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rcompadre/man/as_cdb.html" class="external-link">as_cdb</a></span><span class="op">(</span><span class="va">comadre</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># data for turtles and tortoises</span></span>
+<span><span class="co"># A COM(P)ADRE database ('CompadreDB') object with 18 SPECIES and 89 MATRICES.</span></span>
+<span> <span class="va">comadre_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">comadre</span>, <span class="va">Order</span> <span class="op">==</span> <span class="st">"Testudines"</span><span class="op">)</span></span>
+<span><span class="co"># A COM(P)ADRE database ('CompadreDB') object with 2 SPECIES and 2 MATRICES.</span></span>
+<span><span class="va">comadre_podoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">comadre</span>, <span class="va">Family</span> <span class="op">==</span> <span class="st">"Podocnemididae"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
