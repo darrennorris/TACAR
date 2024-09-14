@@ -256,7 +256,7 @@ into three stages:
  (https://compadre-db.org/Data/Comadre). Here we use COMADRE version 
  4.23.3.1 created on 24 March 2023.
  
-```{r load-campadre}
+```{r load-comadre}
 
 dbfile <- system.file("other\\COMADRE_v.4.23.3.1.RData", package = "TACAR")
 load(dbfile)
