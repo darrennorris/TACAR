@@ -256,11 +256,19 @@ into three stages:
  (https://compadre-db.org/Data/Comadre). Here we use COMADRE version 
  4.23.3.1 created on 24 March 2023.
  
-```{r load-comadre, eval=FALSE}
-
+```{r load-comadre, eval=TRUE}
+# below adapted from cdb_fetch. Necessary so vignette builds.
+env <- new.env()
 dbfile <- system.file("other\\COMADRE_v.4.23.3.1.RData", package = "TACAR")
-load(dbfile)
-comadre <- Rcompadre::as_cdb(comadre)
+x <- load(dbfile, env)[1]
+dbFetch <- env[[x]]
+ # convert to CompadreDB
+  if (inherits(dbFetch, "CompadreDB")) {
+    comadre <- dbFetch
+  } else {
+    comadre <- Rcompadre::as_cdb(dbFetch)
+  }
+
 
 # data for turtles and tortoises
 # A COM(P)ADRE database ('CompadreDB') object with 18 SPECIES and 89 MATRICES.
