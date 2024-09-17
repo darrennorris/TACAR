@@ -297,19 +297,26 @@ use data from other turtle species with similar life history and
 demographic characteristics. This includes <em>Podocenmis expansa</em> -
 where survival of different adult stages has been documented (Mogollones
 et. al. 2010). The Matrix Population Model developed in this study and
-others are freely available from the COMADRE database (<a href="https://compadre-db.org/Data/Comadre" class="external-link uri">https://compadre-db.org/Data/Comadre</a>). Here we use
-COMADRE version 4.23.3.1 created on 24 March 2023.</p>
+others are freely available from the COMADRE database (<a href="https://compadre-db.org/Data/Comadre" class="external-link uri">https://compadre-db.org/Data/Comadre</a>). Here we use a
+subset from COMADRE version 4.23.3.1 created on 24 March 2023.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">dbfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"other\\COMADRE_v.4.23.3.1.RData"</span>, package <span class="op">=</span> <span class="st">"TACAR"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">dbfile</span><span class="op">)</span></span>
-<span><span class="va">comadre</span> <span class="op">&lt;-</span> <span class="fu">Rcompadre</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rcompadre/man/as_cdb.html" class="external-link">as_cdb</a></span><span class="op">(</span><span class="va">comadre</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># data for turtles and tortoises</span></span>
-<span><span class="co"># A COM(P)ADRE database ('CompadreDB') object with 18 SPECIES and 89 MATRICES.</span></span>
-<span> <span class="va">comadre_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">comadre</span>, <span class="va">Order</span> <span class="op">==</span> <span class="st">"Testudines"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Data for Podocnemididae</span></span>
 <span><span class="co"># A COM(P)ADRE database ('CompadreDB') object with 2 SPECIES and 2 MATRICES.</span></span>
-<span><span class="va">comadre_podoc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">comadre</span>, <span class="va">Family</span> <span class="op">==</span> <span class="st">"Podocnemididae"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">comadre_podoc</span></span>
+<span><span class="co">#&gt; A COM(P)ADRE database ('CompadreDB') object with 2 SPECIES and 2 MATRICES.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 59</span></span></span>
+<span><span class="co">#&gt;   mat        MatrixID SpeciesAuthor    SpeciesAccepted CommonName Kingdom Phylum</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span>   <span style="text-decoration: underline;">250</span>117 Podocnemis_lewy… Podocnemis lew… Magdalena… Animal… Chord…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;CompdrMt&gt;</span>   <span style="text-decoration: underline;">250</span>118 Podocnemis_expa… Podocnemis exp… Arrau tur… Animal… Chord…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 52 more variables: Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, Genus &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Species &lt;chr&gt;, Infraspecies &lt;chr&gt;, InfraspeciesType &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   OrganismType &lt;chr&gt;, DicotMonoc &lt;chr&gt;, AngioGymno &lt;chr&gt;, Authors &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Journal &lt;chr&gt;, SourceType &lt;chr&gt;, OtherType &lt;chr&gt;, YearPublication &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   DOI_ISBN &lt;chr&gt;, AdditionalSource &lt;chr&gt;, StudyDuration &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   StudyStart &lt;chr&gt;, StudyEnd &lt;chr&gt;, ProjectionInterval &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   MatrixCriteriaSize &lt;chr&gt;, MatrixCriteriaOntogeny &lt;chr&gt;, …</span></span></span></code></pre></div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
