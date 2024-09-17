@@ -18,6 +18,7 @@ Imports:
     popbio,
     popdemo,
     Rage, 
+    Rcompadre,
     scales,
     extraDistr,
     sf
@@ -33,7 +34,6 @@ Suggests:
     mgcv,
     ggplot2, 
     forcats,
-    Rcompadre,
     patchwork,
     readxl,
     units,

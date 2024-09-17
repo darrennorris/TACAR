@@ -253,28 +253,13 @@ into three stages:
  where survival of different adult stages has been documented 
  (Mogollones et. al. 2010). The Matrix Population Model developed in 
  this study and others are freely available from the COMADRE database 
- (https://compadre-db.org/Data/Comadre). Here we use COMADRE version 
- 4.23.3.1 created on 24 March 2023.
+ (https://compadre-db.org/Data/Comadre). Here we use a 
+ subset from COMADRE version 4.23.3.1 created on 24 March 2023.
  
 ```{r load-comadre, eval=TRUE}
-# below adapted from cdb_fetch. Necessary so vignette builds.
-env <- new.env()
-dbfile <- system.file("other\\COMADRE_v.4.23.3.1.RData", package = "TACAR")
-x <- load(dbfile, env)[1]
-dbFetch <- env[[x]]
- # convert to CompadreDB
-  if (inherits(dbFetch, "CompadreDB")) {
-    comadre <- dbFetch
-  } else {
-    comadre <- Rcompadre::as_cdb(dbFetch)
-  }
-
-
-# data for turtles and tortoises
-# A COM(P)ADRE database ('CompadreDB') object with 18 SPECIES and 89 MATRICES.
- comadre_test <- subset(comadre, Order == "Testudines")
+# Data for Podocnemididae
 # A COM(P)ADRE database ('CompadreDB') object with 2 SPECIES and 2 MATRICES.
-comadre_podoc <- subset(comadre, Family == "Podocnemididae")
+comadre_podoc
 ```
  
  
