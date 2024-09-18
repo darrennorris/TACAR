@@ -246,6 +246,19 @@ into three stages:
  - elderly adults,    
  with lower survival and fecundity due to senescence.
  
+ There appears to be considerable variation in senesence in reptiles, 
+ and there are few data available that evaluate senesence in long-lived
+ turtles (Reinke et al. 2022). But the available evidence suggests 
+ reproduction and survival can decline with age (Warner et. al. 2016).
+ For example, despite relatively high reproductive output, older 
+ females produced eggs with reduced hatching success 
+ (Congdon et. al. 2001, Warner et. al. 2016). 
+ A study from zoos and aquariums also showed that turtles and 
+ tortoises may  reduce senescence in response to improvements in 
+ environmental conditions (da Silva et. al. 2022). 
+ This raises the possibility that improved environmental management 
+ can reduce senesence in freshwater turtles.
+ 
  There is no data available for *Podocnemis unifilis* on differences in 
  survival/fecundity with age of adult females. So here we use 
  data from other turtle species with similar life history and 
@@ -264,12 +277,31 @@ comadre_podoc
  
  
 
-
-
-
 ## References
+
+da Silva, R., Conde, D. A., Baudisch, A., & Colchero, F. 2022. 
+Slow and negligible senescence among testudines challenges evolutionary 
+theories of senescence. Science, 376 (6600), 1466-1470.
+https://doi.org/10.1126/science.abl7811
+
+Congdon, J. D. et. al. 2001. 
+Hypotheses of aging in a long-lived vertebrate, Blanding's turtle 
+(Emydoidea blandingii). 
+Experimental gerontology, 36(4-6), 813-827.
+https://doi.org/10.1016/S0531-5565(00)00242-4
 
 Mogollones SC, Rodríguez DJ, Hernández O, Barreto GR. 2010.    
 A demographic study of the arrau turtle (Podocnemis expansa) 
 in the Middle Orinoco River, Venezuela. 
 Chelonian Conservation and Biology. 2010 Jun 1;9(1):79-89.
+
+Reinke et al. 2022. 
+Diverse aging rates in ectothermic tetrapods provide insights for the 
+evolution of aging and longevity.
+Science 376,1459-1466.
+https://doi.org/10.1126/science.abm0151
+
+Warner, D. A., Miller, D. A., Bronikowski, A. M., & Janzen, F. J. 2016. 
+Decades of field data reveal that turtles senesce in the wild. 
+Proceedings of the National Academy of Sciences, 113(23), 6502-6507.
+https://doi.org/10.1073/pnas.1600035113
