@@ -1181,12 +1181,13 @@ pessimistic scenarios.</li>
 locations with a human population density of 5 or more people per
 km<sup>2</sup>. This will underestimate impacts associated with threats
 such as large scale harvest around urban areas (Chaves et. al. 2021,
-Tregidgo et. al. 2017).</li>
+Tregidgo et. al. 2017) and harvest in less densly populated rural areas
+(Bastos da Silva et al. 2022, Peres 2000).</li>
 </ul>
 </li>
 </ul>
 <div class="section level4">
-<h4 id="plot-to-check">Plot to check<a class="anchor" aria-label="anchor" href="#plot-to-check"></a>
+<h4 id="basin-country-comparison">Basin-country comparison<a class="anchor" aria-label="anchor" href="#basin-country-comparison"></a>
 </h4>
 <ul>
 <li>Compare population changes across basin-country combinations.<br>
@@ -1244,7 +1245,6 @@ along the x-axis.</p>
 <span>    width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">8</span>, units <span class="op">=</span> <span class="st">"in"</span>, res<span class="op">=</span><span class="fl">600</span><span class="op">)</span></span>
 <span><span class="va">fig_basin_country</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Check plot.</p>
 <p><img src="fig_basin_country_summary.png" width="80%" height="80%"></p>
 <p>In the above figure a population change of “-0.5” is 50% loss. The
 shaded shapes show predicted population changes for each basin-country
@@ -1288,30 +1288,24 @@ interquartile range is calculated, with estimates weighted by the river
 length within each basin.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_river_couuntry</span> <span class="op">&lt;-</span> <span class="va">river_tot</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">COUNTRY</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>river_km <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">acount</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">COUNTRY</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>river_km <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">acount</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
 <span><span class="va">df_wtd_country</span> <span class="op">&lt;-</span> <span class="va">df_country_basin</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">COUNTRY</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>mean_wtd <span class="op">=</span> <span class="fu">Hmisc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Hmisc/man/wtd.stats.html" class="external-link">wtd.mean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fem_diff</span>, w <span class="op">=</span> <span class="va">acount</span><span class="op">)</span>, </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">COUNTRY</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>mean_wtd <span class="op">=</span> <span class="fu">Hmisc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Hmisc/man/wtd.stats.html" class="external-link">wtd.mean</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fem_diff</span>, w <span class="op">=</span> <span class="va">acount</span><span class="op">)</span>, </span>
 <span>            iqr_wtd_25 <span class="op">=</span> <span class="fu">Hmisc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Hmisc/man/wtd.stats.html" class="external-link">wtd.quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fem_diff</span>, </span>
 <span>                              w <span class="op">=</span> <span class="va">acount</span>, probs <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>, </span>
 <span>            iqr_wtd_75 <span class="op">=</span> <span class="fu">Hmisc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Hmisc/man/wtd.stats.html" class="external-link">wtd.quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fem_diff</span>, </span>
-<span>                              w <span class="op">=</span> <span class="va">acount</span>, probs <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">df_wtd_country</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 4</span></span></span>
-<span><span class="co">#&gt;   COUNTRY       mean_wtd iqr_wtd_25 iqr_wtd_75</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Bolivia         -<span style="color: #BB0000;">0.528</span>     -<span style="color: #BB0000;">0.617</span>     -<span style="color: #BB0000;">0.431</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Brazil          -<span style="color: #BB0000;">0.511</span>     -<span style="color: #BB0000;">0.647</span>     -<span style="color: #BB0000;">0.344</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Colombia        -<span style="color: #BB0000;">0.466</span>     -<span style="color: #BB0000;">0.599</span>     -<span style="color: #BB0000;">0.390</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Ecuador         -<span style="color: #BB0000;">0.690</span>     -<span style="color: #BB0000;">0.792</span>     -<span style="color: #BB0000;">0.577</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> French Guiana   -<span style="color: #BB0000;">0.401</span>     -<span style="color: #BB0000;">0.496</span>     -<span style="color: #BB0000;">0.294</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Guyana          -<span style="color: #BB0000;">0.289</span>     -<span style="color: #BB0000;">0.305</span>     -<span style="color: #BB0000;">0.208</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Peru            -<span style="color: #BB0000;">0.625</span>     -<span style="color: #BB0000;">0.712</span>     -<span style="color: #BB0000;">0.530</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Suriname        -<span style="color: #BB0000;">0.299</span>     -<span style="color: #BB0000;">0.351</span>     -<span style="color: #BB0000;">0.241</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> Venezuela       -<span style="color: #BB0000;">0.372</span>     -<span style="color: #BB0000;">0.482</span>     -<span style="color: #BB0000;">0.292</span></span></span></code></pre></div>
+<span>                              w <span class="op">=</span> <span class="va">acount</span>, probs <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">df_river_couuntry</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">mean_wtd</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>river_cumpct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">river_km</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">river_km</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(COUNTRY)`</span></span></code></pre></div>
+<p>With the results summarised by country, on average (column
+“mean_wtd”) <em>Podocenemis unifilis</em> is likely to be Endangered
+across 76% of rivers (includes Bolivia, Brazil, Ecuador and Peru, column
+“river_cumpct” is the cumulative proportion of river lengths).</p>
 </div>
 </div>
 </div>
@@ -1342,6 +1336,9 @@ and Evolution, 13, 770-781. <a href="doi:10.1111/2041-210X.13792" class="uri">do
 <p>Norris D, Peres CA, Michalski F, Gibbs JP. 2019. Prospects for
 freshwater turtle population recovery are catalyzed by pan-Amazonian
 community-based management. Biological Conservation. 233:51-60. <a href="https://doi.org/10.1016/j.biocon.2019.02.022" class="external-link uri">https://doi.org/10.1016/j.biocon.2019.02.022</a></p>
+<p>Peres, C. A. (2000). Effects of subsistence hunting on vertebrate
+community structure in Amazonian forests. Conservation biology, 14(1),
+240-253. <a href="https://doi.org/10.1046/j.1523-1739.2000.98485.x" class="external-link uri">https://doi.org/10.1046/j.1523-1739.2000.98485.x</a></p>
 <p>Stott, I. popdemo vignette: <a href="https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html" class="external-link uri">https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html</a></p>
 <p>Stott, I., Hodgson, D.J. and Townley, S. 2012. popdemo: an R package
 for population demography using projection matrix analysis. Methods in
