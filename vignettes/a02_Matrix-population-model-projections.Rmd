@@ -1325,6 +1325,8 @@ df_wtd_country <- df_country_basin |>
   dplyr::left_join(df_river_couuntry) |>
   arrange(mean_wtd) |> 
   mutate(river_cumpct = cumsum(river_km) / sum(river_km))
+
+df_wtd_country
 ```
 
 
