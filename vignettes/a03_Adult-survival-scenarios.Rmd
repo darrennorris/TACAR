@@ -298,7 +298,8 @@ Copeia, 367-375. https://doi.org/10.2307/1447430
 Mogollones SC, Rodríguez DJ, Hernández O, Barreto GR. 2010.    
 A demographic study of the arrau turtle (Podocnemis expansa) 
 in the Middle Orinoco River, Venezuela. 
-Chelonian Conservation and Biology. 2010 Jun 1;9(1):79-89.
+Chelonian Conservation and Biology. Jun 1;9(1):79-89.
+https://doi.org/10.2744/CCB-0778.1
 
 Reinke et al. 2022. 
 Diverse aging rates in ectothermic tetrapods provide insights for the 
