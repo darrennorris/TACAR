@@ -233,7 +233,7 @@ of expected outomces and answer questions such as how long will
 recovery take and how much will recovery cost?
 
 As turtles are long lived species, the populations are highly 
-sensitive to adult survival rates. Within stage-based 
+sensitive to adult survival rates (Heppell 1998). Within stage-based 
 matrix models this can be better explored by splitting adults 
 into three stages:
 
@@ -264,7 +264,7 @@ into three stages:
  data from other turtle species with similar life history and 
  demographic characteristics. This includes *Podocenmis expansa* - 
  where survival of different adult stages has been documented 
- (Mogollones et. al. 2010). The Matrix Population Model developed in 
+ (Mogollones et. al. 2010). The Matrix Population Models developed in 
  this study and others are freely available from the COMADRE database 
  (https://compadre-db.org/Data/Comadre). Here we use a 
  subset from COMADRE version 4.23.3.1 created on 24 March 2023.
@@ -289,6 +289,11 @@ Hypotheses of aging in a long-lived vertebrate, Blanding's turtle
 (Emydoidea blandingii). 
 Experimental gerontology, 36(4-6), 813-827.
 https://doi.org/10.1016/S0531-5565(00)00242-4
+
+Heppell, S. S. 1998. 
+Application of life-history theory and 
+population model analysis to turtle conservation. 
+Copeia, 367-375. https://doi.org/10.2307/1447430
 
 Mogollones SC, Rodríguez DJ, Hernández O, Barreto GR. 2010.    
 A demographic study of the arrau turtle (Podocnemis expansa) 
