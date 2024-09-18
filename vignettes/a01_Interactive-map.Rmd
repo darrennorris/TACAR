@@ -191,7 +191,7 @@ in each group.
       - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible/unhunted populations.
       - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019).
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
-      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017) and harvest in less densly populated rural areas (Bastos da Silva et al. 2022, Peres 2000). 
+      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017) and harvest in less densly populated rural areas (da Silva et al. 2022, Peres 2000). 
 
 ## Basin-country comparison
 
@@ -251,7 +251,7 @@ change if the Amazon basin is seperated further.
       - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019). 
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
       - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. 
-      This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017) and harvest in less densly populated rural areas (Bastos da Silva et al. 2022, Peres 2000). 
+      This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017) and harvest in less densly populated rural areas (da Silva et al. 2022, Peres 2000). 
 
 
 ## Methods
@@ -292,6 +292,12 @@ Chaves, W.A., Valle, D., Tavares, A.S., Morcatty, T.Q. and Wilcove, D.S. 2021.
 Impacts of rural to urban migration, urbanization, and generational 
 change on consumption of wild animals in the Amazon. 
 Conservation Biology, 35: 1186-1197. https://doi.org/10.1111/cobi.13663
+
+da Silva, A. B., et. al. 2022. 
+Patterns of wildlife hunting and trade by local communities in eastern 
+Amazonian floodplains. 
+Ethnobiology and Conservation, 11.
+https://doi.org/10.15451/ec2022-07-11.16-1-19
 
 IUCN. 2001. IUCN Red List Categories and Criteria: Version 3.1. 
 IUCN Species Survival Commission. IUCN, Gland, Switzerland and 
