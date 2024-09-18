@@ -1196,10 +1196,10 @@ range: `r change_q25` - `r change_q75` % decline).
       - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible/unhunted populations.
       - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019). 
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
-      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017). 
+      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017) and harvest in less densly populated rural areas (Bastos da Silva et al. 2022, Peres 2000). 
  
  
-#### Plot to check
+#### Basin-country comparison
  - Compare population changes across basin-country combinations.    
  Presenting the results visually can fascilitate a more detailed 
  understanding of the patterns in the results. 
@@ -1258,7 +1258,7 @@ invisible(dev.off())
 
 ```
 
-Check plot.
+
 
 ```{r fig-check-plot, echo=FALSE, out.width="80%", out.height="80%"}
 knitr::include_graphics("fig_basin_country_summary.png") 
@@ -1312,19 +1312,26 @@ estimates weighted by the river length within each basin.
 
 ```{r summary-country}
 df_river_couuntry <- river_tot |> 
-  group_by(COUNTRY) |> 
-  summarise(river_km = sum(acount))
+  dplyr::group_by(COUNTRY) |> 
+  dplyr::summarise(river_km = sum(acount))
   
 df_wtd_country <- df_country_basin |> 
-  group_by(COUNTRY) |> 
-  summarise(mean_wtd = Hmisc::wtd.mean(x = fem_diff, w = acount), 
+  dplyr::group_by(COUNTRY) |> 
+  dplyr::summarise(mean_wtd = Hmisc::wtd.mean(x = fem_diff, w = acount), 
             iqr_wtd_25 = Hmisc::wtd.quantile(x = fem_diff, 
                               w = acount, probs = 0.25), 
             iqr_wtd_75 = Hmisc::wtd.quantile(x = fem_diff, 
-                              w = acount, probs = 0.75))
-
-df_wtd_country
+                              w = acount, probs = 0.75)) |> 
+  dplyr::left_join(df_river_couuntry) |>
+  arrange(mean_wtd) |> 
+  mutate(river_cumpct = cumsum(river_km) / sum(river_km))
 ```
+
+
+With the results summarised by country, on average (column "mean_wtd") 
+*Podocenemis unifilis* is likely to be Endangered across 76% of rivers 
+(includes Bolivia, Brazil, Ecuador and Peru, column "river_cumpct" is 
+the cumulative proportion of river lengths).
 
 
 ## References
@@ -1361,6 +1368,12 @@ Prospects for freshwater turtle population recovery are catalyzed
 by pan-Amazonian community-based management. 
 Biological Conservation. 233:51-60.
 https://doi.org/10.1016/j.biocon.2019.02.022
+
+Peres, C. A. (2000). 
+Effects of subsistence hunting on vertebrate community structure in 
+Amazonian forests. 
+Conservation biology, 14(1), 240-253.
+https://doi.org/10.1046/j.1523-1739.2000.98485.x
 
 Stott, I. popdemo vignette: https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html
 

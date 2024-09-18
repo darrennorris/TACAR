@@ -191,7 +191,7 @@ in each group.
       - Losses are potentially buffered by an overly generous 20% ceiling to increases in unaccesible/unhunted populations.
       - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019).
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
-      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017). 
+      - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017) and harvest in less densly populated rural areas (Bastos da Silva et al. 2022, Peres 2000). 
 
 ## Basin-country comparison
 
@@ -251,7 +251,7 @@ change if the Amazon basin is seperated further.
       - Population projections use the earliest likely breeding age. The age at first reproduction was set to 5 years (Norris et. al. 2019). 
       - Hunting of adult females was limited to 10% per year in the most pessimistic scenarios.
       - Hunting accessibility was limited to a distance of 48 km from locations with a human population density of 5 or more people per km^2^. 
-      This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017). 
+      This will underestimate impacts associated with threats such as large scale harvest around urban areas (Chaves et. al. 2021, Tregidgo et. al. 2017) and harvest in less densly populated rural areas (Bastos da Silva et al. 2022, Peres 2000). 
 
 
 ## Methods
