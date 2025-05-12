@@ -17,6 +17,8 @@ knitr::opts_chunk$set(
 ```{r setup, warning=FALSE, message=FALSE}
 library(TACAR)
 library(ggplot2)
+library(purrr)
+library(tibble)
 library(popdemo)
 library(popbio)
 library(Rcompadre)
@@ -29,8 +31,10 @@ following scenarios:
  - Lightly harvested, with and without recovery actions.
  - Intesively harvested, with and without recovery actions.
  
- To be able to compare with and without recovery actions we need to 
- include density dependence in the matrix projection models.
+ The "unharvested" scenario represents the baseline reference against 
+ which the others will be measured. To be able to compare with and 
+ without recovery actions we need to include density dependence 
+ in the matrix projection models.
  
  We use estimates of longevity to establish mean and range of annual 
  adult female survival in populations for each scenario. 
@@ -41,11 +45,64 @@ following scenarios:
  - Unharvested ("none"),    
  mean 57.1 years, range 20 to 70 years, beta distribution.
  
- - Lightly harvested ("low" - less than 2.5% per year),    
- mean 30 years, range 20 to 70 years, beta distribution.
+ - Lightly harvested ("low" - less than 5% per year),    
+mean 22 years, range 12.2 (9 plus 3 nesting seasons) to 50 years, beta distribution.
  
- - Intensively harvested ("high" - greater than 5% per year),    
- mean 22 years, range 20 to 70 years, half-normal distribution.
+ - Intensively harvested ("high" - greater than 10% per year),    
+ mean 12.2 years, range 9 (reproduces at least once) to 30 years, half-normal distribution.
+
+```{r adult-survival, echo=FALSE}
+# Captive logevity ranges between 20 to 70 years.
+# Captive survival ranges between 0.9215 - 0.98153
+
+# Anecdotal evidence suggests they can live up to 70 years 
+# (Ricklefs 2010; Myhrvold et al. 2015; AnAGe 2023 - 
+#online webserver https://genomics.senescence.info/species/index.html). 
+# In captivity, individuals have been reported to live from 23.4 to 70.
+# Using Iverson’s (in press) regression equation of longevity 
+# [L = 2.741*(age at maturity) + 37.926] and the range of values for 
+# female age at first reproduction (5 - 9 years), 
+# the mean L was estimated at 57.11 years and to range between 51.63 
+# and 62.60 years, which is relatively close to the anecdotal evidence.
+
+# Get matrix
+# projection parameters
+dt <- TACAR::pop01_param_poun()
+# Population size constant.
+nf <- 10
+dt$adultF_n <- nf
+# Matrix from data.frame
+stage_names <- c("a1", "a2", "a3", "a4",
+                   "b1", "b2", "b3", "b4",
+                   "c1", "c2", "c3", "c4",
+                   "d1", "d2", "d3", "d4")
+vpop <- unlist(dt[3 , stage_names])
+pop_mat <- matrix(vpop, byrow = TRUE, ncol=4)
+dimnames(pop_mat) <- list(c("_1", "_2", "_3", "_4"),
+                            c( "a", "b", "c", "d"))
+
+# Data with life expectancy, female survival and lambda
+# Mpm with different female survival
+suvr_f <- seq(0.5, 0.99, by = 0.0001)
+ntimes <- length(suvr_f)
+pop_mat_s <- rep(list(pop_mat), ntimes)
+pop_mat_s <- mapply(function(A, r){A[4, 4] <- r; A}, pop_mat_s, suvr_f, 
+                      SIMPLIFY = FALSE)
+# Function to get life expectancy and lambda
+calculate_le_mean_tidy <- function(pop_matrix) {
+mat_u <- pop_matrix
+mat_u[1, 4] <- 0
+tibble::tibble(life_expectancy_mean =  sum(Rage::life_expect_mean(matU = mat_u, 
+                                                start = NULL)), 
+               lambda = round(popbio::lambda(pop_matrix), 6))
+}
+
+# Use purrr::map to apply the function to each population_matrix
+survival_longevity <- purrr::map_dfr(pop_mat_s, calculate_le_mean_tidy)
+survival_longevity$female_survival <- suvr_f
+
+```
+
  
 ```{r survival-distributions}
 adult_survival <- TACAR::make_beta(survival_mean = 0.976987, 
@@ -56,17 +113,17 @@ adult_survival <- TACAR::make_beta(survival_mean = 0.976987,
 hist(adult_survival$within_range, probability = TRUE)
 mean(adult_survival$within_range, na.rm = TRUE)
 
-adult_survival_hunt_low <- TACAR::make_beta(survival_mean = 0.95244, 
-                                      survival_min = 0.9215, 
-                                      survival_max = 0.98153, 
-                                   alpha = 400, beta = 400
+adult_survival_hunt_low <- TACAR::make_beta(survival_mean = 0.9326, 
+                                      survival_min = 0.8407, 
+                                      survival_max = 0.97339, 
+                                   alpha = 40, beta = 30
                                    )
 hist(adult_survival_hunt_low$within_range, probability = TRUE)
 mean(adult_survival_hunt_low$within_range, na.rm = TRUE)
 
-adult_survival_hunt_high <- TACAR::make_half_normal(survival_mean = 0.96,
-                                                    survival_min = 0.92, 
-                                                    survival_max = 0.97339)
+adult_survival_hunt_high <- TACAR::make_half_normal(survival_mean = 0.8407,
+                                                    survival_min = 0.7363, 
+                                                    survival_max = 0.9525)
 # Plot the distribution
 hist(adult_survival_hunt_high$survival_values, probability = TRUE)
 mean(adult_survival_hunt_high$survival_values, na.rm = TRUE)
@@ -81,29 +138,37 @@ data.frame(distribution = "beta", hunt_level = "a_none",
            female_survival = adult_survival$within_range),
 data.frame(distribution = "beta", hunt_level = "b_low", 
            female_survival = adult_survival_hunt_low$within_range),
-data.frame(distribution = "beta", hunt_level = "c_high", 
+data.frame(distribution = "half-normal", hunt_level = "c_high", 
            female_survival = adult_survival_hunt_high$survival_values) 
 )
 df_survival$hunt_levelf <- factor(df_survival$hunt_level)
 levels(df_survival$hunt_levelf) <- c("none", "low", "high")
 
+#
+growth_survival <- survival_longevity[which.min(abs(1-survival_longevity$lambda)), ] |> 
+  dplyr::pull(female_survival)
+
 # Plot
-mylabels <- c("0.92\n(19.7 Y)", "0.94\n(24.8 Y)", "0.96\n(34.8 Y)", 
-              "0.98\n(64.0 Y)")
+mylabels <- c("0.75\n(9.5 Y)", "0.85\n(12.7 Y)", "0.95\n(28.8 Y)")
 ggplot(data = df_survival, aes(x = female_survival, 
                                group = hunt_levelf, fill = hunt_levelf)) + 
   geom_density(alpha = 0.5, adjust = 2) + 
+   geom_vline(aes(xintercept = growth_survival), 
+    colour = "blue") + 
+  #annotate("label", x = growth_survival, y = 25, label = "Some text") +
   scale_fill_viridis_d("harvest") + 
-  scale_x_continuous(breaks = c(0.92, 0.94, 0.96, 0.98), 
+  scale_x_continuous(breaks = c(0.75, 0.85, 0.95), 
                      labels = mylabels) +
   xlab("Female survival") +
   ylab("Density")
 
 ```
 
-The figure shows the distribtution of adult female survival in 
+The figure above shows the distribution of adult female survival in 
 populations under threee different scenarios. The x axis shows 
-survival values with overall life expectancy in parentheses.
+survival values, together with overall life expectancy in parentheses. 
+The vertical blue line shows where lambda equals one, and indicates 
+where populations are growing to the right.
 
  
 We can now use these distributions to explore how the populations are 
@@ -112,7 +177,7 @@ example:
 https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html#72_Nonrandom_matrix_selection
 
 First run an example using the Intensively harvested population, 
-with harvest continuing at 5% a year.
+with harvest continuing at 13% a year.
 ```{r project-survival}
 # Get matrix
 # projection parameters
@@ -147,13 +212,12 @@ pop_mat_100 <- rep(list(pop_mat), ntimes)
 #replace [d, 4] element of every matrix with new random number
 a44 <- sample(na.omit(adult_survival_hunt_high$survival_values), 
               size = ntimes)
-# "Perturbation" of 5% harvest
-a44 <- (a44 - (a44 * 0.05))
 pop_mat_100 <- mapply(function(A, r){A[4, 4] <- r; A}, pop_mat_100, a44, 
                       SIMPLIFY = FALSE)
-# For deterministic
+# Deterministic
+# Average difference (0.976987 - 0.8407) / 0.976987 = 0.139
 pop_mat_high <- pop_mat
-pop_mat_high[4, 4] <- (pop_mat[4, 4] - (pop_mat[4, 4]*0.05))
+pop_mat_high[4, 4] <- (pop_mat[4, 4] - (pop_mat[4, 4]*0.139))
 # Project and plot
 poun_high <- popdemo::project(pop_mat_100, vector = pop_n, Aseq = 1:ntimes)
 plot(poun_high, log = "y")
@@ -182,8 +246,8 @@ pop_mat_100_low <- rep(list(pop_mat), ntimes)
 #replace [d, 4] element of every matrix with new random number
 a44_low <- sample(na.omit(adult_survival_hunt_low$within_range), 
                   size = ntimes)
-# "Perturbation" of 2.5% harvest
-a44_low <- (a44_low - (a44_low * 0.025))
+# No do not add additional "Perturbation" of 2.5% harvest
+# a44_low <- (a44_low - (a44_low * 0.025))
 # Update values
 pop_mat_100_low <- mapply(function(A, r){A[4, 4] <- r; A}, 
                            pop_mat_100_low, a44_low, 
@@ -229,8 +293,15 @@ For example, to enable us to explore potential future impacts of
 conservation actions it is important to consider how density 
 dependence will affect the survival and transient dynamics of 
 recovering populations. This will enable more robust estimation 
-of expected outomces and answer questions such as how long will 
+of expected outcomes and answer questions such as how long will 
 recovery take and how much will recovery cost?
+
+
+## Density dependence
+
+
+
+## Senesence?
 
 As turtles are long lived species, the populations are highly 
 sensitive to adult survival rates (Heppell 1998). Within stage-based 

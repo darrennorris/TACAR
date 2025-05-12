@@ -208,90 +208,43 @@ sum(Rage::life_expect_mean(Rcompadre::matU(my_comadre)[[1]], start = NULL))
 # and 62.60 years, which is relatively close to the anecdotal evidence.
 
 # Graph of survival and age...
-mat_u_92 <- rbind(
-  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
-  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
-  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
-  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.92)
-)
-mat_u_93 <- rbind(
-  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
-  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
-  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
-  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.93)
-)
-mat_u_94 <- rbind(
-  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
-  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
-  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
-  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.94)
-)
-mat_u_95 <- rbind(
-  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
-  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
-  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
-  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.95)
-)
-mat_u_96 <- rbind(
-  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
-  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
-  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
-  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.96)
-)
-mat_u_97 <- rbind(
-  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
-  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
-  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
-  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.97)
-)
-mat_u_98 <- rbind(
-  c(dt[3, 'a1'], dt[3, 'a2'], dt[3, 'a3'], 0),
-  c(dt[3, 'b1'], dt[3, 'b2'], dt[3, 'b3'], dt[3, 'b4']),
-  c(dt[3, 'c1'], dt[3, 'c2'], dt[3, 'c3'], dt[3, 'c4']),
-  c(dt[3, 'd1'], dt[3, 'd2'], dt[3, 'd3'], 0.98)
-)
-life_expect_mean_92 <- sum(Rage::life_expect_mean(matU = mat_u_92, 
-                                                  start = NULL))
-life_expect_mean_93 <- sum(Rage::life_expect_mean(matU = mat_u_93, 
-                                                  start = NULL))
-life_expect_mean_94 <- sum(Rage::life_expect_mean(matU = mat_u_94, 
-                                                  start = NULL))
-life_expect_mean_95 <- sum(Rage::life_expect_mean(matU = mat_u_95, 
-                                                  start = NULL))
-life_expect_mean_96 <- sum(Rage::life_expect_mean(matU = mat_u_96, 
-                                                  start = NULL))
-life_expect_mean_97 <- sum(Rage::life_expect_mean(matU = mat_u_97, 
-                                                  start = NULL))
-life_expect_mean_98 <- sum(Rage::life_expect_mean(matU = mat_u_98, 
-                                                  start = NULL))
+# Mpm with different female survival
+suvr_f <- seq(0.5, 0.99, by = 0.0001)
+ntimes <- length(suvr_f)
+pop_mat_s <- rep(list(pop_mat), ntimes)
+pop_mat_s <- mapply(function(A, r){A[4, 4] <- r; A}, pop_mat_s, suvr_f, 
+                      SIMPLIFY = FALSE)
+# Function to get life expectancy and lambda
+calculate_le_mean_tidy <- function(pop_matrix) {
+mat_u <- pop_matrix
+mat_u[1, 4] <- 0
+tibble::tibble(life_expectancy_mean =  sum(Rage::life_expect_mean(matU = mat_u, 
+                                                start = NULL)), 
+               lambda = round(popbio::lambda(pop_matrix), 6))
+}
 
-le <- c(life_expect_mean_92, life_expect_mean_93, life_expect_mean_94, 
-        life_expect_mean_95, life_expect_mean_96, life_expect_mean_97, 
-        life_expect_mean_98)
-sv <- seq(0.92, 0.98, by = 0.01)
-
-survival_longevity <- data.frame(life_expect_mean = le, 
-                                 adult_survival = sv)
-
-g1 <- gam(life_expect_mean ~ s(adult_survival, k=3), 
+# Use purrr::map to apply the function to each population_matrix
+survival_longevity <- purrr::map_dfr(pop_mat_s, calculate_le_mean_tidy)
+survival_longevity$female_survival <- suvr_f
+# Plot
+g1 <- mgcv::gam(life_expectancy_mean ~ s(female_survival, k=3), 
           method = "REML",
           data = survival_longevity)
 plot(g1)
-gam.check(g1)
+mgcv::gam.check(g1)
 summary(g1)
-dfnew <- data.frame(adult_survival = seq(0.92, 0.98, by = 0.001))
-preds <- mgcv::predict.gam(g1, dfnew, se.fit = TRUE)
-dfnew$life_expect_gam <- preds$fit
-dfnew$life_expect_gam_se <- preds$se
-dfnew$life_expect_gam_lci <- preds$fit - (preds$se * 1.96)
-dfnew$life_expect_gam_uci <- preds$fit + (preds$se * 1.96)
+preds <- mgcv::predict.gam(g1, survival_longevity, se.fit = TRUE)
+survival_longevity$life_expect_gam <- preds$fit
+survival_longevity$life_expect_gam_se <- preds$se
+survival_longevity$life_expect_gam_lci <- preds$fit - (preds$se * 1.96)
+survival_longevity$life_expect_gam_uci <- preds$fit + (preds$se * 1.96)
 # showing mean longevity from Iverson and corresponding adult survival.
 ggplot(survival_longevity, 
-       aes(x = adult_survival, y = life_expect_mean)) + 
+       aes(x = female_survival, y = life_expectancy_mean)) + 
   geom_point() + 
   geom_hline(aes(yintercept = 57.1)) + 
-  geom_vline(aes(xintercept = 0.9765)) +
-  stat_smooth()
+  geom_vline(aes(xintercept = 0.9765)) 
+
 # Now for differernt years.
 # 12.2 year (9 plus 3 nesting seasons)
 mat_u_10y <- rbind(

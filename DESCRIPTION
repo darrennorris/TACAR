@@ -8,7 +8,7 @@ Description: Provides functions to support the Community Based Mangement of Amaz
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 URL: https://darrennorris.github.io/TACAR/
 BugReports: https://github.com/darrennorris/TACAR/issues
 Depends: R (>= 3.5.0)
@@ -29,12 +29,14 @@ Suggests:
     leafem,
     htmltools,
     dplyr, 
+    tibble,
     tidyr,
     tidyselect,
     mgcv,
     ggplot2, 
     forcats,
     patchwork,
+    purrr,
     readxl,
     units,
     rmarkdown

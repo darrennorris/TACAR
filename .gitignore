@@ -37,3 +37,6 @@ TACAR.Rproj
 .Rproj.user
 docs
 inst/doc
+a03_Adult-survival-scenarios_CMH.Rmd
+a03_Adult-survival-scenarios_CMH2.Rmd
+projectDD_functions.R
