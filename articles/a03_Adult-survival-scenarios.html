@@ -177,7 +177,7 @@ populations are growing to the right.</p>
 likely to change in the future. Here we follow the element selection
 example: <a href="https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html#72_Nonrandom_matrix_selection" class="external-link uri">https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html#72_Nonrandom_matrix_selection</a></p>
 <p>First run an example using the Intensively harvested population, with
-harvest continuing at 13% a year.</p>
+harvest at 13% a year.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get matrix</span></span>
 <span><span class="co"># projection parameters</span></span>
@@ -296,7 +296,49 @@ how much will recovery cost?</p>
 <div class="section level2">
 <h2 id="density-dependence">Density dependence<a class="anchor" aria-label="anchor" href="#density-dependence"></a>
 </h2>
-<p>Working on it ………</p>
+<p>Working on it ……… Here, I (Chrissy) have inserted an example using a
+new function for a threshold-based approach.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Under no hunting, we would follow pop_mat_100_none.</span></span>
+<span><span class="va">pop_mat_nohunt</span><span class="op">&lt;-</span> <span class="va">pop_mat_100_none</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">pop_mat_nohunt</span><span class="op">[</span><span class="fl">4</span>,<span class="fl">4</span><span class="op">]</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">a44_none</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># For a high-density population, let's say that they would have a lambda value</span></span>
+<span><span class="co"># of 1 on average. We can knock down the population growth rate to 1 by dividing the</span></span>
+<span><span class="co"># fertility entries by R0:</span></span>
+<span><span class="va">R0</span><span class="op">&lt;-</span> <span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/net.reproductive.rate.html" class="external-link">net.reproductive.rate</a></span><span class="op">(</span><span class="va">pop_mat_nohunt</span><span class="op">)</span></span>
+<span><span class="va">nohunt_highD</span><span class="op">&lt;-</span> <span class="va">pop_mat_nohunt</span></span>
+<span><span class="va">nohunt_highD</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">4</span><span class="op">]</span><span class="op">&lt;-</span> <span class="va">nohunt_highD</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">4</span><span class="op">]</span><span class="op">/</span><span class="va">R0</span></span>
+<span><span class="co"># Check the lambda value:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/complex.html" class="external-link">Re</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="va">nohunt_highD</span>, only.values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">values</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span>
+<span></span>
+<span><span class="co"># Try out the DD projection function when we use a single matrix:</span></span>
+<span><span class="va">nohunt_threshold</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, threshold<span class="op">=</span><span class="fl">1000</span>, A_DD<span class="op">=</span><span class="va">nohunt_highD</span><span class="op">)</span></span>
+<span><span class="va">nohunt_threshold_500</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, threshold<span class="op">=</span><span class="fl">500</span>, A_DD<span class="op">=</span><span class="va">nohunt_highD</span><span class="op">)</span></span>
+<span><span class="co"># Plot the result:</span></span>
+<span><span class="va">data_adults</span><span class="op">&lt;-</span> <span class="va">nohunt_threshold</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="va">data_adults_500</span><span class="op">&lt;-</span> <span class="va">nohunt_threshold_500</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span> <span class="co">#error incorrect number of dimesnsions</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/Projection-plots.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data_adults</span>, type<span class="op">=</span><span class="st">'l'</span>, lwd<span class="op">=</span><span class="fl">2</span>, xlab<span class="op">=</span><span class="st">'Time'</span>, ylab<span class="op">=</span><span class="st">'N adult females'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, <span class="va">data_adults_500</span>, lty <span class="op">=</span> <span class="fl">3</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-1.png" width="700"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># If we want to keep the stochasticity, but we want to drop the reproductive</span></span>
+<span><span class="co"># output when the population is above the threshold size, we can divide the</span></span>
+<span><span class="co"># reproductive output in the whole series of population matrices by R0:</span></span>
+<span><span class="va">pop_mat_100_none_highdens</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">4</span><span class="op">]</span><span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">4</span><span class="op">]</span><span class="op">/</span><span class="va">R0</span>; <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Try out the DD projection function when we still have stochasticity:</span></span>
+<span><span class="va">nohunt_threshold_stoch</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, threshold<span class="op">=</span><span class="fl">1000</span>, A_DD<span class="op">=</span><span class="va">pop_mat_100_none_highdens</span><span class="op">)</span></span>
+<span><span class="va">nohunt_threshold_stoch_500</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, threshold<span class="op">=</span><span class="fl">500</span>, A_DD<span class="op">=</span><span class="va">pop_mat_100_none_highdens</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the result:</span></span>
+<span><span class="va">data_adults_stoch</span><span class="op">&lt;-</span> <span class="va">nohunt_threshold_stoch</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="va">data_adults_stoch_500</span><span class="op">&lt;-</span> <span class="va">nohunt_threshold_stoch_500</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/Projection-plots.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data_adults_stoch</span>, type<span class="op">=</span><span class="st">'l'</span>, lwd<span class="op">=</span><span class="fl">2</span>, xlab<span class="op">=</span><span class="st">'Time'</span>, ylab<span class="op">=</span><span class="st">'N adult females'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, <span class="va">data_adults_stoch_500</span>, lty <span class="op">=</span> <span class="fl">3</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-2.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="senesence">Senesence?<a class="anchor" aria-label="anchor" href="#senesence"></a>
@@ -333,7 +375,7 @@ where survival of different adult stages has been documented (Mogollones
 et. al. 2010). The Matrix Population Models developed in this study and
 others are freely available from the COMADRE database (<a href="https://compadre-db.org/Data/Comadre" class="external-link uri">https://compadre-db.org/Data/Comadre</a>). Here we use a
 subset from COMADRE version 4.23.3.1 created on 24 March 2023.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Data for Podocnemididae</span></span>
 <span><span class="co"># A COM(P)ADRE database ('CompadreDB') object with 2 SPECIES and 2 MATRICES.</span></span>
 <span><span class="va">comadre_podoc</span></span>
