@@ -371,7 +371,7 @@ nf_thresh_none <- nf*1.1 # 10% increase plausible
 pop_none <-  nf_thresh_none * (pop_ss_none * (1/pop_ss_none[4]))
 pop_thresh_none <- ceiling(sum(pop_none)) #164
 
-# Using this approach the population more than doubles.
+# Using this approach the population triples.
 nohunt_t10_stoch<- project_threshold(pop_mat_100_none, 
                                      vector=pop_n, time=100, 
                                      threshold=pop_thresh_none, 
@@ -389,9 +389,8 @@ data_adults_t10_stoch2 <- nohunt_t10_stoch2$vec[,4]
 plot(data_adults_t10_stoch2, type='l', lwd=2, xlab='Time', 
      ylab='N adult females')
 
-#summary(data_adults_t10_stoch2)
-#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#  10.00   12.16   12.38   12.41   12.87   13.30 
+summary(data_adults_t10_stoch2)
+
 ```
 
 ## Senesence?
