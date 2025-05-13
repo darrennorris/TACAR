@@ -373,7 +373,7 @@ approach.</p>
 <span><span class="va">pop_none</span> <span class="op">&lt;-</span>  <span class="va">nf_thresh_none</span> <span class="op">*</span> <span class="op">(</span><span class="va">pop_ss_none</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">pop_ss_none</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">pop_thresh_none</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">pop_none</span><span class="op">)</span><span class="op">)</span> <span class="co">#164</span></span>
 <span></span>
-<span><span class="co"># Using this approach the population more than doubles.</span></span>
+<span><span class="co"># Using this approach the population triples.</span></span>
 <span><span class="va">nohunt_t10_stoch</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
 <span>                                     vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, </span>
 <span>                                     threshold<span class="op">=</span><span class="va">pop_thresh_none</span>, </span>
@@ -395,9 +395,9 @@ approach.</p>
 <p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-4.png" width="700"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co">#summary(data_adults_t10_stoch2)</span></span>
-<span><span class="co">#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#  10.00   12.16   12.38   12.41   12.87   13.30 </span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_adults_t10_stoch2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;   10.00   11.61   11.72   11.72   11.88   12.31</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="senesence">Senesence?<a class="anchor" aria-label="anchor" href="#senesence"></a>
