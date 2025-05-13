@@ -177,7 +177,7 @@ example:
 https://cran.r-project.org/web/packages/popdemo/vignettes/popdemo.html#72_Nonrandom_matrix_selection
 
 First run an example using the Intensively harvested population, 
-with harvest continuing at 13% a year.
+with harvest at 13% a year.
 ```{r project-survival}
 # Get matrix
 # projection parameters
@@ -301,6 +301,46 @@ recovery take and how much will recovery cost?
 ## Density dependence
 
 Working on it .........
+Here, I (Chrissy) have inserted an example using a new function for a threshold-based approach.
+
+```{r threshold-dd}
+# Under no hunting, we would follow pop_mat_100_none.
+pop_mat_nohunt<- pop_mat_100_none[[1]]
+pop_mat_nohunt[4,4]<- mean(a44_none)
+
+# For a high-density population, let's say that they would have a lambda value
+# of 1 on average. We can knock down the population growth rate to 1 by dividing the
+# fertility entries by R0:
+R0<- popbio::net.reproductive.rate(pop_mat_nohunt)
+nohunt_highD<- pop_mat_nohunt
+nohunt_highD[1,4]<- nohunt_highD[1,4]/R0
+# Check the lambda value:
+Re(eigen(nohunt_highD, only.values = TRUE)$values[1])
+
+# Try out the DD projection function when we use a single matrix:
+nohunt_threshold<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=1000, A_DD=nohunt_highD)
+nohunt_threshold_500<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=500, A_DD=nohunt_highD)
+# Plot the result:
+data_adults<- nohunt_threshold$vec[,4]
+data_adults_500<- nohunt_threshold_500$vec[,4] #error incorrect number of dimesnsions
+plot(data_adults, type='l', lwd=2, xlab='Time', ylab='N adult females')
+lines(0:100, data_adults_500, lty = 3, col = "red")
+
+# If we want to keep the stochasticity, but we want to drop the reproductive
+# output when the population is above the threshold size, we can divide the
+# reproductive output in the whole series of population matrices by R0:
+pop_mat_100_none_highdens<- lapply(pop_mat_100_none, function(x){x[1,4]<- x[1,4]/R0; return(x)})
+
+# Try out the DD projection function when we still have stochasticity:
+nohunt_threshold_stoch<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=1000, A_DD=pop_mat_100_none_highdens)
+nohunt_threshold_stoch_500<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=500, A_DD=pop_mat_100_none_highdens)
+
+# Plot the result:
+data_adults_stoch<- nohunt_threshold_stoch$vec[,4]
+data_adults_stoch_500<- nohunt_threshold_stoch_500$vec[,4]
+plot(data_adults_stoch, type='l', lwd=2, xlab='Time', ylab='N adult females')
+lines(0:100, data_adults_stoch_500, lty = 3, col = "red")
+```
 
 ## Senesence?
 
