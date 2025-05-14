@@ -318,7 +318,8 @@ approach.</p>
 <span><span class="co"># Check the lambda value:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/complex.html" class="external-link">Re</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="va">nohunt_highD</span>, only.values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">values</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1</span></span>
-<span></span>
+<span><span class="fu">popbio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/popbio/man/lambda.html" class="external-link">lambda</a></span><span class="op">(</span><span class="va">nohunt_highD</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span>
 <span><span class="co"># Try out the DD projection function when we use a single matrix:</span></span>
 <span><span class="va">nohunt_threshold</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, threshold<span class="op">=</span><span class="fl">1000</span>, A_DD<span class="op">=</span><span class="va">nohunt_highD</span><span class="op">)</span></span>
 <span><span class="va">nohunt_threshold_500</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, threshold<span class="op">=</span><span class="fl">500</span>, A_DD<span class="op">=</span><span class="va">nohunt_highD</span><span class="op">)</span></span>
@@ -361,9 +362,9 @@ approach.</p>
 <p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-2.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># For populations that do not experience hunting - a threshold of 10%</span></span>
+<span><span class="co"># For populations that do not experience hunting - a threshold of 20%</span></span>
 <span><span class="co"># seems reasonable.</span></span>
-<span><span class="co"># Number of adult females should stay around 10 - 11</span></span>
+<span><span class="co"># Number of adult females should stay around 10 - 12</span></span>
 <span><span class="co"># Mean matrix</span></span>
 <span><span class="va">pop_mat_mean_none</span> <span class="op">&lt;-</span> <span class="fu">Rcompadre</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rcompadre/man/mpm_mean.html" class="external-link">mat_mean</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span><span class="op">)</span></span>
 <span><span class="co"># stable stage structure</span></span>
@@ -374,6 +375,8 @@ approach.</p>
 <span><span class="va">pop_thresh_none</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">pop_none</span><span class="op">)</span><span class="op">)</span> <span class="co">#164</span></span>
 <span></span>
 <span><span class="co"># Using this approach the population triples.</span></span>
+<span><span class="co"># Long lived species where adult survival is most important.</span></span>
+<span><span class="co"># DD changes to fertility take a very long time to show.</span></span>
 <span><span class="va">nohunt_t10_stoch</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
 <span>                                     vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, </span>
 <span>                                     threshold<span class="op">=</span><span class="va">pop_thresh_none</span>, </span>
@@ -384,7 +387,7 @@ approach.</p>
 <p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-3.png" width="700"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># Now use simple threshold. Same result with 10 or 11.</span></span>
+<span><span class="co"># Now use simple threshold.</span></span>
 <span><span class="va">nohunt_t10_stoch2</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
 <span>                                     vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, </span>
 <span>                                     threshold<span class="op">=</span><span class="fl">11</span>, </span>
@@ -397,7 +400,86 @@ approach.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_adults_t10_stoch2</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt;   10.00   11.61   11.72   11.72   11.88   12.31</span></span></code></pre></div>
+<span><span class="co">#&gt;   10.00   11.61   11.72   11.72   11.88   12.31</span></span>
+<span></span>
+<span><span class="co"># Check pattern not a rtesult of inital pop size.</span></span>
+<span><span class="va">pop_n100</span> <span class="op">&lt;-</span> <span class="va">pop_n</span><span class="op">*</span><span class="fl">10</span></span>
+<span><span class="va">nohunt_t100_stoch2</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
+<span>                                     vector<span class="op">=</span><span class="va">pop_n100</span>, time<span class="op">=</span><span class="fl">100</span>, </span>
+<span>                                     threshold<span class="op">=</span><span class="fl">110</span>, </span>
+<span>                                     A_DD<span class="op">=</span><span class="va">pop_mat_100_none_highdens</span><span class="op">)</span></span>
+<span><span class="va">data_adults_t100_stoch2</span> <span class="op">&lt;-</span> <span class="va">nohunt_t100_stoch2</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/Projection-plots.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data_adults_t100_stoch2</span>, type<span class="op">=</span><span class="st">'l'</span>, lwd<span class="op">=</span><span class="fl">2</span>, xlab<span class="op">=</span><span class="st">'Time'</span>, </span>
+<span>     ylab<span class="op">=</span><span class="st">'N adult females'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-5.png" width="700"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_adults_t100_stoch2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;   100.0   116.1   117.2   117.2   118.8   123.1</span></span>
+<span></span>
+<span><span class="va">pop_n1000</span> <span class="op">&lt;-</span> <span class="va">pop_n</span><span class="op">*</span><span class="fl">100</span></span>
+<span><span class="va">nohunt_t1000_stoch2</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
+<span>                                     vector<span class="op">=</span><span class="va">pop_n1000</span>, time<span class="op">=</span><span class="fl">100</span>, </span>
+<span>                                     threshold<span class="op">=</span><span class="fl">1100</span>, </span>
+<span>                                     A_DD<span class="op">=</span><span class="va">pop_mat_100_none_highdens</span><span class="op">)</span></span>
+<span><span class="va">data_adults_t1000_stoch2</span> <span class="op">&lt;-</span> <span class="va">nohunt_t1000_stoch2</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/Projection-plots.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data_adults_t1000_stoch2</span>, type<span class="op">=</span><span class="st">'l'</span>, lwd<span class="op">=</span><span class="fl">2</span>, xlab<span class="op">=</span><span class="st">'Time'</span>, </span>
+<span>     ylab<span class="op">=</span><span class="st">'N adult females'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-6.png" width="700"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_adults_t1000_stoch2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;    1000    1161    1172    1172    1188    1231</span></span>
+<span></span>
+<span><span class="co"># What happens if we reduce threshold to very low level?</span></span>
+<span><span class="va">nohunt_t9_stoch2</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
+<span>                                     vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, </span>
+<span>                                     threshold<span class="op">=</span><span class="fl">9</span>, </span>
+<span>                                     A_DD<span class="op">=</span><span class="va">pop_mat_100_none_highdens</span><span class="op">)</span></span>
+<span><span class="va">data_adults_t9_stoch2</span> <span class="op">&lt;-</span> <span class="va">nohunt_t9_stoch2</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/Projection-plots.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data_adults_t9_stoch2</span>, type<span class="op">=</span><span class="st">'l'</span>, lwd<span class="op">=</span><span class="fl">2</span>, xlab<span class="op">=</span><span class="st">'Time'</span>, </span>
+<span>     ylab<span class="op">=</span><span class="st">'N adult females'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-7.png" width="700"></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_adults_t9_stoch2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;   10.00   11.61   11.72   11.72   11.88   12.31</span></span>
+<span></span>
+<span><span class="va">nohunt_t5_stoch2</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
+<span>                                     vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, </span>
+<span>                                     threshold<span class="op">=</span><span class="fl">0</span>, </span>
+<span>                                     A_DD<span class="op">=</span><span class="va">pop_mat_100_none_highdens</span><span class="op">)</span></span>
+<span><span class="va">data_adults_t5_stoch2</span> <span class="op">&lt;-</span> <span class="va">nohunt_t5_stoch2</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/Projection-plots.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data_adults_t5_stoch2</span>, type<span class="op">=</span><span class="st">'l'</span>, lwd<span class="op">=</span><span class="fl">2</span>, xlab<span class="op">=</span><span class="st">'Time'</span>, </span>
+<span>     ylab<span class="op">=</span><span class="st">'N adult females'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-8.png" width="700"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_adults_t5_stoch2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;   10.00   11.61   11.72   11.72   11.88   12.31</span></span>
+<span></span>
+<span><span class="va">tseq</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1000</span></span>
+<span></span>
+<span><span class="va">test_thresh</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span><span class="va">mythresh</span> <span class="op">&lt;-</span> <span class="va">x</span>  </span>
+<span><span class="va">proj_res</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, </span>
+<span>                         vector<span class="op">=</span><span class="va">pop_n</span>, time<span class="op">=</span><span class="fl">100</span>, </span>
+<span>                         threshold<span class="op">=</span><span class="va">mythresh</span>, </span>
+<span>                         A_DD<span class="op">=</span><span class="va">pop_mat_100_none_highdens</span><span class="op">)</span></span>
+<span><span class="va">data_females</span> <span class="op">&lt;-</span> <span class="va">proj_res</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="va">meanf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">data_females</span><span class="op">)</span></span>
+<span><span class="va">myres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>threshold <span class="op">=</span> <span class="va">mythresh</span>, mean_females <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">meanf</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">myres</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">dft</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">tseq</span>, <span class="va">test_thresh</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dft</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">threshold</span>, y <span class="op">=</span> <span class="va">mean_females</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-9.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="senesence">Senesence?<a class="anchor" aria-label="anchor" href="#senesence"></a>
@@ -434,7 +516,7 @@ where survival of different adult stages has been documented (Mogollones
 et. al. 2010). The Matrix Population Models developed in this study and
 others are freely available from the COMADRE database (<a href="https://compadre-db.org/Data/Comadre" class="external-link uri">https://compadre-db.org/Data/Comadre</a>). Here we use a
 subset from COMADRE version 4.23.3.1 created on 24 March 2023.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Data for Podocnemididae</span></span>
 <span><span class="co"># A COM(P)ADRE database ('CompadreDB') object with 2 SPECIES and 2 MATRICES.</span></span>
 <span><span class="va">comadre_podoc</span></span>
