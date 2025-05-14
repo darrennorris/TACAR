@@ -537,7 +537,7 @@ ggplot(dftDs, aes(x = threshold, y = mean_females)) +
   stat_smooth()
 ```
 
-Compare number of females with and without female survival.
+Compare number of females using DD with and without female survival.
 
 ```{r compare-dd}
 
@@ -548,6 +548,9 @@ ggplot(dfc, aes(x = threshold, y = mean_females)) +
   facet_wrap(~dd)
 ```
 
+The relationships shown above can be used to select thresholds that
+correspond to a self-regulating population with the desired number of 
+adult females.
 
 ## Senesence?
 
