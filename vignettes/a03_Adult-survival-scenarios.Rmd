@@ -549,8 +549,9 @@ ggplot(dfc, aes(x = threshold, y = mean_females)) +
 ```
 
 The relationships shown above can be used to select thresholds that
-correspond to a self-regulating population with the desired number of 
+correspond to a stable population with the desired number of 
 adult females.
+
 
 ## Senesence?
 
