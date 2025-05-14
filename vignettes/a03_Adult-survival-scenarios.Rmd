@@ -304,7 +304,9 @@ recovery take and how much will recovery cost?
 
 Working on it .........
 
-Example using Chrissy´s new function for a threshold-based approach.
+Examples using Chrissy´s new function for a threshold-based approach.
+
+### Fertility/fecundity
 
 ```{r threshold-dd}
 # Under no hunting, we would follow pop_mat_100_none.
@@ -324,7 +326,7 @@ popbio::lambda(nohunt_highD)
 # Try out the DD projection function when we use a single matrix:
 nohunt_threshold<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=1000, A_DD=nohunt_highD)
 nohunt_threshold_500<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=500, A_DD=nohunt_highD)
-#population can double to 310 before DD - why do females increase fourfold?
+#population can double to 310 before DD kicks in - why do females increase fourfold?
 nohunt_threshold_x2<- project_threshold(pop_mat_100_none, 
                                          vector=pop_n, time=100, 
                                          threshold=ceiling(sum(pop_n)*2), 
@@ -345,7 +347,7 @@ pop_mat_100_none_highdens<- lapply(pop_mat_100_none, function(x){x[1,4]<- x[1,4]
 # Try out the DD projection function when we still have stochasticity:
 nohunt_threshold_stoch<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=1000, A_DD=pop_mat_100_none_highdens)
 nohunt_threshold_stoch_500<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=500, A_DD=pop_mat_100_none_highdens)
-#population can double to 310 before DD - why do females increase fourfold?
+#population can double to 310 before DD kicks in - why do females increase fourfold?
 nohunt_threshold_stoch_x2<- project_threshold(pop_mat_100_none, 
                                               vector=pop_n, time=100, 
                                               threshold=ceiling(sum(pop_n)*2), 
@@ -435,8 +437,9 @@ plot(data_adults_t5_stoch2, type='l', lwd=2, xlab='Time',
      ylab='N adult females')
 summary(data_adults_t5_stoch2)
 
-tseq <- 0:1000
+# See how number of females changes with different thresholds.
 
+# wrap function 
 test_thresh <- function(x){
 mythresh <- x  
 proj_res<- project_threshold(pop_mat_100_none, 
@@ -448,13 +451,103 @@ meanf <- mean(data_females)
 myres <- data.frame(threshold = mythresh, mean_females = round(meanf, 2))
 myres
 }
-
+tseq <- 0:1000
 dft <- purrr::map_dfr(tseq, test_thresh)
 ggplot(dft, aes(x = threshold, y = mean_females)) +
   geom_point()+ 
   stat_smooth()
 
 ```
+
+
+### Fertility/fecundity and female survival
+
+Now include mortality so population growth is less than 1 - 
+high density populations decline.
+
+Increased population density generally acts to increase mortality 
+rates and/or reduce survival probabilities across a diverse spectrum 
+of wild vertebrate species. While the specific manifestations vary, 
+the overarching pattern is one of negative feedback, where denser 
+populations experience greater per capita demographic costs.
+
+Here a 10% loss in annual female survival (increased competition/disease/predation).
+
+```{r threshold-dd-survival}
+# Use nohunt
+nohunt_highDs<- nohunt_highD
+nohunt_highDs[4,4]<- nohunt_highD[4,4] - (nohunt_highD[4,4]*0.1)
+# Check the lambda value:
+Re(eigen(nohunt_highDs, only.values = TRUE)$values[1])
+popbio::lambda(nohunt_highDs)
+
+# Try out the DD projection function when we use a single matrix:
+nohunt_thresholdDs<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=1000, A_DD=nohunt_highDs)
+nohunt_thresholdDs_500<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=500, A_DD=nohunt_highDs)
+#population can double to 310 before DD kicks in - why do females increase fourfold?
+nohunt_thresholdDs_x2<- project_threshold(pop_mat_100_none, 
+                                         vector=pop_n, time=100, 
+                                         threshold=ceiling(sum(pop_n)*2), 
+                                         A_DD=nohunt_highDs)
+# Plot the result:
+data_adultsDs<- nohunt_thresholdDs$vec[,4]
+data_adultsDs_500<- nohunt_thresholdDs_500$vec[,4] 
+data_adultsDs_x2<- nohunt_thresholdDs_x2$vec[,4] 
+plot(data_adultsDs, type='l', lwd=2, xlab='Time', ylab='N adult females')
+lines(0:100, data_adultsDs_500, lwd=2, col = "red")
+lines(0:100, data_adultsDs_x2, lwd=2, col = "blue")
+
+# Now same with stochastic
+pop_mat_100_none_highdensDs<- lapply(pop_mat_100_none_highdens, 
+                                     function(x){x[4,4]<- x[4,4]-(x[4,4]*0.1); return(x)})
+
+# Try out the DD projection function when we still have stochasticity:
+nohunt_threshold_stochDs<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=1000, A_DD=pop_mat_100_none_highdensDs)
+nohunt_threshold_stochDs_500<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=500, A_DD=pop_mat_100_none_highdensDs)
+nohunt_threshold_stochDs_x2<- project_threshold(pop_mat_100_none, 
+                                              vector=pop_n, time=100, 
+                                              threshold=ceiling(sum(pop_n)*2), 
+                                              A_DD=pop_mat_100_none_highdensDs)
+# Plot the result:
+data_adults_stochDs<- nohunt_threshold_stochDs$vec[,4]
+data_adults_stochDs_500<- nohunt_threshold_stochDs_500$vec[,4]
+data_adults_stochDs_x2<- nohunt_threshold_stochDs_x2$vec[,4]
+plot(data_adults_stochDs, type='l', lwd=2, xlab='Time', 
+     ylab='N adult females')
+lines(0:100, data_adults_stochDs_500, lwd=2, col = "red")
+lines(0:100, data_adults_stochDs_x2, lwd=2, col = "blue")
+
+# See how number of females changes with different thresholds.
+# wrap function 
+test_threshDs <- function(x){
+mythresh <- x  
+proj_res<- project_threshold(pop_mat_100_none, 
+                         vector=pop_n, time=100, 
+                         threshold=mythresh, 
+                         A_DD=pop_mat_100_none_highdensDs)
+data_females <- proj_res$vec[,4]
+meanf <- mean(data_females)
+myres <- data.frame(threshold = mythresh, mean_females = round(meanf, 2))
+myres
+}
+tseq <- 0:1000
+dftDs <- purrr::map_dfr(tseq, test_threshDs)
+ggplot(dftDs, aes(x = threshold, y = mean_females)) +
+  geom_point()+ 
+  stat_smooth()
+```
+
+Compare number of females with and without female survival.
+
+```{r compare-dd}
+
+dfc <- rbind(data.frame(dft, dd = "fertility/fecundity"), 
+      data.frame(dftDs, dd = "fertility/fecundity\nfemale survival")) 
+ggplot(dfc, aes(x = threshold, y = mean_females)) +
+  geom_point()+ 
+  facet_wrap(~dd)
+```
+
 
 ## Senesence?
 
