@@ -552,6 +552,29 @@ The relationships shown above can be used to select thresholds that
 correspond to a stable population with the desired number of 
 adult females.
 
+For example, for the case where adult females may increase in the wild 
+by 10%, the following code projects a stochastic population.
+
+```{r project-stable}
+# threshold for desired number of adults
+# works here but need to refine to ensure gets closest 
+# equal to or above a desired value....
+females_toget <- nf*1.1
+thresh_touse <- dftDs[which.min(abs(females_toget-dftDs$mean_females )),] |> 
+  dplyr::pull(threshold)
+
+stable_pop<- project_threshold(pop_mat_100_none, vector=pop_n, 
+                               time=100, threshold=thresh_touse, 
+                               A_DD=nohunt_highDs)
+# Plot the result:
+data_adults_stable<- stable_pop$vec[,4]
+plot(data_adults_stable, type='l', lwd=2, xlab='Time', 
+     ylab='N adult females')
+
+summary(data_adults_stable)
+
+```
+
 
 ## Senesence?
 
