@@ -320,7 +320,7 @@ nohunt_highD<- pop_mat_nohunt
 nohunt_highD[1,4]<- nohunt_highD[1,4]/R0
 # Check the lambda value:
 Re(eigen(nohunt_highD, only.values = TRUE)$values[1])
-
+popbio::lambda(nohunt_highD)
 # Try out the DD projection function when we use a single matrix:
 nohunt_threshold<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=1000, A_DD=nohunt_highD)
 nohunt_threshold_500<- project_threshold(pop_mat_100_none, vector=pop_n, time=100, threshold=500, A_DD=nohunt_highD)
@@ -359,9 +359,9 @@ plot(data_adults_stoch, type='l', lwd=2, xlab='Time',
 lines(0:100, data_adults_stoch_500, lwd=2, col = "red")
 lines(0:100, data_adults_stoch_x2, lwd=2, col = "blue")
 
-# For populations that do not experience hunting - a threshold of 10%
+# For populations that do not experience hunting - a threshold of 20%
 # seems reasonable.
-# Number of adult females should stay around 10 - 11
+# Number of adult females should stay around 10 - 12
 # Mean matrix
 pop_mat_mean_none <- Rcompadre::mat_mean(pop_mat_100_none)
 # stable stage structure
@@ -372,6 +372,8 @@ pop_none <-  nf_thresh_none * (pop_ss_none * (1/pop_ss_none[4]))
 pop_thresh_none <- ceiling(sum(pop_none)) #164
 
 # Using this approach the population triples.
+# Long lived species where adult survival is most important.
+# DD changes to fertility take a very long time to show.
 nohunt_t10_stoch<- project_threshold(pop_mat_100_none, 
                                      vector=pop_n, time=100, 
                                      threshold=pop_thresh_none, 
@@ -380,7 +382,7 @@ data_adults_stoch10 <- nohunt_t10_stoch$vec[,4]
 plot(data_adults_stoch10, type='l', lwd=2, xlab='Time', 
      ylab='N adult females')
 
-# Now use simple threshold. Same result with 10 or 11.
+# Now use simple threshold.
 nohunt_t10_stoch2<- project_threshold(pop_mat_100_none, 
                                      vector=pop_n, time=100, 
                                      threshold=11, 
@@ -390,6 +392,67 @@ plot(data_adults_t10_stoch2, type='l', lwd=2, xlab='Time',
      ylab='N adult females')
 
 summary(data_adults_t10_stoch2)
+
+# Check pattern not a rtesult of inital pop size.
+pop_n100 <- pop_n*10
+nohunt_t100_stoch2<- project_threshold(pop_mat_100_none, 
+                                     vector=pop_n100, time=100, 
+                                     threshold=110, 
+                                     A_DD=pop_mat_100_none_highdens)
+data_adults_t100_stoch2 <- nohunt_t100_stoch2$vec[,4]
+plot(data_adults_t100_stoch2, type='l', lwd=2, xlab='Time', 
+     ylab='N adult females')
+
+summary(data_adults_t100_stoch2)
+
+pop_n1000 <- pop_n*100
+nohunt_t1000_stoch2<- project_threshold(pop_mat_100_none, 
+                                     vector=pop_n1000, time=100, 
+                                     threshold=1100, 
+                                     A_DD=pop_mat_100_none_highdens)
+data_adults_t1000_stoch2 <- nohunt_t1000_stoch2$vec[,4]
+plot(data_adults_t1000_stoch2, type='l', lwd=2, xlab='Time', 
+     ylab='N adult females')
+
+summary(data_adults_t1000_stoch2)
+
+# What happens if we reduce threshold to very low level?
+nohunt_t9_stoch2<- project_threshold(pop_mat_100_none, 
+                                     vector=pop_n, time=100, 
+                                     threshold=9, 
+                                     A_DD=pop_mat_100_none_highdens)
+data_adults_t9_stoch2 <- nohunt_t9_stoch2$vec[,4]
+plot(data_adults_t9_stoch2, type='l', lwd=2, xlab='Time', 
+     ylab='N adult females')
+summary(data_adults_t9_stoch2)
+
+nohunt_t5_stoch2<- project_threshold(pop_mat_100_none, 
+                                     vector=pop_n, time=100, 
+                                     threshold=0, 
+                                     A_DD=pop_mat_100_none_highdens)
+data_adults_t5_stoch2 <- nohunt_t5_stoch2$vec[,4]
+plot(data_adults_t5_stoch2, type='l', lwd=2, xlab='Time', 
+     ylab='N adult females')
+summary(data_adults_t5_stoch2)
+
+tseq <- 0:1000
+
+test_thresh <- function(x){
+mythresh <- x  
+proj_res<- project_threshold(pop_mat_100_none, 
+                         vector=pop_n, time=100, 
+                         threshold=mythresh, 
+                         A_DD=pop_mat_100_none_highdens)
+data_females <- proj_res$vec[,4]
+meanf <- mean(data_females)
+myres <- data.frame(threshold = mythresh, mean_females = round(meanf, 2))
+myres
+}
+
+dft <- purrr::map_dfr(tseq, test_thresh)
+ggplot(dft, aes(x = threshold, y = mean_females)) +
+  geom_point()+ 
+  stat_smooth()
 
 ```
 
