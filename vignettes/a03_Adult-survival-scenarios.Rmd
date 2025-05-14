@@ -557,12 +557,10 @@ by 10%, the following code projects a stochastic population.
 
 ```{r project-stable}
 # threshold for desired number of adults
-# works here but need to refine to ensure gets closest 
-# equal to or above a desired value....
 females_toget <- nf*1.1
-thresh_touse <- dftDs[which.min(abs(females_toget-dftDs$mean_females )),] |> 
+thresh_touse <- dftDs[which.min(abs(females_toget-dftDs$mean_females)),] |> 
   dplyr::pull(threshold)
-
+# project stochastic stable population
 stable_pop<- project_threshold(pop_mat_100_none, vector=pop_n, 
                                time=100, threshold=thresh_touse, 
                                A_DD=nohunt_highDs)
