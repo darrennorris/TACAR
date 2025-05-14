@@ -567,7 +567,8 @@ competition/disease/predation).</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</span></span></code></pre></div>
 <p><img src="a03_Adult-survival-scenarios_files/figure-html/threshold-dd-survival-3.png" width="700"></p>
-<p>Compare number of females with and without female survival.</p>
+<p>Compare number of females using DD with and without female
+survival.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">dfc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">dft</span>, dd <span class="op">=</span> <span class="st">"fertility/fecundity"</span><span class="op">)</span>, </span>
@@ -576,6 +577,9 @@ competition/disease/predation).</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">dd</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a03_Adult-survival-scenarios_files/figure-html/compare-dd-1.png" width="700"></p>
+<p>The relationships shown above can be used to select thresholds that
+correspond to a self-regulating population with the desired number of
+adult females.</p>
 </div>
 </div>
 <div class="section level2">
