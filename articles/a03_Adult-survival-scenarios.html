@@ -584,12 +584,10 @@ females.</p>
 wild by 10%, the following code projects a stochastic population.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># threshold for desired number of adults</span></span>
-<span><span class="co"># works here but need to refine to ensure gets closest </span></span>
-<span><span class="co"># equal to or above a desired value....</span></span>
 <span><span class="va">females_toget</span> <span class="op">&lt;-</span> <span class="va">nf</span><span class="op">*</span><span class="fl">1.1</span></span>
-<span><span class="va">thresh_touse</span> <span class="op">&lt;-</span> <span class="va">dftDs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">females_toget</span><span class="op">-</span><span class="va">dftDs</span><span class="op">$</span><span class="va">mean_females</span> <span class="op">)</span><span class="op">)</span>,<span class="op">]</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">thresh_touse</span> <span class="op">&lt;-</span> <span class="va">dftDs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">females_toget</span><span class="op">-</span><span class="va">dftDs</span><span class="op">$</span><span class="va">mean_females</span><span class="op">)</span><span class="op">)</span>,<span class="op">]</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">threshold</span><span class="op">)</span></span>
-<span></span>
+<span><span class="co"># project stochastic stable population</span></span>
 <span><span class="va">stable_pop</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, vector<span class="op">=</span><span class="va">pop_n</span>, </span>
 <span>                               time<span class="op">=</span><span class="fl">100</span>, threshold<span class="op">=</span><span class="va">thresh_touse</span>, </span>
 <span>                               A_DD<span class="op">=</span><span class="va">nohunt_highDs</span><span class="op">)</span></span>
