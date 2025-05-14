@@ -580,6 +580,29 @@ survival.</p>
 <p>The relationships shown above can be used to select thresholds that
 correspond to a stable population with the desired number of adult
 females.</p>
+<p>For example, for the case where adult females may increase in the
+wild by 10%, the following code projects a stochastic population.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># threshold for desired number of adults</span></span>
+<span><span class="co"># works here but need to refine to ensure gets closest </span></span>
+<span><span class="co"># equal to or above a desired value....</span></span>
+<span><span class="va">females_toget</span> <span class="op">&lt;-</span> <span class="va">nf</span><span class="op">*</span><span class="fl">1.1</span></span>
+<span><span class="va">thresh_touse</span> <span class="op">&lt;-</span> <span class="va">dftDs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">females_toget</span><span class="op">-</span><span class="va">dftDs</span><span class="op">$</span><span class="va">mean_females</span> <span class="op">)</span><span class="op">)</span>,<span class="op">]</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">threshold</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">stable_pop</span><span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_threshold.html">project_threshold</a></span><span class="op">(</span><span class="va">pop_mat_100_none</span>, vector<span class="op">=</span><span class="va">pop_n</span>, </span>
+<span>                               time<span class="op">=</span><span class="fl">100</span>, threshold<span class="op">=</span><span class="va">thresh_touse</span>, </span>
+<span>                               A_DD<span class="op">=</span><span class="va">nohunt_highDs</span><span class="op">)</span></span>
+<span><span class="co"># Plot the result:</span></span>
+<span><span class="va">data_adults_stable</span><span class="op">&lt;-</span> <span class="va">stable_pop</span><span class="op">$</span><span class="va">vec</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/popdemo/man/Projection-plots.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data_adults_stable</span>, type<span class="op">=</span><span class="st">'l'</span>, lwd<span class="op">=</span><span class="fl">2</span>, xlab<span class="op">=</span><span class="st">'Time'</span>, </span>
+<span>     ylab<span class="op">=</span><span class="st">'N adult females'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="a03_Adult-survival-scenarios_files/figure-html/project-stable-1.png" width="700"></p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_adults_stable</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;   9.557  10.691  10.940  10.976  11.318  11.795</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -617,7 +640,7 @@ where survival of different adult stages has been documented (Mogollones
 et. al. 2010). The Matrix Population Models developed in this study and
 others are freely available from the COMADRE database (<a href="https://compadre-db.org/Data/Comadre" class="external-link uri">https://compadre-db.org/Data/Comadre</a>). Here we use a
 subset from COMADRE version 4.23.3.1 created on 24 March 2023.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Data for Podocnemididae</span></span>
 <span><span class="co"># A COM(P)ADRE database ('CompadreDB') object with 2 SPECIES and 2 MATRICES.</span></span>
 <span><span class="va">comadre_podoc</span></span>
